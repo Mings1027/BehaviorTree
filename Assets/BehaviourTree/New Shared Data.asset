@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63791f89366cd4b76930819f5db388d0, type: 3}
+  m_Name: New Shared Data
+  m_EditorClassIdentifier: 
+  variables:
+  - rid: 4111580096721321988
+  - rid: 4111580096721321986
+  - rid: 4111580096721321990
+  - rid: 4111580114588008448
+  - rid: 4111580114588008449
+  - rid: 4111580114588008450
+  - rid: 4111580125988126722
+  references:
+    version: 2
+    RefIds:
+    - rid: 4111580096721321986
+      type: {class: SharedInt, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
+      data:
+        variableName: Wait Time
+        _value: 1
+    - rid: 4111580096721321988
+      type: {class: SharedInt, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
+      data:
+        variableName: Detect Range
+        _value: 3
+    - rid: 4111580096721321990
+      type: {class: SharedColliderArray, ns: BehaviourTree.Scripts.TreeSharedData,
+        asm: Assembly-CSharp}
+      data:
+        variableName: Target Colliders
+        _value:
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+    - rid: 4111580114588008448
+      type: {class: SharedLayerMask, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
+      data:
+        variableName: Target Layer
+        _value:
+          serializedVersion: 2
+          m_Bits: 8
+    - rid: 4111580114588008449
+      type: {class: SharedAIPath, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
+      data:
+        variableName: This AI Path
+        _value: {fileID: 0}
+    - rid: 4111580114588008450
+      type: {class: SharedVector3, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
+      data:
+        variableName: Destination
+        _value: {x: 0, y: 0, z: 0}
+    - rid: 4111580125988126722
+      type: {class: SharedCollider, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
+      data:
+        variableName: Target
+        _value: {fileID: 0}
