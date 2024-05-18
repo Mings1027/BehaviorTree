@@ -3,25 +3,46 @@ using UnityEngine;
 
 namespace BehaviourTree.Scripts.Runtime
 {
+    /// <summary>
+    /// For any object that intends to use behavior trees, this class is essential.
+    /// </summary>
     public class BehaviourTreeRunner : MonoBehaviour
     {
-        public BehaviourTree tree;
-
+#if UNITY_EDITOR
+        public BehaviourTree Tree => tree;
+#endif
+        [SerializeField] private BehaviourTree tree;
         [SerializeField] private SharedData sharedData;
 
-        private void Start()
+        private void OnEnable()
         {
-            // Clone the tree
+            BehaviourTreeManager.AddTree(this);
+        }
+
+        private void OnDisable()
+        {
+            BehaviourTreeManager.RemoveTree(this);
+        }
+
+        /// <summary>
+        ///  If you don't want to use BehaviourTreeManager then You can change to Awake or Start
+        /// </summary>
+        public void Init()
+        {
+            // Clone the tree and its shared data
             tree = tree.Clone(transform);
             sharedData = sharedData.Clone();
 
             // Initialize the tree
-            tree.Init();
+            tree.Init(sharedData);
         }
 
-        private void Update()
+        /// <summary>
+        /// If you don't want to use BehaviourTreeManager then You can change to Update
+        /// </summary>
+        public void TreeUpdate()
         {
-            tree.Update();
+            tree.TreeUpdate();
         }
 
         [System.Diagnostics.Conditional("UNITY_EDITOR")]
@@ -32,7 +53,7 @@ namespace BehaviourTree.Scripts.Runtime
                 return;
             }
 
-            BehaviourTree.Traverse(tree.rootNode, (n) =>
+            BehaviourTree.Traverse(tree.RootNode, n =>
             {
                 if (n.drawGizmos)
                 {

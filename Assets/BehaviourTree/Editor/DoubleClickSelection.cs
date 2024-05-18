@@ -24,7 +24,7 @@ namespace BehaviourTree.Editor
             if (graphView == null)
                 return;
 
-            double duration = EditorApplication.timeSinceStartup - _time;
+            var duration = EditorApplication.timeSinceStartup - _time;
             if (duration < _doubleClickDuration)
             {
                 SelectChildren(evt);
@@ -42,7 +42,7 @@ namespace BehaviourTree.Editor
             if (!CanStopManipulation(evt))
                 return;
 
-            NodeView clickedElement = evt.target as NodeView;
+            var clickedElement = evt.target as NodeView;
             if (clickedElement == null)
             {
                 var ve = evt.target as VisualElement;

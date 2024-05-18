@@ -6,21 +6,12 @@ namespace BehaviourTree.Scripts.Conditions
 {
     public class Wait : ConditionNode
     {
-        [SerializeField] private SharedInt duration;
+        [SerializeField] private int duration;
         private float _startTime;
-
-        public override void OnAwake()
-        {
-        }
 
         protected override void OnStart()
         {
             _startTime = Time.time;
-
-            if (duration == null)
-            {
-                Debug.LogError("SharedFloat 'Duration' not found.");
-            }
         }
 
         protected override void OnStop()
@@ -29,12 +20,7 @@ namespace BehaviourTree.Scripts.Conditions
 
         protected override State OnUpdate()
         {
-            if (duration == null)
-            {
-                return State.Failure;
-            }
-
-            if (Time.time - _startTime > duration.Value)
+            if (Time.time - _startTime > duration)
             {
                 return State.Success;
             }

@@ -5,17 +5,12 @@ namespace BehaviourTree.Scripts.Runtime
 {
     public class RootNode : Node
     {
-        [HideInInspector]
-        public Node child;
-
-        public override void OnAwake()
-        {
-        }
+        public Node Child { get; set; }
 
         public override Node Clone()
         {
-            RootNode clone = Instantiate(this);
-            clone.child = child != null ? child.Clone() : null;
+            var clone = Instantiate(this);
+            clone.Child = Child != null ? Child.Clone() : null;
             clone.sharedData = sharedData;
             return clone;
         }
@@ -30,7 +25,7 @@ namespace BehaviourTree.Scripts.Runtime
 
         protected override State OnUpdate()
         {
-            return child.Update();
+            return Child.Update();
         }
 
         public void OnValidate()
@@ -45,31 +40,31 @@ namespace BehaviourTree.Scripts.Runtime
         {
             if (node is CompositeNode compositeNode)
             {
-                foreach (var child in compositeNode.children)
+                foreach (var child in compositeNode.Children)
                 {
-                    child.sharedData = sharedData;
+                    child.SharedData = sharedData;
                     TraverseChildrenAndSetSharedData(child, sharedData);
                 }
             }
             else if (node is DecoratorNode decoratorNode)
             {
-                if (decoratorNode.child != null)
+                if (decoratorNode.Child != null)
                 {
-                    decoratorNode.child.sharedData = sharedData;
-                    TraverseChildrenAndSetSharedData(decoratorNode.child, sharedData);
+                    decoratorNode.Child.SharedData = sharedData;
+                    TraverseChildrenAndSetSharedData(decoratorNode.Child, sharedData);
                 }
             }
             else if (node is RootNode rootNode)
             {
-                if (rootNode.child != null)
+                if (rootNode.Child != null)
                 {
-                    rootNode.child.sharedData = sharedData;
-                    TraverseChildrenAndSetSharedData(rootNode.child, sharedData);
+                    rootNode.Child.SharedData = sharedData;
+                    TraverseChildrenAndSetSharedData(rootNode.Child, sharedData);
                 }
             }
             else
             {
-                node.sharedData = sharedData;
+                node.SharedData = sharedData;
             }
         }
     }

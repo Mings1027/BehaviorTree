@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using BehaviourTree.Scripts.Runtime;
 using BehaviourTree.Scripts.TreeSharedData;
@@ -7,16 +5,16 @@ using Utilities;
 
 public class ReadyToAttack : ConditionNode
 {
+    public SharedCollider target;
+    public SharedInt attackRange;
+
     private Cooldown _attackCooldown;
-    [SerializeField] private SharedFloat attackCooldownTime;
-    [SerializeField] private SharedCollider target;
-    [SerializeField] private SharedInt attackRange;
+    [SerializeField] private float attackCooldownTime;
 
     public override void OnAwake()
     {
         _attackCooldown = new Cooldown();
-        _attackCooldown.cooldownTime = attackCooldownTime.Value;
-        target = (SharedCollider)GetSharedVariable(target.variableName);
+        _attackCooldown.cooldownTime = attackCooldownTime;
     }
 
     protected override void OnStart()
@@ -34,19 +32,16 @@ public class ReadyToAttack : ConditionNode
 
         // 쿨다운 시작
         _attackCooldown.StartCooldown();
+        if (!target.Value) return State.Failure;
 
         // 타겟이 존재하고 활성화된 경우
-        var targetTransform = target.Value?.transform;
-        if (targetTransform)
-        {
-            // 타겟과의 거리 계산
-            var distanceToTarget = Vector3.Distance(nodeTransform.position, targetTransform.position);
+        // 타겟과의 거리 계산
+        var distanceToTarget = Vector3.Distance(nodeTransform.position, target.Value.transform.position);
 
-            // 공격 범위 내에 있는 경우 성공 상태 반환
-            if (distanceToTarget <= attackRange.Value)
-            {
-                return State.Success;
-            }
+        // 공격 범위 내에 있는 경우 성공 상태 반환
+        if (distanceToTarget <= attackRange.Value)
+        {
+            return State.Success;
         }
 
         // 타겟이 활성화된 경우 성공 상태 반환

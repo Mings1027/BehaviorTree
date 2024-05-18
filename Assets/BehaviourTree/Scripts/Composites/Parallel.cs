@@ -6,12 +6,15 @@ namespace BehaviourTree.Scripts.Composites
 {
     public class Parallel : CompositeNode
     {
-        List<State> childrenLeftToExecute = new();
+        private readonly List<State> _childrenLeftToExecute = new();
 
         protected override void OnStart()
         {
-            childrenLeftToExecute.Clear();
-            children.ForEach(a => { childrenLeftToExecute.Add(State.Running); });
+            _childrenLeftToExecute.Clear();
+            for (var i = 0; i < children.Count; i++)
+            {
+                _childrenLeftToExecute.Add(State.Running);
+            }
         }
 
         protected override void OnStop()
@@ -20,10 +23,10 @@ namespace BehaviourTree.Scripts.Composites
 
         protected override State OnUpdate()
         {
-            bool stillRunning = false;
-            for (int i = 0; i < childrenLeftToExecute.Count(); ++i)
+            var stillRunning = false;
+            for (var i = 0; i < _childrenLeftToExecute.Count(); ++i)
             {
-                if (childrenLeftToExecute[i] == State.Running)
+                if (_childrenLeftToExecute[i] == State.Running)
                 {
                     var status = children[i].Update();
                     if (status == State.Failure)
@@ -37,7 +40,7 @@ namespace BehaviourTree.Scripts.Composites
                         stillRunning = true;
                     }
 
-                    childrenLeftToExecute[i] = status;
+                    _childrenLeftToExecute[i] = status;
                 }
             }
 
@@ -46,9 +49,9 @@ namespace BehaviourTree.Scripts.Composites
 
         void AbortRunningChildren()
         {
-            for (int i = 0; i < childrenLeftToExecute.Count(); ++i)
+            for (int i = 0; i < _childrenLeftToExecute.Count; ++i)
             {
-                if (childrenLeftToExecute[i] == State.Running)
+                if (_childrenLeftToExecute[i] == State.Running)
                 {
                     children[i].Abort();
                 }

@@ -26,7 +26,13 @@ namespace BehaviourTree.Scripts.TreeSharedData
     [Serializable]
     public class SharedVariableBase : IValueContainer
     {
-        public string variableName;
+        [SerializeField] private string variableName;
+
+        public string VariableName
+        {
+            get => variableName;
+            set => variableName = value;
+        }
 
         public virtual object GetValue()
         {

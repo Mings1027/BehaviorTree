@@ -1,21 +1,201 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEditor;
-using UnityEngine;
 using BehaviourTree.Scripts.Runtime;
 using BehaviourTree.Scripts.TreeSharedData;
+using UnityEditor;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace BehaviourTree.Editor
 {
     [CustomEditor(typeof(Node), true)]
     public class NodeEditor : UnityEditor.Editor
     {
+        private string _searchQuery = "";
+        private int _selectedTab;
+        private readonly string[] _tabTitles = { "Tasks", "Variables", "Inspector" };
+        private Vector2 _scrollPos;
+
+        private const string SelectedTabKey = "NodeEditor_SelectedTab";
+
+        // Add Variable Name as a field to preserve its value
+        private string _variableName = "";
+        private SharedVariableType _selectedType;
+
+        // 에디터가 활성화될 때 호출되는 함수
+        private void OnEnable()
+        {
+            _selectedTab = EditorPrefs.GetInt(SelectedTabKey, 0);
+        }
+
+        // 에디터가 비활성화될 때 호출되는 함수
+        private void OnDisable()
+        {
+            EditorPrefs.SetInt(SelectedTabKey, _selectedTab);
+        }
+
+        // 인스펙터 GUI를 그리는 함수
         public override void OnInspectorGUI()
+        {
+            // Display the selected BehaviourTree name
+            string selectedTreeName = EditorPrefs.GetString("SelectedBehaviourTreeName", "No Tree Selected");
+            EditorGUILayout.LabelField("Behaviour Tree:", selectedTreeName, EditorStyles.boldLabel);
+            EditorGUILayout.Space(10);
+
+            GUIStyle tabStyle = new GUIStyle(GUI.skin.button)
+            {
+                fontSize = 14,
+                fontStyle = FontStyle.Bold,
+                fixedHeight = 30
+            };
+
+            _selectedTab = GUILayout.Toolbar(_selectedTab, _tabTitles, tabStyle);
+            EditorGUILayout.Space(10);
+
+            _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
+
+            switch (_selectedTab)
+            {
+                case 0:
+                    DrawTasksTab();
+                    break;
+                case 1:
+                    DrawVariablesTab();
+                    break;
+                case 2:
+                    DrawInspectorTab();
+                    break;
+            }
+
+            EditorGUILayout.EndScrollView();
+        }
+
+        // 작업 탭을 그리는 함수
+        private void DrawTasksTab()
+        {
+            GUIStyle searchFieldStyle = new GUIStyle(GUI.skin.textField)
+            {
+                fontSize = 14,
+                fixedHeight = 20
+            };
+
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("Search", GUILayout.Width(50));
+            _searchQuery = EditorGUILayout.TextField(_searchQuery, searchFieldStyle, GUILayout.Width(200));
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.Space(10);
+
+            var actionNodeTypes = TypeCache.GetTypesDerivedFrom<ActionNode>()
+                .Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
+            var compositeNodeTypes = TypeCache.GetTypesDerivedFrom<CompositeNode>()
+                .Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
+            var conditionNodeTypes = TypeCache.GetTypesDerivedFrom<ConditionNode>()
+                .Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
+            var decoratorNodeTypes = TypeCache.GetTypesDerivedFrom<DecoratorNode>()
+                .Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
+
+            bool actionFoldout = EditorPrefs.GetBool("ActionNodesFoldout", true);
+            bool compositeFoldout = EditorPrefs.GetBool("CompositeNodesFoldout", true);
+            bool conditionFoldout = EditorPrefs.GetBool("ConditionNodesFoldout", true);
+            bool decoratorFoldout = EditorPrefs.GetBool("DecoratorNodesFoldout", true);
+
+            GUIStyle folderTitleStyle = new GUIStyle(EditorStyles.foldout)
+            {
+                fontSize = 16,
+                fontStyle = FontStyle.Bold
+            };
+
+            actionFoldout = EditorGUILayout.Foldout(actionFoldout, "Action Nodes", true, folderTitleStyle);
+            EditorPrefs.SetBool("ActionNodesFoldout", actionFoldout);
+            if (actionFoldout)
+            {
+                EditorGUI.indentLevel++;
+                foreach (var type in actionNodeTypes)
+                {
+                    if (GUILayout.Button(type.Name))
+                    {
+                        CreateNode(type);
+                    }
+                }
+
+                EditorGUI.indentLevel--;
+            }
+
+            EditorGUILayout.Space(2);
+
+            compositeFoldout = EditorGUILayout.Foldout(compositeFoldout, "Composite Nodes", true, folderTitleStyle);
+            EditorPrefs.SetBool("CompositeNodesFoldout", compositeFoldout);
+            if (compositeFoldout)
+            {
+                EditorGUI.indentLevel++;
+                foreach (var type in compositeNodeTypes)
+                {
+                    if (GUILayout.Button(type.Name))
+                    {
+                        CreateNode(type);
+                    }
+                }
+
+                EditorGUI.indentLevel--;
+            }
+
+            EditorGUILayout.Space(2);
+
+            conditionFoldout = EditorGUILayout.Foldout(conditionFoldout, "Condition Nodes", true, folderTitleStyle);
+            EditorPrefs.SetBool("ConditionNodesFoldout", conditionFoldout);
+            if (conditionFoldout)
+            {
+                EditorGUI.indentLevel++;
+                foreach (var type in conditionNodeTypes)
+                {
+                    if (GUILayout.Button(type.Name))
+                    {
+                        CreateNode(type);
+                    }
+                }
+
+                EditorGUI.indentLevel--;
+            }
+
+            EditorGUILayout.Space(2);
+
+            decoratorFoldout = EditorGUILayout.Foldout(decoratorFoldout, "Decorator Nodes", true, folderTitleStyle);
+            EditorPrefs.SetBool("DecoratorNodesFoldout", decoratorFoldout);
+            if (decoratorFoldout)
+            {
+                EditorGUI.indentLevel++;
+                foreach (var type in decoratorNodeTypes)
+                {
+                    if (GUILayout.Button(type.Name))
+                    {
+                        CreateNode(type);
+                    }
+                }
+
+                EditorGUI.indentLevel--;
+            }
+        }
+
+        // 인스펙터 탭을 그리는 함수
+        private void DrawInspectorTab()
         {
             serializedObject.Update();
 
-            Node node = (Node)target;
+            var node = (Node)target;
+            string treeName = node.name; // Replace with the actual way to get the tree name
+
+            GUIStyle treeNameStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 16,
+                fixedHeight = 20,
+                fontStyle = FontStyle.Bold,
+                alignment = TextAnchor.MiddleCenter
+            };
+            EditorGUILayout.LabelField(treeName, treeNameStyle, GUILayout.ExpandWidth(true));
+
+            EditorGUILayout.Space(10);
 
             DrawDescriptionField();
             DrawSharedDataField(node);
@@ -25,28 +205,127 @@ namespace BehaviourTree.Editor
             serializedObject.ApplyModifiedProperties();
         }
 
+        // 변수 탭을 그리는 함수
+        private void DrawVariablesTab()
+        {
+            var sharedData = (SharedData)serializedObject.FindProperty("sharedData").objectReferenceValue;
+            if (sharedData == null)
+            {
+                GUIStyle style = new GUIStyle(GUI.skin.box)
+                {
+                    fontSize = 14,
+                    fontStyle = FontStyle.Bold,
+                    normal = { textColor = new Color(1.0f, 0.5f, 0f) }
+                };
+
+                EditorGUILayout.LabelField("Please assign a SharedData object to the Root node.", style);
+
+                var helpBoxRect = GUILayoutUtility.GetLastRect();
+                GUI.Box(helpBoxRect, GUIContent.none, style);
+                return;
+            }
+
+            GUILayout.Label("Add New Shared Variable", EditorStyles.boldLabel);
+            _variableName = EditorGUILayout.TextField("Name", _variableName);
+            EditorGUILayout.BeginHorizontal();
+            _selectedType = (SharedVariableType)EditorGUILayout.EnumPopup("Type", _selectedType);
+
+            if (GUILayout.Button("Add", GUILayout.Width(50)))
+            {
+                AddVariable(_selectedType, _variableName, sharedData);
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.Space();
+
+            var editor = (SharedDataEditor)CreateEditor(sharedData);
+            editor.OnInspectorGUI();
+        }
+
+        // 노드를 생성하는 함수
+        private static void CreateNode(Type type)
+        {
+            var window = EditorWindow.GetWindow<BehaviourTreeEditor>();
+            var treeView = window.TreeView;
+            treeView?.CreateNode(type);
+        }
+
+        // 변수를 추가하는 함수
+        private void AddVariable(SharedVariableType type, string variableName, SharedData sharedData)
+        {
+            if (string.IsNullOrEmpty(variableName))
+            {
+                EditorUtility.DisplayDialog("Invalid Variable Name", "Variable name cannot be empty.", "OK");
+                return;
+            }
+
+            if (IsVariableNameDuplicate(variableName, sharedData))
+            {
+                EditorUtility.DisplayDialog("Duplicate Variable Name", "Variable name already exists.", "OK");
+                return;
+            }
+
+            SharedVariableBase newVariable = type switch
+            {
+                SharedVariableType.Int => new SharedInt { VariableName = variableName },
+                SharedVariableType.Float => new SharedFloat { VariableName = variableName },
+                SharedVariableType.AIPath => new SharedAIPath { VariableName = variableName },
+                SharedVariableType.Transform => new SharedTransform { VariableName = variableName },
+                SharedVariableType.Collider => new SharedCollider { VariableName = variableName },
+                SharedVariableType.ColliderArray => new SharedColliderArray { VariableName = variableName },
+                SharedVariableType.LayerMask => new SharedLayerMask { VariableName = variableName },
+                SharedVariableType.Vector3 => new SharedVector3 { VariableName = variableName },
+                SharedVariableType.TransformArray => new SharedTransformArray { VariableName = variableName },
+                _ => null
+            };
+
+            if (newVariable != null)
+            {
+                serializedObject.Update();
+                sharedData.AddVariable(newVariable);
+                serializedObject.ApplyModifiedProperties();
+
+                EditorUtility.SetDirty(sharedData);
+                AssetDatabase.SaveAssets();
+            }
+            else
+            {
+                Debug.LogError("새 변수를 생성하지 못했습니다");
+            }
+
+            _variableName = "";
+        }
+
+        // 변수 이름 중복을 확인하는 함수
+        private bool IsVariableNameDuplicate(string variableName, SharedData sharedData)
+        {
+            foreach (var variable in sharedData.Variables)
+            {
+                if (variable.VariableName == variableName)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // 설명 필드를 그리는 함수
         private void DrawDescriptionField()
         {
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Description", EditorStyles.boldLabel);
-            EditorGUILayout.Space();
-
-            SerializedProperty descriptionProperty = serializedObject.FindProperty("description");
+            var descriptionProperty = serializedObject.FindProperty("description");
             if (descriptionProperty != null)
             {
-                EditorGUILayout.PropertyField(descriptionProperty, new GUIContent("Description"), true);
+                EditorGUILayout.PropertyField(descriptionProperty, true);
             }
-
-            // DrawSeparator();
         }
 
+        // 공유 데이터 필드를 그리는 함수
         private void DrawSharedDataField(Node node)
         {
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Shared Data", EditorStyles.boldLabel);
-            EditorGUILayout.Space();
-
-            SerializedProperty sharedDataProperty = serializedObject.FindProperty("sharedData");
+            var sharedDataProperty = serializedObject.FindProperty("sharedData");
             EditorGUILayout.PropertyField(sharedDataProperty, new GUIContent("Shared Data"));
 
             if (sharedDataProperty.objectReferenceValue != null)
@@ -57,11 +336,22 @@ namespace BehaviourTree.Editor
             DrawSeparator();
         }
 
+        // 공유 변수를 그리는 함수
         private void DrawSharedVariableFields(Node node)
         {
-            if (node.sharedData == null)
+            if (node.SharedData == null)
             {
-                EditorGUILayout.HelpBox("Please assign a SharedData object.", MessageType.Warning);
+                GUIStyle style = new GUIStyle(GUI.skin.box)
+                {
+                    fontSize = 14,
+                    fontStyle = FontStyle.Bold,
+                    normal = { textColor = new Color(1.0f, 0.5f, 0f) }
+                };
+
+                EditorGUILayout.LabelField("Please assign a SharedData object to the Root node.", style);
+
+                var helpBoxRect = GUILayoutUtility.GetLastRect();
+                GUI.Box(helpBoxRect, GUIContent.none, style);
                 return;
             }
 
@@ -81,7 +371,17 @@ namespace BehaviourTree.Editor
                 EditorGUILayout.LabelField(kvp.Key, GUILayout.MinWidth(100));
 
                 EditorGUILayout.BeginHorizontal("box");
-                EditorGUILayout.LabelField(string.IsNullOrEmpty(kvp.Value.variableName) ? "(None)" : kvp.Value.variableName, GUILayout.MinWidth(100));
+
+                var variableStyle = new GUIStyle(GUI.skin.label);
+                if (string.IsNullOrEmpty(kvp.Value.VariableName))
+                {
+                    variableStyle.normal.textColor = new Color(1.0f, 0.5f, 0f);
+                    variableStyle.fontStyle = FontStyle.Bold;
+                }
+
+                EditorGUILayout.LabelField(
+                    string.IsNullOrEmpty(kvp.Value.VariableName) ? "(None)" : kvp.Value.VariableName,
+                    variableStyle, GUILayout.MinWidth(100));
                 EditorGUILayout.EndHorizontal();
                 if (GUILayout.Button("\u25cf", GUILayout.Width(20)))
                 {
@@ -89,23 +389,13 @@ namespace BehaviourTree.Editor
                 }
 
                 EditorGUILayout.EndHorizontal();
-
-                // var property = serializedObject.FindProperty(kvp.Key);
-                // if (property != null)
-                // {
-                //     EditorGUILayout.PropertyField(property, GUIContent.none, true);
-                // }
-                // else
-                // {
-                //     DrawFieldValue(kvp.Value);
-                // }
-
                 EditorGUILayout.EndVertical();
             }
 
             DrawSeparator();
         }
 
+        // 비공유 변수를 그리는 함수
         private void DrawNonSharedVariableFields(Node node)
         {
             EditorGUILayout.Space();
@@ -133,6 +423,7 @@ namespace BehaviourTree.Editor
             }
         }
 
+        // 필드를 그리는 함수
         private static void DrawField(FieldInfo field, Node node)
         {
             var fieldType = field.FieldType;
@@ -179,33 +470,33 @@ namespace BehaviourTree.Editor
             EditorGUILayout.EndVertical();
         }
 
+        // 할당 메뉴를 보여주는 함수
         private void ShowAssignMenu(Node node, SharedVariableBase variable)
         {
             var menu = new GenericMenu();
 
-            // Add "None" option as the first item
             menu.AddItem(new GUIContent("None"), false, () =>
             {
-                variable.variableName = string.Empty; // Set variableName to an empty string
+                variable.VariableName = string.Empty;
                 if (variable is IValueContainer valueContainer)
                 {
-                    valueContainer.SetValue(null); // Set value to null
+                    valueContainer.SetValue(null);
                 }
 
                 EditorUtility.SetDirty(node);
             });
 
-            foreach (var sharedVariable in node.sharedData.Variables)
+            foreach (var sharedVariable in node.SharedData.Variables)
             {
                 if (sharedVariable.GetType() == variable.GetType())
                 {
-                    menu.AddItem(new GUIContent(sharedVariable.variableName), false, () =>
+                    menu.AddItem(new GUIContent(sharedVariable.VariableName), false, () =>
                     {
-                        variable.variableName = sharedVariable.variableName; // Update variableName
+                        variable.VariableName = sharedVariable.VariableName;
                         if (variable is IValueContainer valueContainer &&
                             sharedVariable is IValueContainer sharedValueContainer)
                         {
-                            valueContainer.SetValue(sharedValueContainer.GetValue()); // Update value
+                            valueContainer.SetValue(sharedValueContainer.GetValue());
                         }
 
                         EditorUtility.SetDirty(node);
@@ -216,9 +507,10 @@ namespace BehaviourTree.Editor
             menu.ShowAsContext();
         }
 
+        // 구분선을 그리는 함수
         private void DrawSeparator()
         {
-            Rect rect = EditorGUILayout.GetControlRect(false, 1);
+            var rect = EditorGUILayout.GetControlRect(false, 1);
             rect.height = 1;
             EditorGUI.DrawRect(rect, new Color(0.6f, 0.6f, 0.6f, 1));
             EditorGUILayout.Space();

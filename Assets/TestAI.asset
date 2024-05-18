@@ -16,8 +16,6 @@ MonoBehaviour:
   guid: 9c1f5f1de10344e349c51c5e5a684982
   description: 
   drawGizmos: 0
-  state: 0
-  started: 0
   sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
   children:
   - {fileID: -5645686669261150262}
@@ -37,11 +35,143 @@ MonoBehaviour:
   guid: 09220b303821b4166a04baa59b74366d
   description: 
   drawGizmos: 0
-  state: 0
-  started: 0
   sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
   children:
   - {fileID: 3674420984989330490}
+--- !u!114 &-4791061197819782997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  position: {x: -252, y: 639}
+  guid: 98e1c7cfd8f724f82b9ce543e56c5228
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
+  children: []
+  duration: 1
+--- !u!114 &-4391094577775597543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6009753183c21764082bf57dea2a9ff5, type: 3}
+  m_Name: Timeout
+  m_EditorClassIdentifier: 
+  position: {x: -142, y: 395}
+  guid: a847e551c809845b29775bc68b6832e2
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
+  children: []
+  duration: 2
+--- !u!114 &-3438609716581266300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163c147d123e4a945b688eddc64e3ea5, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
+  guid: 3e2d28c13f8854ca19a631e94cbbc333
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 0}
+  children: []
+--- !u!114 &-1636386888470150758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  position: {x: 23, y: 137}
+  guid: 70ee8d7f6c16d4e0199c6849e9d7d013
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
+  children: []
+  restartOnSuccess: 1
+  restartOnFailure: 0
+--- !u!114 &-1289903367864817459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: -142, y: 526}
+  guid: fba5ec47dc05749a0b4b1219b3e2c6ce
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
+  children:
+  - {fileID: -4791061197819782997}
+  - {fileID: -188775080363108127}
+--- !u!114 &-188775080363108127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9e411f4095d0a44acd9a25323f5e73, type: 3}
+  m_Name: Log
+  m_EditorClassIdentifier: 
+  position: {x: -90, y: 639}
+  guid: 8351ebe4c394a4b7da5128d88940ccc8
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
+  children: []
+  message: this is log
+--- !u!114 &-73236523266258940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9e411f4095d0a44acd9a25323f5e73, type: 3}
+  m_Name: Log
+  m_EditorClassIdentifier: 
+  position: {x: 248, y: 492}
+  guid: 22a9a46c9859849269ca9dc464ba48a6
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
+  children: []
+  message: 
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54,14 +184,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d285eb63c2cdd74180de7cfceaa96ad, type: 3}
   m_Name: TestAI
   m_EditorClassIdentifier: 
-  rootNode: {fileID: 6641120491214940216}
-  treeState: 0
+  rootNode: {fileID: 2527637490228978591}
   nodes:
-  - {fileID: 6641120491214940216}
-  - {fileID: -5849528871879876285}
-  - {fileID: 2147010480176220038}
-  - {fileID: -5645686669261150262}
-  - {fileID: 3674420984989330490}
+  - {fileID: 2527637490228978591}
+  - {fileID: 3341283290518978689}
+  - {fileID: -1636386888470150758}
+  - {fileID: -4391094577775597543}
+  - {fileID: -1289903367864817459}
+  - {fileID: -4791061197819782997}
+  - {fileID: -188775080363108127}
+  - {fileID: 1692738830181479181}
+  - {fileID: 7327729829082353055}
+  - {fileID: -73236523266258940}
+--- !u!114 &1692738830181479181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: 134, y: 385}
+  guid: eb4e59dce58074a2bae6397db6a947eb
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
+  children:
+  - {fileID: 7327729829082353055}
+  - {fileID: -73236523266258940}
 --- !u!114 &2147010480176220038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78,13 +232,48 @@ MonoBehaviour:
   guid: 6e1964bf22ec04b1793019328a7a385f
   description: 
   drawGizmos: 0
-  state: 0
-  started: 0
   sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
   children: []
-  child: {fileID: -5849528871879876285}
   restartOnSuccess: 1
   restartOnFailure: 0
+--- !u!114 &2527637490228978591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163c147d123e4a945b688eddc64e3ea5, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
+  guid: 4c6cc2fc09c6346c588030375cd12188
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
+  children: []
+--- !u!114 &3341283290518978689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be9e34c566ea45b9e282b1adcb028, type: 3}
+  m_Name: Selector
+  m_EditorClassIdentifier: 
+  position: {x: 23, y: 281}
+  guid: ef12f12df7acb47198f892ae209c9921
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
+  children:
+  - {fileID: -4391094577775597543}
+  - {fileID: 1692738830181479181}
 --- !u!114 &3674420984989330490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,16 +290,14 @@ MonoBehaviour:
   guid: 9a9f0cfe05c0b4b62baf25e9a1d1f98c
   description: 
   drawGizmos: 0
-  state: 0
-  started: 0
   sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
   children: []
   target:
     variableName: Target
     _value: {fileID: 0}
-  aiPath:
-    variableName: This AI Path
-    _value: {fileID: 0}
+  attackRange:
+    variableName: 
+    _value: 0
 --- !u!114 &6641120491214940216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,8 +314,24 @@ MonoBehaviour:
   guid: c91c853b4dec2496fb0e4d223af619a0
   description: 
   drawGizmos: 0
-  state: 0
-  started: 0
   sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
   children: []
-  child: {fileID: 2147010480176220038}
+--- !u!114 &7327729829082353055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  position: {x: 59, y: 536}
+  guid: 47f8727b4d33845d98c59abe93431e45
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
+  children: []
+  duration: 0

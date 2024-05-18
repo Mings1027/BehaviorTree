@@ -6,15 +6,10 @@ namespace BehaviourTree.Scripts.Conditions
 {
     public class WithInSight : ConditionNode
     {
-        [SerializeField] private SharedInt detectRange;
-        [SerializeField] private SharedColliderArray targetColliders;
-        [SerializeField] private SharedCollider target;
-        [SerializeField] private SharedLayerMask targetLayer;
-
-        public override void OnAwake()
-        {
-            target = (SharedCollider)GetSharedVariable(target.variableName);
-        }
+        public SharedCollider target;
+        [SerializeField] private int detectRange;
+        [SerializeField] private Collider[] targetColliders;
+        [SerializeField] private LayerMask targetLayer;
 
         protected override void OnStart()
         {
@@ -27,21 +22,21 @@ namespace BehaviourTree.Scripts.Conditions
         protected override State OnUpdate()
         {
             var size = Physics.OverlapSphereNonAlloc(nodeTransform.position,
-                detectRange.Value, targetColliders.Value, targetLayer.Value);
+                detectRange, targetColliders, targetLayer);
             if (size <= 0)
             {
                 target.Value = null;
                 return State.Failure;
             }
 
-            target.Value = targetColliders.Value[0];
+            target.Value = targetColliders[0];
             return State.Success;
         }
 
         public override void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(nodeTransform.position, detectRange.Value);
+            Gizmos.DrawWireSphere(nodeTransform.position, detectRange);
         }
     }
 }

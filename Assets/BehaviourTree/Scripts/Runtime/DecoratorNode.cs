@@ -1,19 +1,19 @@
-using UnityEngine;
-
 namespace BehaviourTree.Scripts.Runtime
 {
     public abstract class DecoratorNode : Node
     {
-        [HideInInspector] public Node child;
-
-        public override void OnAwake()
+        public Node Child
         {
+            get => child;
+            set => child = value;
         }
+
+        protected Node child;
 
         public override Node Clone()
         {
-            DecoratorNode node = Instantiate(this);
-            node.child = child.Clone();
+            var node = Instantiate(this);
+            node.child = Child.Clone();
             return node;
         }
     }

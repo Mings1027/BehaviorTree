@@ -13,7 +13,7 @@ namespace BehaviourTree.Editor
 {
     public class BehaviourTreeView : GraphView
     {
-        public Action<NodeView> onNodeSelected;
+        public Action<NodeView> OnNodeSelected { get; set; }
 
         public new class UxmlFactory : UxmlFactory<BehaviourTreeView, UxmlTraits>
         {
@@ -31,22 +31,22 @@ namespace BehaviourTree.Editor
 
         private readonly ScriptTemplate[] _scriptFileAssets =
         {
-            new ScriptTemplate
+            new()
             {
                 templateFile = BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateConditionNode,
                 defaultFileName = "NewConditionNode.cs", subFolder = "Conditions"
             },
-            new ScriptTemplate
+            new()
             {
                 templateFile = BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateActionNode,
                 defaultFileName = "NewActionNode.cs", subFolder = "Actions"
             },
-            new ScriptTemplate
+            new()
             {
                 templateFile = BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateCompositeNode,
                 defaultFileName = "NewCompositeNode.cs", subFolder = "Composites"
             },
-            new ScriptTemplate
+            new()
             {
                 templateFile = BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateDecoratorNode,
                 defaultFileName = "NewDecoratorNode.cs", subFolder = "Decorators"
@@ -91,16 +91,19 @@ namespace BehaviourTree.Editor
             var sharedData = DragAndDrop.objectReferences.OfType<SharedData>().FirstOrDefault();
             if (sharedData != null)
             {
-                Vector2 mousePosition = (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
+                var mousePosition =
+                    (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer,
+                        evt.localMousePosition);
                 var graphElement = GetElementAtPosition(mousePosition);
                 if (graphElement is NodeView nodeView)
                 {
-                    nodeView.node.sharedData = sharedData;
+                    nodeView.node.SharedData = sharedData;
                     if (nodeView.node is RootNode rootNode)
                     {
-                        rootNode.sharedData = sharedData;
+                        rootNode.SharedData = sharedData;
                         ApplySharedDataToChildren(rootNode);
                     }
+
                     RefreshTree();
                 }
             }
@@ -110,7 +113,7 @@ namespace BehaviourTree.Editor
         {
             if (rootNode is RootNode root)
             {
-                TraverseChildrenAndSetSharedData(root, root.sharedData);
+                TraverseChildrenAndSetSharedData(root, root.SharedData);
             }
         }
 
@@ -118,33 +121,34 @@ namespace BehaviourTree.Editor
         {
             if (node is CompositeNode compositeNode)
             {
-                foreach (var child in compositeNode.children)
+                foreach (var child in compositeNode.Children)
                 {
-                    child.sharedData = sharedData;
+                    child.SharedData = sharedData;
                     TraverseChildrenAndSetSharedData(child, sharedData);
                 }
             }
             else if (node is DecoratorNode decoratorNode)
             {
-                if (decoratorNode.child != null)
+                if (decoratorNode.Child != null)
                 {
-                    decoratorNode.child.sharedData = sharedData;
-                    TraverseChildrenAndSetSharedData(decoratorNode.child, sharedData);
+                    decoratorNode.Child.SharedData = sharedData;
+                    TraverseChildrenAndSetSharedData(decoratorNode.Child, sharedData);
                 }
             }
             else if (node is RootNode rootNode)
             {
-                if (rootNode.child != null)
+                if (rootNode.Child != null)
                 {
-                    rootNode.child.sharedData = sharedData;
-                    TraverseChildrenAndSetSharedData(rootNode.child, sharedData);
+                    rootNode.Child.SharedData = sharedData;
+                    TraverseChildrenAndSetSharedData(rootNode.Child, sharedData);
                 }
             }
         }
 
         private GraphElement GetElementAtPosition(Vector2 position)
         {
-            return contentViewContainer.Children().OfType<GraphElement>().Where(e => e.worldBound.Contains(position)).FirstOrDefault();
+            return contentViewContainer.Children().OfType<GraphElement>()
+                .FirstOrDefault(e => e.worldBound.Contains(position));
         }
 
         public NodeView FindNodeView(Node node)
@@ -160,26 +164,26 @@ namespace BehaviourTree.Editor
             DeleteElements(graphElements.ToList());
             graphViewChanged += OnGraphViewChanged;
 
-            if (tree.rootNode == null)
+            if (tree.RootNode == null)
             {
-                tree.rootNode = tree.CreateNode(typeof(RootNode)) as RootNode;
+                tree.RootNode = tree.CreateNode(typeof(RootNode)) as RootNode;
                 EditorUtility.SetDirty(tree);
                 AssetDatabase.SaveAssets();
             }
 
             // Creates node view
-            tree.nodes.ForEach(n => CreateNodeView(n));
+            tree.Nodes.ForEach(CreateNodeView);
 
             // Create edges
-            tree.nodes.ForEach(n =>
+            tree.Nodes.ForEach(n =>
             {
                 var children = BehaviourTree.Scripts.Runtime.BehaviourTree.GetChildren(n);
                 children.ForEach(c =>
                 {
-                    NodeView parentView = FindNodeView(n);
-                    NodeView childView = FindNodeView(c);
+                    var parentView = FindNodeView(n);
+                    var childView = FindNodeView(c);
 
-                    Edge edge = parentView.output.ConnectTo(childView.input);
+                    var edge = parentView.output.ConnectTo(childView.input);
                     AddElement(edge);
                 });
             });
@@ -194,40 +198,31 @@ namespace BehaviourTree.Editor
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
-            if (graphViewChange.elementsToRemove != null)
+            graphViewChange.elementsToRemove?.ForEach(elem =>
             {
-                graphViewChange.elementsToRemove.ForEach(elem =>
+                if (elem is NodeView nodeView)
                 {
-                    NodeView nodeView = elem as NodeView;
-                    if (nodeView != null)
-                    {
-                        _tree.DeleteNode(nodeView.node);
-                    }
+                    _tree.DeleteNode(nodeView.node);
+                }
 
-                    Edge edge = elem as Edge;
-                    if (edge != null)
-                    {
-                        NodeView parentView = edge.output.node as NodeView;
-                        NodeView childView = edge.input.node as NodeView;
-                        _tree.RemoveChild(parentView.node, childView.node);
-                    }
-                });
-            }
-
-            if (graphViewChange.edgesToCreate != null)
-            {
-                graphViewChange.edgesToCreate.ForEach(edge =>
+                if (elem is Edge edge)
                 {
-                    NodeView parentView = edge.output.node as NodeView;
-                    NodeView childView = edge.input.node as NodeView;
-                    _tree.AddChild(parentView.node, childView.node);
-                });
-            }
+                    var parentView = edge.output.node as NodeView;
+                    var childView = edge.input.node as NodeView;
+                    _tree.RemoveChild(parentView.node, childView.node);
+                }
+            });
 
-            nodes.ForEach((n) =>
+            graphViewChange.edgesToCreate?.ForEach(edge =>
             {
-                NodeView view = n as NodeView;
-                view.SortChildren();
+                var parentView = edge.output.node as NodeView;
+                var childView = edge.input.node as NodeView;
+                _tree.AddChild(parentView.node, childView.node);
+            });
+
+            nodes.ForEach(n =>
+            {
+                if (n is NodeView view) view.SortChildren();
             });
 
             return graphViewChange;
@@ -235,28 +230,26 @@ namespace BehaviourTree.Editor
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            //base.BuildContextualMenu(evt);
-
             // New script functions
-            evt.menu.AppendAction("Create Script.../New Condition Node", (a) => CreateNewScript(_scriptFileAssets[0]));
-            evt.menu.AppendAction($"Create Script.../New Action Node", (a) => CreateNewScript(_scriptFileAssets[1]));
-            evt.menu.AppendAction($"Create Script.../New Composite Node", (a) => CreateNewScript(_scriptFileAssets[2]));
-            evt.menu.AppendAction($"Create Script.../New Decorator Node", (a) => CreateNewScript(_scriptFileAssets[3]));
+            evt.menu.AppendAction("Create Script.../New Condition Node", _ => CreateNewScript(_scriptFileAssets[0]));
+            evt.menu.AppendAction($"Create Script.../New Action Node", _ => CreateNewScript(_scriptFileAssets[1]));
+            evt.menu.AppendAction($"Create Script.../New Composite Node", _ => CreateNewScript(_scriptFileAssets[2]));
+            evt.menu.AppendAction($"Create Script.../New Decorator Node", _ => CreateNewScript(_scriptFileAssets[3]));
             evt.menu.AppendSeparator();
 
-            Vector2 nodePosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
+            var nodePosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
             {
                 var types = TypeCache.GetTypesDerivedFrom<ConditionNode>();
                 foreach (var type in types)
                 {
-                    evt.menu.AppendAction($"[Condition]/{type.Name}", (a) => CreateNode(type, nodePosition));
+                    evt.menu.AppendAction($"[Condition]/{type.Name}", _ => CreateNode(type, nodePosition));
                 }
             }
             {
                 var types = TypeCache.GetTypesDerivedFrom<ActionNode>();
                 foreach (var type in types)
                 {
-                    evt.menu.AppendAction($"[Action]/{type.Name}", (a) => CreateNode(type, nodePosition));
+                    evt.menu.AppendAction($"[Action]/{type.Name}", _ => CreateNode(type, nodePosition));
                 }
             }
 
@@ -264,7 +257,7 @@ namespace BehaviourTree.Editor
                 var types = TypeCache.GetTypesDerivedFrom<CompositeNode>();
                 foreach (var type in types)
                 {
-                    evt.menu.AppendAction($"[Composite]/{type.Name}", (a) => CreateNode(type, nodePosition));
+                    evt.menu.AppendAction($"[Composite]/{type.Name}", _ => CreateNode(type, nodePosition));
                 }
             }
 
@@ -272,7 +265,7 @@ namespace BehaviourTree.Editor
                 var types = TypeCache.GetTypesDerivedFrom<DecoratorNode>();
                 foreach (var type in types)
                 {
-                    evt.menu.AppendAction($"[Decorator]/{type.Name}", (a) => CreateNode(type, nodePosition));
+                    evt.menu.AppendAction($"[Decorator]/{type.Name}", _ => CreateNode(type, nodePosition));
                 }
             }
         }
@@ -288,7 +281,7 @@ namespace BehaviourTree.Editor
                 path = path.Substring(0, path.Length - 1);
 
             // Load object
-            UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath(path, typeof(UnityEngine.Object));
+            var obj = AssetDatabase.LoadAssetAtPath(path, typeof(UnityEngine.Object));
 
             // Select the object in the project folder
             Selection.activeObject = obj;
@@ -306,15 +299,32 @@ namespace BehaviourTree.Editor
 
         private void CreateNode(Type type, Vector2 position)
         {
-            Node node = _tree.CreateNode(type);
+            var node = _tree.CreateNode(type);
             node.position = position;
             CreateNodeView(node);
         }
 
+        public void CreateNode(Type type)
+        {
+            Vector2 position = GetViewCenter();
+            var node = _tree.CreateNode(type);
+            node.position = position;
+            CreateNodeView(node);
+        }
+
+        private Vector2 GetViewCenter()
+        {
+            var viewCenter = contentViewContainer
+                .WorldToLocal(contentViewContainer.parent.worldBound.center);
+            return viewCenter;
+        }
+
         private void CreateNodeView(Node node)
         {
-            NodeView nodeView = new NodeView(node);
-            nodeView.onNodeSelected = onNodeSelected;
+            var nodeView = new NodeView(node)
+            {
+                onNodeSelected = OnNodeSelected
+            };
             AddElement(nodeView);
         }
 
@@ -327,8 +337,7 @@ namespace BehaviourTree.Editor
         {
             nodes.ForEach(n =>
             {
-                NodeView view = n as NodeView;
-                view.UpdateState();
+                if (n is NodeView view) view.UpdateState();
             });
         }
     }

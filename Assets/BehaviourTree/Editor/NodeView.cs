@@ -35,7 +35,7 @@ namespace BehaviourTree.Editor
 
         private void SetupDataBinding()
         {
-            Label descriptionLabel = this.Q<Label>("description");
+            var descriptionLabel = this.Q<Label>("description");
             descriptionLabel.bindingPath = "description";
             descriptionLabel.Bind(new SerializedObject(node));
         }
@@ -135,17 +135,14 @@ namespace BehaviourTree.Editor
         public override void OnSelected()
         {
             base.OnSelected();
-            if (onNodeSelected != null)
-            {
-                onNodeSelected.Invoke(this);
-            }
+            onNodeSelected?.Invoke(this);
         }
 
         public void SortChildren()
         {
             if (node is CompositeNode composite)
             {
-                composite.children.Sort(SortByHorizontalPosition);
+                composite.Children.Sort(SortByHorizontalPosition);
             }
         }
 
@@ -162,10 +159,10 @@ namespace BehaviourTree.Editor
 
             if (Application.isPlaying)
             {
-                switch (node.state)
+                switch (node.NodeState)
                 {
                     case Node.State.Running:
-                        if (node.started)
+                        if (node.Started)
                         {
                             AddToClassList("running");
                         }

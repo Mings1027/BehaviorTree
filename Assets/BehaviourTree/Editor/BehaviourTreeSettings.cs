@@ -8,7 +8,7 @@ namespace BehaviourTree.Editor
     // Create a new type of Settings Asset.
     internal class BehaviourTreeSettings : ScriptableObject
     {
-        public VisualTreeAsset behaviourTreeXml;
+        [field: SerializeField] public VisualTreeAsset behaviourTreeXml;
         public StyleSheet behaviourTreeStyle;
         public VisualTreeAsset nodeXml;
         public TextAsset scriptTemplateConditionNode;

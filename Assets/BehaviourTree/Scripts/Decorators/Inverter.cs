@@ -1,23 +1,26 @@
 using BehaviourTree.Scripts.Runtime;
 
-namespace BehaviourTree.Scripts.Decorators {
-    public class Inverter : DecoratorNode {
-        protected override void OnStart() {
+namespace BehaviourTree.Scripts.Decorators
+{
+    public class Inverter : DecoratorNode
+    {
+        protected override void OnStart()
+        {
         }
 
-        protected override void OnStop() {
+        protected override void OnStop()
+        {
         }
 
-        protected override State OnUpdate() {
-            switch (child.Update()) {
-                case State.Running:
-                    return State.Running;
-                case State.Failure:
-                    return State.Success;
-                case State.Success:
-                    return State.Failure;
-            }
-            return State.Failure;
+        protected override State OnUpdate()
+        {
+            return child.Update() switch
+            {
+                State.Running => State.Running,
+                State.Failure => State.Success,
+                State.Success => State.Failure,
+                _ => State.Failure
+            };
         }
     }
 }

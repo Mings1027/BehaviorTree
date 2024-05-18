@@ -78,7 +78,7 @@
 }
 
 #description {
-    font-size: 10px;
+    font-size: 14px;
     white-space: normal;
     max-width: 140px;
 }
@@ -101,7 +101,7 @@
 }
 
 .condition #input {
-    background-color: rgba(29, 193, 229, 255);
+    background-color: rgb(29, 193, 229);
 }
 
 .root #input {

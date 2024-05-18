@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tree: {fileID: 11400000, guid: a469e6d226af94e128f470f384ac7fbd, type: 2}
-  sharedData: {fileID: 0}
+  sharedData: {fileID: 11400000, guid: bd54d036710154730adc99fcc2dc591b, type: 2}
 --- !u!114 &2940572519039987654
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,53 +1,59 @@
 using System.Collections.Generic;
-using UnityEngine;
 using BehaviourTree.Scripts.TreeSharedData;
 using UnityEditor;
+using UnityEngine;
 
 namespace BehaviourTree.Scripts.Runtime
 {
     [CreateAssetMenu]
     public class BehaviourTree : ScriptableObject
     {
-        public Node rootNode;
-        public Node.State treeState = Node.State.Running;
-        public List<Node> nodes = new();
-
-        public void Init()
+        public Node RootNode
         {
-            rootNode.OnAwake();
+            get => rootNode;
+            set => rootNode = value;
+        }
+
+        public List<Node> Nodes => nodes;
+
+        [SerializeField] private Node rootNode;
+        [SerializeField] private List<Node> nodes = new();
+
+        public void Init(SharedData sharedData)
+        {
             for (int i = 0; i < nodes.Count; i++)
             {
+                nodes[i].SetSharedData(sharedData);
+                nodes[i].Init();
                 nodes[i].OnAwake();
             }
         }
 
-        public Node.State Update()
+        public void TreeUpdate()
         {
-            if (rootNode.state == Node.State.Running)
+            if (rootNode.NodeState == Node.State.Running)
             {
-                treeState = rootNode.Update();
+                rootNode.Update();
             }
-
-            return treeState;
         }
 
         public static List<Node> GetChildren(Node parent)
         {
             List<Node> children = new List<Node>();
 
-            if (parent is DecoratorNode decorator && decorator.child)
+            if (parent is DecoratorNode decorator && decorator.Child)
             {
-                children.Add(decorator.child);
+                children.Add(decorator.Child);
             }
 
-            if (parent is RootNode rootNode && rootNode.child)
+            if (parent is RootNode rootNode && rootNode.Child)
             {
-                children.Add(rootNode.child);
+                children.Add(rootNode.Child);
             }
 
             if (parent is CompositeNode composite)
             {
-                return composite.children;
+                return composite.Children;
             }
 
             return children;
@@ -61,8 +67,7 @@ namespace BehaviourTree.Scripts.Runtime
                 var children = GetChildren(node);
                 for (var i = 0; i < children.Count; i++)
                 {
-                    var n = children[i];
-                    Traverse(n, visitor);
+                    Traverse(children[i], visitor);
                 }
             }
         }
@@ -84,7 +89,7 @@ namespace BehaviourTree.Scripts.Runtime
 #if UNITY_EDITOR
         public Node CreateNode(System.Type type)
         {
-            Node node = CreateInstance(type) as Node;
+            var node = CreateInstance(type) as Node;
             node.name = type.Name;
             node.guid = GUID.Generate().ToString();
 
@@ -117,21 +122,21 @@ namespace BehaviourTree.Scripts.Runtime
             if (parent is DecoratorNode decorator)
             {
                 Undo.RecordObject(decorator, "Behaviour Tree (AddChild)");
-                decorator.child = child;
+                decorator.Child = child;
                 EditorUtility.SetDirty(decorator);
             }
 
             if (parent is RootNode rootNode)
             {
                 Undo.RecordObject(rootNode, "Behaviour Tree (AddChild)");
-                rootNode.child = child;
+                rootNode.Child = child;
                 EditorUtility.SetDirty(rootNode);
             }
 
             if (parent is CompositeNode composite)
             {
                 Undo.RecordObject(composite, "Behaviour Tree (AddChild)");
-                composite.children.Add(child);
+                composite.Children.Add(child);
                 EditorUtility.SetDirty(composite);
             }
         }
@@ -141,21 +146,21 @@ namespace BehaviourTree.Scripts.Runtime
             if (parent is DecoratorNode decorator)
             {
                 Undo.RecordObject(decorator, "Behaviour Tree (RemoveChild)");
-                decorator.child = null;
+                decorator.Child = null;
                 EditorUtility.SetDirty(decorator);
             }
 
             if (parent is RootNode rootNode)
             {
                 Undo.RecordObject(rootNode, "Behaviour Tree (RemoveChild)");
-                rootNode.child = null;
+                rootNode.Child = null;
                 EditorUtility.SetDirty(rootNode);
             }
 
             if (parent is CompositeNode composite)
             {
                 Undo.RecordObject(composite, "Behaviour Tree (RemoveChild)");
-                composite.children.Remove(child);
+                composite.Children.Remove(child);
                 EditorUtility.SetDirty(composite);
             }
         }

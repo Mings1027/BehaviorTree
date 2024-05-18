@@ -1,24 +1,30 @@
 using BehaviourTree.Scripts.Runtime;
 using UnityEngine;
 
-namespace BehaviourTree.Scripts.Decorators {
-    public class Timeout : DecoratorNode {
-        public float duration = 1.0f;
-        float startTime;
+namespace BehaviourTree.Scripts.Decorators
+{
+    public class Timeout : DecoratorNode
+    {
+        [SerializeField] private float duration = 1.0f;
+        private float _startTime;
 
-        protected override void OnStart() {
-            startTime = Time.time;
+        protected override void OnStart()
+        {
         }
 
-        protected override void OnStop() {
+        protected override void OnStop()
+        {
         }
 
-        protected override State OnUpdate() {
-            if (Time.time - startTime > duration) {
+        protected override State OnUpdate()
+        {
+            if (Time.time - _startTime > duration)
+            {
+                _startTime = Time.time;
                 return State.Failure;
             }
 
-            return child.Update();
+            return Child.Update();
         }
     }
 }

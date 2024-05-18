@@ -13,54 +13,18 @@ MonoBehaviour:
   m_Name: New Shared Data
   m_EditorClassIdentifier: 
   variables:
-  - rid: 4111580096721321988
-  - rid: 4111580096721321986
-  - rid: 4111580096721321990
-  - rid: 4111580114588008448
-  - rid: 4111580114588008449
-  - rid: 4111580114588008450
-  - rid: 4111580125988126722
+  - rid: 4111580161807745024
+  - rid: 4111580170625744896
   references:
     version: 2
     RefIds:
-    - rid: 4111580096721321986
-      type: {class: SharedInt, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
-      data:
-        variableName: Wait Time
-        _value: 1
-    - rid: 4111580096721321988
-      type: {class: SharedInt, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
-      data:
-        variableName: Detect Range
-        _value: 3
-    - rid: 4111580096721321990
-      type: {class: SharedColliderArray, ns: BehaviourTree.Scripts.TreeSharedData,
-        asm: Assembly-CSharp}
-      data:
-        variableName: Target Colliders
-        _value:
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-    - rid: 4111580114588008448
-      type: {class: SharedLayerMask, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
-      data:
-        variableName: Target Layer
-        _value:
-          serializedVersion: 2
-          m_Bits: 8
-    - rid: 4111580114588008449
-      type: {class: SharedAIPath, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
-      data:
-        variableName: This AI Path
-        _value: {fileID: 0}
-    - rid: 4111580114588008450
-      type: {class: SharedVector3, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
-      data:
-        variableName: Destination
-        _value: {x: 0, y: 0, z: 0}
-    - rid: 4111580125988126722
+    - rid: 4111580161807745024
       type: {class: SharedCollider, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
       data:
         variableName: Target
         _value: {fileID: 0}
+    - rid: 4111580170625744896
+      type: {class: SharedInt, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
+      data:
+        variableName: AttackRange
+        _value: 1

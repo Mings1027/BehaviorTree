@@ -14,13 +14,8 @@ namespace BehaviourTree.Scripts.Decorators
 
         protected override State OnUpdate()
         {
-            var state = child.Update();
-            if (state == State.Success)
-            {
-                return State.Failure;
-            }
-
-            return state;
+            var childState = child.Update();
+            return childState == State.Success ? State.Failure : childState;
         }
     }
 }

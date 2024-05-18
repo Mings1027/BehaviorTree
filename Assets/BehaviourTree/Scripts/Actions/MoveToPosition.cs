@@ -1,5 +1,4 @@
 using BehaviourTree.Scripts.Runtime;
-using BehaviourTree.Scripts.TreeSharedData;
 using Pathfinding;
 using UnityEngine;
 
@@ -7,17 +6,17 @@ namespace BehaviourTree.Scripts.Actions
 {
     public class MoveToPosition : ActionNode
     {
-        [SerializeField] private SharedAIPath aiPath;
-        [SerializeField] private SharedVector3 destination;
+        private AIPath _aiPath;
+        [SerializeField] private Vector3 destination;
 
         public override void OnAwake()
         {
-            aiPath.Value = nodeTransform.GetComponent<AIPath>();
+            _aiPath = nodeTransform.GetComponent<AIPath>();
         }
 
         protected override void OnStart()
         {
-            aiPath.Value.destination = destination.Value;
+            _aiPath.destination = destination;
         }
 
         protected override void OnStop()

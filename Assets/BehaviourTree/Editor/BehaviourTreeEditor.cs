@@ -11,7 +11,7 @@ namespace BehaviourTree.Editor
 {
     public class BehaviourTreeEditor : EditorWindow
     {
-        private BehaviourTreeView _treeView;
+        public BehaviourTreeView TreeView { get; private set; }
         private BehaviourTree.Scripts.Runtime.BehaviourTree _tree;
         private InspectorView _inspectorView;
         private ToolbarMenu _toolbarMenu;
@@ -25,7 +25,7 @@ namespace BehaviourTree.Editor
         [MenuItem("BehaviorTree/BehaviourTreeEditor ...")]
         public static void OpenWindow()
         {
-            BehaviourTreeEditor wnd = GetWindow<BehaviourTreeEditor>();
+            var wnd = GetWindow<BehaviourTreeEditor>();
             wnd.titleContent = new GUIContent("BehaviourTreeEditor");
             wnd.minSize = new Vector2(800, 600);
         }
@@ -73,8 +73,8 @@ namespace BehaviourTree.Editor
             root.styleSheets.Add(styleSheet);
 
             // Main treeview
-            _treeView = root.Q<BehaviourTreeView>();
-            _treeView.onNodeSelected = OnNodeSelectionChanged;
+            TreeView = root.Q<BehaviourTreeView>();
+            TreeView.OnNodeSelected = OnNodeSelectionChanged;
 
             // Inspector View
             _inspectorView = root.Q<InspectorView>();
@@ -87,22 +87,12 @@ namespace BehaviourTree.Editor
             };
             _sharedDataField.RegisterValueChangedCallback(evt =>
             {
-                if (_tree != null && _tree.rootNode != null)
+                if (_tree != null && _tree.RootNode != null)
                 {
-                    _tree.rootNode.sharedData = (SharedData)evt.newValue;
-                    _treeView.RefreshTree(); // 트리 뷰를 새로고침하여 변경사항 반영
+                    _tree.RootNode.SharedData = (SharedData)evt.newValue;
+                    TreeView.RefreshTree(); // 트리 뷰를 새로고침하여 변경사항 반영
                 }
             });
-
-            var sharedDataContainer = root.Q<VisualElement>("sharedDataContainer");
-            if (sharedDataContainer != null)
-            {
-                sharedDataContainer.Add(_sharedDataField);
-            }
-            else
-            {
-                Debug.LogWarning("sharedDataContainer not found in the UXML.");
-            }
 
             // Toolbar assets menu
             _toolbarMenu = root.Q<ToolbarMenu>();
@@ -177,7 +167,7 @@ namespace BehaviourTree.Editor
                         BehaviourTreeRunner runner = Selection.activeGameObject.GetComponent<BehaviourTreeRunner>();
                         if (runner)
                         {
-                            tree = runner.tree;
+                            tree = runner.Tree;
                         }
                     }
                 }
@@ -188,12 +178,7 @@ namespace BehaviourTree.Editor
 
         private void SelectTree(BehaviourTree.Scripts.Runtime.BehaviourTree newTree)
         {
-            if (_treeView == null)
-            {
-                return;
-            }
-
-            if (!newTree)
+            if (TreeView == null || !newTree)
             {
                 return;
             }
@@ -205,9 +190,12 @@ namespace BehaviourTree.Editor
                 _overlay.style.visibility = Visibility.Hidden;
             }
 
-            _treeView.PopulateView(_tree);
+            TreeView.PopulateView(_tree);
 
-            EditorApplication.delayCall += () => { _treeView.FrameAll(); };
+            // Save the selected tree name to EditorPrefs
+            EditorPrefs.SetString("SelectedBehaviourTreeName", _tree.name);
+
+            EditorApplication.delayCall += () => { TreeView.FrameAll(); };
         }
 
         private void OnNodeSelectionChanged(NodeView nodeView)
@@ -217,7 +205,7 @@ namespace BehaviourTree.Editor
 
         private void OnInspectorUpdate()
         {
-            _treeView?.UpdateNodeStates();
+            TreeView?.UpdateNodeStates();
         }
 
         private void CreateNewTree(string assetName)

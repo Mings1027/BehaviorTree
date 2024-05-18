@@ -10,8 +10,6 @@ namespace BehaviourTree.Editor
     [CustomEditor(typeof(SharedData))]
     public class SharedDataEditor : UnityEditor.Editor
     {
-        private string _variableName;
-        private SharedVariableType _selectedType;
         private SerializedProperty _variablesProperty;
         private bool[] _foldouts;
         private string _foldoutKey;
@@ -22,7 +20,6 @@ namespace BehaviourTree.Editor
             _foldoutKey = $"{target.GetInstanceID()}_SharedDataFoldouts";
             _foldouts = LoadFoldoutStates(_foldoutKey, _variablesProperty.arraySize);
 
-            // Ensure the foldouts array is the correct size on enable
             if (_foldouts.Length != _variablesProperty.arraySize)
             {
                 Array.Resize(ref _foldouts, _variablesProperty.arraySize);
@@ -33,26 +30,9 @@ namespace BehaviourTree.Editor
         {
             serializedObject.Update();
 
-            DrawAddVariableSection();
             DrawVariablesList();
 
             serializedObject.ApplyModifiedProperties();
-        }
-
-        private void DrawAddVariableSection()
-        {
-            GUILayout.Label("Add New Shared Variable", EditorStyles.boldLabel);
-            _variableName = EditorGUILayout.TextField("Variable Name", _variableName);
-            EditorGUILayout.BeginHorizontal();
-            _selectedType = (SharedVariableType)EditorGUILayout.EnumPopup("Variable Type", _selectedType);
-
-            if (GUILayout.Button("Add", GUILayout.Width(50)))
-            {
-                AddVariable(_selectedType, _variableName);
-            }
-
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.Space();
         }
 
         private void DrawVariablesList()
@@ -116,7 +96,7 @@ namespace BehaviourTree.Editor
             }
             else
             {
-                Debug.LogError("_variablesProperty is null or not an array.");
+                Debug.LogError("_variablesProperty는 null이거나 배열이 아닙니다.");
             }
 
             SaveFoldoutStates(_foldoutKey, _foldouts);
@@ -216,7 +196,6 @@ namespace BehaviourTree.Editor
             arrayFoldout = EditorGUILayout.Foldout(arrayFoldout, variableNameProperty.stringValue, true);
             EditorPrefs.SetBool(arrayFoldoutKey, arrayFoldout);
 
-            // Display array size field next to foldout
             valueProperty.arraySize =
                 Mathf.Max(0, EditorGUILayout.IntField(valueProperty.arraySize, GUILayout.Width(50)));
             EditorGUILayout.EndHorizontal();
@@ -254,56 +233,6 @@ namespace BehaviourTree.Editor
             }
         }
 
-        private void AddVariable(SharedVariableType type, string variableName)
-        {
-            if (string.IsNullOrEmpty(variableName))
-            {
-                EditorUtility.DisplayDialog("Invalid Variable Name", "Variable name cannot be empty.", "OK");
-                return;
-            }
-
-            if (IsVariableNameDuplicate(variableName))
-            {
-                EditorUtility.DisplayDialog("Duplicate Variable Name", "Variable name already exists.", "OK");
-                return;
-            }
-
-            var sharedData = (SharedData)target;
-
-            SharedVariableBase newVariable = type switch
-            {
-                SharedVariableType.Int => new SharedInt { variableName = variableName },
-                SharedVariableType.Float => new SharedFloat { variableName = variableName },
-                SharedVariableType.AIPath => new SharedAIPath { variableName = variableName },
-                SharedVariableType.Transform => new SharedTransform { variableName = variableName },
-                SharedVariableType.Collider => new SharedCollider { variableName = variableName },
-                SharedVariableType.ColliderArray => new SharedColliderArray { variableName = variableName },
-                SharedVariableType.LayerMask => new SharedLayerMask { variableName = variableName },
-                SharedVariableType.Vector3 => new SharedVector3 { variableName = variableName },
-                SharedVariableType.TransformArray => new SharedTransformArray { variableName = variableName },
-                _ => null
-            };
-
-            if (newVariable != null)
-            {
-                serializedObject.Update();
-                sharedData.AddVariable(newVariable);
-                serializedObject.ApplyModifiedProperties();
-
-                EditorUtility.SetDirty(sharedData);
-                AssetDatabase.SaveAssets();
-
-                // Ensure the foldouts array is resized before accessing it
-                Array.Resize(ref _foldouts, _variablesProperty.arraySize + 1);
-            }
-            else
-            {
-                Debug.LogError("Failed to create new variable");
-            }
-
-            _variableName = "";
-        }
-
         private void DeleteVariable(string variableName, int index)
         {
             var sharedData = (SharedData)target;
@@ -314,24 +243,6 @@ namespace BehaviourTree.Editor
             serializedObject.ApplyModifiedProperties();
 
             Array.Resize(ref _foldouts, _variablesProperty.arraySize);
-        }
-
-        private bool IsVariableNameDuplicate(string variableName)
-        {
-            for (var i = 0; i < _variablesProperty.arraySize; i++)
-            {
-                var variableProperty = _variablesProperty.GetArrayElementAtIndex(i);
-                if (variableProperty is { managedReferenceValue: not null })
-                {
-                    var variableNameProperty = variableProperty.FindPropertyRelative("variableName");
-                    if (variableNameProperty.stringValue == variableName)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
         }
 
         private static void DrawHorizontalLine(Color color, int thickness = 1, int padding = 10)

@@ -1,19 +1,21 @@
 using BehaviourTree.Scripts.Runtime;
 
-namespace BehaviourTree.Scripts.Decorators {
-    public class Succeed : DecoratorNode {
-        protected override void OnStart() {
+namespace BehaviourTree.Scripts.Decorators
+{
+    public class Succeed : DecoratorNode
+    {
+        protected override void OnStart()
+        {
         }
 
-        protected override void OnStop() {
+        protected override void OnStop()
+        {
         }
 
-        protected override State OnUpdate() {
-            var state = child.Update();
-            if (state == State.Failure) {
-                return State.Success;
-            }
-            return state;
+        protected override State OnUpdate()
+        {
+            var childState = Child.Update();
+            return childState == State.Failure ? State.Success : childState;
         }
     }
 }

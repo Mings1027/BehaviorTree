@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 using BehaviourTree.Scripts.TreeSharedData;
 using UnityEngine;
 
@@ -18,35 +19,29 @@ namespace BehaviourTree.Scripts.Runtime
         [HideInInspector] public string guid;
         [HideInInspector] [TextArea] public string description;
         public bool drawGizmos;
+        public bool Started => _started;
 #endif
-        [HideInInspector] public State state = State.Running;
-        [HideInInspector] public bool started;
-        [HideInInspector] public SharedData sharedData;
+        public State NodeState => _state;
+
+        public SharedData SharedData
+        {
+            get => sharedData;
+            set => sharedData = value;
+        }
+
+        public List<Node> Children => children;
+
         protected Transform nodeTransform;
-        [HideInInspector] public List<Node> children;
+
+        private State _state = State.Running;
+        private bool _started;
+
+        [HideInInspector, SerializeField] protected SharedData sharedData;
+        [HideInInspector, SerializeField] protected List<Node> children;
 
         private void OnEnable()
         {
             children ??= new List<Node>();
-        }
-
-        public State Update()
-        {
-            if (!started)
-            {
-                OnStart();
-                started = true;
-            }
-
-            state = OnUpdate();
-
-            if (state != State.Running)
-            {
-                OnStop();
-                started = false;
-            }
-
-            return state;
         }
 
         public void SetTransform(Transform transform)
@@ -57,7 +52,7 @@ namespace BehaviourTree.Scripts.Runtime
         public virtual Node Clone()
         {
             var clone = Instantiate(this);
-            clone.sharedData = sharedData.Clone();
+            clone.sharedData = sharedData; // 각 노드가 동일한 SharedData 인스턴스를 가리키도록 설정
             clone.children = new List<Node>(children);
             clone.nodeTransform = nodeTransform;
             return clone;
@@ -67,18 +62,45 @@ namespace BehaviourTree.Scripts.Runtime
         {
             BehaviourTree.Traverse(this, node =>
             {
-                node.started = false;
-                node.state = State.Running;
+                node._started = false;
+                node._state = State.Running;
                 node.OnStop();
             });
         }
 
 #region Behavior Tree Life Cycle
 
-        public abstract void OnAwake();
+        public virtual void Init()
+        {
+            AssignSharedVariables();
+        }
+
+        public virtual void OnAwake()
+        {
+        }
+
         protected abstract void OnStart();
         protected abstract void OnStop();
         protected abstract State OnUpdate();
+
+        public State Update()
+        {
+            if (!_started)
+            {
+                OnStart(); // Expensive because Breakpoint Node
+                _started = true;
+            }
+
+            _state = OnUpdate(); // Expensive because Attack Node
+
+            if (_state != State.Running)
+            {
+                OnStop();
+                _started = false;
+            }
+
+            return _state;
+        }
 
 #endregion
 
@@ -93,21 +115,40 @@ namespace BehaviourTree.Scripts.Runtime
 
         protected SharedVariableBase GetSharedVariable(string variableName)
         {
-            // sharedData의 variables 리스트에서 검색합니다.
             if (sharedData != null && sharedData.Variables != null)
             {
                 for (var i = 0; i < sharedData.Variables.Count; i++)
                 {
                     var sharedVariable = sharedData.Variables[i];
-                    if (sharedVariable.variableName == variableName)
+                    if (sharedVariable.VariableName == variableName)
                     {
                         return sharedVariable;
                     }
                 }
             }
 
-            // 해당 변수를 찾을 수 없는 경우 null을 반환합니다.
             return null;
+        }
+
+        private void AssignSharedVariables()
+        {
+            var fields = GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (var field in fields)
+            {
+                if (typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
+                {
+                    var sharedVariable = (SharedVariableBase)field.GetValue(this);
+                    if (sharedVariable != null && !string.IsNullOrEmpty(sharedVariable.VariableName))
+                    {
+                        var sharedDataVariable = GetSharedVariable(sharedVariable.VariableName);
+                        if (sharedDataVariable != null && sharedDataVariable.GetType() == sharedVariable.GetType())
+                        {
+                            field.SetValue(this, sharedDataVariable);
+                        }
+                    }
+                }
+            }
         }
     }
 }
