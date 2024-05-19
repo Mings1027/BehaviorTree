@@ -13,7 +13,6 @@ namespace BehaviourTree.Scripts.Runtime
             Failure,
             Success
         }
-
 #if UNITY_EDITOR
         [HideInInspector] public Vector2 position;
         [HideInInspector] public string guid;
@@ -23,13 +22,11 @@ namespace BehaviourTree.Scripts.Runtime
 #endif
         public State NodeState => _state;
 
-        public SharedData SharedData
+        public virtual SharedData SharedData
         {
             get => sharedData;
             set => sharedData = value;
         }
-
-        public List<Node> Children => children;
 
         protected Transform nodeTransform;
 
@@ -37,12 +34,6 @@ namespace BehaviourTree.Scripts.Runtime
         private bool _started;
 
         [HideInInspector, SerializeField] protected SharedData sharedData;
-        [HideInInspector, SerializeField] protected List<Node> children;
-
-        private void OnEnable()
-        {
-            children ??= new List<Node>();
-        }
 
         public void SetTransform(Transform transform)
         {
@@ -53,7 +44,6 @@ namespace BehaviourTree.Scripts.Runtime
         {
             var clone = Instantiate(this);
             clone.sharedData = sharedData; // 각 노드가 동일한 SharedData 인스턴스를 가리키도록 설정
-            clone.children = new List<Node>(children);
             clone.nodeTransform = nodeTransform;
             return clone;
         }

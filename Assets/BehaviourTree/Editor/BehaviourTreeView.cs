@@ -68,87 +68,13 @@ namespace BehaviourTree.Editor
             var styleSheet = _settings.behaviourTreeStyle;
             styleSheets.Add(styleSheet);
 
-            Undo.undoRedoPerformed += OnUndoRedo;
-
-            RegisterCallback<DragUpdatedEvent>(OnDragUpdatedEvent);
-            RegisterCallback<DragPerformEvent>(OnDragPerformEvent);
+            Undo.undoRedoPerformed = OnUndoRedo;
         }
 
         private void OnUndoRedo()
         {
-            RefreshTree();
+            PopulateView();
             AssetDatabase.SaveAssets();
-        }
-
-        private void OnDragUpdatedEvent(DragUpdatedEvent evt)
-        {
-            DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
-        }
-
-        private void OnDragPerformEvent(DragPerformEvent evt)
-        {
-            DragAndDrop.AcceptDrag();
-            var sharedData = DragAndDrop.objectReferences.OfType<SharedData>().FirstOrDefault();
-            if (sharedData != null)
-            {
-                var mousePosition =
-                    (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer,
-                        evt.localMousePosition);
-                var graphElement = GetElementAtPosition(mousePosition);
-                if (graphElement is NodeView nodeView)
-                {
-                    nodeView.node.SharedData = sharedData;
-                    if (nodeView.node is RootNode rootNode)
-                    {
-                        rootNode.SharedData = sharedData;
-                        ApplySharedDataToChildren(rootNode);
-                    }
-
-                    RefreshTree();
-                }
-            }
-        }
-
-        private void ApplySharedDataToChildren(Node rootNode)
-        {
-            if (rootNode is RootNode root)
-            {
-                TraverseChildrenAndSetSharedData(root, root.SharedData);
-            }
-        }
-
-        private void TraverseChildrenAndSetSharedData(Node node, SharedData sharedData)
-        {
-            if (node is CompositeNode compositeNode)
-            {
-                foreach (var child in compositeNode.Children)
-                {
-                    child.SharedData = sharedData;
-                    TraverseChildrenAndSetSharedData(child, sharedData);
-                }
-            }
-            else if (node is DecoratorNode decoratorNode)
-            {
-                if (decoratorNode.Child != null)
-                {
-                    decoratorNode.Child.SharedData = sharedData;
-                    TraverseChildrenAndSetSharedData(decoratorNode.Child, sharedData);
-                }
-            }
-            else if (node is RootNode rootNode)
-            {
-                if (rootNode.Child != null)
-                {
-                    rootNode.Child.SharedData = sharedData;
-                    TraverseChildrenAndSetSharedData(rootNode.Child, sharedData);
-                }
-            }
-        }
-
-        private GraphElement GetElementAtPosition(Vector2 position)
-        {
-            return contentViewContainer.Children().OfType<GraphElement>()
-                .FirstOrDefault(e => e.worldBound.Contains(position));
         }
 
         public NodeView FindNodeView(Node node)
@@ -156,26 +82,24 @@ namespace BehaviourTree.Editor
             return GetNodeByGuid(node.guid) as NodeView;
         }
 
-        internal void PopulateView(BehaviourTree.Scripts.Runtime.BehaviourTree tree)
+        internal void PopulateView()
         {
-            _tree = tree;
-
+            _tree = BehaviourTreeEditor._tree;
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements.ToList());
             graphViewChanged += OnGraphViewChanged;
-
-            if (tree.RootNode == null)
+            if (_tree.RootNode == null)
             {
-                tree.RootNode = tree.CreateNode(typeof(RootNode)) as RootNode;
-                EditorUtility.SetDirty(tree);
+                _tree.RootNode = _tree.CreateNode(typeof(RootNode)) as RootNode;
+                EditorUtility.SetDirty(_tree);
                 AssetDatabase.SaveAssets();
             }
 
             // Creates node view
-            tree.Nodes.ForEach(CreateNodeView);
+            _tree.Nodes.ForEach(CreateNodeView);
 
             // Create edges
-            tree.Nodes.ForEach(n =>
+            _tree.Nodes.ForEach(n =>
             {
                 var children = BehaviourTree.Scripts.Runtime.BehaviourTree.GetChildren(n);
                 children.ForEach(c =>
@@ -183,17 +107,10 @@ namespace BehaviourTree.Editor
                     var parentView = FindNodeView(n);
                     var childView = FindNodeView(c);
 
-                    var edge = parentView.output.ConnectTo(childView.input);
+                    var edge = parentView.Output.ConnectTo(childView.Input);
                     AddElement(edge);
                 });
             });
-        }
-
-        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
-        {
-            return ports.ToList().Where(endPort =>
-                endPort.direction != startPort.direction &&
-                endPort.node != startPort.node).ToList();
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -202,14 +119,14 @@ namespace BehaviourTree.Editor
             {
                 if (elem is NodeView nodeView)
                 {
-                    _tree.DeleteNode(nodeView.node);
+                    _tree.DeleteNode(nodeView.Node);
                 }
 
                 if (elem is Edge edge)
                 {
                     var parentView = edge.output.node as NodeView;
                     var childView = edge.input.node as NodeView;
-                    _tree.RemoveChild(parentView.node, childView.node);
+                    _tree.RemoveChild(parentView.Node, childView.Node);
                 }
             });
 
@@ -217,7 +134,7 @@ namespace BehaviourTree.Editor
             {
                 var parentView = edge.output.node as NodeView;
                 var childView = edge.input.node as NodeView;
-                _tree.AddChild(parentView.node, childView.node);
+                _tree.AddChild(parentView.Node, childView.Node);
             });
 
             nodes.ForEach(n =>
@@ -226,6 +143,13 @@ namespace BehaviourTree.Editor
             });
 
             return graphViewChange;
+        }
+
+        public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
+        {
+            return ports.ToList().Where(endPort =>
+                endPort.direction != startPort.direction &&
+                endPort.node != startPort.node).ToList();
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
@@ -323,14 +247,9 @@ namespace BehaviourTree.Editor
         {
             var nodeView = new NodeView(node)
             {
-                onNodeSelected = OnNodeSelected
+                OnNodeSelected = OnNodeSelected
             };
             AddElement(nodeView);
-        }
-
-        public void RefreshTree()
-        {
-            PopulateView(_tree);
         }
 
         public void UpdateNodeStates()
@@ -339,6 +258,23 @@ namespace BehaviourTree.Editor
             {
                 if (n is NodeView view) view.UpdateState();
             });
+        }
+
+        public void SaveTree()
+        {
+            if (_tree != null)
+            {
+                EditorUtility.SetDirty(_tree);
+                AssetDatabase.SaveAssets();
+            }
+        }
+
+        public void LoadTree()
+        {
+            if (_tree != null)
+            {
+                PopulateView();
+            }
         }
     }
 }

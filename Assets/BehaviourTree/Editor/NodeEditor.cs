@@ -24,26 +24,52 @@ namespace BehaviourTree.Editor
         private string _variableName = "";
         private SharedVariableType _selectedType;
 
-        // 에디터가 활성화될 때 호출되는 함수
         private void OnEnable()
         {
             _selectedTab = EditorPrefs.GetInt(SelectedTabKey, 0);
         }
 
-        // 에디터가 비활성화될 때 호출되는 함수
         private void OnDisable()
         {
             EditorPrefs.SetInt(SelectedTabKey, _selectedTab);
         }
 
-        // 인스펙터 GUI를 그리는 함수
         public override void OnInspectorGUI()
+        {
+            DisplayTreeName();
+            DisplayNodeHeader();
+            DisplayTabs();
+            DrawNoneSharedVariables();
+        }
+
+        private void DisplayTreeName()
         {
             // Display the selected BehaviourTree name
             string selectedTreeName = EditorPrefs.GetString("SelectedBehaviourTreeName", "No Tree Selected");
             EditorGUILayout.LabelField("Behaviour Tree:", selectedTreeName, EditorStyles.boldLabel);
             EditorGUILayout.Space(10);
+        }
 
+        private void DisplayNodeHeader()
+        {
+            var node = (Node)target;
+            string treeName = node.name; // Replace with the actual way to get the tree name
+            string nodeType = GetNodeTypeName(node.GetType());
+
+            GUIStyle treeNameStyle = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 16,
+                fixedHeight = 20,
+                fontStyle = FontStyle.Bold,
+                alignment = TextAnchor.MiddleCenter
+            };
+
+            EditorGUILayout.LabelField($"{nodeType} - {treeName}", treeNameStyle, GUILayout.ExpandWidth(true));
+            EditorGUILayout.Space(10);
+        }
+
+        private void DisplayTabs()
+        {
             GUIStyle tabStyle = new GUIStyle(GUI.skin.button)
             {
                 fontSize = 14,
@@ -60,12 +86,15 @@ namespace BehaviourTree.Editor
             {
                 case 0:
                     DrawTasksTab();
+                    DrawSeparator();
                     break;
                 case 1:
                     DrawVariablesTab();
+                    DrawSeparator();
                     break;
                 case 2:
                     DrawInspectorTab();
+                    DrawSeparator();
                     break;
             }
 
@@ -178,31 +207,12 @@ namespace BehaviourTree.Editor
             }
         }
 
-        // 인스펙터 탭을 그리는 함수
-        private void DrawInspectorTab()
+        // 노드를 생성하는 함수
+        private static void CreateNode(Type type)
         {
-            serializedObject.Update();
-
-            var node = (Node)target;
-            string treeName = node.name; // Replace with the actual way to get the tree name
-
-            GUIStyle treeNameStyle = new GUIStyle(GUI.skin.label)
-            {
-                fontSize = 16,
-                fixedHeight = 20,
-                fontStyle = FontStyle.Bold,
-                alignment = TextAnchor.MiddleCenter
-            };
-            EditorGUILayout.LabelField(treeName, treeNameStyle, GUILayout.ExpandWidth(true));
-
-            EditorGUILayout.Space(10);
-
-            DrawDescriptionField();
-            DrawSharedDataField(node);
-            DrawSharedVariableFields(node);
-            DrawNonSharedVariableFields(node);
-
-            serializedObject.ApplyModifiedProperties();
+            var window = EditorWindow.GetWindow<BehaviourTreeEditor>();
+            var treeView = window.TreeView;
+            treeView?.CreateNode(type);
         }
 
         // 변수 탭을 그리는 함수
@@ -220,8 +230,8 @@ namespace BehaviourTree.Editor
 
                 EditorGUILayout.LabelField("Please assign a SharedData object to the Root node.", style);
 
-                var helpBoxRect = GUILayoutUtility.GetLastRect();
-                GUI.Box(helpBoxRect, GUIContent.none, style);
+                // var helpBoxRect = GUILayoutUtility.GetLastRect();
+                // GUI.Box(helpBoxRect, GUIContent.none, style);
                 return;
             }
 
@@ -240,14 +250,6 @@ namespace BehaviourTree.Editor
 
             var editor = (SharedDataEditor)CreateEditor(sharedData);
             editor.OnInspectorGUI();
-        }
-
-        // 노드를 생성하는 함수
-        private static void CreateNode(Type type)
-        {
-            var window = EditorWindow.GetWindow<BehaviourTreeEditor>();
-            var treeView = window.TreeView;
-            treeView?.CreateNode(type);
         }
 
         // 변수를 추가하는 함수
@@ -308,6 +310,21 @@ namespace BehaviourTree.Editor
             }
 
             return false;
+        }
+
+        // 인스펙터 탭을 그리는 함수
+        private void DrawInspectorTab()
+        {
+            serializedObject.Update();
+
+            var node = (Node)target;
+
+            DrawDescriptionField();
+            DrawSharedDataField(node);
+            DrawSharedVariableFields(node);
+            DrawNonSharedVariableFields(node);
+
+            serializedObject.ApplyModifiedProperties();
         }
 
         // 설명 필드를 그리는 함수
@@ -395,6 +412,43 @@ namespace BehaviourTree.Editor
             DrawSeparator();
         }
 
+        // 할당 메뉴를 보여주는 함수
+        private void ShowAssignMenu(Node node, SharedVariableBase variable)
+        {
+            var menu = new GenericMenu();
+
+            menu.AddItem(new GUIContent("None"), false, () =>
+            {
+                variable.VariableName = string.Empty;
+                if (variable is IValueContainer valueContainer)
+                {
+                    valueContainer.SetValue(null);
+                }
+
+                EditorUtility.SetDirty(node);
+            });
+
+            foreach (var sharedVariable in node.SharedData.Variables)
+            {
+                if (sharedVariable.GetType() == variable.GetType())
+                {
+                    menu.AddItem(new GUIContent(sharedVariable.VariableName), false, () =>
+                    {
+                        variable.VariableName = sharedVariable.VariableName;
+                        if (variable is IValueContainer valueContainer &&
+                            sharedVariable is IValueContainer sharedValueContainer)
+                        {
+                            valueContainer.SetValue(sharedValueContainer.GetValue());
+                        }
+
+                        EditorUtility.SetDirty(node);
+                    });
+                }
+            }
+
+            menu.ShowAsContext();
+        }
+
         // 비공유 변수를 그리는 함수
         private void DrawNonSharedVariableFields(Node node)
         {
@@ -470,43 +524,6 @@ namespace BehaviourTree.Editor
             EditorGUILayout.EndVertical();
         }
 
-        // 할당 메뉴를 보여주는 함수
-        private void ShowAssignMenu(Node node, SharedVariableBase variable)
-        {
-            var menu = new GenericMenu();
-
-            menu.AddItem(new GUIContent("None"), false, () =>
-            {
-                variable.VariableName = string.Empty;
-                if (variable is IValueContainer valueContainer)
-                {
-                    valueContainer.SetValue(null);
-                }
-
-                EditorUtility.SetDirty(node);
-            });
-
-            foreach (var sharedVariable in node.SharedData.Variables)
-            {
-                if (sharedVariable.GetType() == variable.GetType())
-                {
-                    menu.AddItem(new GUIContent(sharedVariable.VariableName), false, () =>
-                    {
-                        variable.VariableName = sharedVariable.VariableName;
-                        if (variable is IValueContainer valueContainer &&
-                            sharedVariable is IValueContainer sharedValueContainer)
-                        {
-                            valueContainer.SetValue(sharedValueContainer.GetValue());
-                        }
-
-                        EditorUtility.SetDirty(node);
-                    });
-                }
-            }
-
-            menu.ShowAsContext();
-        }
-
         // 구분선을 그리는 함수
         private void DrawSeparator()
         {
@@ -514,6 +531,126 @@ namespace BehaviourTree.Editor
             rect.height = 1;
             EditorGUI.DrawRect(rect, new Color(0.6f, 0.6f, 0.6f, 1));
             EditorGUILayout.Space();
+        }
+
+        // 노드 타입 이름을 가져오는 함수
+        private static string GetNodeTypeName(Type type)
+        {
+            if (typeof(ActionNode).IsAssignableFrom(type))
+            {
+                return "Action";
+            }
+
+            if (typeof(CompositeNode).IsAssignableFrom(type))
+            {
+                return "Composite";
+            }
+
+            if (typeof(ConditionNode).IsAssignableFrom(type))
+            {
+                return "Condition";
+            }
+
+            if (typeof(DecoratorNode).IsAssignableFrom(type))
+            {
+                return "Decorator";
+            }
+
+            if (typeof(RootNode).IsAssignableFrom(type))
+            {
+                return "Root";
+            }
+
+            return "Unknown";
+        }
+
+        private void DrawNoneSharedVariables()
+        {
+            var tree = BehaviourTreeEditor._tree;
+
+            if (tree == null)
+            {
+                return;
+            }
+
+            List<string> noneSharedVariables = new List<string>();
+
+            BehaviourTree.Scripts.Runtime.BehaviourTree.Traverse(tree.RootNode, node =>
+            {
+                var nodeType = node.GetType();
+                var sharedVariableFields = nodeType
+                    .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                    .Where(field => typeof(SharedVariableBase).IsAssignableFrom(field.FieldType));
+
+                foreach (var field in sharedVariableFields)
+                {
+                    var sharedVariable = (SharedVariableBase)field.GetValue(node);
+                    if (sharedVariable != null && string.IsNullOrEmpty(sharedVariable.VariableName))
+                    {
+                        noneSharedVariables.Add($"{node.name} - {field.Name}");
+                    }
+                }
+            });
+
+            if (noneSharedVariables.Count > 0)
+            {
+                GUIStyle style = new GUIStyle(GUI.skin.box)
+                {
+                    fontSize = 14,
+                    fontStyle = FontStyle.Bold,
+                    normal = { textColor = new Color(1.0f, 0.5f, 0f) }
+                };
+
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField(
+                    "Create variables in the Variables tab and then find the nodes below. Assign names in the Inspector tab.",
+                    style);
+                EditorGUILayout.Space();
+
+                // 텍스트 스타일 지정
+                GUIStyle headerStyle = new GUIStyle(GUI.skin.label)
+                {
+                    fontSize = 16,
+                    fontStyle = FontStyle.Bold,
+                    alignment = TextAnchor.MiddleCenter
+                };
+
+                GUIStyle nodeNameStyle = new GUIStyle(GUI.skin.label)
+                {
+                    fontSize = 14,
+                    fontStyle = FontStyle.Bold,
+                    alignment = TextAnchor.MiddleCenter
+                };
+
+                GUIStyle variableNameStyle = new GUIStyle(GUI.skin.label)
+                {
+                    fontSize = 14,
+                    fontStyle = FontStyle.Bold,
+                    normal = { textColor = new Color(1.0f, 0.5f, 0f) },
+                    alignment = TextAnchor.MiddleCenter
+                };
+
+                // 표의 헤더 그리기
+                EditorGUILayout.BeginHorizontal("box");
+                GUILayout.Label("Node Name", headerStyle, GUILayout.ExpandWidth(true));
+                GUILayout.Label("Variable Name", headerStyle, GUILayout.ExpandWidth(true));
+                EditorGUILayout.EndHorizontal();
+
+                // noneSharedVariables 항목들을 표 형태로 그리기
+                foreach (var noneSharedVariable in noneSharedVariables)
+                {
+                    string[] parts = noneSharedVariable.Split(new[] { " - " }, System.StringSplitOptions.None);
+                    string nodeName = parts[0];
+                    string variableName = parts[1];
+
+                    EditorGUILayout.BeginHorizontal("box");
+                    GUILayout.Label(nodeName, nodeNameStyle, GUILayout.ExpandWidth(true));
+                    GUILayout.Label(variableName, variableNameStyle, GUILayout.ExpandWidth(true));
+                    EditorGUILayout.EndHorizontal();
+                }
+
+                DrawSeparator();
+            }
         }
     }
 }

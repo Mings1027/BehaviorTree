@@ -5,13 +5,19 @@ namespace BehaviourTree.Scripts.Runtime
 {
     public class RootNode : Node
     {
-        public Node Child { get; set; }
+        public Node Child
+        {
+            get => child;
+            set => child = value;
+        }
+
+        [SerializeField] private Node child;
 
         public override Node Clone()
         {
             var clone = Instantiate(this);
             clone.Child = Child != null ? Child.Clone() : null;
-            clone.sharedData = sharedData;
+            clone.SharedData = SharedData;
             return clone;
         }
 
@@ -25,14 +31,24 @@ namespace BehaviourTree.Scripts.Runtime
 
         protected override State OnUpdate()
         {
-            return Child.Update();
+            return Child != null ? Child.Update() : State.Failure;
+        }
+
+        public override SharedData SharedData
+        {
+            get => base.SharedData;
+            set
+            {
+                base.SharedData = value;
+                TraverseChildrenAndSetSharedData(this, value);
+            }
         }
 
         public void OnValidate()
         {
-            if (sharedData != null)
+            if (SharedData != null)
             {
-                TraverseChildrenAndSetSharedData(this, sharedData);
+                TraverseChildrenAndSetSharedData(this, SharedData);
             }
         }
 
@@ -62,7 +78,7 @@ namespace BehaviourTree.Scripts.Runtime
                     TraverseChildrenAndSetSharedData(rootNode.Child, sharedData);
                 }
             }
-            else
+            else if (node != null)
             {
                 node.SharedData = sharedData;
             }

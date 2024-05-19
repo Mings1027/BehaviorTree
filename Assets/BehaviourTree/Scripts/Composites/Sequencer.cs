@@ -4,11 +4,8 @@ namespace BehaviourTree.Scripts.Composites
 {
     public class Sequencer : CompositeNode
     {
-        protected int current;
-
         protected override void OnStart()
         {
-            current = 0;
         }
 
         protected override void OnStop()
@@ -17,20 +14,11 @@ namespace BehaviourTree.Scripts.Composites
 
         protected override State OnUpdate()
         {
-            for (int i = current; i < children.Count; ++i)
+            for (var i = 0; i < children.Count; i++)
             {
-                current = i;
-                var child = children[current];
-
-                switch (child.Update())
-                {
-                    case State.Running:
-                        return State.Running;
-                    case State.Failure:
-                        return State.Failure;
-                    case State.Success:
-                        continue;
-                }
+                var state = children[i].Update();
+                if (state == State.Success) continue;
+                return state;
             }
 
             return State.Success;

@@ -21,6 +21,7 @@ public class Attack : ActionNode
         if (target.Value.TryGetComponent(out IDamageable damageable))
         {
             damageable.Damage(attackDamage);
+            Debug.Log("Attack");
         }
 
         return State.Success;

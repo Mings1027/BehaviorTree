@@ -4,15 +4,14 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UIElements;
 using BehaviourTree.Scripts.Runtime;
-using BehaviourTree.Scripts.TreeSharedData;
 using UnityEditor.UIElements;
 
 namespace BehaviourTree.Editor
 {
     public class BehaviourTreeEditor : EditorWindow
     {
+        public static BehaviourTree.Scripts.Runtime.BehaviourTree _tree;
         public BehaviourTreeView TreeView { get; private set; }
-        private BehaviourTree.Scripts.Runtime.BehaviourTree _tree;
         private InspectorView _inspectorView;
         private ToolbarMenu _toolbarMenu;
         private TextField _treeNameField;
@@ -20,7 +19,6 @@ namespace BehaviourTree.Editor
         private Button _createNewTreeButton;
         private VisualElement _overlay;
         private BehaviourTreeSettings _settings;
-        private ObjectField _sharedDataField;
 
         [MenuItem("BehaviorTree/BehaviourTreeEditor ...")]
         public static void OpenWindow()
@@ -44,12 +42,12 @@ namespace BehaviourTree.Editor
 
         private List<T> LoadAssets<T>() where T : Object
         {
-            string[] assetIds = AssetDatabase.FindAssets($"t:{typeof(T).Name}");
-            List<T> assets = new List<T>();
+            var assetIds = AssetDatabase.FindAssets($"t:{typeof(T).Name}");
+            var assets = new List<T>();
             foreach (var assetId in assetIds)
             {
-                string path = AssetDatabase.GUIDToAssetPath(assetId);
-                T asset = AssetDatabase.LoadAssetAtPath<T>(path);
+                var path = AssetDatabase.GUIDToAssetPath(assetId);
+                var asset = AssetDatabase.LoadAssetAtPath<T>(path);
                 assets.Add(asset);
             }
 
@@ -78,21 +76,6 @@ namespace BehaviourTree.Editor
 
             // Inspector View
             _inspectorView = root.Q<InspectorView>();
-
-            // Shared Data Field
-            _sharedDataField = new ObjectField("Shared Data")
-            {
-                objectType = typeof(SharedData),
-                allowSceneObjects = false
-            };
-            _sharedDataField.RegisterValueChangedCallback(evt =>
-            {
-                if (_tree != null && _tree.RootNode != null)
-                {
-                    _tree.RootNode.SharedData = (SharedData)evt.newValue;
-                    TreeView.RefreshTree(); // 트리 뷰를 새로고침하여 변경사항 반영
-                }
-            });
 
             // Toolbar assets menu
             _toolbarMenu = root.Q<ToolbarMenu>();
@@ -124,17 +107,23 @@ namespace BehaviourTree.Editor
             {
                 SelectTree(_tree);
             }
+
+            LoadTree();
         }
 
         private void OnEnable()
         {
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+
+            EditorApplication.quitting -= SaveTree;
+            EditorApplication.quitting += SaveTree;
         }
 
         private void OnDisable()
         {
             EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            SaveTree();
         }
 
         private void OnPlayModeStateChanged(PlayModeStateChange obj)
@@ -142,14 +131,16 @@ namespace BehaviourTree.Editor
             switch (obj)
             {
                 case PlayModeStateChange.EnteredEditMode:
-                    OnSelectionChange();
+                    LoadTree();
                     break;
                 case PlayModeStateChange.ExitingEditMode:
+                    SaveTree();
                     break;
                 case PlayModeStateChange.EnteredPlayMode:
-                    OnSelectionChange();
+                    SaveTree();
                     break;
                 case PlayModeStateChange.ExitingPlayMode:
+                    SaveTree();
                     break;
             }
         }
@@ -190,7 +181,7 @@ namespace BehaviourTree.Editor
                 _overlay.style.visibility = Visibility.Hidden;
             }
 
-            TreeView.PopulateView(_tree);
+            TreeView.PopulateView();
 
             // Save the selected tree name to EditorPrefs
             EditorPrefs.SetString("SelectedBehaviourTreeName", _tree.name);
@@ -218,6 +209,28 @@ namespace BehaviourTree.Editor
             AssetDatabase.SaveAssets();
             Selection.activeObject = tree;
             EditorGUIUtility.PingObject(tree);
+        }
+
+        private void LoadTree()
+        {
+            var treePath = EditorPrefs.GetString("SelectedBehaviourTreePath");
+            _tree = AssetDatabase.LoadAssetAtPath<BehaviourTree.Scripts.Runtime.BehaviourTree>(treePath);
+            if (_tree != null)
+            {
+                SelectTree(_tree);
+                TreeView.LoadTree();
+            }
+        }
+
+        private void SaveTree()
+        {
+            if (_tree != null)
+            {
+                EditorPrefs.SetString("SelectedBehaviourTreePath", AssetDatabase.GetAssetPath(_tree));
+                TreeView.SaveTree();
+                EditorUtility.SetDirty(_tree);
+                AssetDatabase.SaveAssets();
+            }
         }
     }
 }

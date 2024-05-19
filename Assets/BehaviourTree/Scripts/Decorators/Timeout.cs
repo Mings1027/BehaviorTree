@@ -24,7 +24,7 @@ namespace BehaviourTree.Scripts.Decorators
                 return State.Failure;
             }
 
-            return Child.Update();
+            return child.Update();
         }
     }
 }

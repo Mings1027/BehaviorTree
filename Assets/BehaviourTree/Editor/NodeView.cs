@@ -11,16 +11,16 @@ namespace BehaviourTree.Editor
 {
     public class NodeView : UnityEditor.Experimental.GraphView.Node
     {
-        public Action<NodeView> onNodeSelected;
-        public readonly Node node;
-        public Port input;
-        public Port output;
+        public Action<NodeView> OnNodeSelected { get; set; }
+        public Node Node { get; }
+        public Port Input { get; private set; }
+        public Port Output { get; private set; }
 
         public NodeView(Node node) : base(
             AssetDatabase.GetAssetPath(BehaviourTreeSettings.GetOrCreateSettings().nodeXml))
         {
-            this.node = node;
-            this.node.name = node.GetType().Name;
+            Node = node;
+            Node.name = node.GetType().Name;
             title = node.name.Replace("(Clone)", "").Replace("Node", "");
             viewDataKey = node.guid;
 
@@ -37,28 +37,28 @@ namespace BehaviourTree.Editor
         {
             var descriptionLabel = this.Q<Label>("description");
             descriptionLabel.bindingPath = "description";
-            descriptionLabel.Bind(new SerializedObject(node));
+            descriptionLabel.Bind(new SerializedObject(Node));
         }
 
         private void SetupClasses()
         {
-            if (node is ConditionNode)
+            if (Node is ConditionNode)
             {
                 AddToClassList("condition");
             }
-            else if (node is ActionNode)
+            else if (Node is ActionNode)
             {
                 AddToClassList("action");
             }
-            else if (node is CompositeNode)
+            else if (Node is CompositeNode)
             {
                 AddToClassList("composite");
             }
-            else if (node is DecoratorNode)
+            else if (Node is DecoratorNode)
             {
                 AddToClassList("decorator");
             }
-            else if (node is RootNode)
+            else if (Node is RootNode)
             {
                 AddToClassList("root");
             }
@@ -66,81 +66,81 @@ namespace BehaviourTree.Editor
 
         private void CreateInputPorts()
         {
-            if (node is ConditionNode)
+            if (Node is ConditionNode)
             {
-                input = new NodePort(Direction.Input, Port.Capacity.Single);
+                Input = new NodePort(Direction.Input, Port.Capacity.Single);
             }
-            else if (node is ActionNode)
+            else if (Node is ActionNode)
             {
-                input = new NodePort(Direction.Input, Port.Capacity.Single);
+                Input = new NodePort(Direction.Input, Port.Capacity.Single);
             }
-            else if (node is CompositeNode)
+            else if (Node is CompositeNode)
             {
-                input = new NodePort(Direction.Input, Port.Capacity.Single);
+                Input = new NodePort(Direction.Input, Port.Capacity.Single);
             }
-            else if (node is DecoratorNode)
+            else if (Node is DecoratorNode)
             {
-                input = new NodePort(Direction.Input, Port.Capacity.Single);
+                Input = new NodePort(Direction.Input, Port.Capacity.Single);
             }
-            else if (node is RootNode)
+            else if (Node is RootNode)
             {
             }
 
-            if (input != null)
+            if (Input != null)
             {
-                input.portName = "";
-                input.style.flexDirection = FlexDirection.Column;
-                inputContainer.Add(input);
+                Input.portName = "";
+                Input.style.flexDirection = FlexDirection.Column;
+                inputContainer.Add(Input);
             }
         }
 
         private void CreateOutputPorts()
         {
-            if (node is ConditionNode)
+            if (Node is ConditionNode)
             {
             }
-            else if (node is ActionNode)
+            else if (Node is ActionNode)
             {
             }
-            else if (node is CompositeNode)
+            else if (Node is CompositeNode)
             {
-                output = new NodePort(Direction.Output, Port.Capacity.Multi);
+                Output = new NodePort(Direction.Output, Port.Capacity.Multi);
             }
-            else if (node is DecoratorNode)
+            else if (Node is DecoratorNode)
             {
-                output = new NodePort(Direction.Output, Port.Capacity.Single);
+                Output = new NodePort(Direction.Output, Port.Capacity.Single);
             }
-            else if (node is RootNode)
+            else if (Node is RootNode)
             {
-                output = new NodePort(Direction.Output, Port.Capacity.Single);
+                Output = new NodePort(Direction.Output, Port.Capacity.Single);
             }
 
-            if (output != null)
+            if (Output != null)
             {
-                output.portName = "";
-                output.style.flexDirection = FlexDirection.ColumnReverse;
-                outputContainer.Add(output);
+                Output.portName = "";
+                Output.style.flexDirection = FlexDirection.ColumnReverse;
+                outputContainer.Add(Output);
             }
         }
 
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);
-            Undo.RecordObject(node, "Behaviour Tree (Set Position");
-            node.position.x = newPos.xMin;
-            node.position.y = newPos.yMin;
-            EditorUtility.SetDirty(node);
+            Undo.RecordObject(Node, "Behaviour Tree (Set Position");
+            Node.position.x = newPos.xMin;
+            Node.position.y = newPos.yMin;
+            EditorUtility.SetDirty(Node);
         }
 
         public override void OnSelected()
         {
             base.OnSelected();
-            onNodeSelected?.Invoke(this);
+            OnNodeSelected?.Invoke(this);
         }
 
         public void SortChildren()
         {
-            if (node is CompositeNode composite)
+            if (Node is CompositeNode composite)
             {
                 composite.Children.Sort(SortByHorizontalPosition);
             }
@@ -159,10 +159,10 @@ namespace BehaviourTree.Editor
 
             if (Application.isPlaying)
             {
-                switch (node.NodeState)
+                switch (Node.NodeState)
                 {
                     case Node.State.Running:
-                        if (node.Started)
+                        if (Node.Started)
                         {
                             AddToClassList("running");
                         }

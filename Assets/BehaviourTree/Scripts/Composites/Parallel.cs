@@ -24,7 +24,7 @@ namespace BehaviourTree.Scripts.Composites
         protected override State OnUpdate()
         {
             var stillRunning = false;
-            for (var i = 0; i < _childrenLeftToExecute.Count(); ++i)
+            for (var i = 0; i < _childrenLeftToExecute.Count; ++i)
             {
                 if (_childrenLeftToExecute[i] == State.Running)
                 {

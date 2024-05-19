@@ -13,18 +13,12 @@ MonoBehaviour:
   m_Name: New Shared Data
   m_EditorClassIdentifier: 
   variables:
-  - rid: 4111580161807745024
-  - rid: 4111580170625744896
+  - rid: 4111580195452092416
   references:
     version: 2
     RefIds:
-    - rid: 4111580161807745024
+    - rid: 4111580195452092416
       type: {class: SharedCollider, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
       data:
         variableName: Target
         _value: {fileID: 0}
-    - rid: 4111580170625744896
-      type: {class: SharedInt, ns: BehaviourTree.Scripts.TreeSharedData, asm: Assembly-CSharp}
-      data:
-        variableName: AttackRange
-        _value: 1

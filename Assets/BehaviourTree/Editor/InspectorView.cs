@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace BehaviourTree.Editor
@@ -8,7 +9,7 @@ namespace BehaviourTree.Editor
         {
         }
 
-        UnityEditor.Editor editor;
+        private UnityEditor.Editor _editor;
 
         public InspectorView()
         {
@@ -17,15 +18,17 @@ namespace BehaviourTree.Editor
         internal void UpdateSelection(NodeView nodeView)
         {
             Clear();
+            if (_editor)
+            {
+                Object.DestroyImmediate(_editor);
+            }
 
-            UnityEngine.Object.DestroyImmediate(editor);
-
-            editor = UnityEditor.Editor.CreateEditor(nodeView.node);
+            _editor = UnityEditor.Editor.CreateEditor(nodeView.Node);
             IMGUIContainer container = new IMGUIContainer(() =>
             {
-                if (editor && editor.target)
+                if (_editor.target)
                 {
-                    editor.OnInspectorGUI();
+                    _editor.OnInspectorGUI();
                 }
             });
             Add(container);

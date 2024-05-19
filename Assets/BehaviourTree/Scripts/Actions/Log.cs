@@ -17,7 +17,7 @@ namespace BehaviourTree.Scripts.Actions
 
         protected override State OnUpdate()
         {
-            Debug.Log($"{message}");
+            // Debug.Log($"{message}");
             return State.Success;
         }
     }

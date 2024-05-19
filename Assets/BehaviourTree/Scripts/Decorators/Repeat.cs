@@ -17,7 +17,7 @@ namespace BehaviourTree.Scripts.Decorators
 
         protected override State OnUpdate()
         {
-            switch (Child.Update())
+            switch (child.Update())
             {
                 case State.Running:
                     break;

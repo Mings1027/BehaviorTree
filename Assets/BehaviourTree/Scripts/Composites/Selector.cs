@@ -17,20 +17,17 @@ namespace BehaviourTree.Scripts.Composites
 
         protected override State OnUpdate()
         {
-            for (var i = current; i < children.Count; ++i)
+            while (current < children.Count)
             {
-                current = i;
                 var child = children[current];
+                var childState = child.Update();
 
-                switch (child.Update())
+                if (childState is State.Running or State.Success)
                 {
-                    case State.Running:
-                        return State.Running;
-                    case State.Success:
-                        return State.Success;
-                    case State.Failure:
-                        continue;
+                    return childState;
                 }
+
+                current++;
             }
 
             return State.Failure;

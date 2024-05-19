@@ -1,12 +1,11 @@
 using BehaviourTree.Scripts.Runtime;
-using BehaviourTree.Scripts.TreeSharedData;
 using UnityEngine;
 
 namespace BehaviourTree.Scripts.Conditions
 {
     public class Wait : ConditionNode
     {
-        [SerializeField] private int duration;
+        [SerializeField] private int duration = 1;
         private float _startTime;
 
         protected override void OnStart()

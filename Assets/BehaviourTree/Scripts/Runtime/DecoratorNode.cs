@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace BehaviourTree.Scripts.Runtime
 {
     public abstract class DecoratorNode : Node
@@ -8,7 +10,7 @@ namespace BehaviourTree.Scripts.Runtime
             set => child = value;
         }
 
-        protected Node child;
+        [SerializeField] protected Node child;
 
         public override Node Clone()
         {

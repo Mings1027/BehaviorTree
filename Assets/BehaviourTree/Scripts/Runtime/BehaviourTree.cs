@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace BehaviourTree.Scripts.Runtime
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(menuName = "BehaviourTree/Tree")]
     public class BehaviourTree : ScriptableObject
     {
         public Node RootNode
@@ -139,6 +139,7 @@ namespace BehaviourTree.Scripts.Runtime
                 composite.Children.Add(child);
                 EditorUtility.SetDirty(composite);
             }
+            
         }
 
         public void RemoveChild(Node parent, Node child)
