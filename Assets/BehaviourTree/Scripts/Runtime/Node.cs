@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using BehaviourTree.Scripts.TreeSharedData;
+using UnityEditor;
 using UnityEngine;
 
 namespace BehaviourTree.Scripts.Runtime
@@ -35,9 +36,10 @@ namespace BehaviourTree.Scripts.Runtime
 
         [HideInInspector, SerializeField] protected SharedData sharedData;
 
-        public void SetTransform(Transform transform)
+        public void SetData(Transform transform, SharedData sharedData)
         {
             nodeTransform = transform;
+            this.sharedData = sharedData;
         }
 
         public virtual Node Clone()

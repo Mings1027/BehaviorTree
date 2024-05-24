@@ -15,19 +15,10 @@ namespace BehaviourTree.Scripts.Runtime
         }
 
         public List<Node> Nodes => nodes;
+        public SharedData SharedData { get; private set; }
 
         [SerializeField] private Node rootNode;
         [SerializeField] private List<Node> nodes = new();
-
-        public void Init(SharedData sharedData)
-        {
-            for (int i = 0; i < nodes.Count; i++)
-            {
-                nodes[i].SetSharedData(sharedData);
-                nodes[i].Init();
-                nodes[i].OnAwake();
-            }
-        }
 
         public void TreeUpdate()
         {
@@ -39,21 +30,18 @@ namespace BehaviourTree.Scripts.Runtime
 
         public static List<Node> GetChildren(Node parent)
         {
-            List<Node> children = new List<Node>();
+            var children = new List<Node>();
 
-            if (parent is DecoratorNode decorator && decorator.Child)
+            switch (parent)
             {
-                children.Add(decorator.Child);
-            }
-
-            if (parent is RootNode rootNode && rootNode.Child)
-            {
-                children.Add(rootNode.Child);
-            }
-
-            if (parent is CompositeNode composite)
-            {
-                return composite.Children;
+                case DecoratorNode decorator when decorator.Child:
+                    children.Add(decorator.Child);
+                    break;
+                case RootNode rootNode when rootNode.Child:
+                    children.Add(rootNode.Child);
+                    break;
+                case CompositeNode composite:
+                    return composite.Children;
             }
 
             return children;
@@ -72,15 +60,18 @@ namespace BehaviourTree.Scripts.Runtime
             }
         }
 
-        public BehaviourTree Clone(Transform transform)
+        public BehaviourTree Clone(Transform transform, SharedData sharedData)
         {
             var tree = Instantiate(this);
             tree.rootNode = tree.rootNode.Clone();
             tree.nodes = new List<Node>();
+            tree.SharedData = sharedData.Clone();
             Traverse(tree.rootNode, n =>
             {
-                n.SetTransform(transform);
                 tree.nodes.Add(n);
+                n.SetData(transform, tree.SharedData);
+                n.Init();
+                n.OnAwake();
             });
 
             return tree;
@@ -139,7 +130,6 @@ namespace BehaviourTree.Scripts.Runtime
                 composite.Children.Add(child);
                 EditorUtility.SetDirty(composite);
             }
-            
         }
 
         public void RemoveChild(Node parent, Node child)

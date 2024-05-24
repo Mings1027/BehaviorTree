@@ -14,14 +14,6 @@ namespace BehaviourTree.Scripts.Runtime
             _behaviourTreeRunners = new List<BehaviourTreeRunner>();
         }
 
-        private void Start()
-        {
-            for (int i = 0; i < _behaviourTreeRunners.Count; i++)
-            {
-                _behaviourTreeRunners[i].Init();
-            }
-        }
-
         private void Update()
         {
             for (int i = 0; i < _behaviourTreeRunners.Count; i++)

@@ -17,7 +17,6 @@ namespace BehaviourTree.Scripts.Runtime
         public override Node Clone()
         {
             var node = Instantiate(this);
-            node.children = new List<Node>(children);
             node.children = children.ConvertAll(c => c.Clone());
             return node;
         }

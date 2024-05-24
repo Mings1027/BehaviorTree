@@ -4,7 +4,7 @@ using UnityEngine;
 namespace BehaviourTree.Scripts.TreeSharedData
 {
     [CreateAssetMenu(menuName = "BehaviourTree/SharedData")]
-    public class SharedData : ScriptableObject, ISerializationCallbackReceiver
+    public class SharedData : ScriptableObject
     {
         [SerializeReference]
         private List<SharedVariableBase> variables;
@@ -18,14 +18,6 @@ namespace BehaviourTree.Scripts.TreeSharedData
         private void OnEnable()
         {
             variables ??= new List<SharedVariableBase>();
-        }
-
-        public void OnBeforeSerialize()
-        {
-        }
-
-        public void OnAfterDeserialize()
-        {
         }
 
         public void AddVariable(SharedVariableBase variable)
@@ -48,7 +40,12 @@ namespace BehaviourTree.Scripts.TreeSharedData
         public SharedData Clone()
         {
             var clone = Instantiate(this);
-            clone.Variables = new List<SharedVariableBase>(variables);
+            clone.Variables = new List<SharedVariableBase>();
+            foreach (var variable in variables)
+            {
+                clone.Variables.Add(variable.Clone());
+            }
+
             return clone;
         }
     }

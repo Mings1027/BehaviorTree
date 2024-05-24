@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using BehaviourTree.Scripts.Runtime;
 using BehaviourTree.Scripts.TreeSharedData;
+using Pathfinding;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -14,49 +15,40 @@ namespace BehaviourTree.Editor
     public class NodeEditor : UnityEditor.Editor
     {
         private string _searchQuery = "";
-        private int _selectedTab;
+
         private readonly string[] _tabTitles = { "Tasks", "Variables", "Inspector" };
         private Vector2 _scrollPos;
-
-        private const string SelectedTabKey = "NodeEditor_SelectedTab";
-
-        // Add Variable Name as a field to preserve its value
         private string _variableName = "";
         private SharedVariableType _selectedType;
 
-        private void OnEnable()
-        {
-            _selectedTab = EditorPrefs.GetInt(SelectedTabKey, 0);
-        }
-
-        private void OnDisable()
-        {
-            EditorPrefs.SetInt(SelectedTabKey, _selectedTab);
-        }
+        private static bool _arrayFoldout;
+        private static int _selectedTab;
+        private static bool _showValues;
 
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
             DisplayTreeName();
             DisplayNodeHeader();
             DisplayTabs();
             DrawNoneSharedVariables();
+            serializedObject.ApplyModifiedProperties();
         }
 
         private void DisplayTreeName()
         {
             // Display the selected BehaviourTree name
-            string selectedTreeName = EditorPrefs.GetString("SelectedBehaviourTreeName", "No Tree Selected");
-            EditorGUILayout.LabelField("Behaviour Tree:", selectedTreeName, EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Behaviour Tree:", BehaviourTreeEditor.TreeName, EditorStyles.boldLabel);
             EditorGUILayout.Space(10);
         }
 
         private void DisplayNodeHeader()
         {
             var node = (Node)target;
-            string treeName = node.name; // Replace with the actual way to get the tree name
-            string nodeType = GetNodeTypeName(node.GetType());
+            var treeName = node.name; // Replace with the actual way to get the tree name
+            var nodeType = GetNodeTypeName(node.GetType());
 
-            GUIStyle treeNameStyle = new GUIStyle(GUI.skin.label)
+            var treeNameStyle = new GUIStyle(GUI.skin.label)
             {
                 fontSize = 16,
                 fixedHeight = 20,
@@ -70,7 +62,7 @@ namespace BehaviourTree.Editor
 
         private void DisplayTabs()
         {
-            GUIStyle tabStyle = new GUIStyle(GUI.skin.button)
+            var tabStyle = new GUIStyle(GUI.skin.button)
             {
                 fontSize = 14,
                 fontStyle = FontStyle.Bold,
@@ -104,7 +96,7 @@ namespace BehaviourTree.Editor
         // 작업 탭을 그리는 함수
         private void DrawTasksTab()
         {
-            GUIStyle searchFieldStyle = new GUIStyle(GUI.skin.textField)
+            var searchFieldStyle = new GUIStyle(GUI.skin.textField)
             {
                 fontSize = 14,
                 fixedHeight = 20
@@ -125,12 +117,12 @@ namespace BehaviourTree.Editor
             var decoratorNodeTypes = TypeCache.GetTypesDerivedFrom<DecoratorNode>()
                 .Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
 
-            bool actionFoldout = EditorPrefs.GetBool("ActionNodesFoldout", true);
-            bool compositeFoldout = EditorPrefs.GetBool("CompositeNodesFoldout", true);
-            bool conditionFoldout = EditorPrefs.GetBool("ConditionNodesFoldout", true);
-            bool decoratorFoldout = EditorPrefs.GetBool("DecoratorNodesFoldout", true);
+            var actionFoldout = EditorPrefs.GetBool("ActionNodesFoldout", true);
+            var compositeFoldout = EditorPrefs.GetBool("CompositeNodesFoldout", true);
+            var conditionFoldout = EditorPrefs.GetBool("ConditionNodesFoldout", true);
+            var decoratorFoldout = EditorPrefs.GetBool("DecoratorNodesFoldout", true);
 
-            GUIStyle folderTitleStyle = new GUIStyle(EditorStyles.foldout)
+            var folderTitleStyle = new GUIStyle(EditorStyles.foldout)
             {
                 fontSize = 16,
                 fontStyle = FontStyle.Bold
@@ -221,7 +213,7 @@ namespace BehaviourTree.Editor
             var sharedData = (SharedData)serializedObject.FindProperty("sharedData").objectReferenceValue;
             if (sharedData == null)
             {
-                GUIStyle style = new GUIStyle(GUI.skin.box)
+                var style = new GUIStyle(GUI.skin.box)
                 {
                     fontSize = 14,
                     fontStyle = FontStyle.Bold,
@@ -283,9 +275,7 @@ namespace BehaviourTree.Editor
 
             if (newVariable != null)
             {
-                serializedObject.Update();
                 sharedData.AddVariable(newVariable);
-                serializedObject.ApplyModifiedProperties();
 
                 EditorUtility.SetDirty(sharedData);
                 AssetDatabase.SaveAssets();
@@ -315,16 +305,12 @@ namespace BehaviourTree.Editor
         // 인스펙터 탭을 그리는 함수
         private void DrawInspectorTab()
         {
-            serializedObject.Update();
-
             var node = (Node)target;
 
             DrawDescriptionField();
             DrawSharedDataField(node);
             DrawSharedVariableFields(node);
             DrawNonSharedVariableFields(node);
-
-            serializedObject.ApplyModifiedProperties();
         }
 
         // 설명 필드를 그리는 함수
@@ -358,7 +344,7 @@ namespace BehaviourTree.Editor
         {
             if (node.SharedData == null)
             {
-                GUIStyle style = new GUIStyle(GUI.skin.box)
+                var style = new GUIStyle(GUI.skin.box)
                 {
                     fontSize = 14,
                     fontStyle = FontStyle.Bold,
@@ -374,6 +360,7 @@ namespace BehaviourTree.Editor
 
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Shared Variables", EditorStyles.boldLabel);
+            _showValues = EditorGUILayout.Toggle("Show Values", _showValues);
             EditorGUILayout.Space();
 
             foreach (var kvp in node.GetType()
@@ -400,12 +387,17 @@ namespace BehaviourTree.Editor
                     string.IsNullOrEmpty(kvp.Value.VariableName) ? "(None)" : kvp.Value.VariableName,
                     variableStyle, GUILayout.MinWidth(100));
                 EditorGUILayout.EndHorizontal();
-                if (GUILayout.Button("\u25cf", GUILayout.Width(20)))
+                if (GUILayout.Button("\u25cf", GUILayout.Width(25)))
                 {
                     ShowAssignMenu(node, kvp.Value);
                 }
 
                 EditorGUILayout.EndHorizontal();
+                if (_showValues)
+                {
+                    DrawSharedVariableValueFields(kvp.Value);
+                }
+
                 EditorGUILayout.EndVertical();
             }
 
@@ -420,10 +412,11 @@ namespace BehaviourTree.Editor
             menu.AddItem(new GUIContent("None"), false, () =>
             {
                 variable.VariableName = string.Empty;
-                if (variable is IValueContainer valueContainer)
-                {
-                    valueContainer.SetValue(null);
-                }
+                variable.SetValue(null);
+                // if (variable is IValue valueContainer)
+                // {
+                //     valueContainer.SetValue(null);
+                // }
 
                 EditorUtility.SetDirty(node);
             });
@@ -435,11 +428,12 @@ namespace BehaviourTree.Editor
                     menu.AddItem(new GUIContent(sharedVariable.VariableName), false, () =>
                     {
                         variable.VariableName = sharedVariable.VariableName;
-                        if (variable is IValueContainer valueContainer &&
-                            sharedVariable is IValueContainer sharedValueContainer)
-                        {
-                            valueContainer.SetValue(sharedValueContainer.GetValue());
-                        }
+                        variable.SetValue(sharedVariable.GetValue());
+                        // if (variable is IValue valueContainer &&
+                        //     sharedVariable is IValue sharedValueContainer)
+                        // {
+                        //     valueContainer.SetValue(sharedValueContainer.GetValue());
+                        // }
 
                         EditorUtility.SetDirty(node);
                     });
@@ -447,6 +441,127 @@ namespace BehaviourTree.Editor
             }
 
             menu.ShowAsContext();
+        }
+
+        private void DrawSharedVariableValueFields(SharedVariableBase variable)
+        {
+            switch (variable)
+            {
+                case SharedInt sharedInt:
+                    sharedInt.Value = EditorGUILayout.IntField("Value", sharedInt.Value);
+                    break;
+                case SharedFloat sharedFloat:
+                    sharedFloat.Value = EditorGUILayout.FloatField("Value", sharedFloat.Value);
+                    break;
+                case SharedAIPath sharedAIPath:
+                    sharedAIPath.Value =
+                        (AIPath)EditorGUILayout.ObjectField("Value", sharedAIPath.Value, typeof(AIPath), true);
+                    break;
+                case SharedTransform sharedTransform:
+                    sharedTransform.Value =
+                        (Transform)EditorGUILayout.ObjectField("Value", sharedTransform.Value, typeof(Transform), true);
+                    break;
+                case SharedCollider sharedCollider:
+                    sharedCollider.Value =
+                        (Collider)EditorGUILayout.ObjectField("Value", sharedCollider.Value, typeof(Collider), true);
+                    break;
+                case SharedColliderArray sharedColliderArray:
+                    DrawArrayField(sharedColliderArray);
+                    break;
+                case SharedLayerMask sharedLayerMask:
+                    sharedLayerMask.Value = EditorGUILayout.LayerField("Value", sharedLayerMask.Value);
+                    break;
+                case SharedVector3 sharedVector3:
+                    sharedVector3.Value = EditorGUILayout.Vector3Field("Value", sharedVector3.Value);
+                    break;
+                case SharedTransformArray sharedTransformArray:
+                    DrawArrayField(sharedTransformArray);
+                    break;
+                default:
+                    EditorGUILayout.LabelField("Unsupported SharedVariable type");
+                    break;
+            }
+        }
+
+        private void DrawArrayField<T>(SharedVariable<T[]> sharedVariableArray)
+        {
+            var array = sharedVariableArray.Value ?? Array.Empty<T>();
+            var newSize = EditorGUILayout.IntField("Size", array.Length);
+
+            if (newSize < 0) newSize = 0;
+            if (newSize != array.Length)
+            {
+                var newArray = new T[newSize];
+                for (var i = 0; i < Mathf.Min(newSize, array.Length); i++)
+                {
+                    newArray[i] = array[i];
+                }
+
+                sharedVariableArray.Value = newArray;
+                array = newArray;
+            }
+
+            _arrayFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(_arrayFoldout, "Array Elements");
+            if (_arrayFoldout)
+            {
+                EditorGUI.indentLevel++;
+                for (var i = 0; i < array.Length; i++)
+                {
+                    array[i] = (T)DrawFieldForType(typeof(T), array[i], $"Element {i}");
+                }
+
+                EditorGUI.indentLevel--;
+            }
+
+            EditorGUILayout.EndFoldoutHeaderGroup();
+        }
+
+        private object DrawFieldForType(Type type, object value, string label)
+        {
+            if (type == typeof(int))
+            {
+                return EditorGUILayout.IntField(label, (int)value);
+            }
+
+            if (type == typeof(float))
+            {
+                return EditorGUILayout.FloatField(label, (float)value);
+            }
+
+            if (type == typeof(AIPath))
+            {
+                return EditorGUILayout.ObjectField(label, (AIPath)value, typeof(AIPath), true);
+            }
+
+            if (type == typeof(Transform))
+            {
+                return EditorGUILayout.ObjectField(label, (Transform)value, typeof(Transform), true);
+            }
+
+            if (type == typeof(Collider))
+            {
+                return EditorGUILayout.ObjectField(label, (Collider)value, typeof(Collider), true);
+            }
+
+            if (type == typeof(LayerMask))
+            {
+                return EditorGUILayout.LayerField(label, (LayerMask)value);
+            }
+
+            if (type == typeof(Vector3))
+            {
+                return EditorGUILayout.Vector3Field(label, (Vector3)value);
+            }
+
+            if (type == typeof(Transform[]))
+            {
+                // Note: Drawing nested arrays is more complex, this is a placeholder.
+                EditorGUILayout.LabelField(label, "Nested arrays not supported in custom editor.");
+                return value;
+            }
+
+            EditorGUILayout.LabelField(label, "Unsupported type");
+            return value;
         }
 
         // 비공유 변수를 그리는 함수
@@ -573,7 +688,7 @@ namespace BehaviourTree.Editor
                 return;
             }
 
-            List<string> noneSharedVariables = new List<string>();
+            var noneSharedVariables = new List<string>();
 
             BehaviourTree.Scripts.Runtime.BehaviourTree.Traverse(tree.RootNode, node =>
             {
@@ -594,7 +709,7 @@ namespace BehaviourTree.Editor
 
             if (noneSharedVariables.Count > 0)
             {
-                GUIStyle style = new GUIStyle(GUI.skin.box)
+                var style = new GUIStyle(GUI.skin.box)
                 {
                     fontSize = 14,
                     fontStyle = FontStyle.Bold,
@@ -602,27 +717,25 @@ namespace BehaviourTree.Editor
                 };
 
                 EditorGUILayout.Space();
-                EditorGUILayout.LabelField(
-                    "Create variables in the Variables tab and then find the nodes below. Assign names in the Inspector tab.",
-                    style);
+                EditorGUILayout.LabelField("Assign names in the Inspector tab.", style);
                 EditorGUILayout.Space();
 
                 // 텍스트 스타일 지정
-                GUIStyle headerStyle = new GUIStyle(GUI.skin.label)
+                var headerStyle = new GUIStyle(GUI.skin.label)
                 {
                     fontSize = 16,
                     fontStyle = FontStyle.Bold,
                     alignment = TextAnchor.MiddleCenter
                 };
 
-                GUIStyle nodeNameStyle = new GUIStyle(GUI.skin.label)
+                var nodeNameStyle = new GUIStyle(GUI.skin.label)
                 {
                     fontSize = 14,
                     fontStyle = FontStyle.Bold,
                     alignment = TextAnchor.MiddleCenter
                 };
 
-                GUIStyle variableNameStyle = new GUIStyle(GUI.skin.label)
+                var variableNameStyle = new GUIStyle(GUI.skin.label)
                 {
                     fontSize = 14,
                     fontStyle = FontStyle.Bold,
@@ -639,9 +752,9 @@ namespace BehaviourTree.Editor
                 // noneSharedVariables 항목들을 표 형태로 그리기
                 foreach (var noneSharedVariable in noneSharedVariables)
                 {
-                    string[] parts = noneSharedVariable.Split(new[] { " - " }, System.StringSplitOptions.None);
-                    string nodeName = parts[0];
-                    string variableName = parts[1];
+                    var parts = noneSharedVariable.Split(new[] { " - " }, System.StringSplitOptions.None);
+                    var nodeName = parts[0];
+                    var variableName = parts[1];
 
                     EditorGUILayout.BeginHorizontal("box");
                     GUILayout.Label(nodeName, nodeNameStyle, GUILayout.ExpandWidth(true));

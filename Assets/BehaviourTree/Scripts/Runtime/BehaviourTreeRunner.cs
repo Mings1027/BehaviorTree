@@ -1,3 +1,4 @@
+using System;
 using BehaviourTree.Scripts.TreeSharedData;
 using UnityEngine;
 
@@ -19,22 +20,16 @@ namespace BehaviourTree.Scripts.Runtime
             BehaviourTreeManager.AddTree(this);
         }
 
+        private void Start()
+        {
+            var clonedTree = tree.Clone(transform, sharedData);
+            tree = clonedTree;
+            sharedData = clonedTree.SharedData;
+        }
+
         private void OnDisable()
         {
             BehaviourTreeManager.RemoveTree(this);
-        }
-
-        /// <summary>
-        ///  If you don't want to use BehaviourTreeManager then You can change to Awake or Start
-        /// </summary>
-        public void Init()
-        {
-            // Clone the tree and its shared data
-            tree = tree.Clone(transform);
-            sharedData = sharedData.Clone();
-
-            // Initialize the tree
-            tree.Init(sharedData);
         }
 
         /// <summary>

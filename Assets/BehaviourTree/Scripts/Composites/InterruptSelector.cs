@@ -1,6 +1,6 @@
 namespace BehaviourTree.Scripts.Composites
 {
-  public class InterruptSelector : Selector
+    public class InterruptSelector : Selector
     {
         protected override State OnUpdate()
         {

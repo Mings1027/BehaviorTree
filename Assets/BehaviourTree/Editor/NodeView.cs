@@ -42,25 +42,23 @@ namespace BehaviourTree.Editor
 
         private void SetupClasses()
         {
-            if (Node is ConditionNode)
+            switch (Node)
             {
-                AddToClassList("condition");
-            }
-            else if (Node is ActionNode)
-            {
-                AddToClassList("action");
-            }
-            else if (Node is CompositeNode)
-            {
-                AddToClassList("composite");
-            }
-            else if (Node is DecoratorNode)
-            {
-                AddToClassList("decorator");
-            }
-            else if (Node is RootNode)
-            {
-                AddToClassList("root");
+                case ConditionNode:
+                    AddToClassList("condition");
+                    break;
+                case ActionNode:
+                    AddToClassList("action");
+                    break;
+                case CompositeNode:
+                    AddToClassList("composite");
+                    break;
+                case DecoratorNode:
+                    AddToClassList("decorator");
+                    break;
+                case RootNode:
+                    AddToClassList("root");
+                    break;
             }
         }
 

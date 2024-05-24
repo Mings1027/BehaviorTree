@@ -17,14 +17,8 @@ namespace BehaviourTree.Scripts.TreeSharedData
         TransformArray
     }
 
-    public interface IValueContainer
-    {
-        object GetValue();
-        void SetValue(object value);
-    }
-
     [Serializable]
-    public class SharedVariableBase : IValueContainer
+    public class SharedVariableBase
     {
         [SerializeField] private string variableName;
 
@@ -41,6 +35,12 @@ namespace BehaviourTree.Scripts.TreeSharedData
 
         public virtual void SetValue(object value)
         {
+        }
+
+        public virtual SharedVariableBase Clone()
+        {
+            var clone = (SharedVariableBase)MemberwiseClone();
+            return clone;
         }
     }
 
@@ -68,6 +68,13 @@ namespace BehaviourTree.Scripts.TreeSharedData
                 null => default,
                 _ => _value
             };
+        }
+
+        public override SharedVariableBase Clone()
+        {
+            var clone = (SharedVariable<T>)base.Clone();
+            clone._value = _value;
+            return clone;
         }
     }
 

@@ -18,10 +18,10 @@ public class Attack : ActionNode
 
     protected override State OnUpdate()
     {
+        if (!target.Value) return State.Failure;
         if (target.Value.TryGetComponent(out IDamageable damageable))
         {
             damageable.Damage(attackDamage);
-            Debug.Log("Attack");
         }
 
         return State.Success;

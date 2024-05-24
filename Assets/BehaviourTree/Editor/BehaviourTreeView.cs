@@ -33,11 +33,6 @@ namespace BehaviourTree.Editor
         {
             new()
             {
-                templateFile = BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateConditionNode,
-                defaultFileName = "NewConditionNode.cs", subFolder = "Conditions"
-            },
-            new()
-            {
                 templateFile = BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateActionNode,
                 defaultFileName = "NewActionNode.cs", subFolder = "Actions"
             },
@@ -45,6 +40,11 @@ namespace BehaviourTree.Editor
             {
                 templateFile = BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateCompositeNode,
                 defaultFileName = "NewCompositeNode.cs", subFolder = "Composites"
+            },
+            new()
+            {
+                templateFile = BehaviourTreeSettings.GetOrCreateSettings().scriptTemplateConditionNode,
+                defaultFileName = "NewConditionNode.cs", subFolder = "Conditions"
             },
             new()
             {
@@ -88,29 +88,34 @@ namespace BehaviourTree.Editor
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements.ToList());
             graphViewChanged += OnGraphViewChanged;
-            if (_tree.RootNode == null)
+            if (AssetDatabase.Contains(_tree))
             {
-                _tree.RootNode = _tree.CreateNode(typeof(RootNode)) as RootNode;
-                EditorUtility.SetDirty(_tree);
-                AssetDatabase.SaveAssets();
+                if (_tree.RootNode == null)
+                {
+                    _tree.RootNode = _tree.CreateNode(typeof(RootNode)) as RootNode;
+                    EditorUtility.SetDirty(_tree);
+                    AssetDatabase.SaveAssets();
+                }
             }
 
             // Creates node view
             _tree.Nodes.ForEach(CreateNodeView);
 
             // Create edges
-            _tree.Nodes.ForEach(n =>
+            for (var i = 0; i < _tree.Nodes.Count; i++)
             {
+                var n = _tree.Nodes[i];
                 var children = BehaviourTree.Scripts.Runtime.BehaviourTree.GetChildren(n);
-                children.ForEach(c =>
+                for (var j = 0; j < children.Count; j++)
                 {
+                    var c = children[j];
                     var parentView = FindNodeView(n);
                     var childView = FindNodeView(c);
 
                     var edge = parentView.Output.ConnectTo(childView.Input);
                     AddElement(edge);
-                });
-            });
+                }
+            }
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -137,10 +142,10 @@ namespace BehaviourTree.Editor
                 _tree.AddChild(parentView.Node, childView.Node);
             });
 
-            nodes.ForEach(n =>
+            foreach (var n in nodes)
             {
                 if (n is NodeView view) view.SortChildren();
-            });
+            }
 
             return graphViewChange;
         }
@@ -155,28 +160,22 @@ namespace BehaviourTree.Editor
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             // New script functions
-            evt.menu.AppendAction("Create Script.../New Condition Node", _ => CreateNewScript(_scriptFileAssets[0]));
-            evt.menu.AppendAction($"Create Script.../New Action Node", _ => CreateNewScript(_scriptFileAssets[1]));
-            evt.menu.AppendAction($"Create Script.../New Composite Node", _ => CreateNewScript(_scriptFileAssets[2]));
+            evt.menu.AppendAction($"Create Script.../New Action Node", _ => CreateNewScript(_scriptFileAssets[0]));
+            evt.menu.AppendAction($"Create Script.../New Composite Node", _ => CreateNewScript(_scriptFileAssets[1]));
+            evt.menu.AppendAction("Create Script.../New Condition Node", _ => CreateNewScript(_scriptFileAssets[2]));
             evt.menu.AppendAction($"Create Script.../New Decorator Node", _ => CreateNewScript(_scriptFileAssets[3]));
             evt.menu.AppendSeparator();
 
             var nodePosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
-            {
-                var types = TypeCache.GetTypesDerivedFrom<ConditionNode>();
-                foreach (var type in types)
-                {
-                    evt.menu.AppendAction($"[Condition]/{type.Name}", _ => CreateNode(type, nodePosition));
-                }
-            }
+
             {
                 var types = TypeCache.GetTypesDerivedFrom<ActionNode>();
-                foreach (var type in types)
+                for (var i = 0; i < types.Count; i++)
                 {
+                    var type = types[i];
                     evt.menu.AppendAction($"[Action]/{type.Name}", _ => CreateNode(type, nodePosition));
                 }
             }
-
             {
                 var types = TypeCache.GetTypesDerivedFrom<CompositeNode>();
                 foreach (var type in types)
@@ -184,7 +183,14 @@ namespace BehaviourTree.Editor
                     evt.menu.AppendAction($"[Composite]/{type.Name}", _ => CreateNode(type, nodePosition));
                 }
             }
-
+            {
+                var types = TypeCache.GetTypesDerivedFrom<ConditionNode>();
+                for (var i = 0; i < types.Count; i++)
+                {
+                    var type = types[i];
+                    evt.menu.AppendAction($"[Condition]/{type.Name}", _ => CreateNode(type, nodePosition));
+                }
+            }
             {
                 var types = TypeCache.GetTypesDerivedFrom<DecoratorNode>();
                 foreach (var type in types)
@@ -254,10 +260,10 @@ namespace BehaviourTree.Editor
 
         public void UpdateNodeStates()
         {
-            nodes.ForEach(n =>
+            foreach (var n in nodes)
             {
                 if (n is NodeView view) view.UpdateState();
-            });
+            }
         }
 
         public void SaveTree()

@@ -11,9 +11,8 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file:///Applications/Unity/Unity Project/BehaviorTree/Assets/BehaviourTree/Editor/NodeEditor.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file:///Applications/Unity/Unity Project/BehaviorTree/Assets/BehaviourTree/Scripts/Runtime/BehaviourTreeRunner.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file:///Applications/Unity/Unity Project/BehaviorTree/Assets/BehaviourTree/Scripts/TreeSharedData/SharedData.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/BehaviourTree/Scripts/Conditions/CoolTime.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a69a2d96a027463b95774fb1dc6ed416827400/dd/0a900aa4/EditorWindow.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">

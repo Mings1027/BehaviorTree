@@ -7,7 +7,18 @@ namespace Utilities
     public class Health : MonoBehaviour, IDamageable
     {
         [SerializeField] private int initHealth;
+        private Collider _collider;
         private int current;
+
+        private void Awake()
+        {
+            _collider = GetComponent<Collider>();
+        }
+
+        private void OnEnable()
+        {
+            _collider.enabled = true;
+        }
 
         private void Start()
         {
@@ -19,7 +30,7 @@ namespace Utilities
             current -= amount;
             if (current <= 0)
             {
-                Debug.Log("Deaaaaaaaaaaaad");
+                _collider.enabled = false;
                 gameObject.SetActive(false);
             }
         }

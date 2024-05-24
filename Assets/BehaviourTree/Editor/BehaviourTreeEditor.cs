@@ -11,6 +11,7 @@ namespace BehaviourTree.Editor
     public class BehaviourTreeEditor : EditorWindow
     {
         public static BehaviourTree.Scripts.Runtime.BehaviourTree _tree;
+        public static string TreeName;
         public BehaviourTreeView TreeView { get; private set; }
         private InspectorView _inspectorView;
         private ToolbarMenu _toolbarMenu;
@@ -184,7 +185,7 @@ namespace BehaviourTree.Editor
             TreeView.PopulateView();
 
             // Save the selected tree name to EditorPrefs
-            EditorPrefs.SetString("SelectedBehaviourTreeName", _tree.name);
+            TreeName = _tree.name;
 
             EditorApplication.delayCall += () => { TreeView.FrameAll(); };
         }
