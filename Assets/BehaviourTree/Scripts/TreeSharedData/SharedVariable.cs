@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
 
@@ -6,15 +7,26 @@ namespace BehaviourTree.Scripts.TreeSharedData
 {
     public enum SharedVariableType
     {
-        Int,
-        Float,
         AIPath,
-        Transform,
+        Bool,
         Collider,
         ColliderArray,
+        Color,
+        Float,
+        GameObject,
+        GameObjectList,
+        Int,
         LayerMask,
+        Material,
+        Quaternion,
+        Rect,
+        String,
+        Transform,
+        TransformArray,
+        Vector2,
+        Vector2Int,
         Vector3,
-        TransformArray
+        Vector3Int
     }
 
     [Serializable]
@@ -79,24 +91,6 @@ namespace BehaviourTree.Scripts.TreeSharedData
     }
 
     [Serializable]
-    public class SharedInt : SharedVariable<int>
-    {
-        public static implicit operator SharedInt(int value)
-        {
-            return new SharedInt { Value = value };
-        }
-    }
-
-    [Serializable]
-    public class SharedFloat : SharedVariable<float>
-    {
-        public static implicit operator SharedFloat(float value)
-        {
-            return new SharedFloat { Value = value };
-        }
-    }
-
-    [Serializable]
     public class SharedAIPath : SharedVariable<AIPath>
     {
         public static implicit operator SharedAIPath(AIPath value)
@@ -106,11 +100,11 @@ namespace BehaviourTree.Scripts.TreeSharedData
     }
 
     [Serializable]
-    public class SharedTransform : SharedVariable<Transform>
+    public class SharedBool : SharedVariable<bool>
     {
-        public static implicit operator SharedTransform(Transform value)
+        public static implicit operator SharedBool(bool value)
         {
-            return new SharedTransform { Value = value };
+            return new SharedBool { Value = value };
         }
     }
 
@@ -133,11 +127,128 @@ namespace BehaviourTree.Scripts.TreeSharedData
     }
 
     [Serializable]
+    public class SharedColor : SharedVariable<Color>
+    {
+        public static implicit operator SharedColor(Color value)
+        {
+            return new SharedColor { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedFloat : SharedVariable<float>
+    {
+        public static implicit operator SharedFloat(float value)
+        {
+            return new SharedFloat { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedGameObject : SharedVariable<GameObject>
+    {
+        public static implicit operator SharedGameObject(GameObject value)
+        {
+            return new SharedGameObject { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedGameObjectList : SharedVariable<List<GameObject>>
+    {
+        public static implicit operator SharedGameObjectList(List<GameObject> value)
+        {
+            return new SharedGameObjectList { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedInt : SharedVariable<int>
+    {
+        public static implicit operator SharedInt(int value)
+        {
+            return new SharedInt { Value = value };
+        }
+    }
+
+    [Serializable]
     public class SharedLayerMask : SharedVariable<LayerMask>
     {
         public static implicit operator SharedLayerMask(LayerMask value)
         {
             return new SharedLayerMask { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedMaterial : SharedVariable<Material>
+    {
+        public static implicit operator SharedMaterial(Material value)
+        {
+            return new SharedMaterial { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedQuaternion : SharedVariable<Quaternion>
+    {
+        public static implicit operator SharedQuaternion(Quaternion value)
+        {
+            return new SharedQuaternion { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedRect : SharedVariable<Rect>
+    {
+        public static implicit operator SharedRect(Rect value)
+        {
+            return new SharedRect { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedString : SharedVariable<string>
+    {
+        public static implicit operator SharedString(string value)
+        {
+            return new SharedString { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedTransform : SharedVariable<Transform>
+    {
+        public static implicit operator SharedTransform(Transform value)
+        {
+            return new SharedTransform { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedTransformArray : SharedVariable<Transform[]>
+    {
+        public static implicit operator SharedTransformArray(Transform[] value)
+        {
+            return new SharedTransformArray { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedVector2 : SharedVariable<Vector2>
+    {
+        public static implicit operator SharedVector2(Vector2 value)
+        {
+            return new SharedVector2 { Value = value };
+        }
+    }
+
+    [Serializable]
+    public class SharedVector2Int : SharedVariable<Vector2Int>
+    {
+        public static implicit operator SharedVector2Int(Vector2Int value)
+        {
+            return new SharedVector2Int { Value = value };
         }
     }
 
@@ -151,11 +262,11 @@ namespace BehaviourTree.Scripts.TreeSharedData
     }
 
     [Serializable]
-    public class SharedTransformArray : SharedVariable<Transform[]>
+    public class SharedVector3Int : SharedVariable<Vector3Int>
     {
-        public static implicit operator SharedTransformArray(Transform[] value)
+        public static implicit operator SharedVector3Int(Vector3Int value)
         {
-            return new SharedTransformArray { Value = value };
+            return new SharedVector3Int { Value = value };
         }
     }
 }

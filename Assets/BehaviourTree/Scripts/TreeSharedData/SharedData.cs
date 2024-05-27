@@ -12,7 +12,7 @@ namespace BehaviourTree.Scripts.TreeSharedData
         public List<SharedVariableBase> Variables
         {
             get => variables;
-            set => variables = value;
+            private set => variables = value;
         }
 
         private void OnEnable()

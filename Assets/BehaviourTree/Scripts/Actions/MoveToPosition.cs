@@ -16,7 +16,6 @@ namespace BehaviourTree.Scripts.Actions
 
         protected override void OnStart()
         {
-            _aiPath.destination = destination;
         }
 
         protected override void OnStop()
@@ -25,6 +24,7 @@ namespace BehaviourTree.Scripts.Actions
 
         protected override State OnUpdate()
         {
+            _aiPath.destination = destination;
             return State.Success;
         }
     }

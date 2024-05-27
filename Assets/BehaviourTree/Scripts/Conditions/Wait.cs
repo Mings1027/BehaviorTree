@@ -5,8 +5,8 @@ namespace BehaviourTree.Scripts.Conditions
 {
     public class Wait : ConditionNode
     {
-        [SerializeField] private int duration = 1;
         private float _startTime;
+        [SerializeField] private int duration = 1;
 
         protected override void OnStart()
         {

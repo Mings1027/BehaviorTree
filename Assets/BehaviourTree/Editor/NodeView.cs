@@ -160,11 +160,7 @@ namespace BehaviourTree.Editor
                 switch (Node.NodeState)
                 {
                     case Node.State.Running:
-                        if (Node.Started)
-                        {
-                            AddToClassList("running");
-                        }
-
+                        if (Node.Started) AddToClassList("running");
                         break;
                     case Node.State.Failure:
                         AddToClassList("failure");

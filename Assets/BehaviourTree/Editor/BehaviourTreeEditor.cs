@@ -10,8 +10,8 @@ namespace BehaviourTree.Editor
 {
     public class BehaviourTreeEditor : EditorWindow
     {
-        public static BehaviourTree.Scripts.Runtime.BehaviourTree _tree;
-        public static string TreeName;
+        public static BehaviourTree.Scripts.Runtime.BehaviourTree tree;
+        public static string treeName;
         public BehaviourTreeView TreeView { get; private set; }
         private InspectorView _inspectorView;
         private ToolbarMenu _toolbarMenu;
@@ -60,7 +60,7 @@ namespace BehaviourTree.Editor
             _settings = BehaviourTreeSettings.GetOrCreateSettings();
 
             // Each editor window contains a root VisualElement object
-            VisualElement root = rootVisualElement;
+            var root = rootVisualElement;
 
             // Import UXML
             var visualTree = _settings.behaviourTreeXml;
@@ -77,6 +77,9 @@ namespace BehaviourTree.Editor
 
             // Inspector View
             _inspectorView = root.Q<InspectorView>();
+            
+            // Variables View
+            
 
             // Toolbar assets menu
             _toolbarMenu = root.Q<ToolbarMenu>();
@@ -100,13 +103,13 @@ namespace BehaviourTree.Editor
                 _overlay.style.visibility = Visibility.Hidden;
             }
 
-            if (_tree == null)
+            if (tree == null)
             {
                 OnSelectionChange();
             }
             else
             {
-                SelectTree(_tree);
+                SelectTree(tree);
             }
 
             LoadTree();
@@ -114,8 +117,8 @@ namespace BehaviourTree.Editor
 
         private void OnEnable()
         {
-            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
-            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+            // EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            // EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
 
             EditorApplication.quitting -= SaveTree;
             EditorApplication.quitting += SaveTree;
@@ -123,40 +126,39 @@ namespace BehaviourTree.Editor
 
         private void OnDisable()
         {
-            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            // EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
             SaveTree();
         }
 
-        private void OnPlayModeStateChanged(PlayModeStateChange obj)
-        {
-            switch (obj)
-            {
-                case PlayModeStateChange.EnteredEditMode:
-                    LoadTree();
-                    break;
-                case PlayModeStateChange.ExitingEditMode:
-                    SaveTree();
-                    break;
-                case PlayModeStateChange.EnteredPlayMode:
-                    SaveTree();
-                    break;
-                case PlayModeStateChange.ExitingPlayMode:
-                    SaveTree();
-                    break;
-            }
-        }
+        // private void OnPlayModeStateChanged(PlayModeStateChange obj)
+        // {
+        //     switch (obj)
+        //     {
+        //         case PlayModeStateChange.EnteredEditMode:
+        //             LoadTree();
+        //             break;
+        //         case PlayModeStateChange.ExitingEditMode:
+        //             SaveTree();
+        //             break;
+        //         case PlayModeStateChange.EnteredPlayMode:
+        //             SaveTree();
+        //             break;
+        //         case PlayModeStateChange.ExitingPlayMode:
+        //             SaveTree();
+        //             break;
+        //     }
+        // }
 
         private void OnSelectionChange()
         {
             EditorApplication.delayCall += () =>
             {
-                BehaviourTree.Scripts.Runtime.BehaviourTree tree =
-                    Selection.activeObject as BehaviourTree.Scripts.Runtime.BehaviourTree;
+                var tree = Selection.activeObject as BehaviourTree.Scripts.Runtime.BehaviourTree;
                 if (!tree)
                 {
                     if (Selection.activeGameObject)
                     {
-                        BehaviourTreeRunner runner = Selection.activeGameObject.GetComponent<BehaviourTreeRunner>();
+                        var runner = Selection.activeGameObject.GetComponent<BehaviourTreeRunner>();
                         if (runner)
                         {
                             tree = runner.Tree;
@@ -175,7 +177,7 @@ namespace BehaviourTree.Editor
                 return;
             }
 
-            _tree = newTree;
+            tree = newTree;
 
             if (_overlay != null)
             {
@@ -185,7 +187,7 @@ namespace BehaviourTree.Editor
             TreeView.PopulateView();
 
             // Save the selected tree name to EditorPrefs
-            TreeName = _tree.name;
+            treeName = tree.name;
 
             EditorApplication.delayCall += () => { TreeView.FrameAll(); };
         }
@@ -202,9 +204,8 @@ namespace BehaviourTree.Editor
 
         private void CreateNewTree(string assetName)
         {
-            string path = System.IO.Path.Combine(_locationPathField.value, $"{assetName}.asset");
-            BehaviourTree.Scripts.Runtime.BehaviourTree tree =
-                CreateInstance<BehaviourTree.Scripts.Runtime.BehaviourTree>();
+            var path = System.IO.Path.Combine(_locationPathField.value, $"{assetName}.asset");
+            var tree = CreateInstance<BehaviourTree.Scripts.Runtime.BehaviourTree>();
             tree.name = _treeNameField.value;
             AssetDatabase.CreateAsset(tree, path);
             AssetDatabase.SaveAssets();
@@ -215,22 +216,20 @@ namespace BehaviourTree.Editor
         private void LoadTree()
         {
             var treePath = EditorPrefs.GetString("SelectedBehaviourTreePath");
-            _tree = AssetDatabase.LoadAssetAtPath<BehaviourTree.Scripts.Runtime.BehaviourTree>(treePath);
-            if (_tree != null)
+            tree = AssetDatabase.LoadAssetAtPath<BehaviourTree.Scripts.Runtime.BehaviourTree>(treePath);
+            if (tree != null)
             {
-                SelectTree(_tree);
+                SelectTree(tree);
                 TreeView.LoadTree();
             }
         }
 
         private void SaveTree()
         {
-            if (_tree != null)
+            if (tree != null)
             {
-                EditorPrefs.SetString("SelectedBehaviourTreePath", AssetDatabase.GetAssetPath(_tree));
+                EditorPrefs.SetString("SelectedBehaviourTreePath", AssetDatabase.GetAssetPath(tree));
                 TreeView.SaveTree();
-                EditorUtility.SetDirty(_tree);
-                AssetDatabase.SaveAssets();
             }
         }
     }

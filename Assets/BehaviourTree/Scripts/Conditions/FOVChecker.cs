@@ -41,6 +41,7 @@ namespace BehaviourTree.Scripts.Conditions
             return State.Failure;
         }
 
+#if UNITY_EDITOR
         public override void OnDrawGizmos()
         {
             if (nodeTransform == null) return;
@@ -52,5 +53,6 @@ namespace BehaviourTree.Scripts.Conditions
 
             Handles.DrawSolidArc(nodeTransform.position, Vector3.up, leftBoundary, viewAngle * 2, attackRange.Value);
         }
+#endif
     }
 }

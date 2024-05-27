@@ -60,12 +60,12 @@ namespace BehaviourTree.Scripts.Runtime
             }
         }
 
-        public BehaviourTree Clone(Transform transform, SharedData sharedData)
+        public BehaviourTree Clone(Transform transform)
         {
             var tree = Instantiate(this);
             tree.rootNode = tree.rootNode.Clone();
             tree.nodes = new List<Node>();
-            tree.SharedData = sharedData.Clone();
+            tree.SharedData = rootNode.SharedData.Clone();
             Traverse(tree.rootNode, n =>
             {
                 tree.nodes.Add(n);

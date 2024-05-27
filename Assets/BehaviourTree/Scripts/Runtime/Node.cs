@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Reflection;
 using BehaviourTree.Scripts.TreeSharedData;
-using UnityEditor;
 using UnityEngine;
 
 namespace BehaviourTree.Scripts.Runtime
@@ -96,15 +94,6 @@ namespace BehaviourTree.Scripts.Runtime
 
 #endregion
 
-        public virtual void OnDrawGizmos()
-        {
-        }
-
-        public void SetSharedData(SharedData sharedData)
-        {
-            this.sharedData = sharedData;
-        }
-
         protected SharedVariableBase GetSharedVariable(string variableName)
         {
             if (sharedData != null && sharedData.Variables != null)
@@ -142,5 +131,16 @@ namespace BehaviourTree.Scripts.Runtime
                 }
             }
         }
+
+#if UNITY_EDITOR
+        public virtual void OnDrawGizmos()
+        {
+        }
+
+        public void SetSharedData(SharedData sharedData)
+        {
+            this.sharedData = sharedData;
+        }
+#endif
     }
 }

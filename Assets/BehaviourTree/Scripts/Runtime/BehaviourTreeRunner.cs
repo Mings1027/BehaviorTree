@@ -13,7 +13,6 @@ namespace BehaviourTree.Scripts.Runtime
         public BehaviourTree Tree => tree;
 #endif
         [SerializeField] private BehaviourTree tree;
-        [SerializeField] private SharedData sharedData;
 
         private void OnEnable()
         {
@@ -22,9 +21,8 @@ namespace BehaviourTree.Scripts.Runtime
 
         private void Start()
         {
-            var clonedTree = tree.Clone(transform, sharedData);
+            var clonedTree = tree.Clone(transform);
             tree = clonedTree;
-            sharedData = clonedTree.SharedData;
         }
 
         private void OnDisable()
@@ -40,7 +38,7 @@ namespace BehaviourTree.Scripts.Runtime
             tree.TreeUpdate();
         }
 
-        [System.Diagnostics.Conditional("UNITY_EDITOR")]
+#if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
             if (!tree)
@@ -56,5 +54,6 @@ namespace BehaviourTree.Scripts.Runtime
                 }
             });
         }
+#endif
     }
 }

@@ -12,23 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
   m_Name: Repeat
   m_EditorClassIdentifier: 
+  position: {x: -22, y: 4}
   guid: e37bfc8a2b7af334cafeb1a6108bc586
   description: 
   drawGizmos: 0
-  state: 0
-  started: 0
-  position: {x: -22, y: 4}
-  sharedData:
-    sharedInt:
-      <value>k__BackingField: 0
-    sharedFloat:
-      <value>k__BackingField: 0
-    sharedTransform:
-      <value>k__BackingField: {fileID: 0}
-    sharedCollider:
-      <value>k__BackingField: {fileID: 0}
-    sharedAIPath:
-      <value>k__BackingField: {fileID: 0}
+  sharedData: {fileID: 0}
   child: {fileID: -5660333016957678146}
   restartOnSuccess: 1
   restartOnFailure: 0
@@ -44,23 +32,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
   m_Name: Sequencer
   m_EditorClassIdentifier: 
+  position: {x: -22, y: 118}
   guid: 74a286b60eaf8ea45b9bd84db9ce177b
   description: 
   drawGizmos: 0
-  state: 0
-  started: 0
-  position: {x: -22, y: 118}
-  sharedData:
-    sharedInt:
-      <value>k__BackingField: 0
-    sharedFloat:
-      <value>k__BackingField: 0
-    sharedTransform:
-      <value>k__BackingField: {fileID: 0}
-    sharedCollider:
-      <value>k__BackingField: {fileID: 0}
-    sharedAIPath:
-      <value>k__BackingField: {fileID: 0}
+  sharedData: {fileID: 0}
   children:
   - {fileID: 5156664899977504085}
   - {fileID: -2247863421084346560}
@@ -77,23 +53,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
+  position: {x: 148, y: 289}
   guid: d654e6bf449ef0a4e9d4228651cef97e
   description: 
   drawGizmos: 0
-  state: 0
-  started: 0
-  position: {x: 148, y: 289}
-  sharedData:
-    sharedInt:
-      <value>k__BackingField: 0
-    sharedFloat:
-      <value>k__BackingField: 0
-    sharedTransform:
-      <value>k__BackingField: {fileID: 0}
-    sharedCollider:
-      <value>k__BackingField: {fileID: 0}
-    sharedAIPath:
-      <value>k__BackingField: {fileID: 0}
+  sharedData: {fileID: 0}
   duration: 1
 --- !u!114 &-2247863421084346560
 MonoBehaviour:
@@ -107,23 +71,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4489e3e257543504c8fc9f891246af6c, type: 3}
   m_Name: MoveToPosition
   m_EditorClassIdentifier: 
+  position: {x: -22, y: 289}
   guid: 6bc6981b00778a744bc6d4097134e636
   description: 
   drawGizmos: 0
-  state: 0
-  started: 0
-  position: {x: -22, y: 289}
-  sharedData:
-    sharedInt:
-      <value>k__BackingField: 0
-    sharedFloat:
-      <value>k__BackingField: 0
-    sharedTransform:
-      <value>k__BackingField: {fileID: 0}
-    sharedCollider:
-      <value>k__BackingField: {fileID: 0}
-    sharedAIPath:
-      <value>k__BackingField: {fileID: 0}
+  sharedData: {fileID: 0}
+  destination: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,7 +90,6 @@ MonoBehaviour:
   m_Name: BasicRoaming
   m_EditorClassIdentifier: 
   rootNode: {fileID: 4300890025194573056}
-  treeState: 0
   nodes:
   - {fileID: 4300890025194573056}
   - {fileID: -8754077107127582826}
@@ -145,17 +97,6 @@ MonoBehaviour:
   - {fileID: -4755641854017797634}
   - {fileID: -2247863421084346560}
   - {fileID: 5156664899977504085}
-  sharedData:
-    sharedInt:
-      <value>k__BackingField: 0
-    sharedFloat:
-      <value>k__BackingField: 0
-    sharedTransform:
-      <value>k__BackingField: {fileID: 0}
-    sharedCollider:
-      <value>k__BackingField: {fileID: 0}
-    sharedAIPath:
-      <value>k__BackingField: {fileID: 0}
 --- !u!114 &4300890025194573056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,23 +109,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 163c147d123e4a945b688eddc64e3ea5, type: 3}
   m_Name: RootNode
   m_EditorClassIdentifier: 
+  position: {x: -22, y: -102}
   guid: ca00e6aa7ca72c144ae99d826e0d13e4
   description: 
   drawGizmos: 0
-  state: 0
-  started: 0
-  position: {x: -22, y: -102}
-  sharedData:
-    sharedInt:
-      <value>k__BackingField: 0
-    sharedFloat:
-      <value>k__BackingField: 0
-    sharedTransform:
-      <value>k__BackingField: {fileID: 0}
-    sharedCollider:
-      <value>k__BackingField: {fileID: 0}
-    sharedAIPath:
-      <value>k__BackingField: {fileID: 0}
+  sharedData: {fileID: 0}
   child: {fileID: -8754077107127582826}
 --- !u!114 &5156664899977504085
 MonoBehaviour:
@@ -196,26 +125,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9be2344f233174f00ab84680954b4195, type: 3}
-  m_Name: WithInSight
+  m_Name: RangeChecker
   m_EditorClassIdentifier: 
+  position: {x: -207, y: 289}
   guid: 5f854c23c6bc649009600570c899b191
   description: 
   drawGizmos: 0
-  state: 0
-  started: 0
-  position: {x: -207, y: 289}
-  sharedData:
-    sharedInt:
-      <value>k__BackingField: 0
-    sharedFloat:
-      <value>k__BackingField: 0
-    sharedTransform:
-      <value>k__BackingField: {fileID: 0}
-    sharedCollider:
-      <value>k__BackingField: {fileID: 0}
-    sharedAIPath:
-      <value>k__BackingField: {fileID: 0}
+  sharedData: {fileID: 0}
+  target:
+    variableName: 
+    _value: {fileID: 0}
   detectRange: 3
+  viewAngle: 45
   targetLayer:
     serializedVersion: 2
     m_Bits: 16
+  targetColliders: []

@@ -21,6 +21,7 @@ namespace BehaviourTree.Scripts.Actions
         protected override void OnStart()
         {
             _aiPath.destination = target.Value.transform.position;
+
         }
 
         protected override void OnStop()
@@ -29,15 +30,6 @@ namespace BehaviourTree.Scripts.Actions
 
         protected override State OnUpdate()
         {
-            // if (Vector3.Distance(nodeTransform.position, target.Value.transform.position) <= attackRange.Value)
-            // {
-            //     _aiPath.destination = nodeTransform.position;
-            // }
-            // else
-            {
-                // _aiPath.destination = target.Value.transform.position;
-            }
-
             return State.Success;
         }
     }

@@ -11,7 +11,25 @@ namespace BehaviourTree.Scripts.Runtime
             set => child = value;
         }
 
+        public override SharedData SharedData
+        {
+            get => base.SharedData;
+            set
+            {
+                base.SharedData = value;
+                TraverseChildrenAndSetSharedData(this, value);
+            }
+        }
+
         [SerializeField] private Node child;
+
+        public void OnValidate()
+        {
+            if (SharedData != null)
+            {
+                TraverseChildrenAndSetSharedData(this, SharedData);
+            }
+        }
 
         public override Node Clone()
         {
@@ -31,24 +49,6 @@ namespace BehaviourTree.Scripts.Runtime
         protected override State OnUpdate()
         {
             return Child != null ? Child.Update() : State.Failure;
-        }
-
-        public override SharedData SharedData
-        {
-            get => base.SharedData;
-            set
-            {
-                base.SharedData = value;
-                TraverseChildrenAndSetSharedData(this, value);
-            }
-        }
-
-        public void OnValidate()
-        {
-            if (SharedData != null)
-            {
-                TraverseChildrenAndSetSharedData(this, SharedData);
-            }
         }
 
         private void TraverseChildrenAndSetSharedData(Node node, SharedData sharedData)
@@ -82,5 +82,35 @@ namespace BehaviourTree.Scripts.Runtime
                 node.SharedData = sharedData;
             }
         }
+
+#if UNITY_EDITOR
+        public override void OnDrawGizmos()
+        {
+            base.OnDrawGizmos();
+            if (child)
+            {
+                TraverseDrawGizmos(child);
+            }
+        }
+
+        private void TraverseDrawGizmos(Node node)
+        {
+            node.OnDrawGizmos();
+            if (node is CompositeNode compositeNode)
+            {
+                for (var i = 0; i < compositeNode.Children.Count; i++)
+                {
+                    TraverseDrawGizmos(compositeNode.Children[i]);
+                }
+            }
+            else if (node is DecoratorNode decoratorNode)
+            {
+                if (decoratorNode.Child)
+                {
+                    TraverseDrawGizmos(decoratorNode.Child);
+                }
+            }
+        }
+#endif
     }
 }

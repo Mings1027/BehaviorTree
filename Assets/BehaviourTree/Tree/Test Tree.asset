@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6195684379338954028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 163c147d123e4a945b688eddc64e3ea5, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  position: {x: -3, y: -444.1599}
+  guid: 9e5d2464c4625451e85efdd81f9a3ea6
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 91b90b8552cee4cfda2497937f5e4e74, type: 2}
+  child: {fileID: -3164756679262989046}
+--- !u!114 &-3164756679262989046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  position: {x: -3, y: -336.1599}
+  guid: ce0d4c2fae090495ea6689eb446f672e
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 91b90b8552cee4cfda2497937f5e4e74, type: 2}
+  child: {fileID: 7308431854865256808}
+  restartOnSuccess: 1
+  restartOnFailure: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d285eb63c2cdd74180de7cfceaa96ad, type: 3}
+  m_Name: Test Tree
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: -6195684379338954028}
+  nodes:
+  - {fileID: -6195684379338954028}
+  - {fileID: -3164756679262989046}
+  - {fileID: 7308431854865256808}
+  - {fileID: 9113771378743439230}
+  - {fileID: 3353779164935600547}
+--- !u!114 &3353779164935600547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d6e23628c683482aaa0dacd57dcb7e5, type: 3}
+  m_Name: TestActionNode
+  m_EditorClassIdentifier: 
+  position: {x: -184, y: 38.440002}
+  guid: 4e09c2a6e38d44326a387d7bd413ab5e
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 91b90b8552cee4cfda2497937f5e4e74, type: 2}
+  sharedQuaternion:
+    variableName: sharedQuaternion
+    _value: {x: 0, y: 0.5, z: 0, w: 0.8660254}
+--- !u!114 &7308431854865256808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be9e34c566ea45b9e282b1adcb028, type: 3}
+  m_Name: Selector
+  m_EditorClassIdentifier: 
+  position: {x: -3, y: -220.15991}
+  guid: 0c7b7ec401457429fa1e4a550d59d6f3
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 91b90b8552cee4cfda2497937f5e4e74, type: 2}
+  children:
+  - {fileID: 9113771378743439230}
+--- !u!114 &9113771378743439230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: -184, y: -89}
+  guid: cbc798e2a7a7440ba964aba6e0414f34
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 91b90b8552cee4cfda2497937f5e4e74, type: 2}
+  children:
+  - {fileID: 3353779164935600547}

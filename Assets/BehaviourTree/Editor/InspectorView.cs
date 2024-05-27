@@ -11,10 +11,6 @@ namespace BehaviourTree.Editor
 
         private UnityEditor.Editor _editor;
 
-        public InspectorView()
-        {
-        }
-
         internal void UpdateSelection(NodeView nodeView)
         {
             Clear();
@@ -23,8 +19,15 @@ namespace BehaviourTree.Editor
                 Object.DestroyImmediate(_editor);
             }
 
+            if (nodeView?.Node == null)
+            {
+                var nullLabel = new Label("No Node selected or Node is null.");
+                Add(nullLabel);
+                return;
+            }
+
             _editor = UnityEditor.Editor.CreateEditor(nodeView.Node);
-            IMGUIContainer container = new IMGUIContainer(() =>
+            var container = new IMGUIContainer(() =>
             {
                 if (_editor.target)
                 {

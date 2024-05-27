@@ -84,7 +84,7 @@ namespace BehaviourTree.Editor
 
         internal void PopulateView()
         {
-            _tree = BehaviourTreeEditor._tree;
+            _tree = BehaviourTreeEditor.tree;
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements.ToList());
             graphViewChanged += OnGraphViewChanged;
@@ -129,17 +129,15 @@ namespace BehaviourTree.Editor
 
                 if (elem is Edge edge)
                 {
-                    var parentView = edge.output.node as NodeView;
-                    var childView = edge.input.node as NodeView;
-                    _tree.RemoveChild(parentView.Node, childView.Node);
+                    if (edge.output.node is NodeView parentView && edge.input.node is NodeView childView)
+                        _tree.RemoveChild(parentView.Node, childView.Node);
                 }
             });
 
             graphViewChange.edgesToCreate?.ForEach(edge =>
             {
-                var parentView = edge.output.node as NodeView;
-                var childView = edge.input.node as NodeView;
-                _tree.AddChild(parentView.Node, childView.Node);
+                if (edge.output.node is NodeView parentView && edge.input.node is NodeView childView)
+                    _tree.AddChild(parentView.Node, childView.Node);
             });
 
             foreach (var n in nodes)
@@ -160,63 +158,41 @@ namespace BehaviourTree.Editor
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             // New script functions
-            evt.menu.AppendAction($"Create Script.../New Action Node", _ => CreateNewScript(_scriptFileAssets[0]));
-            evt.menu.AppendAction($"Create Script.../New Composite Node", _ => CreateNewScript(_scriptFileAssets[1]));
+            evt.menu.AppendAction("Create Script.../New Action Node", _ => CreateNewScript(_scriptFileAssets[0]));
+            evt.menu.AppendAction("Create Script.../New Composite Node", _ => CreateNewScript(_scriptFileAssets[1]));
             evt.menu.AppendAction("Create Script.../New Condition Node", _ => CreateNewScript(_scriptFileAssets[2]));
-            evt.menu.AppendAction($"Create Script.../New Decorator Node", _ => CreateNewScript(_scriptFileAssets[3]));
+            evt.menu.AppendAction("Create Script.../New Decorator Node", _ => CreateNewScript(_scriptFileAssets[3]));
             evt.menu.AppendSeparator();
 
             var nodePosition = this.ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
 
+            AddNodeCreationMenuItems(evt, nodePosition, typeof(ActionNode), "[Action]");
+            AddNodeCreationMenuItems(evt, nodePosition, typeof(CompositeNode), "[Composite]");
+            AddNodeCreationMenuItems(evt, nodePosition, typeof(ConditionNode), "[Condition]");
+            AddNodeCreationMenuItems(evt, nodePosition, typeof(DecoratorNode), "[Decorator]");
+        }
+
+        private void AddNodeCreationMenuItems(ContextualMenuPopulateEvent evt, Vector2 nodePosition, Type baseType,
+            string menuPath)
+        {
+            var types = TypeCache.GetTypesDerivedFrom(baseType);
+            foreach (var type in types)
             {
-                var types = TypeCache.GetTypesDerivedFrom<ActionNode>();
-                for (var i = 0; i < types.Count; i++)
-                {
-                    var type = types[i];
-                    evt.menu.AppendAction($"[Action]/{type.Name}", _ => CreateNode(type, nodePosition));
-                }
-            }
-            {
-                var types = TypeCache.GetTypesDerivedFrom<CompositeNode>();
-                foreach (var type in types)
-                {
-                    evt.menu.AppendAction($"[Composite]/{type.Name}", _ => CreateNode(type, nodePosition));
-                }
-            }
-            {
-                var types = TypeCache.GetTypesDerivedFrom<ConditionNode>();
-                for (var i = 0; i < types.Count; i++)
-                {
-                    var type = types[i];
-                    evt.menu.AppendAction($"[Condition]/{type.Name}", _ => CreateNode(type, nodePosition));
-                }
-            }
-            {
-                var types = TypeCache.GetTypesDerivedFrom<DecoratorNode>();
-                foreach (var type in types)
-                {
-                    evt.menu.AppendAction($"[Decorator]/{type.Name}", _ => CreateNode(type, nodePosition));
-                }
+                evt.menu.AppendAction($"{menuPath}/{type.Name}", _ => CreateNode(type, nodePosition));
             }
         }
 
         private void SelectFolder(string path)
         {
-            // https://forum.unity.com/threads/selecting-a-folder-in-the-project-via-button-in-editor-window.355357/
-            // Check the path has no '/' at the end, if it does remove it,
-            // Obviously in this example it doesn't but it might
-            // if your getting the path some other way.
-
+            // 경로가 '/'로 끝나는 경우, '/'를 제거하여 경로를 수정
             if (path[path.Length - 1] == '/')
                 path = path.Substring(0, path.Length - 1);
 
-            // Load object
+            // 주어진 경로에 있는 Asset을 불러옴
             var obj = AssetDatabase.LoadAssetAtPath(path, typeof(UnityEngine.Object));
-
-            // Select the object in the project folder
+            // 불러온 Asset을 선택 상태로 만듦
             Selection.activeObject = obj;
-
-            // Also flash the folder yellow to highlight it
+            // 에디터에서 해당 Asset을 하이라이트 (핑)함
             EditorGUIUtility.PingObject(obj);
         }
 

@@ -1,29 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using BehaviourTree.Scripts.Runtime;
+using UnityEngine;
 
-public class Cooltime : ConditionNode
+namespace BehaviourTree.Scripts.Conditions
 {
-    private float _cooldownEndTime;
-    [SerializeField] private float cooldownTime;
-
-    protected override void OnStart()
+    public class CoolTime : ConditionNode
     {
-    }
+        private float _cooldownEndTime;
+        [SerializeField] private float cooldownTime;
 
-    protected override void OnStop()
-    {
-    }
-
-    protected override State OnUpdate()
-    {
-        if (Time.time >= _cooldownEndTime)
+        public override void OnAwake()
         {
-            _cooldownEndTime = Time.time + cooldownTime;
-            return State.Failure;
+            _cooldownEndTime = Time.time;
         }
 
-        return State.Success;
+        protected override void OnStart()
+        {
+        }
+
+        protected override void OnStop()
+        {
+        }
+
+        protected override State OnUpdate()
+        {
+            if (Time.time >= _cooldownEndTime)
+            {
+                _cooldownEndTime = Time.time + cooldownTime;
+                return State.Failure;
+            }
+
+            return State.Success;
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using BehaviourTree.Scripts.TreeSharedData;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 // using Utilities;
@@ -10,7 +11,18 @@ namespace BehaviourTree.Scripts
     {
         private void Start()
         {
-            CopyTest();
+            RotateTest();
+        }
+
+        private async UniTaskVoid RotateTest()
+        {
+            var count = 0;
+            while (count <= 10)
+            {
+                await UniTask.Delay(1000, cancellationToken: this.GetCancellationTokenOnDestroy());
+                transform.Rotate(new Vector3(0, 60, 0));
+                count++;
+            }
         }
 
         private void InstanceTest()
