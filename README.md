@@ -1,3 +1,6 @@
+노드 기반의 Behavior Tree Editor입니다.
+Behavior Designer를 참고해 제작하였습니다.
+
 ![스크린샷 2024-05-21 오후 3 32 32](https://github.com/Mings1027/Mings1027/assets/100500113/072b5a19-0dfa-4056-b3c9-9b2262f8cac5)
 
 ![스크린샷 2024-05-30 오전 11 44 57](https://github.com/Mings1027/Mings1027/assets/100500113/be2aeba7-523d-42a0-afd1-4a91d3f501de)
