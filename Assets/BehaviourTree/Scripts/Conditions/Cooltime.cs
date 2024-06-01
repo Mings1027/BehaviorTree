@@ -8,7 +8,7 @@ namespace BehaviourTree.Scripts.Conditions
         private float _cooldownEndTime;
         [SerializeField] private float cooldownTime;
 
-        public override void OnAwake()
+        protected override void OnAwake()
         {
             _cooldownEndTime = Time.time;
         }
@@ -17,19 +17,19 @@ namespace BehaviourTree.Scripts.Conditions
         {
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             if (Time.time >= _cooldownEndTime)
             {
                 _cooldownEndTime = Time.time + cooldownTime;
-                return State.Failure;
+                return TaskState.Failure;
             }
 
-            return State.Success;
+            return TaskState.Success;
         }
     }
 }

@@ -1,29 +1,30 @@
 using UnityEngine;
 using BehaviourTree.Scripts.Runtime;
-using BehaviourTree.Scripts.TreeSharedData;
+using BehaviourTree.Scripts.TreeData;
 using InterfaceFolder;
 
 public class Attack : ActionNode
 {
     public SharedCollider target;
+    
     [SerializeField] private int attackDamage;
 
     protected override void OnStart()
     {
     }
 
-    protected override void OnStop()
+    protected override void OnEnd()
     {
     }
 
-    protected override State OnUpdate()
+    protected override TaskState OnUpdate()
     {
-        if (!target.Value) return State.Failure;
+        if (!target.Value) return TaskState.Failure;
         if (target.Value.TryGetComponent(out IDamageable damageable))
         {
             damageable.Damage(attackDamage);
         }
 
-        return State.Success;
+        return TaskState.Success;
     }
 }

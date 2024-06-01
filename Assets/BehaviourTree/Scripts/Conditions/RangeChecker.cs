@@ -1,5 +1,5 @@
 using BehaviourTree.Scripts.Runtime;
-using BehaviourTree.Scripts.TreeSharedData;
+using BehaviourTree.Scripts.TreeData;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,24 +8,17 @@ namespace BehaviourTree.Scripts.Conditions
     public class RangeChecker : ConditionNode
     {
         public SharedCollider target;
+        
         [SerializeField] private int detectRange;
         [SerializeField] private int viewAngle = 45;
         [SerializeField] private LayerMask targetLayer;
         [SerializeField] private Collider[] targetColliders;
-        
+
         private float _curRange;
 
-        protected override void OnStart()
+        protected override TaskState OnUpdate()
         {
-        }
-
-        protected override void OnStop()
-        {
-        }
-
-        protected override State OnUpdate()
-        {
-            if (target.Value && target.Value.enabled) return State.Success;
+            if (target.Value && target.Value.enabled) return TaskState.Success;
 
             _curRange = 0f;
             while (_curRange <= detectRange)
@@ -39,7 +32,7 @@ namespace BehaviourTree.Scripts.Conditions
                     if (angleToTarget <= viewAngle)
                     {
                         target.Value = targetColliders[0];
-                        return State.Success;
+                        return TaskState.Success;
                     }
                 }
 
@@ -47,7 +40,7 @@ namespace BehaviourTree.Scripts.Conditions
             }
 
             target.Value = null;
-            return State.Failure;
+            return TaskState.Failure;
         }
 
 #if UNITY_EDITOR

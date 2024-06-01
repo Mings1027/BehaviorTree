@@ -8,14 +8,14 @@ namespace BehaviourTree.Scripts.Decorators
         {
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             var childState = child.Update();
-            return childState == State.Failure ? State.Success : childState;
+            return childState == TaskState.Failure ? TaskState.Success : childState;
         }
     }
 }

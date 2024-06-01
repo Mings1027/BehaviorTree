@@ -1,25 +1,26 @@
 using BehaviourTree.Scripts.Runtime;
-using BehaviourTree.Scripts.TreeSharedData;
+using BehaviourTree.Scripts.TreeData;
+using Pathfinding;
+using UnityEngine;
 
 public class ReayToAttack : ConditionNode
 {
     public SharedCollider target;
+    
+    [SerializeField] private float attackRange;
 
-    protected override void OnStart()
+    protected override void OnAwake()
     {
+        nodeTransform.GetComponent<AIPath>().endReachedDistance = attackRange;
     }
 
-    protected override void OnStop()
-    {
-    }
-
-    protected override State OnUpdate()
+    protected override TaskState OnUpdate()
     {
         if (target.Value && target.Value.enabled)
         {
-            return State.Success;
+            return TaskState.Success;
         }
 
-        return State.Failure;
+        return TaskState.Failure;
     }
 }

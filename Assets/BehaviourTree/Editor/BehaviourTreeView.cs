@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BehaviourTree.Scripts.Runtime;
-using BehaviourTree.Scripts.TreeSharedData;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -130,14 +129,14 @@ namespace BehaviourTree.Editor
                 if (elem is Edge edge)
                 {
                     if (edge.output.node is NodeView parentView && edge.input.node is NodeView childView)
-                        _tree.RemoveChild(parentView.Node, childView.Node);
+                        Scripts.Runtime.BehaviourTree.RemoveChild(parentView.Node, childView.Node);
                 }
             });
 
             graphViewChange.edgesToCreate?.ForEach(edge =>
             {
                 if (edge.output.node is NodeView parentView && edge.input.node is NodeView childView)
-                    _tree.AddChild(parentView.Node, childView.Node);
+                    Scripts.Runtime.BehaviourTree.AddChild(parentView.Node, childView.Node);
             });
 
             foreach (var n in nodes)
@@ -212,7 +211,7 @@ namespace BehaviourTree.Editor
 
         public void CreateNode(Type type)
         {
-            Vector2 position = GetViewCenter();
+            var position = GetViewCenter();
             var node = _tree.CreateNode(type);
             node.position = position;
             CreateNodeView(node);

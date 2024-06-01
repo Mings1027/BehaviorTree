@@ -8,20 +8,20 @@ namespace BehaviourTree.Scripts.Composites
         {
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             for (var i = 0; i < children.Count; i++)
             {
                 var state = children[i].Update();
-                if (state == State.Success) continue;
+                if (state == TaskState.Success) continue;
                 return state;
             }
 
-            return State.Success;
+            return TaskState.Success;
         }
     }
 }

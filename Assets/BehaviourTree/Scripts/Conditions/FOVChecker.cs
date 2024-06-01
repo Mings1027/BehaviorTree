@@ -1,5 +1,5 @@
 using BehaviourTree.Scripts.Runtime;
-using BehaviourTree.Scripts.TreeSharedData;
+using BehaviourTree.Scripts.TreeData;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -20,13 +20,13 @@ namespace BehaviourTree.Scripts.Conditions
         {
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
-            if (!target.Value || !target.Value.enabled) return State.Failure;
+            if (!target.Value || !target.Value.enabled) return TaskState.Failure;
 
             if (Vector3.Distance(nodeTransform.position, target.Value.transform.position) <= attackRange.Value)
             {
@@ -34,11 +34,11 @@ namespace BehaviourTree.Scripts.Conditions
                 var angleToTarget = Vector3.Angle(nodeTransform.forward, directionToTarget);
                 if (angleToTarget <= viewAngle)
                 {
-                    return State.Success;
+                    return TaskState.Success;
                 }
             }
 
-            return State.Failure;
+            return TaskState.Failure;
         }
 
 #if UNITY_EDITOR

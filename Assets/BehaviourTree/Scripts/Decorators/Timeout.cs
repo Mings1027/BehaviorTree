@@ -12,16 +12,16 @@ namespace BehaviourTree.Scripts.Decorators
         {
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             if (Time.time - _startTime > duration)
             {
                 _startTime = Time.time;
-                return State.Failure;
+                return TaskState.Failure;
             }
 
             return child.Update();

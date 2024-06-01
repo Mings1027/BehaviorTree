@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BehaviourTree.Scripts.Runtime;
-using BehaviourTree.Scripts.TreeSharedData;
+using BehaviourTree.Scripts.TreeData;
 using Pathfinding;
 using UnityEditor;
 using UnityEngine;
@@ -735,9 +735,13 @@ namespace BehaviourTree.Editor
             var node = (Node)target;
 
             DrawDescriptionField();
+            DrawHorizontalLine(Color.gray);
             DrawSharedDataField(node);
+            DrawHorizontalLine(Color.gray);
             DrawSharedVariableFields(node);
+            DrawHorizontalLine(Color.gray);
             DrawNonSharedVariableFields(node);
+            DrawHorizontalLine(Color.gray);
         }
 
         // 설명 필드를 그리는 함수
@@ -762,116 +766,171 @@ namespace BehaviourTree.Editor
             }
         }
 
-        // Shared 변수를 그리는 함수
         private void DrawSharedVariableFields(Node node)
         {
+            // "Shared Variables" 라벨을 굵은 글씨로 출력
             EditorGUILayout.LabelField("Shared Variables", EditorStyles.boldLabel);
+
+            // 변수 값 표시 여부를 토글하는 UI를 생성
             _showValues = EditorGUILayout.Toggle("Show Values", _showValues);
 
-            foreach (var kvp in node.GetType()
-                         .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                         .Where(field => typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
-                         .Select(field =>
-                             new KeyValuePair<string, SharedVariableBase>(field.Name,
-                                 (SharedVariableBase)field.GetValue(node))))
+            // Node 클래스에서 모든 SharedVariableBase 타입 필드를 가져와서 처리
+            var sharedVariables = node.GetType()
+                .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(field => typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
+                .Select(field =>
+                    new KeyValuePair<string, SharedVariableBase>(field.Name, (SharedVariableBase)field.GetValue(node)));
+
+            foreach (var kvp in sharedVariables)
             {
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField(kvp.Key, GUILayout.MinWidth(100));
+                DrawSharedVariableField(node, kvp);
+            }
+        }
 
-                var variableStyle = new GUIStyle(GUI.skin.label);
-                if (string.IsNullOrEmpty(kvp.Value.VariableName))
+        private void DrawSharedVariableField(Node node, KeyValuePair<string, SharedVariableBase> kvp)
+        {
+            // 각 필드의 이름과 해당 변수를 출력할 수 있는 UI를 생성
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(kvp.Key, GUILayout.MinWidth(100));
+
+            var variableStyle = new GUIStyle(GUI.skin.label);
+            if (string.IsNullOrEmpty(kvp.Value.VariableName))
+            {
+                variableStyle.normal.textColor = new Color(1.0f, 0.5f, 0f);
+                variableStyle.fontStyle = FontStyle.Bold;
+            }
+
+            // 현재 변수 이름 및 모든 변수 이름 목록을 가져오기
+            var variableNames = node.SharedData.Variables
+                .Where(v => v.GetType() == kvp.Value.GetType())
+                .Select(v => v.VariableName)
+                .ToList();
+
+            // "(None)" 옵션 추가
+            variableNames.Insert(0, "(None)");
+
+            // 현재 변수 이름에 해당하는 인덱스를 찾기
+            var currentIndex = string.IsNullOrEmpty(kvp.Value.VariableName)
+                ? 0
+                : variableNames.IndexOf(kvp.Value.VariableName);
+
+            // 드롭다운 메뉴 스타일 설정
+            var popupStyle = new GUIStyle(EditorStyles.popup);
+            if (currentIndex == 0)
+            {
+                popupStyle.normal.textColor = new Color(1.0f, 0.5f, 0f);
+                popupStyle.fontStyle = FontStyle.Bold;
+            }
+
+            // 드롭다운 메뉴 생성
+            var selectedIndex = EditorGUILayout.Popup(currentIndex, variableNames.ToArray(), popupStyle,
+                GUILayout.MinWidth(100));
+            if (selectedIndex != currentIndex)
+            {
+                // 선택한 변수 이름으로 업데이트
+                if (selectedIndex == 0)
                 {
-                    variableStyle.normal.textColor = new Color(1.0f, 0.5f, 0f);
-                    variableStyle.fontStyle = FontStyle.Bold;
+                    kvp.Value.VariableName = string.Empty;
+                    kvp.Value.SetValue(null);
+                }
+                else
+                {
+                    var selectedVariable =
+                        node.SharedData.Variables.First(v => v.VariableName == variableNames[selectedIndex]);
+                    kvp.Value.VariableName = selectedVariable.VariableName;
+                    kvp.Value.SetValue(selectedVariable.GetValue());
                 }
 
-                GUILayout.Label(string.IsNullOrEmpty(kvp.Value.VariableName) ? "(None)" : kvp.Value.VariableName,
-                    variableStyle, GUILayout.MinWidth(100));
-                if (GUILayout.Button("\u25cf", GUILayout.Width(25)))
-                {
-                    ShowAssignMenu(node, kvp.Value);
-                }
+                EditorUtility.SetDirty(node);
+            }
 
-                EditorGUILayout.EndHorizontal();
-                if (_showValues)
-                {
-                    DrawSharedVariableValueFields(kvp.Value);
-                }
+            EditorGUILayout.EndHorizontal();
+
+            // 변수 값을 표시하도록 설정되어 있으면 변수 값 필드를 그리는 함수를 호출
+            if (_showValues)
+            {
+                EditorGUI.indentLevel++;
+                DrawSharedVariableValueFields(kvp.Value);
+                EditorGUI.indentLevel--;
             }
         }
 
         // 메뉴를 표시하는 함수
-        private void ShowAssignMenu(Node node, SharedVariableBase variable)
-        {
-            var menu = new GenericMenu();
-
-            menu.AddItem(new GUIContent("None"), false, () =>
-            {
-                variable.VariableName = string.Empty;
-                variable.SetValue(null);
-                EditorUtility.SetDirty(node);
-            });
-
-            foreach (var sharedVariable in node.SharedData.Variables)
-            {
-                if (sharedVariable.GetType() == variable.GetType())
-                {
-                    menu.AddItem(new GUIContent(sharedVariable.VariableName), false, () =>
-                    {
-                        variable.VariableName = sharedVariable.VariableName;
-                        variable.SetValue(sharedVariable.GetValue());
-                        EditorUtility.SetDirty(node);
-                    });
-                }
-            }
-
-            menu.ShowAsContext();
-        }
+        // private void ShowAssignMenu(Node node, SharedVariableBase variable)
+        // {
+        //     var menu = new GenericMenu();
+        //
+        //     menu.AddItem(new GUIContent("None"), false, () =>
+        //     {
+        //         variable.VariableName = string.Empty;
+        //         variable.SetValue(null);
+        //         EditorUtility.SetDirty(node);
+        //     });
+        //
+        //     foreach (var sharedVariable in node.SharedData.Variables)
+        //     {
+        //         if (sharedVariable.GetType() == variable.GetType())
+        //         {
+        //             menu.AddItem(new GUIContent(sharedVariable.VariableName), false, () =>
+        //             {
+        //                 variable.VariableName = sharedVariable.VariableName;
+        //                 variable.SetValue(sharedVariable.GetValue());
+        //                 EditorUtility.SetDirty(node);
+        //             });
+        //         }
+        //     }
+        //
+        //     menu.ShowAsContext();
+        // }
 
         // Shared 변수 값을 그리는 함수
         private void DrawSharedVariableValueFields(SharedVariableBase variable)
         {
+            const string labelPrefix = "ㄴ ";
+            const string valueLabel = labelPrefix + "Value";
+
             switch (variable)
             {
                 case SharedInt sharedInt:
-                    sharedInt.Value = EditorGUILayout.IntField("Value", sharedInt.Value);
+                    sharedInt.Value = EditorGUILayout.IntField(valueLabel, sharedInt.Value);
                     break;
                 case SharedFloat sharedFloat:
-                    sharedFloat.Value = EditorGUILayout.FloatField("Value", sharedFloat.Value);
+                    sharedFloat.Value = EditorGUILayout.FloatField(valueLabel, sharedFloat.Value);
                     break;
                 case SharedAIPath sharedAIPath:
                     sharedAIPath.Value =
-                        (AIPath)EditorGUILayout.ObjectField("Value", sharedAIPath.Value, typeof(AIPath), true);
+                        (AIPath)EditorGUILayout.ObjectField(valueLabel, sharedAIPath.Value, typeof(AIPath), true);
                     break;
                 case SharedTransform sharedTransform:
                     sharedTransform.Value =
-                        (Transform)EditorGUILayout.ObjectField("Value", sharedTransform.Value, typeof(Transform), true);
+                        (Transform)EditorGUILayout.ObjectField(valueLabel, sharedTransform.Value, typeof(Transform),
+                            true);
                     break;
                 case SharedCollider sharedCollider:
                     sharedCollider.Value =
-                        (Collider)EditorGUILayout.ObjectField("Value", sharedCollider.Value, typeof(Collider), true);
+                        (Collider)EditorGUILayout.ObjectField(valueLabel, sharedCollider.Value, typeof(Collider), true);
                     break;
                 case SharedColliderArray sharedColliderArray:
                     DrawArrayField(sharedColliderArray);
                     break;
                 case SharedLayerMask sharedLayerMask:
-                    sharedLayerMask.Value = EditorGUILayout.LayerField("Value", sharedLayerMask.Value);
+                    sharedLayerMask.Value = EditorGUILayout.LayerField(valueLabel, sharedLayerMask.Value);
                     break;
                 case SharedVector3 sharedVector3:
-                    sharedVector3.Value = EditorGUILayout.Vector3Field("Value", sharedVector3.Value);
+                    sharedVector3.Value = EditorGUILayout.Vector3Field(valueLabel, sharedVector3.Value);
                     break;
                 case SharedTransformArray sharedTransformArray:
                     DrawArrayField(sharedTransformArray);
                     break;
                 case SharedBool sharedBool:
-                    sharedBool.Value = EditorGUILayout.Toggle("Value", sharedBool.Value);
+                    sharedBool.Value = EditorGUILayout.Toggle(valueLabel, sharedBool.Value);
                     break;
                 case SharedColor sharedColor:
-                    sharedColor.Value = EditorGUILayout.ColorField("Value", sharedColor.Value);
+                    sharedColor.Value = EditorGUILayout.ColorField(valueLabel, sharedColor.Value);
                     break;
                 case SharedGameObject sharedGameObject:
                     sharedGameObject.Value =
-                        (GameObject)EditorGUILayout.ObjectField("Value", sharedGameObject.Value, typeof(GameObject),
+                        (GameObject)EditorGUILayout.ObjectField(valueLabel, sharedGameObject.Value, typeof(GameObject),
                             true);
                     break;
                 case SharedGameObjectList sharedGameObjectList:
@@ -879,12 +938,12 @@ namespace BehaviourTree.Editor
                     break;
                 case SharedMaterial sharedMaterial:
                     sharedMaterial.Value =
-                        (Material)EditorGUILayout.ObjectField("Value", sharedMaterial.Value, typeof(Material), true);
+                        (Material)EditorGUILayout.ObjectField(valueLabel, sharedMaterial.Value, typeof(Material), true);
                     break;
                 case SharedQuaternion sharedQuaternion:
                 {
                     var eulerAngles = sharedQuaternion.Value.eulerAngles;
-                    var newEulerAngles = EditorGUILayout.Vector3Field("Value", eulerAngles);
+                    var newEulerAngles = EditorGUILayout.Vector3Field(valueLabel, eulerAngles);
                     if (newEulerAngles != eulerAngles)
                     {
                         sharedQuaternion.Value = Quaternion.Euler(newEulerAngles);
@@ -893,19 +952,19 @@ namespace BehaviourTree.Editor
                     break;
                 }
                 case SharedRect sharedRect:
-                    sharedRect.Value = EditorGUILayout.RectField("Value", sharedRect.Value);
+                    sharedRect.Value = EditorGUILayout.RectField(valueLabel, sharedRect.Value);
                     break;
                 case SharedString sharedString:
-                    sharedString.Value = EditorGUILayout.TextField("Value", sharedString.Value);
+                    sharedString.Value = EditorGUILayout.TextField(valueLabel, sharedString.Value);
                     break;
                 case SharedVector2 sharedVector2:
-                    sharedVector2.Value = EditorGUILayout.Vector2Field("Value", sharedVector2.Value);
+                    sharedVector2.Value = EditorGUILayout.Vector2Field(valueLabel, sharedVector2.Value);
                     break;
                 case SharedVector2Int sharedVector2Int:
-                    sharedVector2Int.Value = EditorGUILayout.Vector2IntField("Value", sharedVector2Int.Value);
+                    sharedVector2Int.Value = EditorGUILayout.Vector2IntField(valueLabel, sharedVector2Int.Value);
                     break;
                 case SharedVector3Int sharedVector3Int:
-                    sharedVector3Int.Value = EditorGUILayout.Vector3IntField("Value", sharedVector3Int.Value);
+                    sharedVector3Int.Value = EditorGUILayout.Vector3IntField(valueLabel, sharedVector3Int.Value);
                     break;
                 default:
                     EditorGUILayout.LabelField("Unsupported SharedVariable type");

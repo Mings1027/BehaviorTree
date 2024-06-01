@@ -6,36 +6,36 @@ namespace BehaviourTree.Scripts.Composites
 {
     public class Parallel : CompositeNode
     {
-        private readonly List<State> _childrenLeftToExecute = new();
+        private readonly List<TaskState> _childrenLeftToExecute = new();
 
         protected override void OnStart()
         {
             _childrenLeftToExecute.Clear();
             for (var i = 0; i < children.Count; i++)
             {
-                _childrenLeftToExecute.Add(State.Running);
+                _childrenLeftToExecute.Add(TaskState.Running);
             }
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             var stillRunning = false;
             for (var i = 0; i < _childrenLeftToExecute.Count; ++i)
             {
-                if (_childrenLeftToExecute[i] == State.Running)
+                if (_childrenLeftToExecute[i] == TaskState.Running)
                 {
                     var status = children[i].Update();
-                    if (status == State.Failure)
+                    if (status == TaskState.Failure)
                     {
                         AbortRunningChildren();
-                        return State.Failure;
+                        return TaskState.Failure;
                     }
 
-                    if (status == State.Running)
+                    if (status == TaskState.Running)
                     {
                         stillRunning = true;
                     }
@@ -44,14 +44,14 @@ namespace BehaviourTree.Scripts.Composites
                 }
             }
 
-            return stillRunning ? State.Running : State.Success;
+            return stillRunning ? TaskState.Running : TaskState.Success;
         }
 
         void AbortRunningChildren()
         {
             for (int i = 0; i < _childrenLeftToExecute.Count; ++i)
             {
-                if (_childrenLeftToExecute[i] == State.Running)
+                if (_childrenLeftToExecute[i] == TaskState.Running)
                 {
                     children[i].Abort();
                 }

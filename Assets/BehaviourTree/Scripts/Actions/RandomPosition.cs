@@ -9,13 +9,13 @@ namespace BehaviourTree.Scripts.Actions
         {
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
-            return State.Success;
+            return TaskState.Success;
         }
     }
 }

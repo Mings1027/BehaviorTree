@@ -13,18 +13,18 @@ namespace BehaviourTree.Scripts.Conditions
             _startTime = Time.time;
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             if (Time.time - _startTime > duration)
             {
-                return State.Success;
+                return TaskState.Success;
             }
 
-            return State.Running;
+            return TaskState.Running;
         }
     }
 }

@@ -12,19 +12,19 @@ namespace BehaviourTree.Scripts.Actions
         {
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             float value = Random.value;
             if (value > chanceOfFailure)
             {
-                return State.Failure;
+                return TaskState.Failure;
             }
 
-            return State.Success;
+            return TaskState.Success;
         }
     }
 }

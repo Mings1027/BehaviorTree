@@ -1,12 +1,12 @@
 using System.Reflection;
-using BehaviourTree.Scripts.TreeSharedData;
+using BehaviourTree.Scripts.TreeData;
 using UnityEngine;
 
 namespace BehaviourTree.Scripts.Runtime
 {
     public abstract class Node : ScriptableObject
     {
-        public enum State
+        public enum TaskState
         {
             Running,
             Failure,
@@ -17,9 +17,9 @@ namespace BehaviourTree.Scripts.Runtime
         [HideInInspector] public string guid;
         [HideInInspector] [TextArea] public string description;
         public bool drawGizmos;
-        public bool Started => _started;
+        public bool TaskStarted => _taskStarted;
 #endif
-        public State NodeState => _state;
+        public TaskState NodeTaskState => _taskState;
 
         public virtual SharedData SharedData
         {
@@ -29,15 +29,15 @@ namespace BehaviourTree.Scripts.Runtime
 
         protected Transform nodeTransform;
 
-        private State _state = State.Running;
-        private bool _started;
+        private TaskState _taskState = TaskState.Running;
+        private bool _taskStarted;
 
         [HideInInspector, SerializeField] protected SharedData sharedData;
 
         public void SetData(Transform transform, SharedData sharedData)
         {
             nodeTransform = transform;
-            this.sharedData = sharedData;
+            SharedData = sharedData;
         }
 
         public virtual Node Clone()
@@ -52,9 +52,9 @@ namespace BehaviourTree.Scripts.Runtime
         {
             BehaviourTree.Traverse(this, node =>
             {
-                node._started = false;
-                node._state = State.Running;
-                node.OnStop();
+                node._taskStarted = false;
+                node._taskState = TaskState.Running;
+                node.OnEnd();
             });
         }
 
@@ -63,33 +63,31 @@ namespace BehaviourTree.Scripts.Runtime
         public virtual void Init()
         {
             AssignSharedVariables();
+            OnAwake();
         }
 
-        public virtual void OnAwake()
-        {
-        }
+        protected virtual void OnAwake() { }
+        protected virtual void OnStart() { }
+        protected virtual TaskState OnUpdate() => TaskState.Running;
+        protected virtual void OnEnd() { }
 
-        protected abstract void OnStart();
-        protected abstract void OnStop();
-        protected abstract State OnUpdate();
-
-        public State Update()
+        public TaskState Update()
         {
-            if (!_started)
+            if (!_taskStarted)
             {
                 OnStart(); // Expensive because Breakpoint Node
-                _started = true;
+                _taskStarted = true;
             }
 
-            _state = OnUpdate(); // Expensive because Attack Node
+            _taskState = OnUpdate(); // Expensive because Attack Node
 
-            if (_state != State.Running)
+            if (_taskState != TaskState.Running)
             {
-                OnStop();
-                _started = false;
+                OnEnd();
+                _taskStarted = false;
             }
 
-            return _state;
+            return _taskState;
         }
 
 #endregion
@@ -133,9 +131,7 @@ namespace BehaviourTree.Scripts.Runtime
         }
 
 #if UNITY_EDITOR
-        public virtual void OnDrawGizmos()
-        {
-        }
+        public virtual void OnDrawGizmos() { }
 
         public void SetSharedData(SharedData sharedData)
         {

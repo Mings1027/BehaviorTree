@@ -11,18 +11,18 @@ namespace BehaviourTree.Scripts.Composites
             current = 0;
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             while (current < children.Count)
             {
                 var child = children[current];
                 var childState = child.Update();
 
-                if (childState is State.Running or State.Success)
+                if (childState is TaskState.Running or TaskState.Success)
                 {
                     return childState;
                 }
@@ -30,7 +30,7 @@ namespace BehaviourTree.Scripts.Composites
                 current++;
             }
 
-            return State.Failure;
+            return TaskState.Failure;
         }
     }
 }

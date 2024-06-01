@@ -20,9 +20,6 @@ MonoBehaviour:
   target:
     variableName: Target
     _value: {fileID: 0}
-  attackRange:
-    variableName: Attack Range
-    _value: 1.5
 --- !u!114 &-7124283510087613190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9be2344f233174f00ab84680954b4195, type: 3}
   m_Name: RangeChecker
   m_EditorClassIdentifier: 
-  position: {x: -75, y: 518}
+  position: {x: -75.00002, y: 518}
   guid: 549b640088caf4cb5aed9cbbe847788b
   description: 
   drawGizmos: 0
@@ -290,5 +287,6 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 1b880c30fe4044c45bd163e7464081ad, type: 2}
   target:
-    variableName: 
+    variableName: Target
     _value: {fileID: 0}
+  attackRange: 1.5

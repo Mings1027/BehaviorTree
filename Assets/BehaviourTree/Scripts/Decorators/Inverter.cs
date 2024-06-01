@@ -8,18 +8,18 @@ namespace BehaviourTree.Scripts.Decorators
         {
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             return child.Update() switch
             {
-                State.Running => State.Running,
-                State.Failure => State.Success,
-                State.Success => State.Failure,
-                _ => State.Failure
+                TaskState.Running => TaskState.Running,
+                TaskState.Failure => TaskState.Success,
+                TaskState.Success => TaskState.Failure,
+                _ => TaskState.Failure
             };
         }
     }

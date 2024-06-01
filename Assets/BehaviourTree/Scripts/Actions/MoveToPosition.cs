@@ -7,9 +7,10 @@ namespace BehaviourTree.Scripts.Actions
     public class MoveToPosition : ActionNode
     {
         private AIPath _aiPath;
+        
         [SerializeField] private Vector3 destination;
 
-        public override void OnAwake()
+        protected override void OnAwake()
         {
             _aiPath = nodeTransform.GetComponent<AIPath>();
         }
@@ -18,14 +19,14 @@ namespace BehaviourTree.Scripts.Actions
         {
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             _aiPath.destination = destination;
-            return State.Success;
+            return TaskState.Success;
         }
     }
 }

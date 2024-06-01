@@ -1,4 +1,4 @@
-using BehaviourTree.Scripts.TreeSharedData;
+using BehaviourTree.Scripts.TreeData;
 using UnityEngine;
 
 namespace BehaviourTree.Scripts.Runtime
@@ -42,13 +42,13 @@ namespace BehaviourTree.Scripts.Runtime
         {
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
-            return Child != null ? Child.Update() : State.Failure;
+            return Child != null ? Child.Update() : TaskState.Failure;
         }
 
         private void TraverseChildrenAndSetSharedData(Node node, SharedData sharedData)

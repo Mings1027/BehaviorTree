@@ -11,24 +11,24 @@ namespace BehaviourTree.Scripts.Decorators
         {
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             switch (child.Update())
             {
-                case State.Running:
+                case TaskState.Running:
                     break;
-                case State.Failure:
-                    return restartOnFailure ? State.Running : State.Failure;
+                case TaskState.Failure:
+                    return restartOnFailure ? TaskState.Running : TaskState.Failure;
 
-                case State.Success:
-                    return restartOnSuccess ? State.Running : State.Success;
+                case TaskState.Success:
+                    return restartOnSuccess ? TaskState.Running : TaskState.Success;
             }
 
-            return State.Running;
+            return TaskState.Running;
         }
     }
 }

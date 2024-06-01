@@ -1,5 +1,3 @@
-using System;
-using BehaviourTree.Scripts.TreeSharedData;
 using UnityEngine;
 
 namespace BehaviourTree.Scripts.Runtime

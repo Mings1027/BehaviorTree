@@ -157,15 +157,15 @@ namespace BehaviourTree.Editor
 
             if (Application.isPlaying)
             {
-                switch (Node.NodeState)
+                switch (Node.NodeTaskState)
                 {
-                    case Node.State.Running:
-                        if (Node.Started) AddToClassList("running");
+                    case Node.TaskState.Running:
+                        if (Node.TaskStarted) AddToClassList("running");
                         break;
-                    case Node.State.Failure:
+                    case Node.TaskState.Failure:
                         AddToClassList("failure");
                         break;
-                    case Node.State.Success:
+                    case Node.TaskState.Success:
                         AddToClassList("success");
                         break;
                 }

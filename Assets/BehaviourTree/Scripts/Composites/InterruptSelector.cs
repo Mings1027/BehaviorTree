@@ -2,12 +2,12 @@ namespace BehaviourTree.Scripts.Composites
 {
     public class InterruptSelector : Selector
     {
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             var previous = current;
             base.OnStart();
             var status = base.OnUpdate();
-            if (previous != current && children[previous].NodeState == State.Running)
+            if (previous != current && children[previous].NodeTaskState == TaskState.Running)
             {
                 children[previous].Abort();
             }

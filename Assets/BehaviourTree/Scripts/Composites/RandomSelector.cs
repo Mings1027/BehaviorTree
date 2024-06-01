@@ -12,11 +12,11 @@ namespace BehaviourTree.Scripts.Composites
             current = Random.Range(0, children.Count);
         }
 
-        protected override void OnStop()
+        protected override void OnEnd()
         {
         }
 
-        protected override State OnUpdate()
+        protected override TaskState OnUpdate()
         {
             var child = children[current];
             return child.Update();
