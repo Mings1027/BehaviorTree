@@ -1,0 +1,24 @@
+<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/BehaviorTreeTool/UIBuilder/NodeView.uss?fileID=7433441132597879392&amp;guid=9e492792237ed47c2a0d8667f49aeb6b&amp;type=3#NodeView" />
+    <engine:VisualElement name="node-state" style="flex-grow: 0;" />
+    <engine:VisualElement name="node-border" style="flex-grow: 0;">
+        <engine:VisualElement name="contents" style="flex-grow: 0;">
+            <engine:VisualElement name="top" style="flex-grow: 0;">
+                <engine:VisualElement name="input" style="flex-grow: 0;" />
+                <engine:VisualElement name="divider" style="flex-grow: 0;" />
+                <engine:VisualElement name="title" style="flex-grow: 0;">
+                    <engine:Label text="Label" name="title-label" />
+                    <engine:VisualElement name="title-button-container" style="flex-grow: 0;">
+                        <engine:VisualElement name="collapse-button" style="flex-grow: 0;">
+                            <engine:VisualElement name="icon" style="flex-grow: 0;" />
+                        </engine:VisualElement>
+                    </engine:VisualElement>
+                    <engine:Label text="Label" name="description" />
+                </engine:VisualElement>
+                <engine:VisualElement name="divider" style="flex-grow: 0;" />
+                <engine:VisualElement name="output" style="flex-grow: 0;" />
+            </engine:VisualElement>
+        </engine:VisualElement>
+    </engine:VisualElement>
+    <engine:VisualElement name="selection-border" picking-mode="Ignore" style="flex-grow: 0;" />
+</engine:UXML>
