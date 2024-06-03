@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Pathfinding;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -51,30 +50,6 @@ namespace BehaviorTreeTool.Editor
             }
 
             UpdateSerializedVariables();
-
-            var sharedDataObject = _sharedDataProperty.objectReferenceValue as SharedData;
-            if (sharedDataObject == null)
-            {
-                Debug.LogError("Failed to find 'SharedData' object. Make sure it is assigned in the Node.");
-                return;
-            }
-
-            var serializedSharedData = new SerializedObject(sharedDataObject);
-            _variablesProperty = serializedSharedData.FindProperty("variables");
-
-            if (_variablesProperty == null)
-            {
-                Debug.LogError("Failed to find 'variables' property. Make sure it exists in the SharedData class.");
-                return;
-            }
-
-            _foldoutKey = $"{target.GetInstanceID()}_SharedDataFoldouts";
-            _foldouts = LoadFoldoutStates(_foldoutKey, _variablesProperty.arraySize);
-
-            if (_foldouts.Length != _variablesProperty.arraySize)
-            {
-                Array.Resize(ref _foldouts, _variablesProperty.arraySize);
-            }
         }
 
         // Inspector GUI를 그리는 함수
@@ -121,15 +96,13 @@ namespace BehaviorTreeTool.Editor
         // 트리 이름을 표시하는 함수
         private void DisplayTreeName()
         {
-            EditorGUILayout.LabelField($"Behavior Tree :  {BehaviorTreeEditor.treeName}", EditorStyles.boldLabel,
-                GUILayout.ExpandWidth(true));
+            EditorGUILayout.LabelField($"Behavior Tree :  {BehaviorTreeEditor.treeName}", EditorStyles.boldLabel);
 
             var node = (Node)target;
             var treeName = node.name; // Replace with the actual way to get the tree name
             var nodeType = GetNodeTypeName(node.GetType());
 
-            EditorGUILayout.LabelField($"Node : {nodeType} - {treeName}", EditorStyles.boldLabel,
-                GUILayout.ExpandWidth(true));
+            EditorGUILayout.LabelField($"Node : {treeName} - {nodeType}", EditorStyles.boldLabel);
         }
 
         // 노드 타입 이름을 가져오는 함수
@@ -419,10 +392,6 @@ namespace BehaviorTreeTool.Editor
                 valueProperty.floatValue =
                     EditorGUILayout.FloatField(variableNameProperty.stringValue, valueProperty.floatValue);
             }
-            else if (type == typeof(SharedAIPath).FullName)
-            {
-                DrawObjectField(variableNameProperty, valueProperty, typeof(AIPath));
-            }
             else if (type == typeof(SharedTransform).FullName)
             {
                 DrawObjectField(variableNameProperty, valueProperty, typeof(Transform));
@@ -622,10 +591,6 @@ namespace BehaviorTreeTool.Editor
             {
                 sharedVariableType = SharedVariableType.Float;
             }
-            else if (type == typeof(SharedAIPath).FullName)
-            {
-                sharedVariableType = SharedVariableType.AIPath;
-            }
             else if (type == typeof(SharedTransform).FullName)
             {
                 sharedVariableType = SharedVariableType.Transform;
@@ -709,7 +674,6 @@ namespace BehaviorTreeTool.Editor
             {
                 SharedVariableType.Int => new SharedInt { VariableName = variableName },
                 SharedVariableType.Float => new SharedFloat { VariableName = variableName },
-                SharedVariableType.AIPath => new SharedAIPath { VariableName = variableName },
                 SharedVariableType.Transform => new SharedTransform { VariableName = variableName },
                 SharedVariableType.Collider => new SharedCollider { VariableName = variableName },
                 SharedVariableType.ColliderArray => new SharedColliderArray { VariableName = variableName },
@@ -882,10 +846,6 @@ namespace BehaviorTreeTool.Editor
                 case SharedFloat sharedFloat:
                     sharedFloat.Value = EditorGUILayout.FloatField(valueLabel, sharedFloat.Value);
                     break;
-                case SharedAIPath sharedAIPath:
-                    sharedAIPath.Value =
-                        (AIPath)EditorGUILayout.ObjectField(valueLabel, sharedAIPath.Value, typeof(AIPath), true);
-                    break;
                 case SharedTransform sharedTransform:
                     sharedTransform.Value =
                         (Transform)EditorGUILayout.ObjectField(valueLabel, sharedTransform.Value, typeof(Transform),
@@ -1052,11 +1012,6 @@ namespace BehaviorTreeTool.Editor
             if (type == typeof(float))
             {
                 return EditorGUILayout.FloatField(label, (float)value);
-            }
-
-            if (type == typeof(AIPath))
-            {
-                return EditorGUILayout.ObjectField(label, (AIPath)value, typeof(AIPath), true);
             }
 
             if (type == typeof(Transform))

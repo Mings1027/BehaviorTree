@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variables:
   - rid: 1497354546029789516
+  - rid: 1497354586845085769
   references:
     version: 2
     RefIds:
@@ -22,3 +23,8 @@ MonoBehaviour:
       data:
         variableName: Target
         _value: {fileID: 0}
+    - rid: 1497354586845085769
+      type: {class: SharedFloat, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Attack Range
+        _value: 1.5

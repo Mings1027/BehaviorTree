@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Pathfinding;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -85,15 +84,6 @@ public class SharedVariable<T> : SharedVariableBase
         var clone = (SharedVariable<T>)base.Clone();
         clone._value = _value;
         return clone;
-    }
-}
-
-[Serializable]
-public class SharedAIPath : SharedVariable<AIPath>
-{
-    public static implicit operator SharedAIPath(AIPath value)
-    {
-        return new SharedAIPath { Value = value };
     }
 }
 

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Callbacks;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -13,12 +12,8 @@ namespace BehaviorTreeTool.Editor
         public static string treeName;
         public BehaviorTreeView TreeView { get; private set; }
         private InspectorView _inspectorView;
-        // private ToolbarMenu _toolbarMenu;
-        private TextField _treeNameField;
-        private TextField _locationPathField;
-        // private Button _createNewTreeButton;
-        private VisualElement _overlay;
         private BehaviorTreeSettings _settings;
+        private bool _isVisualTreeCloned; // 플래그 추가
 
         [MenuItem("BehaviorTree/BehaviorTreeEditor ...")]
         public static void OpenWindow()
@@ -61,44 +56,62 @@ namespace BehaviorTreeTool.Editor
             // Each editor window contains a root VisualElement object
             var root = rootVisualElement;
 
-            // Import UXML
-            var visualTree = _settings.BehaviorTreeXml;
-            visualTree.CloneTree(root);
+            // Import UXML if it has not been cloned yet
+            if (!_isVisualTreeCloned)
+            {
+                var visualTree = _settings.BehaviorTreeXml;
+                if (visualTree == null)
+                {
+                    Debug.LogError("BehaviorTreeXml is null. Please check the UXML file path in BehaviorTreeSettings.");
+                    return;
+                }
+
+                visualTree.CloneTree(root);
+                _isVisualTreeCloned = true; // 플래그 업데이트
+            }
 
             // A stylesheet can be added to a VisualElement.
             // The style will be applied to the VisualElement and all of its children.
             var styleSheet = _settings.BehaviorTreeStyle;
+            if (styleSheet == null)
+            {
+                Debug.LogError("BehaviorTreeStyle is null. Please check the stylesheet path in BehaviorTreeSettings.");
+                return;
+            }
+
             root.styleSheets.Add(styleSheet);
 
             // Main treeview
-            TreeView = root.Q<BehaviorTreeView>();
+            TreeView = root.Q<BehaviorTreeView>("behaviorTreeView");
+            if (TreeView == null)
+            {
+                Debug.LogError("TreeView is null. Please check if BehaviorTreeView is defined in the UXML file.");
+
+                Debug.Log("Root children:");
+                foreach (var element in root.Children())
+                {
+                    Debug.Log(element.GetType().Name);
+                    if (element is TemplateContainer templateContainer)
+                    {
+                        Debug.Log("TemplateContainer children:");
+                        foreach (var child in templateContainer.Children())
+                        {
+                            Debug.Log(child.GetType().Name + " " + child.name);
+                        }
+                    }
+                }
+
+                return;
+            }
+
             TreeView.OnNodeSelected = OnNodeSelectionChanged;
 
             // Inspector View
             _inspectorView = root.Q<InspectorView>();
-
-            // Variables View
-
-            // Toolbar assets menu
-            // _toolbarMenu = root.Q<ToolbarMenu>();
-            // var behaviorTrees = LoadAssets<BehaviorTree>();
-            // behaviorTrees.ForEach(tree =>
-            // {
-            //     _toolbarMenu.menu.AppendAction($"{tree.name}", (a) => { Selection.activeObject = tree; });
-            // });
-            // _toolbarMenu.menu.AppendSeparator();
-            // _toolbarMenu.menu.AppendAction("New Tree...", (a) => CreateNewTree("NewBehaviorTree"));
-
-            // New Tree Dialog
-            _treeNameField = root.Q<TextField>("TreeName");
-            _locationPathField = root.Q<TextField>("LocationPath");
-            _overlay = root.Q<VisualElement>("Overlay");
-            // _createNewTreeButton = root.Q<Button>("CreateButton");
-            // _createNewTreeButton.clicked += () => CreateNewTree(_treeNameField.value);
-
-            if (_overlay != null)
+            if (_inspectorView == null)
             {
-                _overlay.style.visibility = Visibility.Hidden;
+                Debug.LogError("InspectorView is null. Please check if InspectorView is defined in the UXML file.");
+                return;
             }
 
             if (tree == null)
@@ -110,42 +123,27 @@ namespace BehaviorTreeTool.Editor
                 SelectTree(tree);
             }
 
+            // 트리를 로드
             LoadTree();
         }
 
         private void OnEnable()
         {
-            // EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
-            // EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-
             EditorApplication.quitting -= SaveTree;
             EditorApplication.quitting += SaveTree;
+            Undo.undoRedoPerformed -= OnUndoRedo;
+            Undo.undoRedoPerformed += OnUndoRedo;
+
+            // 트리를 로드
+            // LoadTree();
         }
 
         private void OnDisable()
         {
-            // EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
-            SaveTree();
+            EditorApplication.quitting -= SaveTree;
+            Undo.undoRedoPerformed -= OnUndoRedo;
+            // SaveTree();
         }
-
-        // private void OnPlayModeStateChanged(PlayModeStateChange obj)
-        // {
-        //     switch (obj)
-        //     {
-        //         case PlayModeStateChange.EnteredEditMode:
-        //             LoadTree();
-        //             break;
-        //         case PlayModeStateChange.ExitingEditMode:
-        //             SaveTree();
-        //             break;
-        //         case PlayModeStateChange.EnteredPlayMode:
-        //             SaveTree();
-        //             break;
-        //         case PlayModeStateChange.ExitingPlayMode:
-        //             SaveTree();
-        //             break;
-        //     }
-        // }
 
         private void OnSelectionChange()
         {
@@ -177,11 +175,6 @@ namespace BehaviorTreeTool.Editor
 
             tree = newTree;
 
-            if (_overlay != null)
-            {
-                _overlay.style.visibility = Visibility.Hidden;
-            }
-
             TreeView.PopulateView();
 
             // Save the selected tree name to EditorPrefs
@@ -200,15 +193,12 @@ namespace BehaviorTreeTool.Editor
             TreeView?.UpdateNodeStates();
         }
 
-        private void CreateNewTree(string assetName)
+        private void OnUndoRedo()
         {
-            var path = System.IO.Path.Combine(_locationPathField.value, $"{assetName}.asset");
-            var tree = CreateInstance<BehaviorTree>();
-            tree.name = _treeNameField.value;
-            AssetDatabase.CreateAsset(tree, path);
-            AssetDatabase.SaveAssets();
-            Selection.activeObject = tree;
-            EditorGUIUtility.PingObject(tree);
+            if (tree != null)
+            {
+                TreeView.PopulateView();
+            }
         }
 
         private void LoadTree()

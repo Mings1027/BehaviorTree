@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class Health : MonoBehaviour , IDamageable
+public class Health : MonoBehaviour, IDamageable
 {
     [SerializeField] private int maxHealth;
     private Collider collider;
@@ -8,8 +9,13 @@ public class Health : MonoBehaviour , IDamageable
 
     private void Awake()
     {
-        curHealth = maxHealth;
         collider = GetComponent<Collider>();
+    }
+
+    private void OnEnable()
+    {
+        collider.enabled = true;
+        curHealth = maxHealth;
     }
 
     public void Damage(int amount)
