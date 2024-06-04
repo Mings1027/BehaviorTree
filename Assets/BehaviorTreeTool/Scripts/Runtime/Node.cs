@@ -34,7 +34,7 @@ public abstract class Node : ScriptableObject
     public void SetData(Transform transform, SharedData sharedData)
     {
         nodeTransform = transform;
-        SharedData = sharedData;
+        this.sharedData = sharedData;
     }
 
     public virtual Node Clone()
@@ -129,6 +129,5 @@ public abstract class Node : ScriptableObject
 
 #if UNITY_EDITOR
     public virtual void OnDrawGizmos() { }
-
 #endif
 }

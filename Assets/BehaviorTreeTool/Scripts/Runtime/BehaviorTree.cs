@@ -6,13 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "BehaviorTree/Tree")]
 public class BehaviorTree : ScriptableObject
 {
-    public Node RootNode
-    {
-        get => rootNode;
-        set => rootNode = value;
-    }
-
+    public Node RootNode => rootNode;
     public List<Node> Nodes => nodes;
+
     private SharedData _sharedData;
 
     [SerializeField] private Node rootNode;
@@ -73,6 +69,15 @@ public class BehaviorTree : ScriptableObject
     }
 
 #if UNITY_EDITOR
+    public void SetRootNode(RootNode rootNode)
+    {
+        this.rootNode = rootNode;
+        if (!nodes.Contains(rootNode))
+        {
+            nodes.Add(rootNode);
+        }
+    }
+
     public Node CreateNode(Type type)
     {
         var node = CreateInstance(type) as Node;
@@ -80,7 +85,7 @@ public class BehaviorTree : ScriptableObject
         {
             node.name = type.Name;
             node.guid = GUID.Generate().ToString();
-            if (rootNode.SharedData)
+            if (rootNode && rootNode.SharedData)
             {
                 node.SharedData = rootNode.SharedData;
             }

@@ -13,7 +13,6 @@ namespace BehaviorTreeTool.Editor
         public BehaviorTreeView TreeView { get; private set; }
         private InspectorView _inspectorView;
         private BehaviorTreeSettings _settings;
-        private bool _isVisualTreeCloned; // 플래그 추가
 
         [MenuItem("BehaviorTree/BehaviorTreeEditor ...")]
         public static void OpenWindow()
@@ -57,18 +56,14 @@ namespace BehaviorTreeTool.Editor
             var root = rootVisualElement;
 
             // Import UXML if it has not been cloned yet
-            if (!_isVisualTreeCloned)
+            var visualTree = _settings.BehaviorTreeXml;
+            if (visualTree == null)
             {
-                var visualTree = _settings.BehaviorTreeXml;
-                if (visualTree == null)
-                {
-                    Debug.LogError("BehaviorTreeXml is null. Please check the UXML file path in BehaviorTreeSettings.");
-                    return;
-                }
-
-                visualTree.CloneTree(root);
-                _isVisualTreeCloned = true; // 플래그 업데이트
+                Debug.LogError("BehaviorTreeXml is null. Please check the UXML file path in BehaviorTreeSettings.");
+                return;
             }
+
+            visualTree.CloneTree(root);
 
             // A stylesheet can be added to a VisualElement.
             // The style will be applied to the VisualElement and all of its children.
@@ -130,19 +125,12 @@ namespace BehaviorTreeTool.Editor
         private void OnEnable()
         {
             EditorApplication.quitting -= SaveTree;
-            EditorApplication.quitting += SaveTree;
-            Undo.undoRedoPerformed -= OnUndoRedo;
-            Undo.undoRedoPerformed += OnUndoRedo;
-
-            // 트리를 로드
-            // LoadTree();
+            EditorApplication.quitting += SaveTree; 
         }
 
         private void OnDisable()
         {
-            EditorApplication.quitting -= SaveTree;
-            Undo.undoRedoPerformed -= OnUndoRedo;
-            // SaveTree();
+            EditorApplication.quitting -= SaveTree; 
         }
 
         private void OnSelectionChange()
@@ -174,6 +162,11 @@ namespace BehaviorTreeTool.Editor
             }
 
             tree = newTree;
+            if (!tree.RootNode)
+            {
+                var rootNode = tree.CreateNode(typeof(RootNode)) as RootNode;
+                tree.SetRootNode(rootNode);
+            }
 
             TreeView.PopulateView();
 
@@ -192,15 +185,7 @@ namespace BehaviorTreeTool.Editor
         {
             TreeView?.UpdateNodeStates();
         }
-
-        private void OnUndoRedo()
-        {
-            if (tree != null)
-            {
-                TreeView.PopulateView();
-            }
-        }
-
+ 
         private void LoadTree()
         {
             var treePath = EditorPrefs.GetString("SelectedBehaviorTreePath");

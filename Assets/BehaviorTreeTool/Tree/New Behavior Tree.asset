@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
   m_Name: ReadyToAttack
   m_EditorClassIdentifier: 
-  position: {x: -482, y: 483}
+  position: {x: -482.00015, y: 482.99994}
   guid: d8b7577325fae4e71b3d92609dcf5e8b
   description: 
   drawGizmos: 0

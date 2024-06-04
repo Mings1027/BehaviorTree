@@ -15,7 +15,6 @@ namespace BehaviorTreeTool.Editor
         public Action<NodeView> OnNodeSelected { get; set; }
         private TaskSearchWindow _taskSearchWindow; // 캐싱된 TaskSearchWindow 인스턴스
         private Vector2 _lastMousePosition; // 마지막 마우스 위치 저장
-        private static bool _undoRedoHandlerRegistered; // 핸들러 등록 여부 추적
 
         private BehaviorTree _tree;
         private readonly BehaviorTreeSettings _settings;
@@ -67,12 +66,7 @@ namespace BehaviorTreeTool.Editor
             var styleSheet = _settings.BehaviorTreeStyle;
             styleSheets.Add(styleSheet);
 
-            // 이벤트 핸들러 중복 등록 방지
-            if (!_undoRedoHandlerRegistered)
-            {
-                Undo.undoRedoPerformed += OnUndoRedo;
-                _undoRedoHandlerRegistered = true;
-            }
+            Undo.undoRedoPerformed = OnUndoRedo;
 
             RegisterCallback<KeyDownEvent>(OnKeyDown);
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
@@ -228,7 +222,7 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        private void SelectFolder(string path)
+        private static void SelectFolder(string path)
         {
             if (path[path.Length - 1] == '/')
                 path = path.Substring(0, path.Length - 1);
@@ -383,8 +377,7 @@ namespace BehaviorTreeTool.Editor
 
         public bool OnSelectEntry(SearchTreeEntry entry, SearchWindowContext context)
         {
-            var type = entry.userData as Type;
-            if (type != null)
+            if (entry.userData is Type type)
             {
                 _treeView.CreateNode(type, _position);
                 return true;
