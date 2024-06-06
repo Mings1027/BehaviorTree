@@ -76,6 +76,7 @@ namespace BehaviorTreeTool.Editor
 
             root.styleSheets.Add(styleSheet);
 
+            
             // Main treeview
             TreeView = root.Q<BehaviorTreeView>("behaviorTreeView");
             if (TreeView == null)
@@ -125,12 +126,12 @@ namespace BehaviorTreeTool.Editor
         private void OnEnable()
         {
             EditorApplication.quitting -= SaveTree;
-            EditorApplication.quitting += SaveTree; 
+            EditorApplication.quitting += SaveTree;
         }
 
         private void OnDisable()
         {
-            EditorApplication.quitting -= SaveTree; 
+            EditorApplication.quitting -= SaveTree;
         }
 
         private void OnSelectionChange()
@@ -185,7 +186,7 @@ namespace BehaviorTreeTool.Editor
         {
             TreeView?.UpdateNodeStates();
         }
- 
+
         private void LoadTree()
         {
             var treePath = EditorPrefs.GetString("SelectedBehaviorTreePath");

@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: New Shared Data
   m_EditorClassIdentifier: 
   variables:
-  - rid: 1497354546029789516
   - rid: 1497354586845085769
+  - rid: 1497354546029789516
+  - rid: 1497354621595680768
+  - rid: 1497354632044216326
   references:
     version: 2
     RefIds:
@@ -22,9 +24,23 @@ MonoBehaviour:
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
+        useGetComponent: 0
         _value: {fileID: 0}
     - rid: 1497354586845085769
       type: {class: SharedFloat, ns: , asm: Assembly-CSharp}
       data:
         variableName: Attack Range
+        useGetComponent: 0
         _value: 1.5
+    - rid: 1497354621595680768
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: View Angle
+        useGetComponent: 0
+        _value: 80
+    - rid: 1497354632044216326
+      type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: NavMeshAgent
+        useGetComponent: 1
+        _value: {fileID: 0}

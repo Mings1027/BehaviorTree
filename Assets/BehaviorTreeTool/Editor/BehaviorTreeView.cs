@@ -92,10 +92,11 @@ namespace BehaviorTreeTool.Editor
             graphViewChanged += OnGraphViewChanged;
 
             // Recreate the node views
+
             for (var i = 0; i < _tree.Nodes.Count; i++)
             {
                 var node = _tree.Nodes[i];
-                CreateNodeView(node);
+                if (node) CreateNodeView(node);
             }
 
             // Recreate the edges

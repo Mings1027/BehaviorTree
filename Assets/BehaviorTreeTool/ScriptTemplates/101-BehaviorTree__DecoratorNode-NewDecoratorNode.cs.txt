@@ -1,5 +1,7 @@
-
-public class #SCRIPTNAME# : DecoratorNode
+namespace BehaviorTreeTool.Scripts.Decorators
 {
+    public class #SCRIPTNAME# : DecoratorNode
+    {
 
+    }
 }

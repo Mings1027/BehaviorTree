@@ -1,23 +1,27 @@
-using UnityEngine.AI;
-
-public class MoveToTarget : ActionNode
+namespace BehaviorTreeTool.Scripts.Actions
 {
-    public SharedCollider target;
-
-    private NavMeshAgent _navMeshAgent;
-
-    protected override void OnAwake()
+    public class MoveToTarget : ActionNode
     {
-        _navMeshAgent = nodeTransform.GetComponent<NavMeshAgent>();
-    }
+        public SharedCollider target;
+        public SharedNavMeshAgent navMeshAgent;
 
-    protected override void OnStart()
-    {
-        _navMeshAgent.destination = target.Value.transform.position;
-    }
+        protected override void OnStart()
+        {
+            if (target.Value)
+            {
+                navMeshAgent.Value.destination = target.Value.transform.position;
+            }
+        }
 
-    protected override TaskState OnUpdate()
-    {
-        return TaskState.Success;
+        protected override TaskState OnUpdate()
+        {
+            if (target.Value)
+            {
+                navMeshAgent.Value.destination = target.Value.transform.position;
+                return TaskState.Success;
+            }
+
+            return TaskState.Failure;
+        }
     }
 }

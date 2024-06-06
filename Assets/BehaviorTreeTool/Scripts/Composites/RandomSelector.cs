@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class RandomSelector : CompositeNode
+namespace BehaviorTreeTool.Scripts.Composites
 {
-    protected int current;
-
-    protected override void OnStart()
+    public class RandomSelector : CompositeNode
     {
-        current = Random.Range(0, children.Count);
-    }
+        protected int current;
 
-    protected override void OnEnd() { }
+        protected override void OnStart()
+        {
+            current = Random.Range(0, children.Count);
+        }
 
-    protected override TaskState OnUpdate()
-    {
-        var child = children[current];
-        return child.Update();
+        protected override void OnEnd() { }
+
+        protected override TaskState OnUpdate()
+        {
+            var child = children[current];
+            return child.Update();
+        }
     }
 }

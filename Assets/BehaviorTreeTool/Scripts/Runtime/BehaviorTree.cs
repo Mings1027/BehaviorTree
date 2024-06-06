@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,6 +9,12 @@ public class BehaviorTree : ScriptableObject
 {
     public Node RootNode => rootNode;
     public List<Node> Nodes => nodes;
+
+    public SharedData sharedData
+    {
+        get => _sharedData;
+        set => _sharedData = value;
+    }
 
     private SharedData _sharedData;
 
@@ -57,16 +64,79 @@ public class BehaviorTree : ScriptableObject
         var tree = Instantiate(this);
         tree.rootNode = tree.rootNode.Clone();
         tree.nodes = new List<Node>();
-        tree._sharedData = rootNode.SharedData.Clone();
+        tree.sharedData = rootNode.SharedData.Clone();
         Traverse(tree.rootNode, n =>
         {
             tree.nodes.Add(n);
-            n.SetData(transform, tree._sharedData);
-            n.Init();
+            n.SetData(transform, tree.sharedData);
         });
+        AssignSharedVariables(tree.nodes);
+        Traverse(tree.rootNode, n => n.Init());
 
         return tree;
     }
+
+    private void AssignSharedVariables(List<Node> nodeList)
+    {
+        var sharedVariablesTable = new Dictionary<string, (Node, SharedVariableBase)>();
+        for (var i = 0; i < nodeList.Count; i++)
+        {
+            var fields = nodeList[i].GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+            for (var j = 0; j < fields.Length; j++)
+            {
+                if (typeof(SharedVariableBase).IsAssignableFrom(fields[j].FieldType))
+                {
+                    var sharedVariable = (SharedVariableBase)fields[j].GetValue(nodeList[i]);
+
+                    if (sharedVariable != null && !string.IsNullOrEmpty(sharedVariable.VariableName))
+                    {
+                        var sharedDataVariable = GetSharedVariable(nodeList[i].SharedData, sharedVariable.VariableName);
+                        if (sharedDataVariable != null && sharedDataVariable.GetType() == sharedVariable.GetType())
+                        {
+                            fields[j].SetValue(nodeList[i], sharedDataVariable);
+
+                            if (!sharedVariablesTable.ContainsKey(sharedVariable.VariableName))
+                            {
+                                sharedVariablesTable[sharedVariable.VariableName] = (nodeList[i], sharedDataVariable);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        foreach (var kvp in sharedVariablesTable)
+        {
+            var value = kvp.Value.Item2.GetValue();
+            if (kvp.Value.Item2.UseGetComponent && value is Component)
+            {
+                var componentType = value.GetType();
+                if (kvp.Value.Item1.NodeTransform.TryGetComponent(componentType, out var component))
+                {
+                    kvp.Value.Item2.SetValue(component);
+                }
+            }
+        }
+    }
+
+    private SharedVariableBase GetSharedVariable(SharedData sharedData, string variableName)
+    {
+        if (sharedData != null && sharedData.Variables != null)
+        {
+            for (var i = 0; i < sharedData.Variables.Count; i++)
+            {
+                var sharedVariable = sharedData.Variables[i];
+                if (sharedVariable.VariableName == variableName)
+                {
+                    return sharedVariable;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    #region Use Only Editor
 
 #if UNITY_EDITOR
     public void SetRootNode(RootNode rootNode)
@@ -165,4 +235,6 @@ public class BehaviorTree : ScriptableObject
         }
     }
 #endif
+
+    #endregion
 }

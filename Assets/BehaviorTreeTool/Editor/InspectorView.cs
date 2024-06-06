@@ -5,9 +5,7 @@ namespace BehaviorTreeTool.Editor
 {
     public class InspectorView : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<InspectorView, VisualElement.UxmlTraits>
-        {
-        }
+        public new class UxmlFactory : UxmlFactory<InspectorView, VisualElement.UxmlTraits> { }
 
         private UnityEditor.Editor _editor;
 

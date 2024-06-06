@@ -1,22 +1,22 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RandomPosition : ActionNode
+namespace BehaviorTreeTool.Scripts.Actions
 {
-    private NavMeshAgent _agent;
-
-    protected override void OnAwake()
+    public class RandomPosition : ActionNode
     {
-        _agent = nodeTransform.GetComponent<NavMeshAgent>();
-    }
+        public SharedNavMeshAgent navMeshAgent;
+        [SerializeField] private float minPos;
+        [SerializeField] private float maxPos;
 
-    protected override void OnStart()
-    {
-        _agent.destination = new Vector3(Random.Range(-50, 50), 0, Random.Range(-50, 50));
-    }
+        protected override void OnStart()
+        {
+            navMeshAgent.Value.destination = new Vector3(Random.Range(minPos, maxPos), 0, Random.Range(minPos, maxPos));
+        }
 
-    protected override TaskState OnUpdate()
-    {
-        return TaskState.Success;
+        protected override TaskState OnUpdate()
+        {
+            return TaskState.Success;
+        }
     }
 }

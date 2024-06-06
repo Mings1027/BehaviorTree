@@ -1,4 +1,3 @@
-using System.Reflection;
 using UnityEngine;
 
 public abstract class Node : ScriptableObject
@@ -23,6 +22,8 @@ public abstract class Node : ScriptableObject
         get => sharedData;
         set => sharedData = value;
     }
+
+    public Transform NodeTransform => nodeTransform;
 
     protected Transform nodeTransform;
 
@@ -59,7 +60,6 @@ public abstract class Node : ScriptableObject
 
     public virtual void Init()
     {
-        AssignSharedVariables();
         OnAwake();
     }
 
@@ -88,44 +88,6 @@ public abstract class Node : ScriptableObject
     }
 
 #endregion
-
-    protected SharedVariableBase GetSharedVariable(string variableName)
-    {
-        if (sharedData != null && sharedData.Variables != null)
-        {
-            for (var i = 0; i < sharedData.Variables.Count; i++)
-            {
-                var sharedVariable = sharedData.Variables[i];
-                if (sharedVariable.VariableName == variableName)
-                {
-                    return sharedVariable;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private void AssignSharedVariables()
-    {
-        var fields = GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-
-        foreach (var field in fields)
-        {
-            if (typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
-            {
-                var sharedVariable = (SharedVariableBase)field.GetValue(this);
-                if (sharedVariable != null && !string.IsNullOrEmpty(sharedVariable.VariableName))
-                {
-                    var sharedDataVariable = GetSharedVariable(sharedVariable.VariableName);
-                    if (sharedDataVariable != null && sharedDataVariable.GetType() == sharedVariable.GetType())
-                    {
-                        field.SetValue(this, sharedDataVariable);
-                    }
-                }
-            }
-        }
-    }
 
 #if UNITY_EDITOR
     public virtual void OnDrawGizmos() { }

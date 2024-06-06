@@ -22,6 +22,10 @@ namespace BehaviorTreeTool.Editor
         private bool[] _foldouts;
         private string _foldoutKey;
 
+        private Texture2D _upArrowTexture;
+        private Texture2D _downArrowTexture;
+        private Texture2D _closeTexture;
+
         private SerializedProperty _variablesProperty;
         private SerializedProperty _sharedDataProperty;
 
@@ -49,6 +53,11 @@ namespace BehaviorTreeTool.Editor
                 return;
             }
 
+            _upArrowTexture =
+                AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Arrow Simple Up.png");
+            _downArrowTexture =
+                AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Arrow Simple Down.png");
+            _closeTexture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Close.png");
             UpdateSerializedVariables();
         }
 
@@ -60,7 +69,7 @@ namespace BehaviorTreeTool.Editor
             DisplayTreeName();
             DisplayTabs();
             CheckAssignSharedData();
-            DrawNoneSharedVariables();
+            // DrawNoneSharedVariables();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -79,7 +88,7 @@ namespace BehaviorTreeTool.Editor
                     return;
                 }
 
-                _foldoutKey = $"{target.GetInstanceID()}_SharedDataFoldouts";
+                _foldoutKey = $"{BehaviorTreeEditor.treeName}_SharedDataFoldouts";
                 _foldouts = LoadFoldoutStates(_foldoutKey, _variablesProperty.arraySize);
 
                 if (_foldouts.Length != _variablesProperty.arraySize)
@@ -96,13 +105,19 @@ namespace BehaviorTreeTool.Editor
         // 트리 이름을 표시하는 함수
         private void DisplayTreeName()
         {
-            EditorGUILayout.LabelField($"Behavior Tree :  {BehaviorTreeEditor.treeName}", EditorStyles.boldLabel);
+            var style = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 15,
+                fontStyle = FontStyle.Bold,
+            };
+
+            EditorGUILayout.LabelField($"Behavior Tree : {BehaviorTreeEditor.treeName}", style);
 
             var node = (Node)target;
             var treeName = node.name; // Replace with the actual way to get the tree name
             var nodeType = GetNodeTypeName(node.GetType());
 
-            EditorGUILayout.LabelField($"Node : {treeName} - {nodeType}", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField($"Node : {treeName} - {nodeType}", style);
         }
 
         // 노드 타입 이름을 가져오는 함수
@@ -122,7 +137,7 @@ namespace BehaviorTreeTool.Editor
             };
 
             _selectedTab = GUILayout.Toolbar(_selectedTab, _tabTitles, tabStyle);
-            EditorGUILayout.Space(30);
+            EditorGUILayout.Space(15);
 
             _scrollPos = EditorGUILayout.BeginScrollView(_scrollPos);
 
@@ -142,13 +157,14 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.EndScrollView();
         }
 
-#region DrawTasksTab
+        #region DrawTasksTab
 
         // Tasks 탭을 그리는 함수
         private void DrawTasksTab()
         {
             DrawSearchField();
-
+            GUILayout.Space(3);
+            DrawHorizontalLine(Color.gray);
             DrawNodeTypeButtons<ActionNode>();
             DrawNodeTypeButtons<CompositeNode>();
             DrawNodeTypeButtons<ConditionNode>();
@@ -210,19 +226,24 @@ namespace BehaviorTreeTool.Editor
             treeView?.CreateNode(type);
         }
 
-#endregion
+        #endregion
 
-#region DrawVariablesTab
+        #region DrawVariablesTab
 
         // Variables 탭을 그리는 함수
         private void DrawVariablesTab()
         {
             var sharedData = (SharedData)serializedObject.FindProperty("sharedData").objectReferenceValue;
             if (!sharedData) return;
-            GUILayout.Label("Add New Shared Variable", EditorStyles.boldLabel);
-            _variableName = EditorGUILayout.TextField("Name", _variableName);
+
             EditorGUILayout.BeginHorizontal();
-            _selectedType = (SharedVariableType)EditorGUILayout.EnumPopup("Type", _selectedType);
+            EditorGUILayout.LabelField("Name", GUILayout.Width(50));
+            _variableName = EditorGUILayout.TextField(_variableName);
+            EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Type", GUILayout.Width(50));
+            _selectedType = (SharedVariableType)EditorGUILayout.EnumPopup(_selectedType);
 
             if (GUILayout.Button("Add", GUILayout.Width(50)))
             {
@@ -231,6 +252,8 @@ namespace BehaviorTreeTool.Editor
 
             EditorGUILayout.EndHorizontal();
 
+            DrawHorizontalLine(Color.gray);
+            DrawHorizontalLine(Color.gray);
             DrawVariablesList();
         }
 
@@ -297,17 +320,19 @@ namespace BehaviorTreeTool.Editor
                         _foldouts[i] = EditorGUILayout.Foldout(_foldouts[i],
                             $"{variableNameProperty.stringValue} ({DisplayTypeName(variableProperty)})", true);
 
-                        if (GUILayout.Button("\u25b2", GUILayout.Width(40)))
+                        if (GUILayout.Button(new GUIContent(_upArrowTexture), GUILayout.Width(23),
+                                GUILayout.Height(23)))
                         {
                             MoveVariableUp(i);
                         }
 
-                        if (GUILayout.Button("\u25bc", GUILayout.Width(40)))
+                        if (GUILayout.Button(new GUIContent(_downArrowTexture), GUILayout.Width(23),
+                                GUILayout.Height(23)))
                         {
                             MoveVariableDown(i);
                         }
 
-                        if (GUILayout.Button("X", GUILayout.Width(30)))
+                        if (GUILayout.Button(new GUIContent(_closeTexture), GUILayout.Width(23), GUILayout.Height(23)))
                         {
                             DeleteVariable(variableNameProperty.stringValue, i);
                             SaveFoldoutStates(_foldoutKey, _foldouts);
@@ -327,6 +352,7 @@ namespace BehaviorTreeTool.Editor
 
                         if (i < _variablesProperty.arraySize - 1)
                         {
+                            GUILayout.Space(3);
                             DrawHorizontalLine(Color.gray);
                         }
                     }
@@ -380,6 +406,7 @@ namespace BehaviorTreeTool.Editor
             var variableType = variableProperty.managedReferenceFullTypename;
             var valueProperty = variableProperty.FindPropertyRelative("_value");
             var variableNameProperty = variableProperty.FindPropertyRelative("variableName");
+            var useGetComponentProperty = variableProperty.FindPropertyRelative("useGetComponent");
             var type = variableType.Split(' ')[1];
 
             if (type == typeof(SharedInt).FullName)
@@ -480,6 +507,14 @@ namespace BehaviorTreeTool.Editor
                 valueProperty.vector3IntValue = EditorGUILayout.Vector3IntField(variableNameProperty.stringValue,
                     valueProperty.vector3IntValue);
             }
+
+            // Add the Use GetComponent toggle
+            var newUseGetComponent = EditorGUILayout.Toggle("Use GetComponent", useGetComponentProperty.boolValue);
+            if (newUseGetComponent != useGetComponentProperty.boolValue)
+            {
+                useGetComponentProperty.boolValue = newUseGetComponent;
+                EditorUtility.SetDirty(variableProperty.serializedObject.targetObject);
+            }
         }
 
         private static void DrawObjectField(SerializedProperty variableNameProperty, SerializedProperty valueProperty,
@@ -546,13 +581,6 @@ namespace BehaviorTreeTool.Editor
             _variablesProperty.DeleteArrayElementAtIndex(index);
 
             Array.Resize(ref _foldouts, _variablesProperty.arraySize);
-        }
-
-        // 가로선을 그리는 함수
-        private static void DrawHorizontalLine(Color color, int thickness = 1)
-        {
-            var rect = EditorGUILayout.GetControlRect(false, thickness);
-            EditorGUI.DrawRect(rect, color);
         }
 
         // 폴드아웃 상태를 저장하는 함수
@@ -702,9 +730,9 @@ namespace BehaviorTreeTool.Editor
             return sharedData.Variables.Any(variable => variable.VariableName == variableName);
         }
 
-#endregion
+        #endregion
 
-#region DrawInspectorTab
+        #region DrawInspectorTab
 
         // Inspector 탭을 그리는 함수
         private void DrawInspectorTab()
@@ -891,16 +919,16 @@ namespace BehaviorTreeTool.Editor
                             typeof(NavMeshAgent), true);
                     break;
                 case SharedQuaternion sharedQuaternion:
-                {
-                    var eulerAngles = sharedQuaternion.Value.eulerAngles;
-                    var newEulerAngles = EditorGUILayout.Vector3Field(valueLabel, eulerAngles);
-                    if (newEulerAngles != eulerAngles)
                     {
-                        sharedQuaternion.Value = Quaternion.Euler(newEulerAngles);
-                    }
+                        var eulerAngles = sharedQuaternion.Value.eulerAngles;
+                        var newEulerAngles = EditorGUILayout.Vector3Field(valueLabel, eulerAngles);
+                        if (newEulerAngles != eulerAngles)
+                        {
+                            sharedQuaternion.Value = Quaternion.Euler(newEulerAngles);
+                        }
 
-                    break;
-                }
+                        break;
+                    }
                 case SharedRect sharedRect:
                     sharedRect.Value = EditorGUILayout.RectField(valueLabel, sharedRect.Value);
                     break;
@@ -1117,7 +1145,7 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.EndVertical();
         }
 
-#endregion
+        #endregion
 
         // SharedData 할당을 확인하는 함수
         private void CheckAssignSharedData()
@@ -1234,6 +1262,13 @@ namespace BehaviorTreeTool.Editor
 
                 EditorGUILayout.EndScrollView();
             }
+        }
+
+        // 가로선을 그리는 함수
+        private static void DrawHorizontalLine(Color color, int thickness = 1)
+        {
+            var rect = EditorGUILayout.GetControlRect(false, thickness);
+            EditorGUI.DrawRect(rect, color);
         }
     }
 

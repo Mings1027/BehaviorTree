@@ -32,11 +32,18 @@ public enum SharedVariableType
 public class SharedVariableBase
 {
     [SerializeField] private string variableName;
+    [SerializeField] private bool useGetComponent;
 
     public string VariableName
     {
         get => variableName;
         set => variableName = value;
+    }
+
+    public bool UseGetComponent
+    {
+        get => useGetComponent;
+        set => useGetComponent = value;
     }
 
     public virtual object GetValue()
@@ -71,7 +78,7 @@ public class SharedVariable<T> : SharedVariableBase
 
     public override void SetValue(object value)
     {
-        _value = value switch
+        Value = value switch
         {
             T typedValue => typedValue,
             null => default,

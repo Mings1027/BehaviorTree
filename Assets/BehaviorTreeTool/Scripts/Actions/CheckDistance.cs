@@ -1,20 +1,18 @@
 using UnityEngine.AI;
 
-public class CheckDistance : ConditionNode
+namespace BehaviorTreeTool.Scripts.Actions
 {
-    private NavMeshAgent _agent;
-
-    protected override void OnAwake()
+    public class CheckDistance : ConditionNode
     {
-        _agent = nodeTransform.GetComponent<NavMeshAgent>();
-    }
+        public SharedNavMeshAgent navMeshAgent;
 
-    protected override TaskState OnUpdate()
-    {
-        if (_agent.pathPending) return TaskState.Running;
-        if (_agent.remainingDistance < _agent.stoppingDistance) return TaskState.Success;
-        if (_agent.pathStatus == NavMeshPathStatus.PathInvalid) return TaskState.Failure;
+        protected override TaskState OnUpdate()
+        {
+            if (navMeshAgent.Value.pathPending) return TaskState.Running;
+            if (navMeshAgent.Value.remainingDistance < navMeshAgent.Value.stoppingDistance) return TaskState.Success;
+            if (navMeshAgent.Value.pathStatus == NavMeshPathStatus.PathInvalid) return TaskState.Failure;
 
-        return TaskState.Running;
+            return TaskState.Running;
+        }
     }
 }

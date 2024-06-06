@@ -1,25 +1,28 @@
-public class Repeat : DecoratorNode
+namespace BehaviorTreeTool.Scripts.Decorators
 {
-    public bool restartOnSuccess = true;
-    public bool restartOnFailure;
-
-    protected override void OnStart() { }
-
-    protected override void OnEnd() { }
-
-    protected override TaskState OnUpdate()
+    public class Repeat : DecoratorNode
     {
-        switch (child.Update())
+        public bool restartOnSuccess = true;
+        public bool restartOnFailure;
+
+        protected override void OnStart() { }
+
+        protected override void OnEnd() { }
+
+        protected override TaskState OnUpdate()
         {
-            case TaskState.Running:
-                break;
-            case TaskState.Failure:
-                return restartOnFailure ? TaskState.Running : TaskState.Failure;
+            switch (child.Update())
+            {
+                case TaskState.Running:
+                    break;
+                case TaskState.Failure:
+                    return restartOnFailure ? TaskState.Running : TaskState.Failure;
 
-            case TaskState.Success:
-                return restartOnSuccess ? TaskState.Running : TaskState.Success;
+                case TaskState.Success:
+                    return restartOnSuccess ? TaskState.Running : TaskState.Success;
+            }
+
+            return TaskState.Running;
         }
-
-        return TaskState.Running;
     }
 }

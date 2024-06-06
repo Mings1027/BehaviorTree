@@ -1,4 +1,7 @@
-public class #SCRIPTNAME# : CompositeNode
+namespace BehaviorTreeTool.Scripts.Composites
 {
+    public class #SCRIPTNAME# : CompositeNode
+    {
 
+    }
 }

@@ -119,16 +119,24 @@
     border-bottom-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    transition-property: background-color;
+    transition-delay: 0.5s;
+    transition-duration: 0.5s;
 }
 
 .running #node-state {
-    background-color: rgb(255, 213, 0);
+    background-color: rgb(255, 172, 0);
+    transition-property: background-color, ignored;
+    transition-duration: 0.5s, 0s;
 }
 
 .success #node-state {
-    background-color: rgba(60, 212, 0, 0.54);
+    background-color: rgb(0, 186, 0);
+    transition-property: background-color;
+    transition-duration: 0.5s;
+    transition-timing-function: linear;
 }
 
 .failure #node-state {
-    background-color: rgba(250, 25, 25, 0.67);
+    background-color: rgb(255, 0, 0);
 }

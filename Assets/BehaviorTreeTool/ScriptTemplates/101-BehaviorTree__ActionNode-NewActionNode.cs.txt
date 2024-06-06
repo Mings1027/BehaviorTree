@@ -1,4 +1,7 @@
-public class #SCRIPTNAME# : ActionNode
+namespace BehaviorTreeTool.Scripts.Actions
 {
+    public class #SCRIPTNAME# : ActionNode
+    {
 
+    }
 }

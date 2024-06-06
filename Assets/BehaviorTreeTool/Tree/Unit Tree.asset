@@ -12,11 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a055ff4bd9e6642b3f0dff32a86e1d, type: 3}
   m_Name: RandomPosition
   m_EditorClassIdentifier: 
-  position: {x: 613, y: 483}
+  position: {x: 613.00006, y: 483.0001}
   guid: 87d55cdacb3ac475a9026a73dd667857
   description: 
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  navMeshAgent:
+    variableName: NavMeshAgent
+    useGetComponent: 0
+    _value: {fileID: 0}
+  minPos: -10
+  maxPos: 10
 --- !u!114 &-6244939870627640992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29,13 +35,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75afc2c29ac8d4006a178de9f358287e, type: 3}
   m_Name: MoveToTarget
   m_EditorClassIdentifier: 
-  position: {x: 150, y: 483}
+  position: {x: 149.99995, y: 483.00003}
   guid: d7caea512e1364a6db28cceafa574bc6
   description: 
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
   target:
     variableName: Target
+    useGetComponent: 0
+    _value: {fileID: 0}
+  navMeshAgent:
+    variableName: NavMeshAgent
+    useGetComponent: 1
     _value: {fileID: 0}
 --- !u!114 &-5551168184907278297
 MonoBehaviour:
@@ -154,12 +165,16 @@ MonoBehaviour:
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
   target:
     variableName: Target
+    useGetComponent: 0
     _value: {fileID: 0}
+  viewAngle:
+    variableName: View Angle
+    useGetComponent: 0
+    _value: 80
   detectRange: 7
-  viewAngle: 80
   targetLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 64
   targetColliders:
   - {fileID: 0}
 --- !u!114 &-1619325705506823190
@@ -179,6 +194,10 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  navMeshAgent:
+    variableName: NavMeshAgent
+    useGetComponent: 0
+    _value: {fileID: 0}
 --- !u!114 &-1173974757255780795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,13 +210,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
   m_Name: ReadyToAttack
   m_EditorClassIdentifier: 
-  position: {x: -482.00015, y: 482.99994}
+  position: {x: -482.00006, y: 483.00003}
   guid: d8b7577325fae4e71b3d92609dcf5e8b
   description: 
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
   target:
     variableName: Target
+    useGetComponent: 0
+    _value: {fileID: 0}
+  viewAngle:
+    variableName: View Angle
+    useGetComponent: 0
+    _value: 80
+  navMeshAgent:
+    variableName: NavMeshAgent
+    useGetComponent: 1
     _value: {fileID: 0}
   attackRange: 1.5
 --- !u!114 &11400000
@@ -210,7 +238,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 322e544b03434eb58aef050d006d06b5, type: 3}
-  m_Name: New Behavior Tree
+  m_Name: Unit Tree
   m_EditorClassIdentifier: 
   rootNode: {fileID: 931406598775762104}
   nodes:
@@ -277,15 +305,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4295113ac5cd434e9f4bdcef7570a975, type: 3}
   m_Name: Attack
   m_EditorClassIdentifier: 
-  position: {x: -332, y: 483}
+  position: {x: -332.00003, y: 483.00003}
   guid: d78ca445f65e843b6a30aa84686d9e88
   description: 
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
   target:
     variableName: Target
+    useGetComponent: 0
     _value: {fileID: 0}
-  attackDamage: 50
+  attackDamage: 10
 --- !u!114 &8181437512819230551
 MonoBehaviour:
   m_ObjectHideFlags: 0

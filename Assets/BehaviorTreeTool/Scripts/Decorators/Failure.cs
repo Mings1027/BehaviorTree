@@ -1,12 +1,15 @@
-public class Failure : DecoratorNode
+namespace BehaviorTreeTool.Scripts.Decorators
 {
-    protected override void OnStart() { }
-
-    protected override void OnEnd() { }
-
-    protected override TaskState OnUpdate()
+    public class Failure : DecoratorNode
     {
-        var childState = child.Update();
-        return childState == TaskState.Success ? TaskState.Failure : childState;
+        protected override void OnStart() { }
+
+        protected override void OnEnd() { }
+
+        protected override TaskState OnUpdate()
+        {
+            var childState = child.Update();
+            return childState == TaskState.Success ? TaskState.Failure : childState;
+        }
     }
 }

@@ -1,17 +1,20 @@
-public class Inverter : DecoratorNode
+namespace BehaviorTreeTool.Scripts.Decorators
 {
-    protected override void OnStart() { }
-
-    protected override void OnEnd() { }
-
-    protected override TaskState OnUpdate()
+    public class Inverter : DecoratorNode
     {
-        return child.Update() switch
+        protected override void OnStart() { }
+
+        protected override void OnEnd() { }
+
+        protected override TaskState OnUpdate()
         {
-            TaskState.Running => TaskState.Running,
-            TaskState.Failure => TaskState.Success,
-            TaskState.Success => TaskState.Failure,
-            _ => TaskState.Failure
-        };
+            return child.Update() switch
+            {
+                TaskState.Running => TaskState.Running,
+                TaskState.Failure => TaskState.Success,
+                TaskState.Success => TaskState.Failure,
+                _ => TaskState.Failure
+            };
+        }
     }
 }

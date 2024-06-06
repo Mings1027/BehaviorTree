@@ -1,4 +1,7 @@
-public class #SCRIPTNAME# : ConditionNode
-{
+namespace BehaviorTreeTool.Scripts.Conditions
+{ 
+    public class #SCRIPTNAME# : ConditionNode
+    {
 
+    }
 }

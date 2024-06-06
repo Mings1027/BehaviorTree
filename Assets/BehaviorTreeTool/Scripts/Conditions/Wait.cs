@@ -1,24 +1,27 @@
 using UnityEngine;
 
-public class Wait : ConditionNode
+namespace BehaviorTreeTool.Scripts.Conditions
 {
-    private float _startTime;
-    [SerializeField] private int duration = 1;
-
-    protected override void OnStart()
+    public class Wait : ConditionNode
     {
-        _startTime = Time.time;
-    }
+        private float _startTime;
+        [SerializeField] private int duration = 1;
 
-    protected override void OnEnd() { }
-
-    protected override TaskState OnUpdate()
-    {
-        if (Time.time - _startTime > duration)
+        protected override void OnStart()
         {
-            return TaskState.Success;
+            _startTime = Time.time;
         }
 
-        return TaskState.Running;
+        protected override void OnEnd() { }
+
+        protected override TaskState OnUpdate()
+        {
+            if (Time.time - _startTime > duration)
+            {
+                return TaskState.Success;
+            }
+
+            return TaskState.Running;
+        }
     }
 }
