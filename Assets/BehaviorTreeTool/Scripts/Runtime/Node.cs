@@ -11,9 +11,9 @@ public abstract class Node : ScriptableObject
 #if UNITY_EDITOR
     [HideInInspector] public Vector2 position;
     [HideInInspector] public string guid;
-    [HideInInspector] [TextArea] public string description;
-    public bool drawGizmos;
+    [HideInInspector][TextArea] public string description;
     public bool TaskStarted => _taskStarted;
+    public bool drawGizmos;
 #endif
     public TaskState NodeTaskState => _taskState;
 
@@ -56,7 +56,7 @@ public abstract class Node : ScriptableObject
         });
     }
 
-#region Behavior Tree Life Cycle
+    #region Behavior Tree Life Cycle
 
     public virtual void Init()
     {
@@ -87,7 +87,7 @@ public abstract class Node : ScriptableObject
         return _taskState;
     }
 
-#endregion
+    #endregion
 
 #if UNITY_EDITOR
     public virtual void OnDrawGizmos() { }

@@ -28,11 +28,16 @@ public enum SharedVariableType
     Vector3Int
 }
 
+public interface IComponent
+{
+    bool UseGetComponent { get; set; }
+}
+
 [Serializable]
 public class SharedVariableBase
 {
+    // [SerializeField] private bool useGetComponent;
     [SerializeField] private string variableName;
-    [SerializeField] private bool useGetComponent;
 
     public string VariableName
     {
@@ -40,11 +45,11 @@ public class SharedVariableBase
         set => variableName = value;
     }
 
-    public bool UseGetComponent
-    {
-        get => useGetComponent;
-        set => useGetComponent = value;
-    }
+    // public bool UseGetComponent
+    // {
+    //     get => useGetComponent;
+    //     set => useGetComponent = value;
+    // }
 
     public virtual object GetValue()
     {
@@ -94,6 +99,15 @@ public class SharedVariable<T> : SharedVariableBase
     }
 }
 
+// [Serializable]
+// public class SharedAIPath : SharedVariable<AIPath>
+// {
+//     public static implicit operator SharedAIPath(AIPath value)
+//     {
+//         return new SharedAIPath { Value = value };
+//     }
+// }
+
 [Serializable]
 public class SharedBool : SharedVariable<bool>
 {
@@ -104,12 +118,14 @@ public class SharedBool : SharedVariable<bool>
 }
 
 [Serializable]
-public class SharedCollider : SharedVariable<Collider>
+public class SharedCollider : SharedVariable<Collider>, IComponent
 {
     public static implicit operator SharedCollider(Collider value)
     {
         return new SharedCollider { Value = value };
     }
+
+    public bool UseGetComponent { get; set; }
 }
 
 [Serializable]
@@ -140,12 +156,14 @@ public class SharedFloat : SharedVariable<float>
 }
 
 [Serializable]
-public class SharedGameObject : SharedVariable<GameObject>
+public class SharedGameObject : SharedVariable<GameObject>, IComponent
 {
     public static implicit operator SharedGameObject(GameObject value)
     {
         return new SharedGameObject { Value = value };
     }
+
+    public bool UseGetComponent { get; set; }
 }
 
 [Serializable]
@@ -185,12 +203,14 @@ public class SharedMaterial : SharedVariable<Material>
 }
 
 [Serializable]
-public class SharedNavMeshAgent : SharedVariable<NavMeshAgent>
+public class SharedNavMeshAgent : SharedVariable<NavMeshAgent>, IComponent
 {
     public static implicit operator SharedNavMeshAgent(NavMeshAgent value)
     {
         return new SharedNavMeshAgent { Value = value };
     }
+
+    public bool UseGetComponent { get; set; }
 }
 
 [Serializable]
@@ -221,12 +241,14 @@ public class SharedString : SharedVariable<string>
 }
 
 [Serializable]
-public class SharedTransform : SharedVariable<Transform>
+public class SharedTransform : SharedVariable<Transform>, IComponent
 {
     public static implicit operator SharedTransform(Transform value)
     {
         return new SharedTransform { Value = value };
     }
+
+    public bool UseGetComponent { get; set; }
 }
 
 [Serializable]

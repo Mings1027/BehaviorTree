@@ -12,6 +12,7 @@ namespace BehaviorTreeTool.Editor
     {
         public new class UxmlFactory : UxmlFactory<BehaviorTreeView, UxmlTraits> { }
 
+        public NodeView SelectedNodeView { get; private set; }
         public Action<NodeView> OnNodeSelected { get; set; }
         private TaskSearchWindow _taskSearchWindow; // 캐싱된 TaskSearchWindow 인스턴스
         private Vector2 _lastMousePosition; // 마지막 마우스 위치 저장
@@ -77,6 +78,18 @@ namespace BehaviorTreeTool.Editor
             return GetNodeByGuid(node.guid) as NodeView;
         }
 
+        public NodeView FindNodeViewByGuid(string guid)
+        {
+            return nodes.OfType<NodeView>().FirstOrDefault(nv => nv.Node.guid == guid);
+        }
+
+        public void SelectNodeView(NodeView nodeView)
+        {
+            ClearSelection();
+            AddToSelection(nodeView);
+            SelectedNodeView = nodeView;
+            OnNodeSelected?.Invoke(nodeView);
+        }
         private void OnUndoRedo()
         {
             RefreshView();

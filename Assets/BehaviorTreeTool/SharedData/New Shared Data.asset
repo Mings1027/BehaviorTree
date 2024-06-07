@@ -16,7 +16,7 @@ MonoBehaviour:
   - rid: 1497354586845085769
   - rid: 1497354546029789516
   - rid: 1497354621595680768
-  - rid: 1497354632044216326
+  - rid: 1497354665339650048
   references:
     version: 2
     RefIds:
@@ -38,9 +38,9 @@ MonoBehaviour:
         variableName: View Angle
         useGetComponent: 0
         _value: 80
-    - rid: 1497354632044216326
+    - rid: 1497354665339650048
       type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
       data:
-        variableName: NavMeshAgent
+        variableName: Agent
         useGetComponent: 1
         _value: {fileID: 0}

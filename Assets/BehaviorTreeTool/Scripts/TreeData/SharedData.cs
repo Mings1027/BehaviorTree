@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 [CreateAssetMenu(menuName = "BehaviorTree/SharedData")]
 public class SharedData : ScriptableObject
@@ -18,7 +17,14 @@ public class SharedData : ScriptableObject
     {
         variables ??= new List<SharedVariableBase>();
     }
-
+    [ContextMenu("Print Type")]
+    private void PrintType()
+    {
+        for (int i = 0; i < variables.Count; i++)
+        {
+            Debug.Log(variables[i].GetValue().GetType());
+        }
+    }
     public void AddVariable(SharedVariableBase variable)
     {
         variables.Add(variable);

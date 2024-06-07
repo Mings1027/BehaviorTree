@@ -93,7 +93,12 @@ public class BehaviorTree : ScriptableObject
                         var sharedDataVariable = GetSharedVariable(nodeList[i].SharedData, sharedVariable.VariableName);
                         if (sharedDataVariable != null && sharedDataVariable.GetType() == sharedVariable.GetType())
                         {
+                            var currentValue = sharedVariable.GetValue();
                             fields[j].SetValue(nodeList[i], sharedDataVariable);
+                            if (currentValue != null)
+                            {
+                                sharedDataVariable.SetValue(currentValue);
+                            }
 
                             if (!sharedVariablesTable.ContainsKey(sharedVariable.VariableName))
                             {
@@ -108,7 +113,8 @@ public class BehaviorTree : ScriptableObject
         foreach (var kvp in sharedVariablesTable)
         {
             var value = kvp.Value.Item2.GetValue();
-            if (kvp.Value.Item2.UseGetComponent && value is Component)
+            if (kvp.Value.Item2 is IComponent componentVariable && componentVariable.UseGetComponent &&
+                value is Component)
             {
                 var componentType = value.GetType();
                 if (kvp.Value.Item1.NodeTransform.TryGetComponent(componentType, out var component))
@@ -136,7 +142,7 @@ public class BehaviorTree : ScriptableObject
         return null;
     }
 
-    #region Use Only Editor
+#region Use Only Editor
 
 #if UNITY_EDITOR
     public void SetRootNode(RootNode rootNode)
@@ -236,5 +242,5 @@ public class BehaviorTree : ScriptableObject
     }
 #endif
 
-    #endregion
+#endregion
 }

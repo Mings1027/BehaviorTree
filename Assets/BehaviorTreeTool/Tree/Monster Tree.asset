@@ -18,8 +18,7 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
   navMeshAgent:
-    variableName: NavMeshAgent
-    useGetComponent: 0
+    variableName: Agent
     _value: {fileID: 0}
   minPos: -10
   maxPos: 10
@@ -42,11 +41,9 @@ MonoBehaviour:
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
   target:
     variableName: Target
-    useGetComponent: 0
     _value: {fileID: 0}
   navMeshAgent:
-    variableName: NavMeshAgent
-    useGetComponent: 1
+    variableName: Agent
     _value: {fileID: 0}
 --- !u!114 &-5551168184907278297
 MonoBehaviour:
@@ -165,11 +162,9 @@ MonoBehaviour:
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
   target:
     variableName: Target
-    useGetComponent: 0
     _value: {fileID: 0}
   viewAngle:
     variableName: View Angle
-    useGetComponent: 0
     _value: 80
   detectRange: 7
   targetLayer:
@@ -195,8 +190,7 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
   navMeshAgent:
-    variableName: NavMeshAgent
-    useGetComponent: 0
+    variableName: Agent
     _value: {fileID: 0}
 --- !u!114 &-1173974757255780795
 MonoBehaviour:
@@ -217,15 +211,12 @@ MonoBehaviour:
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
   target:
     variableName: Target
-    useGetComponent: 0
     _value: {fileID: 0}
   viewAngle:
     variableName: View Angle
-    useGetComponent: 0
     _value: 80
   navMeshAgent:
-    variableName: NavMeshAgent
-    useGetComponent: 1
+    variableName: Agent
     _value: {fileID: 0}
   attackRange: 1.5
 --- !u!114 &11400000
@@ -312,7 +303,6 @@ MonoBehaviour:
   sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
   target:
     variableName: Target
-    useGetComponent: 0
     _value: {fileID: 0}
   attackDamage: 10
 --- !u!114 &8181437512819230551

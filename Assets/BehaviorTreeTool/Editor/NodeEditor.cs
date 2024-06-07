@@ -25,9 +25,14 @@ namespace BehaviorTreeTool.Editor
         private Texture2D _upArrowTexture;
         private Texture2D _downArrowTexture;
         private Texture2D _closeTexture;
+        private Texture2D _plusTexture;
+        private Texture2D _minusTexture;
 
         private SerializedProperty _variablesProperty;
         private SerializedProperty _sharedDataProperty;
+
+        private readonly Dictionary<string, bool> _arrayFoldouts = new();
+        private readonly Dictionary<string, bool> _listFoldouts = new();
 
         private static bool _arrayFoldout;
         private static int _selectedTab;
@@ -58,6 +63,8 @@ namespace BehaviorTreeTool.Editor
             _downArrowTexture =
                 AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Arrow Simple Down.png");
             _closeTexture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Close.png");
+            _plusTexture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Plus.png");
+            _minusTexture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Minus.png");
             UpdateSerializedVariables();
         }
 
@@ -69,7 +76,6 @@ namespace BehaviorTreeTool.Editor
             DisplayTreeName();
             DisplayTabs();
             CheckAssignSharedData();
-            // DrawNoneSharedVariables();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -157,7 +163,7 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.EndScrollView();
         }
 
-        #region DrawTasksTab
+#region DrawTasksTab
 
         // Tasks 탭을 그리는 함수
         private void DrawTasksTab()
@@ -226,9 +232,9 @@ namespace BehaviorTreeTool.Editor
             treeView?.CreateNode(type);
         }
 
-        #endregion
+#endregion
 
-        #region DrawVariablesTab
+#region DrawVariablesTab
 
         // Variables 탭을 그리는 함수
         private void DrawVariablesTab()
@@ -298,74 +304,96 @@ namespace BehaviorTreeTool.Editor
         // 변수 리스트를 그리는 함수
         private void DrawVariablesList()
         {
-            GUILayout.Label("Variables", EditorStyles.boldLabel);
-
-            if (_variablesProperty is { isArray: true })
+            var node = (Node)target;
+            var variables = node.SharedData.Variables;
+            if (_foldouts.Length != variables.Count)
             {
-                var serializedSharedData = _variablesProperty.serializedObject;
-                serializedSharedData.Update();
-                if (_foldouts.Length != _variablesProperty.arraySize)
+                Array.Resize(ref _foldouts, variables.Count);
+            }
+            for (int i = 0; i < variables.Count; i++)
+            {
+                EditorGUILayout.BeginHorizontal();
+                _foldouts[i] = EditorGUILayout.Foldout(_foldouts[i],
+                    $"{variables[i].VariableName} ({DisplayType(variables[i])})", true);
+                if (GUILayout.Button(new GUIContent(_upArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
                 {
-                    Array.Resize(ref _foldouts, _variablesProperty.arraySize);
+                    MoveVariableUp(i);
+                    break;
                 }
 
-                for (var i = 0; i < _variablesProperty.arraySize; i++)
+                if (GUILayout.Button(new GUIContent(_downArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
                 {
-                    var variableProperty = _variablesProperty.GetArrayElementAtIndex(i);
-                    if (variableProperty is { managedReferenceValue: not null })
+                    MoveVariableDown(i);
+                    break;
+                }
+                if (GUILayout.Button(new GUIContent(_closeTexture), GUILayout.Width(21), GUILayout.Height(21)))
+                {
+                    DeleteVariable(variables[i].VariableName, i);
+                    SaveFoldoutStates(_foldoutKey, _foldouts);
+                    EditorGUILayout.EndHorizontal();
+                    break;
+                }
+
+                EditorGUILayout.EndHorizontal();
+
+                if (_foldouts[i])
+                {
+                    EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+                    if (variables[i] is IComponent componentVariable)
                     {
-                        var variableNameProperty = variableProperty.FindPropertyRelative("variableName");
-                        EditorGUILayout.BeginHorizontal();
-
-                        _foldouts[i] = EditorGUILayout.Foldout(_foldouts[i],
-                            $"{variableNameProperty.stringValue} ({DisplayTypeName(variableProperty)})", true);
-
-                        if (GUILayout.Button(new GUIContent(_upArrowTexture), GUILayout.Width(23),
-                                GUILayout.Height(23)))
-                        {
-                            MoveVariableUp(i);
-                        }
-
-                        if (GUILayout.Button(new GUIContent(_downArrowTexture), GUILayout.Width(23),
-                                GUILayout.Height(23)))
-                        {
-                            MoveVariableDown(i);
-                        }
-
-                        if (GUILayout.Button(new GUIContent(_closeTexture), GUILayout.Width(23), GUILayout.Height(23)))
-                        {
-                            DeleteVariable(variableNameProperty.stringValue, i);
-                            SaveFoldoutStates(_foldoutKey, _foldouts);
-                            EditorGUILayout.EndHorizontal();
-                            break;
-                        }
-
-                        EditorGUILayout.EndHorizontal();
-
-                        if (_foldouts[i])
-                        {
-                            EditorGUILayout.BeginVertical("box");
-                            DrawVariableNameAndType(variableProperty);
-                            DrawVariableFields(variableProperty);
-                            EditorGUILayout.EndVertical();
-                        }
-
-                        if (i < _variablesProperty.arraySize - 1)
-                        {
-                            GUILayout.Space(3);
-                            DrawHorizontalLine(Color.gray);
-                        }
+                        componentVariable.UseGetComponent =
+                            EditorGUILayout.Toggle("Use GetComponent", componentVariable.UseGetComponent);
                     }
+
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Name", GUILayout.Width(50));
+                    EditorGUILayout.TextField(variables[i].VariableName);
+                    EditorGUILayout.EndHorizontal();
+
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Type", GUILayout.Width(50));
+                    EditorGUILayout.EnumPopup(DisplayType(variables[i]));
+                    EditorGUILayout.EndHorizontal();
+
+                    // DrawSharedVariableValueField(variables[i], "Value");
+
+                    EditorGUILayout.Space(2);
+                    EditorGUILayout.EndVertical();
                 }
+                EditorGUILayout.Space(3);
 
-                serializedSharedData.ApplyModifiedProperties();
+                DrawHorizontalLine(Color.gray);
             }
-            else
+        }
+
+        private static SharedVariableType DisplayType(SharedVariableBase variable)
+        {
+            var sharedType = variable switch
             {
-                Debug.LogError("_variablesProperty는 null이거나 배열이 아닙니다.");
-            }
-
-            SaveFoldoutStates(_foldoutKey, _foldouts);
+                SharedBool => SharedVariableType.Bool,
+                SharedCollider => SharedVariableType.Collider,
+                SharedColliderArray => SharedVariableType.ColliderArray,
+                SharedColor => SharedVariableType.Color,
+                SharedFloat => SharedVariableType.Float,
+                SharedGameObject => SharedVariableType.GameObject,
+                SharedGameObjectList => SharedVariableType.GameObjectList,
+                SharedInt => SharedVariableType.Int,
+                SharedLayerMask => SharedVariableType.LayerMask,
+                SharedMaterial => SharedVariableType.Material,
+                SharedNavMeshAgent => SharedVariableType.NavMeshAgent,
+                SharedQuaternion => SharedVariableType.Quaternion,
+                SharedRect => SharedVariableType.Rect,
+                SharedString => SharedVariableType.String,
+                SharedTransform => SharedVariableType.Transform,
+                SharedTransformArray => SharedVariableType.TransformArray,
+                SharedVector2 => SharedVariableType.Vector2,
+                SharedVector2Int => SharedVariableType.Vector2Int,
+                SharedVector3 => SharedVariableType.Vector3,
+                SharedVector3Int => SharedVariableType.Vector3Int,
+                _ => SharedVariableType.Bool
+            };
+            return sharedType;
         }
 
         // 변수를 위로 이동하는 함수
@@ -374,6 +402,7 @@ namespace BehaviorTreeTool.Editor
             if (index > 0)
             {
                 _variablesProperty.MoveArrayElement(index, index - 1);
+                _variablesProperty.serializedObject.ApplyModifiedProperties();
             }
         }
 
@@ -383,192 +412,7 @@ namespace BehaviorTreeTool.Editor
             if (index < _variablesProperty.arraySize - 1)
             {
                 _variablesProperty.MoveArrayElement(index, index + 1);
-            }
-        }
-
-        // 변수 이름과 타입을 그리는 함수
-        private static void DrawVariableNameAndType(SerializedProperty variableProperty)
-        {
-            var variableNameProperty = variableProperty.FindPropertyRelative("variableName");
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Name", GUILayout.Width(50));
-            EditorGUILayout.TextField(variableNameProperty.stringValue);
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Type", GUILayout.Width(50));
-            EditorGUILayout.EnumPopup(DisplayTypeName(variableProperty));
-            EditorGUILayout.EndHorizontal();
-        }
-
-        private void DrawVariableFields(SerializedProperty variableProperty)
-        {
-            var variableType = variableProperty.managedReferenceFullTypename;
-            var valueProperty = variableProperty.FindPropertyRelative("_value");
-            var variableNameProperty = variableProperty.FindPropertyRelative("variableName");
-            var useGetComponentProperty = variableProperty.FindPropertyRelative("useGetComponent");
-            var type = variableType.Split(' ')[1];
-
-            if (type == typeof(SharedInt).FullName)
-            {
-                valueProperty.intValue =
-                    EditorGUILayout.IntField(variableNameProperty.stringValue, valueProperty.intValue);
-            }
-            else if (type == typeof(SharedFloat).FullName)
-            {
-                valueProperty.floatValue =
-                    EditorGUILayout.FloatField(variableNameProperty.stringValue, valueProperty.floatValue);
-            }
-            else if (type == typeof(SharedTransform).FullName)
-            {
-                DrawObjectField(variableNameProperty, valueProperty, typeof(Transform));
-            }
-            else if (type == typeof(SharedCollider).FullName)
-            {
-                DrawObjectField(variableNameProperty, valueProperty, typeof(Collider));
-            }
-            else if (type == typeof(SharedColliderArray).FullName)
-            {
-                DrawArrayFoldout(variableNameProperty, valueProperty, typeof(Collider));
-            }
-            else if (type == typeof(SharedLayerMask).FullName)
-            {
-                var layerMaskValue = new LayerMask { value = valueProperty.intValue };
-                layerMaskValue =
-                    EditorGUILayoutExtensions.LayerMaskField(variableNameProperty.stringValue, layerMaskValue);
-                valueProperty.intValue = layerMaskValue.value;
-            }
-            else if (type == typeof(SharedVector3).FullName)
-            {
-                valueProperty.vector3Value =
-                    EditorGUILayout.Vector3Field(variableNameProperty.stringValue, valueProperty.vector3Value);
-            }
-            else if (type == typeof(SharedTransformArray).FullName)
-            {
-                DrawArrayFoldout(variableNameProperty, valueProperty, typeof(Transform));
-            }
-            else if (type == typeof(SharedBool).FullName)
-            {
-                valueProperty.boolValue =
-                    EditorGUILayout.Toggle(variableNameProperty.stringValue, valueProperty.boolValue);
-            }
-            else if (type == typeof(SharedColor).FullName)
-            {
-                valueProperty.colorValue =
-                    EditorGUILayout.ColorField(variableNameProperty.stringValue, valueProperty.colorValue);
-            }
-            else if (type == typeof(SharedGameObject).FullName)
-            {
-                DrawObjectField(variableNameProperty, valueProperty, typeof(GameObject));
-            }
-            else if (type == typeof(SharedGameObjectList).FullName)
-            {
-                DrawArrayFoldout(variableNameProperty, valueProperty, typeof(GameObject));
-            }
-            else if (type == typeof(SharedMaterial).FullName)
-            {
-                DrawObjectField(variableNameProperty, valueProperty, typeof(Material));
-            }
-            else if (type == typeof(SharedNavMeshAgent).FullName)
-            {
-                DrawObjectField(variableNameProperty, valueProperty, typeof(NavMeshAgent));
-            }
-            else if (type == typeof(SharedQuaternion).FullName)
-            {
-                var eulerAngles = valueProperty.quaternionValue.eulerAngles;
-                var newEulerAngles = EditorGUILayout.Vector3Field(variableNameProperty.stringValue, eulerAngles);
-                if (newEulerAngles != eulerAngles)
-                {
-                    valueProperty.quaternionValue = Quaternion.Euler(newEulerAngles);
-                }
-            }
-            else if (type == typeof(SharedRect).FullName)
-            {
-                valueProperty.rectValue =
-                    EditorGUILayout.RectField(variableNameProperty.stringValue, valueProperty.rectValue);
-            }
-            else if (type == typeof(SharedString).FullName)
-            {
-                valueProperty.stringValue =
-                    EditorGUILayout.TextField(variableNameProperty.stringValue, valueProperty.stringValue);
-            }
-            else if (type == typeof(SharedVector2).FullName)
-            {
-                valueProperty.vector2Value =
-                    EditorGUILayout.Vector2Field(variableNameProperty.stringValue, valueProperty.vector2Value);
-            }
-            else if (type == typeof(SharedVector2Int).FullName)
-            {
-                valueProperty.vector2IntValue = EditorGUILayout.Vector2IntField(variableNameProperty.stringValue,
-                    valueProperty.vector2IntValue);
-            }
-            else if (type == typeof(SharedVector3Int).FullName)
-            {
-                valueProperty.vector3IntValue = EditorGUILayout.Vector3IntField(variableNameProperty.stringValue,
-                    valueProperty.vector3IntValue);
-            }
-
-            // Add the Use GetComponent toggle
-            var newUseGetComponent = EditorGUILayout.Toggle("Use GetComponent", useGetComponentProperty.boolValue);
-            if (newUseGetComponent != useGetComponentProperty.boolValue)
-            {
-                useGetComponentProperty.boolValue = newUseGetComponent;
-                EditorUtility.SetDirty(variableProperty.serializedObject.targetObject);
-            }
-        }
-
-        private static void DrawObjectField(SerializedProperty variableNameProperty, SerializedProperty valueProperty,
-            Type objectType)
-        {
-            valueProperty.objectReferenceValue = EditorGUILayout.ObjectField(variableNameProperty.stringValue,
-                valueProperty.objectReferenceValue, objectType, true);
-        }
-
-        // 배열 폴드아웃을 그리는 함수
-        private void DrawArrayFoldout(SerializedProperty variableNameProperty, SerializedProperty valueProperty,
-            Type elementType)
-        {
-            var arrayFoldoutKey = $"{_foldoutKey}_{variableNameProperty.stringValue}_Array";
-            var arrayFoldout = EditorPrefs.GetBool(arrayFoldoutKey, false);
-
-            EditorGUILayout.BeginHorizontal();
-            arrayFoldout = EditorGUILayout.Foldout(arrayFoldout, variableNameProperty.stringValue, true);
-            EditorPrefs.SetBool(arrayFoldoutKey, arrayFoldout);
-
-            valueProperty.arraySize =
-                Mathf.Max(0, EditorGUILayout.IntField(valueProperty.arraySize, GUILayout.Width(50)));
-            EditorGUILayout.EndHorizontal();
-
-            if (arrayFoldout)
-            {
-                EditorGUI.indentLevel++;
-                if (valueProperty.isArray)
-                {
-                    for (var i = 0; i < valueProperty.arraySize; i++)
-                    {
-                        var elementProperty = valueProperty.GetArrayElementAtIndex(i);
-                        elementProperty.objectReferenceValue = EditorGUILayout.ObjectField($"Element {i}",
-                            elementProperty.objectReferenceValue, elementType, true);
-                    }
-
-                    EditorGUILayout.BeginHorizontal();
-                    if (GUILayout.Button("Add Element"))
-                    {
-                        valueProperty.arraySize++;
-                    }
-
-                    if (GUILayout.Button("Remove Element"))
-                    {
-                        if (valueProperty.arraySize > 0)
-                        {
-                            valueProperty.arraySize--;
-                        }
-                    }
-
-                    EditorGUILayout.EndHorizontal();
-                }
-
-                EditorGUI.indentLevel--;
+                _variablesProperty.serializedObject.ApplyModifiedProperties();
             }
         }
 
@@ -602,97 +446,6 @@ namespace BehaviorTreeTool.Editor
             }
 
             return foldouts;
-        }
-
-        // 변수 타입을 표시하는 함수
-        private static SharedVariableType DisplayTypeName(SerializedProperty variableProperty)
-        {
-            var variableType = variableProperty.managedReferenceFullTypename;
-            var type = variableType.Split(' ')[1];
-            var sharedVariableType = SharedVariableType.Int;
-
-            if (type == typeof(SharedInt).FullName)
-            {
-                sharedVariableType = SharedVariableType.Int;
-            }
-            else if (type == typeof(SharedFloat).FullName)
-            {
-                sharedVariableType = SharedVariableType.Float;
-            }
-            else if (type == typeof(SharedTransform).FullName)
-            {
-                sharedVariableType = SharedVariableType.Transform;
-            }
-            else if (type == typeof(SharedCollider).FullName)
-            {
-                sharedVariableType = SharedVariableType.Collider;
-            }
-            else if (type == typeof(SharedColliderArray).FullName)
-            {
-                sharedVariableType = SharedVariableType.ColliderArray;
-            }
-            else if (type == typeof(SharedLayerMask).FullName)
-            {
-                sharedVariableType = SharedVariableType.LayerMask;
-            }
-            else if (type == typeof(SharedVector3).FullName)
-            {
-                sharedVariableType = SharedVariableType.Vector3;
-            }
-            else if (type == typeof(SharedTransformArray).FullName)
-            {
-                sharedVariableType = SharedVariableType.TransformArray;
-            }
-            else if (type == typeof(SharedBool).FullName)
-            {
-                sharedVariableType = SharedVariableType.Bool;
-            }
-            else if (type == typeof(SharedColor).FullName)
-            {
-                sharedVariableType = SharedVariableType.Color;
-            }
-            else if (type == typeof(SharedGameObject).FullName)
-            {
-                sharedVariableType = SharedVariableType.GameObject;
-            }
-            else if (type == typeof(SharedGameObjectList).FullName)
-            {
-                sharedVariableType = SharedVariableType.GameObjectList;
-            }
-            else if (type == typeof(SharedMaterial).FullName)
-            {
-                sharedVariableType = SharedVariableType.Material;
-            }
-            else if (type == typeof(SharedNavMeshAgent).FullName)
-            {
-                sharedVariableType = SharedVariableType.NavMeshAgent;
-            }
-            else if (type == typeof(SharedQuaternion).FullName)
-            {
-                sharedVariableType = SharedVariableType.Quaternion;
-            }
-            else if (type == typeof(SharedRect).FullName)
-            {
-                sharedVariableType = SharedVariableType.Rect;
-            }
-            else if (type == typeof(SharedString).FullName)
-            {
-                sharedVariableType = SharedVariableType.String;
-            }
-            else if (type == typeof(SharedVector2).FullName)
-            {
-                sharedVariableType = SharedVariableType.Vector2;
-            }
-            else if (type == typeof(SharedVector2Int).FullName)
-            {
-                sharedVariableType = SharedVariableType.Vector2Int;
-            }
-            else if (type == typeof(SharedVector3Int).FullName)
-            {
-                sharedVariableType = SharedVariableType.Vector3Int;
-            }
-
-            return sharedVariableType;
         }
 
         // Shared 변수를 생성하는 함수
@@ -730,9 +483,9 @@ namespace BehaviorTreeTool.Editor
             return sharedData.Variables.Any(variable => variable.VariableName == variableName);
         }
 
-        #endregion
+#endregion
 
-        #region DrawInspectorTab
+#region DrawInspectorTab
 
         // Inspector 탭을 그리는 함수
         private void DrawInspectorTab()
@@ -747,6 +500,7 @@ namespace BehaviorTreeTool.Editor
             DrawHorizontalLine(Color.gray);
             DrawNonSharedVariableFields(node);
             DrawHorizontalLine(Color.gray);
+            DrawNoneSharedVariables();
         }
 
         // 설명 필드를 그리는 함수
@@ -788,13 +542,15 @@ namespace BehaviorTreeTool.Editor
 
             foreach (var kvp in sharedVariables)
             {
+                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
                 DrawSharedVariableField(node, kvp);
+                EditorGUILayout.Space(2);
+                EditorGUILayout.EndVertical();
             }
         }
 
         private void DrawSharedVariableField(Node node, KeyValuePair<string, SharedVariableBase> kvp)
         {
-            // 각 필드의 이름과 해당 변수를 출력할 수 있는 UI를 생성
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(kvp.Key, GUILayout.MinWidth(100));
 
@@ -805,21 +561,17 @@ namespace BehaviorTreeTool.Editor
                 variableStyle.fontStyle = FontStyle.Bold;
             }
 
-            // 현재 변수 이름 및 모든 변수 이름 목록을 가져오기
             var variableNames = node.SharedData.Variables
                 .Where(v => v.GetType() == kvp.Value.GetType())
                 .Select(v => v.VariableName)
                 .ToList();
 
-            // "(None)" 옵션 추가
             variableNames.Insert(0, "(None)");
 
-            // 현재 변수 이름에 해당하는 인덱스를 찾기
             var currentIndex = string.IsNullOrEmpty(kvp.Value.VariableName)
                 ? 0
                 : variableNames.IndexOf(kvp.Value.VariableName);
 
-            // 드롭다운 메뉴 스타일 설정
             var popupStyle = new GUIStyle(EditorStyles.popup);
             if (currentIndex == 0)
             {
@@ -827,12 +579,10 @@ namespace BehaviorTreeTool.Editor
                 popupStyle.fontStyle = FontStyle.Bold;
             }
 
-            // 드롭다운 메뉴 생성
             var selectedIndex = EditorGUILayout.Popup(currentIndex, variableNames.ToArray(), popupStyle,
                 GUILayout.MinWidth(100));
             if (selectedIndex != currentIndex)
             {
-                // 선택한 변수 이름으로 업데이트
                 if (selectedIndex == 0)
                 {
                     kvp.Value.VariableName = string.Empty;
@@ -851,98 +601,155 @@ namespace BehaviorTreeTool.Editor
 
             EditorGUILayout.EndHorizontal();
 
-            // 변수 값을 표시하도록 설정되어 있으면 변수 값 필드를 그리는 함수를 호출
-            if (_showValues)
+            if (_showValues && selectedIndex != 0)
             {
                 EditorGUI.indentLevel++;
-                DrawSharedVariableValueFields(kvp.Value);
+                DrawSharedVariableValueField(kvp.Value, "Value");
                 EditorGUI.indentLevel--;
             }
         }
 
-        // Shared 변수 값을 그리는 함수
-        private void DrawSharedVariableValueFields(SharedVariableBase variable)
+        private void DrawSharedVariableValueField(SharedVariableBase variable, string valueLabel)
         {
-            const string labelPrefix = "ㄴ ";
-            const string valueLabel = labelPrefix + "Value";
-
             switch (variable)
             {
                 case SharedInt sharedInt:
-                    sharedInt.Value = EditorGUILayout.IntField(valueLabel, sharedInt.Value);
+                    var newIntValue = EditorGUILayout.IntField(valueLabel, sharedInt.Value);
+                    if (sharedInt.Value != newIntValue)
+                    {
+                        sharedInt.SetValue(newIntValue);
+                    }
                     break;
                 case SharedFloat sharedFloat:
-                    sharedFloat.Value = EditorGUILayout.FloatField(valueLabel, sharedFloat.Value);
+                    var newFloatValue = EditorGUILayout.FloatField(valueLabel, sharedFloat.Value);
+                    if (!Mathf.Approximately(sharedFloat.Value, newFloatValue))
+                    {
+                        sharedFloat.SetValue(newFloatValue);
+                    }
                     break;
                 case SharedTransform sharedTransform:
-                    sharedTransform.Value =
+                    var newTransformValue =
                         (Transform)EditorGUILayout.ObjectField(valueLabel, sharedTransform.Value, typeof(Transform),
                             true);
+                    if (sharedTransform.Value != newTransformValue)
+                    {
+                        sharedTransform.SetValue(newTransformValue);
+                    }
                     break;
                 case SharedCollider sharedCollider:
-                    sharedCollider.Value =
+                    var newColliderValue =
                         (Collider)EditorGUILayout.ObjectField(valueLabel, sharedCollider.Value, typeof(Collider), true);
+                    if (sharedCollider.Value != newColliderValue)
+                    {
+                        sharedCollider.SetValue(newColliderValue);
+                    }
                     break;
                 case SharedColliderArray sharedColliderArray:
                     DrawArrayField(sharedColliderArray);
                     break;
                 case SharedLayerMask sharedLayerMask:
-                    sharedLayerMask.Value = EditorGUILayout.LayerField(valueLabel, sharedLayerMask.Value);
+                    LayerMask newLayerMaskValue = EditorGUILayout.LayerField(valueLabel, sharedLayerMask.Value);
+                    if (sharedLayerMask.Value != newLayerMaskValue)
+                    {
+                        sharedLayerMask.SetValue(newLayerMaskValue);
+                    }
                     break;
                 case SharedVector3 sharedVector3:
-                    sharedVector3.Value = EditorGUILayout.Vector3Field(valueLabel, sharedVector3.Value);
+                    var newVector3Value = EditorGUILayout.Vector3Field(valueLabel, sharedVector3.Value);
+                    if (sharedVector3.Value != newVector3Value)
+                    {
+                        sharedVector3.SetValue(newVector3Value);
+                    }
                     break;
                 case SharedTransformArray sharedTransformArray:
                     DrawArrayField(sharedTransformArray);
                     break;
                 case SharedBool sharedBool:
-                    sharedBool.Value = EditorGUILayout.Toggle(valueLabel, sharedBool.Value);
+                    var newBoolValue = EditorGUILayout.Toggle(valueLabel, sharedBool.Value);
+                    if (sharedBool.Value != newBoolValue)
+                    {
+                        sharedBool.SetValue(newBoolValue);
+                    }
                     break;
                 case SharedColor sharedColor:
-                    sharedColor.Value = EditorGUILayout.ColorField(valueLabel, sharedColor.Value);
+                    var newColorValue = EditorGUILayout.ColorField(valueLabel, sharedColor.Value);
+                    if (sharedColor.Value != newColorValue)
+                    {
+                        sharedColor.SetValue(newColorValue);
+                    }
                     break;
                 case SharedGameObject sharedGameObject:
-                    sharedGameObject.Value =
+                    var newGameObjectValue =
                         (GameObject)EditorGUILayout.ObjectField(valueLabel, sharedGameObject.Value, typeof(GameObject),
                             true);
+                    if (sharedGameObject.Value != newGameObjectValue)
+                    {
+                        sharedGameObject.SetValue(newGameObjectValue);
+                    }
                     break;
                 case SharedGameObjectList sharedGameObjectList:
                     DrawListField(sharedGameObjectList);
                     break;
                 case SharedMaterial sharedMaterial:
-                    sharedMaterial.Value =
+                    var newMaterialValue =
                         (Material)EditorGUILayout.ObjectField(valueLabel, sharedMaterial.Value, typeof(Material), true);
+                    if (sharedMaterial.Value != newMaterialValue)
+                    {
+                        sharedMaterial.SetValue(newMaterialValue);
+                    }
                     break;
                 case SharedNavMeshAgent sharedNavMeshAgent:
-                    sharedNavMeshAgent.Value =
-                        (NavMeshAgent)EditorGUILayout.ObjectField(valueLabel, sharedNavMeshAgent.Value,
-                            typeof(NavMeshAgent), true);
+                    var newNavMeshAgentValue = (NavMeshAgent)EditorGUILayout.ObjectField(valueLabel,
+                        sharedNavMeshAgent.Value, typeof(NavMeshAgent), true);
+                    if (sharedNavMeshAgent.Value != newNavMeshAgentValue)
+                    {
+                        sharedNavMeshAgent.SetValue(newNavMeshAgentValue);
+                    }
                     break;
                 case SharedQuaternion sharedQuaternion:
+                {
+                    var newEulerAngles =
+                        EditorGUILayout.Vector3Field(valueLabel, sharedQuaternion.Value.eulerAngles);
+                    if (sharedQuaternion.Value.eulerAngles != newEulerAngles)
                     {
-                        var eulerAngles = sharedQuaternion.Value.eulerAngles;
-                        var newEulerAngles = EditorGUILayout.Vector3Field(valueLabel, eulerAngles);
-                        if (newEulerAngles != eulerAngles)
-                        {
-                            sharedQuaternion.Value = Quaternion.Euler(newEulerAngles);
-                        }
-
-                        break;
+                        sharedQuaternion.SetValue(Quaternion.Euler(newEulerAngles));
                     }
+                    break;
+                }
                 case SharedRect sharedRect:
-                    sharedRect.Value = EditorGUILayout.RectField(valueLabel, sharedRect.Value);
+                    var newRectValue = EditorGUILayout.RectField(valueLabel, sharedRect.Value);
+                    if (sharedRect.Value != newRectValue)
+                    {
+                        sharedRect.SetValue(newRectValue);
+                    }
                     break;
                 case SharedString sharedString:
-                    sharedString.Value = EditorGUILayout.TextField(valueLabel, sharedString.Value);
+                    var newStringValue = EditorGUILayout.TextField(valueLabel, sharedString.Value);
+                    if (sharedString.Value != newStringValue)
+                    {
+                        sharedString.SetValue(newStringValue);
+                    }
                     break;
                 case SharedVector2 sharedVector2:
-                    sharedVector2.Value = EditorGUILayout.Vector2Field(valueLabel, sharedVector2.Value);
+                    var newVector2Value = EditorGUILayout.Vector2Field(valueLabel, sharedVector2.Value);
+                    if (sharedVector2.Value != newVector2Value)
+                    {
+                        sharedVector2.SetValue(newVector2Value);
+                    }
                     break;
                 case SharedVector2Int sharedVector2Int:
-                    sharedVector2Int.Value = EditorGUILayout.Vector2IntField(valueLabel, sharedVector2Int.Value);
+                    var newVector2IntValue = EditorGUILayout.Vector2IntField(valueLabel, sharedVector2Int.Value);
+                    if (sharedVector2Int.Value != newVector2IntValue)
+                    {
+                        sharedVector2Int.SetValue(newVector2IntValue);
+                    }
                     break;
                 case SharedVector3Int sharedVector3Int:
-                    sharedVector3Int.Value = EditorGUILayout.Vector3IntField(valueLabel, sharedVector3Int.Value);
+                    var newVector3IntValue = EditorGUILayout.Vector3IntField(valueLabel, sharedVector3Int.Value);
+                    if (sharedVector3Int.Value != newVector3IntValue)
+                    {
+                        sharedVector3Int.SetValue(newVector3IntValue);
+                    }
                     break;
                 default:
                     EditorGUILayout.LabelField("Unsupported SharedVariable type");
@@ -950,11 +757,30 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        // 배열 필드를 그리는 함수
         private void DrawArrayField<T>(SharedVariable<T[]> sharedVariableArray)
         {
             var array = sharedVariableArray.Value ?? Array.Empty<T>();
-            var newSize = EditorGUILayout.IntField("Size", array.Length);
+
+            EditorGUILayout.BeginHorizontal();
+
+            _arrayFoldouts.TryAdd(sharedVariableArray.VariableName, false);
+
+            _arrayFoldouts[sharedVariableArray.VariableName] =
+                EditorGUILayout.Foldout(_arrayFoldouts[sharedVariableArray.VariableName],
+                    $"Array Elements [{array.Length}]", true);
+
+            var newSize = EditorGUILayout.IntField(array.Length, GUILayout.Width(50));
+            if (GUILayout.Button(new GUIContent(_plusTexture), GUILayout.Width(20), GUILayout.Height(20)))
+            {
+                newSize++;
+            }
+
+            if (GUILayout.Button(new GUIContent(_minusTexture), GUILayout.Width(20), GUILayout.Height(20)))
+            {
+                newSize--;
+            }
+
+            EditorGUILayout.EndHorizontal();
 
             if (newSize < 0) newSize = 0;
             if (newSize != array.Length)
@@ -964,69 +790,83 @@ namespace BehaviorTreeTool.Editor
                 {
                     newArray[i] = array[i];
                 }
-
-                sharedVariableArray.Value = newArray;
+                sharedVariableArray.SetValue(newArray);
                 array = newArray;
             }
 
-            _arrayFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(_arrayFoldout, "Array Elements");
-            if (_arrayFoldout)
+            if (_arrayFoldouts[sharedVariableArray.VariableName])
             {
                 EditorGUI.indentLevel++;
                 for (var i = 0; i < array.Length; i++)
                 {
-                    array[i] = (T)DrawFieldForType(typeof(T), array[i], $"Element {i}");
+                    var newValue = (T)DrawFieldForType(typeof(T), array[i], $"Element {i}");
+                    if (!EqualityComparer<T>.Default.Equals(array[i], newValue))
+                    {
+                        array[i] = newValue;
+                        sharedVariableArray.SetValue(array);
+                    }
                 }
 
                 EditorGUI.indentLevel--;
             }
-
-            EditorGUILayout.EndFoldoutHeaderGroup();
         }
 
-        // 리스트 필드를 그리는 함수
-        private void DrawListField<T>(SharedVariable<List<T>> sharedVariableList) where T : Object
+        private void DrawListField<T>(SharedVariable<List<T>> sharedVariableList)
+            where T : Object
         {
             var list = sharedVariableList.Value ?? new List<T>();
 
+            _listFoldouts.TryAdd(sharedVariableList.VariableName, false);
+
             EditorGUILayout.BeginHorizontal();
-            _arrayFoldout =
-                EditorGUILayout.BeginFoldoutHeaderGroup(_arrayFoldout, $"List Elements [{list.Count}]");
 
-            if (GUILayout.Button("+", GUILayout.Width(30)))
+            _listFoldouts[sharedVariableList.VariableName] =
+                EditorGUILayout.Foldout(_listFoldouts[sharedVariableList.VariableName],
+                    $"List Elements [{list.Count}]", true);
+
+            var newSize = EditorGUILayout.IntField(list.Count, GUILayout.Width(50));
+            if (GUILayout.Button(new GUIContent(_plusTexture), GUILayout.Width(21), GUILayout.Height(21)))
             {
-                list.Add(null);
+                newSize++;
             }
 
-            if (GUILayout.Button("-", GUILayout.Width(30)))
+            if (GUILayout.Button(new GUIContent(_minusTexture), GUILayout.Width(21), GUILayout.Height(21)))
             {
-                if (list.Count > 0)
-                {
-                    list.RemoveAt(list.Count - 1);
-                }
-            }
-
-            if (GUILayout.Button("0", GUILayout.Width(30)))
-            {
-                list.Clear();
+                newSize--;
             }
 
             EditorGUILayout.EndHorizontal();
 
-            if (_arrayFoldout)
+            if (newSize < 0) newSize = 0;
+            if (newSize != list.Count)
+            {
+                var newList = new List<T>(newSize);
+                for (var i = 0; i < Mathf.Min(newSize, list.Count); i++)
+                {
+                    newList.Add(list[i]);
+                }
+                for (var i = list.Count; i < newSize; i++)
+                {
+                    newList.Add(null);
+                }
+                sharedVariableList.SetValue(newList);
+                list = newList;
+            }
+
+            if (_listFoldouts[sharedVariableList.VariableName])
             {
                 EditorGUI.indentLevel++;
                 for (var i = 0; i < list.Count; i++)
                 {
-                    list[i] = (T)EditorGUILayout.ObjectField($"Element {i}", list[i], typeof(T), true);
+                    var newValue = (T)EditorGUILayout.ObjectField($"Element {i}", list[i], typeof(T), true);
+                    if (list[i] != newValue)
+                    {
+                        list[i] = newValue;
+                        sharedVariableList.SetValue(list);
+                    }
                 }
-
                 EditorGUI.indentLevel--;
             }
-
-            sharedVariableList.Value = list;
-
-            EditorGUILayout.EndFoldoutHeaderGroup();
         }
 
         // 타입에 맞는 필드를 그리는 함수
@@ -1145,7 +985,7 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.EndVertical();
         }
 
-        #endregion
+#endregion
 
         // SharedData 할당을 확인하는 함수
         private void CheckAssignSharedData()

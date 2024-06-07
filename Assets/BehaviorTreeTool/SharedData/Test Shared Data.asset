@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6d47f862fa46deadff805a0a827f66, type: 3}
+  m_Name: Test Shared Data
+  m_EditorClassIdentifier: 
+  variables:
+  - rid: 1497354677274542096
+  - rid: 1497354677274542097
+  - rid: 1497354677274542099
+  - rid: 1497354685173989377
+  - rid: 1497354689442217984
+  references:
+    version: 2
+    RefIds:
+    - rid: 1497354677274542096
+      type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: agent
+        _value: {fileID: 0}
+    - rid: 1497354677274542097
+      type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: way points
+        _value:
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+    - rid: 1497354677274542099
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: wait time
+        _value: 1
+    - rid: 1497354685173989377
+      type: {class: SharedGameObjectList, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: testList
+        _value:
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+    - rid: 1497354689442217984
+      type: {class: SharedTransform, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: t
+        _value: {fileID: 0}

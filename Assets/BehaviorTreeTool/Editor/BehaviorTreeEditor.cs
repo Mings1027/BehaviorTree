@@ -76,7 +76,6 @@ namespace BehaviorTreeTool.Editor
 
             root.styleSheets.Add(styleSheet);
 
-            
             // Main treeview
             TreeView = root.Q<BehaviorTreeView>("behaviorTreeView");
             if (TreeView == null)
@@ -136,31 +135,31 @@ namespace BehaviorTreeTool.Editor
 
         private void OnSelectionChange()
         {
-            EditorApplication.delayCall += () =>
+            // EditorApplication.delayCall += () =>
             {
                 var tree = Selection.activeObject as BehaviorTree;
                 if (!tree)
                 {
                     if (Selection.activeGameObject)
                     {
-                        var runner = Selection.activeGameObject.GetComponent<BehaviorTreeRunner>();
-                        if (runner)
+                        if (Selection.activeGameObject.TryGetComponent(out BehaviorTreeRunner behaviorTreeRunner))
                         {
-                            tree = runner.Tree;
+                            tree = behaviorTreeRunner.Tree;
                         }
                     }
                 }
 
                 SelectTree(tree);
-            };
+            }
+            ;
         }
 
         private void SelectTree(BehaviorTree newTree)
         {
-            if (TreeView == null || !newTree)
-            {
-                return;
-            }
+            if (TreeView == null || newTree == null) return;
+
+            var currentSelectedNodeGuid = TreeView.SelectedNodeView?.Node.guid;
+            var selectSameNode = tree != null && tree.name == newTree.name;
 
             tree = newTree;
             if (!tree.RootNode)
@@ -173,6 +172,29 @@ namespace BehaviorTreeTool.Editor
 
             // Save the selected tree name to EditorPrefs
             treeName = tree.name;
+
+            // 마지막 커밋전엔 이거 if 자체가 없었고 관련된 BehaviorTreeView에 함수랑 프로퍼티도 없엇음
+            if (tree.RootNode != null)
+            {
+                if (selectSameNode && !string.IsNullOrEmpty(currentSelectedNodeGuid))
+                {
+                    var selectedNodeView = TreeView.FindNodeViewByGuid(currentSelectedNodeGuid);
+                    if (selectedNodeView != null)
+                    {
+                        TreeView.SelectNodeView(selectedNodeView);
+                    }
+                    else
+                    {
+                        // If the node does not exist in the new tree, select the root node
+                        OnNodeSelectionChanged(TreeView.FindNodeView(tree.RootNode));
+                    }
+                }
+                else
+                {
+                    // If no node was previously selected, select the root node
+                    OnNodeSelectionChanged(TreeView.FindNodeView(tree.RootNode));
+                }
+            }
 
             EditorApplication.delayCall += () => { TreeView.FrameAll(); };
         }
