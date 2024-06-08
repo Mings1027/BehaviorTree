@@ -36,7 +36,6 @@ public interface IComponent
 [Serializable]
 public class SharedVariableBase
 {
-    // [SerializeField] private bool useGetComponent;
     [SerializeField] private string variableName;
 
     public string VariableName
@@ -44,12 +43,6 @@ public class SharedVariableBase
         get => variableName;
         set => variableName = value;
     }
-
-    // public bool UseGetComponent
-    // {
-    //     get => useGetComponent;
-    //     set => useGetComponent = value;
-    // }
 
     public virtual object GetValue()
     {

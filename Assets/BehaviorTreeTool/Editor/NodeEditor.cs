@@ -24,6 +24,8 @@ namespace BehaviorTreeTool.Editor
 
         private Texture2D _upArrowTexture;
         private Texture2D _downArrowTexture;
+        private Texture2D _leftArrowTexture;
+        private Texture2D _rightArrowTexture;
         private Texture2D _closeTexture;
         private Texture2D _plusTexture;
         private Texture2D _minusTexture;
@@ -62,9 +64,15 @@ namespace BehaviorTreeTool.Editor
                 AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Arrow Simple Up.png");
             _downArrowTexture =
                 AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Arrow Simple Down.png");
+            _leftArrowTexture =
+                AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Arrow Simple Left.png");
+            _rightArrowTexture =
+                AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Arrow Simple Right.png");
+
             _closeTexture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Close.png");
             _plusTexture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Plus.png");
             _minusTexture = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Minus.png");
+
             UpdateSerializedVariables();
         }
 
@@ -310,11 +318,25 @@ namespace BehaviorTreeTool.Editor
             {
                 Array.Resize(ref _foldouts, variables.Count);
             }
+
             for (int i = 0; i < variables.Count; i++)
             {
+                // 스타일 설정
+                var style = new GUIStyle(GUI.skin.box)
+                {
+                    normal = { background = MakeTex(2, 2, new Color(0.3f, 0.3f, 0.3f, 1.0f)) }, // 기본 색상
+                    hover = { background = MakeTex(2, 2, new Color(0.2f, 0.2f, 0.2f, 1.0f)) }, // 호버 시 색상
+                    padding = new RectOffset(10, 10, 5, 5),
+                    margin = new RectOffset(4, 4, 2, 2)
+                };
+
+                EditorGUILayout.BeginVertical(style);
+
                 EditorGUILayout.BeginHorizontal();
+
                 _foldouts[i] = EditorGUILayout.Foldout(_foldouts[i],
                     $"{variables[i].VariableName} ({DisplayType(variables[i])})", true);
+
                 if (GUILayout.Button(new GUIContent(_upArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
                 {
                     MoveVariableUp(i);
@@ -328,8 +350,13 @@ namespace BehaviorTreeTool.Editor
                 }
                 if (GUILayout.Button(new GUIContent(_closeTexture), GUILayout.Width(21), GUILayout.Height(21)))
                 {
-                    DeleteVariable(variables[i].VariableName, i);
-                    SaveFoldoutStates(_foldoutKey, _foldouts);
+                    var confirmDelete = EditorUtility.DisplayDialog("Delete Variable",
+                        $"Are you sure you want to delete the variable '{variables[i].VariableName}'?", "Yes", "No");
+                    if (confirmDelete)
+                    {
+                        DeleteVariable(variables[i].VariableName, i);
+                        SaveFoldoutStates(_foldoutKey, _foldouts);
+                    }
                     EditorGUILayout.EndHorizontal();
                     break;
                 }
@@ -338,8 +365,7 @@ namespace BehaviorTreeTool.Editor
 
                 if (_foldouts[i])
                 {
-                    EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
+                    EditorGUILayout.Space();
                     if (variables[i] is IComponent componentVariable)
                     {
                         componentVariable.UseGetComponent =
@@ -357,14 +383,27 @@ namespace BehaviorTreeTool.Editor
                     EditorGUILayout.EndHorizontal();
 
                     // DrawSharedVariableValueField(variables[i], "Value");
-
-                    EditorGUILayout.Space(2);
-                    EditorGUILayout.EndVertical();
                 }
-                EditorGUILayout.Space(3);
+
+                EditorGUILayout.Space(1);
+                EditorGUILayout.EndVertical();
 
                 DrawHorizontalLine(Color.gray);
             }
+        }
+
+// 텍스처 생성을 위한 헬퍼 함수
+        private Texture2D MakeTex(int width, int height, Color col)
+        {
+            Color[] pix = new Color[width * height];
+            for (int i = 0; i < pix.Length; i++)
+            {
+                pix[i] = col;
+            }
+            Texture2D result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
         }
 
         private static SharedVariableType DisplayType(SharedVariableBase variable)
@@ -530,28 +569,45 @@ namespace BehaviorTreeTool.Editor
             // "Shared Variables" 라벨을 굵은 글씨로 출력
             EditorGUILayout.LabelField("Shared Variables", EditorStyles.boldLabel);
 
-            // 변수 값 표시 여부를 토글하는 UI를 생성
-            _showValues = EditorGUILayout.Toggle("Show Values", _showValues);
-
             // Node 클래스에서 모든 SharedVariableBase 타입 필드를 가져와서 처리
             var sharedVariables = node.GetType()
                 .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                 .Where(field => typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
                 .Select(field =>
-                    new KeyValuePair<string, SharedVariableBase>(field.Name, (SharedVariableBase)field.GetValue(node)));
+                    new KeyValuePair<string, SharedVariableBase>(field.Name, (SharedVariableBase)field.GetValue(node)))
+                .ToList();
 
-            foreach (var kvp in sharedVariables)
+            if (_foldouts == null || _foldouts.Length != sharedVariables.Count)
             {
-                EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-                DrawSharedVariableField(node, kvp);
-                EditorGUILayout.Space(2);
-                EditorGUILayout.EndVertical();
+                _foldouts = new bool[sharedVariables.Count];
+            }
+
+            for (int i = 0; i < sharedVariables.Count; i++)
+            {
+                DrawSharedVariableField(node, sharedVariables[i], i);
+                EditorGUILayout.Space(3);
             }
         }
 
-        private void DrawSharedVariableField(Node node, KeyValuePair<string, SharedVariableBase> kvp)
+        private void DrawSharedVariableField(Node node, KeyValuePair<string, SharedVariableBase> kvp, int index)
         {
+            var style = new GUIStyle(GUI.skin.box)
+            {
+                normal = { background = MakeTex(2, 2, new Color(0.3f, 0.3f, 0.3f, 1.0f)) }, // 기본 색상
+                hover = { background = MakeTex(2, 2, new Color(0.2f, 0.2f, 0.2f, 1.0f)) }, // 호버 시 색상
+                padding = new RectOffset(10, 10, 5, 5),
+                margin = new RectOffset(4, 4, 2, 2)
+            };
+            EditorGUILayout.BeginVertical(style);
             EditorGUILayout.BeginHorizontal();
+
+            // 버튼을 이용하여 섹션 열고 닫기
+            var foldoutIcon = _foldouts[index] ? _downArrowTexture : _rightArrowTexture;
+            if (GUILayout.Button(foldoutIcon, GUILayout.Width(20), GUILayout.Height(20)))
+            {
+                _foldouts[index] = !_foldouts[index];
+            }
+
             EditorGUILayout.LabelField(kvp.Key, GUILayout.MinWidth(100));
 
             var variableStyle = new GUIStyle(GUI.skin.label);
@@ -580,7 +636,7 @@ namespace BehaviorTreeTool.Editor
             }
 
             var selectedIndex = EditorGUILayout.Popup(currentIndex, variableNames.ToArray(), popupStyle,
-                GUILayout.MinWidth(100));
+                GUILayout.Width(150));
             if (selectedIndex != currentIndex)
             {
                 if (selectedIndex == 0)
@@ -601,12 +657,13 @@ namespace BehaviorTreeTool.Editor
 
             EditorGUILayout.EndHorizontal();
 
-            if (_showValues && selectedIndex != 0)
+            if (_foldouts[index] && selectedIndex != 0)
             {
                 EditorGUI.indentLevel++;
                 DrawSharedVariableValueField(kvp.Value, "Value");
                 EditorGUI.indentLevel--;
             }
+            EditorGUILayout.EndVertical();
         }
 
         private void DrawSharedVariableValueField(SharedVariableBase variable, string valueLabel)
@@ -763,11 +820,14 @@ namespace BehaviorTreeTool.Editor
 
             EditorGUILayout.BeginHorizontal();
 
-            _arrayFoldouts.TryAdd(sharedVariableArray.VariableName, false);
+            if (!string.IsNullOrEmpty(sharedVariableArray.VariableName))
+            {
+                _arrayFoldouts.TryAdd(sharedVariableArray.VariableName, false);
 
-            _arrayFoldouts[sharedVariableArray.VariableName] =
-                EditorGUILayout.Foldout(_arrayFoldouts[sharedVariableArray.VariableName],
-                    $"Array Elements [{array.Length}]", true);
+                _arrayFoldouts[sharedVariableArray.VariableName] =
+                    EditorGUILayout.Foldout(_arrayFoldouts[sharedVariableArray.VariableName],
+                        $"Array Elements", true);
+            }
 
             var newSize = EditorGUILayout.IntField(array.Length, GUILayout.Width(50));
             if (GUILayout.Button(new GUIContent(_plusTexture), GUILayout.Width(20), GUILayout.Height(20)))
@@ -781,6 +841,7 @@ namespace BehaviorTreeTool.Editor
             }
 
             EditorGUILayout.EndHorizontal();
+            EditorGUILayout.Space(1);
 
             if (newSize < 0) newSize = 0;
             if (newSize != array.Length)
@@ -794,7 +855,9 @@ namespace BehaviorTreeTool.Editor
                 array = newArray;
             }
 
-            if (_arrayFoldouts[sharedVariableArray.VariableName])
+            if (!string.IsNullOrEmpty(sharedVariableArray.VariableName) &&
+                _arrayFoldouts.ContainsKey(sharedVariableArray.VariableName) &&
+                _arrayFoldouts[sharedVariableArray.VariableName])
             {
                 EditorGUI.indentLevel++;
                 for (var i = 0; i < array.Length; i++)
@@ -806,36 +869,38 @@ namespace BehaviorTreeTool.Editor
                         sharedVariableArray.SetValue(array);
                     }
                 }
-
                 EditorGUI.indentLevel--;
             }
         }
 
-        private void DrawListField<T>(SharedVariable<List<T>> sharedVariableList)
-            where T : Object
+        private void DrawListField<T>(SharedVariable<List<T>> sharedVariableList) where T : Object
         {
             var list = sharedVariableList.Value ?? new List<T>();
 
-            _listFoldouts.TryAdd(sharedVariableList.VariableName, false);
+            if (!string.IsNullOrEmpty(sharedVariableList.VariableName))
+            {
+                _listFoldouts.TryAdd(sharedVariableList.VariableName, false);
 
-            EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.BeginHorizontal();
 
-            _listFoldouts[sharedVariableList.VariableName] =
-                EditorGUILayout.Foldout(_listFoldouts[sharedVariableList.VariableName],
-                    $"List Elements [{list.Count}]", true);
+                _listFoldouts[sharedVariableList.VariableName] =
+                    EditorGUILayout.Foldout(_listFoldouts[sharedVariableList.VariableName],
+                        $"List Elements", true);
+            }
 
             var newSize = EditorGUILayout.IntField(list.Count, GUILayout.Width(50));
-            if (GUILayout.Button(new GUIContent(_plusTexture), GUILayout.Width(21), GUILayout.Height(21)))
+            if (GUILayout.Button(new GUIContent(_plusTexture), GUILayout.Width(20), GUILayout.Height(20)))
             {
                 newSize++;
             }
 
-            if (GUILayout.Button(new GUIContent(_minusTexture), GUILayout.Width(21), GUILayout.Height(21)))
+            if (GUILayout.Button(new GUIContent(_minusTexture), GUILayout.Width(20), GUILayout.Height(20)))
             {
                 newSize--;
             }
 
             EditorGUILayout.EndHorizontal();
+            EditorGUILayout.Space(1);
 
             if (newSize < 0) newSize = 0;
             if (newSize != list.Count)
@@ -853,7 +918,9 @@ namespace BehaviorTreeTool.Editor
                 list = newList;
             }
 
-            if (_listFoldouts[sharedVariableList.VariableName])
+            if (!string.IsNullOrEmpty(sharedVariableList.VariableName) &&
+                _listFoldouts.ContainsKey(sharedVariableList.VariableName) &&
+                _listFoldouts[sharedVariableList.VariableName])
             {
                 EditorGUI.indentLevel++;
                 for (var i = 0; i < list.Count; i++)

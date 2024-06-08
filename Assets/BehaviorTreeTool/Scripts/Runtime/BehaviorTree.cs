@@ -10,12 +10,6 @@ public class BehaviorTree : ScriptableObject
     public Node RootNode => rootNode;
     public List<Node> Nodes => nodes;
 
-    public SharedData sharedData
-    {
-        get => _sharedData;
-        set => _sharedData = value;
-    }
-
     private SharedData _sharedData;
 
     [SerializeField] private Node rootNode;
@@ -64,11 +58,11 @@ public class BehaviorTree : ScriptableObject
         var tree = Instantiate(this);
         tree.rootNode = tree.rootNode.Clone();
         tree.nodes = new List<Node>();
-        tree.sharedData = rootNode.SharedData.Clone();
+        tree._sharedData = rootNode.SharedData.Clone();
         Traverse(tree.rootNode, n =>
         {
             tree.nodes.Add(n);
-            n.SetData(transform, tree.sharedData);
+            n.SetData(transform, tree._sharedData);
         });
         AssignSharedVariables(tree.nodes);
         Traverse(tree.rootNode, n => n.Init());
@@ -76,66 +70,96 @@ public class BehaviorTree : ScriptableObject
         return tree;
     }
 
-    private void AssignSharedVariables(List<Node> nodeList)
+    private static void AssignSharedVariables(IReadOnlyList<Node> nodeList)
     {
-        var sharedVariablesTable = new Dictionary<string, (Node, SharedVariableBase)>();
+        // 우선 배열의 최대 크기를 계산하기 위해 전체 필드 개수를 셉니다.
+        var totalFieldCount = 0;
+
         for (var i = 0; i < nodeList.Count; i++)
         {
-            var fields = nodeList[i].GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-            for (var j = 0; j < fields.Length; j++)
+            var node = nodeList[i];
+            var allFields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+
+            for (var j = 0; j < allFields.Length; j++)
             {
-                if (typeof(SharedVariableBase).IsAssignableFrom(fields[j].FieldType))
+                var field = allFields[j];
+                if (typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
                 {
-                    var sharedVariable = (SharedVariableBase)fields[j].GetValue(nodeList[i]);
-
-                    if (sharedVariable != null && !string.IsNullOrEmpty(sharedVariable.VariableName))
-                    {
-                        var sharedDataVariable = GetSharedVariable(nodeList[i].SharedData, sharedVariable.VariableName);
-                        if (sharedDataVariable != null && sharedDataVariable.GetType() == sharedVariable.GetType())
-                        {
-                            var currentValue = sharedVariable.GetValue();
-                            fields[j].SetValue(nodeList[i], sharedDataVariable);
-                            if (currentValue != null)
-                            {
-                                sharedDataVariable.SetValue(currentValue);
-                            }
-
-                            if (!sharedVariablesTable.ContainsKey(sharedVariable.VariableName))
-                            {
-                                sharedVariablesTable[sharedVariable.VariableName] = (nodeList[i], sharedDataVariable);
-                            }
-                        }
-                    }
+                    totalFieldCount++;
                 }
             }
         }
 
-        foreach (var kvp in sharedVariablesTable)
+        var sharedVariablesTable = new (Node Node, SharedVariableBase SharedVariable)[totalFieldCount];
+        var currentIndex = 0;
+
+        for (var i = 0; i < nodeList.Count; i++)
         {
-            var value = kvp.Value.Item2.GetValue();
-            if (kvp.Value.Item2 is IComponent componentVariable && componentVariable.UseGetComponent &&
-                value is Component)
+            var node = nodeList[i];
+            var allFields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+
+            for (var j = 0; j < allFields.Length; j++)
+            {
+                var field = allFields[j];
+                if (!typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
+                {
+                    continue;
+                }
+
+                var sharedVariable = (SharedVariableBase)field.GetValue(node);
+
+                if (sharedVariable == null || string.IsNullOrEmpty(sharedVariable.VariableName))
+                {
+                    continue;
+                }
+
+                var sharedDataVariable = GetSharedVariable(node.SharedData, sharedVariable.VariableName);
+
+                if (sharedDataVariable == null || sharedDataVariable.GetType() != sharedVariable.GetType())
+                {
+                    continue;
+                }
+
+                var currentValue = sharedVariable.GetValue();
+                field.SetValue(node, sharedDataVariable);
+
+                if (currentValue != null)
+                {
+                    sharedDataVariable.SetValue(currentValue);
+                }
+
+                sharedVariablesTable[currentIndex++] = (node, sharedDataVariable);
+            }
+        }
+
+        for (var i = 0; i < currentIndex; i++)
+        {
+            var kvp = sharedVariablesTable[i];
+            var value = kvp.SharedVariable.GetValue();
+
+            if (kvp.SharedVariable is IComponent { UseGetComponent: true } && value is Component)
             {
                 var componentType = value.GetType();
-                if (kvp.Value.Item1.NodeTransform.TryGetComponent(componentType, out var component))
+
+                if (kvp.Node.NodeTransform.TryGetComponent(componentType, out var component))
                 {
-                    kvp.Value.Item2.SetValue(component);
+                    kvp.SharedVariable.SetValue(component);
                 }
             }
         }
     }
 
-    private SharedVariableBase GetSharedVariable(SharedData sharedData, string variableName)
+    private static SharedVariableBase GetSharedVariable(SharedData sharedData, string variableName)
     {
-        if (sharedData != null && sharedData.Variables != null)
+        if (sharedData == null || sharedData.Variables == null) return null;
+
+        var variables = sharedData.Variables;
+        for (var i = 0; i < variables.Count; i++)
         {
-            for (var i = 0; i < sharedData.Variables.Count; i++)
+            var sharedVariable = variables[i];
+            if (sharedVariable.VariableName == variableName)
             {
-                var sharedVariable = sharedData.Variables[i];
-                if (sharedVariable.VariableName == variableName)
-                {
-                    return sharedVariable;
-                }
+                return sharedVariable;
             }
         }
 

@@ -15,9 +15,8 @@ MonoBehaviour:
   variables:
   - rid: 1497354677274542096
   - rid: 1497354677274542097
-  - rid: 1497354677274542099
-  - rid: 1497354685173989377
-  - rid: 1497354689442217984
+  - rid: 1497354701027672064
+  - rid: 1497354701027672067
   references:
     version: 2
     RefIds:
@@ -30,25 +29,14 @@ MonoBehaviour:
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: way points
-        _value:
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-    - rid: 1497354677274542099
+        _value: []
+    - rid: 1497354701027672064
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
-        variableName: wait time
-        _value: 1
-    - rid: 1497354685173989377
-      type: {class: SharedGameObjectList, ns: , asm: Assembly-CSharp}
+        variableName: Wait Time
+        _value: 0
+    - rid: 1497354701027672067
+      type: {class: SharedColliderArray, ns: , asm: Assembly-CSharp}
       data:
-        variableName: testList
-        _value:
-        - {fileID: 0}
-        - {fileID: 0}
-        - {fileID: 0}
-    - rid: 1497354689442217984
-      type: {class: SharedTransform, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: t
-        _value: {fileID: 0}
+        variableName: SharedColliders
+        _value: []

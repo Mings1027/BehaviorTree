@@ -17,14 +17,7 @@ public class SharedData : ScriptableObject
     {
         variables ??= new List<SharedVariableBase>();
     }
-    [ContextMenu("Print Type")]
-    private void PrintType()
-    {
-        for (int i = 0; i < variables.Count; i++)
-        {
-            Debug.Log(variables[i].GetValue().GetType());
-        }
-    }
+
     public void AddVariable(SharedVariableBase variable)
     {
         variables.Add(variable);
