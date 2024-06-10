@@ -10,37 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e6d47f862fa46deadff805a0a827f66, type: 3}
-  m_Name: New Shared Data
+  m_Name: Cube Shared Variable
   m_EditorClassIdentifier: 
   variables:
-  - rid: 1497354586845085769
-  - rid: 1497354546029789516
-  - rid: 1497354621595680768
-  - rid: 1497354665339650048
+  - rid: 1497354724234493952
+  - rid: 1497354724234493953
+  - rid: 1497354724234493954
   references:
     version: 2
     RefIds:
-    - rid: 1497354546029789516
+    - rid: 1497354724234493952
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
-        useGetComponent: 0
         _value: {fileID: 0}
-    - rid: 1497354586845085769
-      type: {class: SharedFloat, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: Attack Range
         useGetComponent: 0
-        _value: 1.5
-    - rid: 1497354621595680768
-      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: View Angle
-        useGetComponent: 0
-        _value: 80
-    - rid: 1497354665339650048
+    - rid: 1497354724234493953
       type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
       data:
         variableName: Agent
-        useGetComponent: 1
         _value: {fileID: 0}
+        useGetComponent: 1
+    - rid: 1497354724234493954
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: View Angle
+        _value: 126

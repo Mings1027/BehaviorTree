@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using BehaviorTreeTool.Scripts.CustomInterface;
 using UnityEngine;
 using UnityEngine.AI;
+using Object = UnityEngine.Object;
 
 public enum SharedVariableType
 {
@@ -28,20 +30,22 @@ public enum SharedVariableType
     Vector3Int
 }
 
-public interface IComponent
-{
-    bool UseGetComponent { get; set; }
-}
-
 [Serializable]
 public class SharedVariableBase
 {
     [SerializeField] private string variableName;
+    [SerializeField] private SharedVariableType variableType;
 
     public string VariableName
     {
         get => variableName;
         set => variableName = value;
+    }
+
+    public SharedVariableType VariableType
+    {
+        get => variableType;
+        set => variableType = value;
     }
 
     public virtual object GetValue()
@@ -92,14 +96,16 @@ public class SharedVariable<T> : SharedVariableBase
     }
 }
 
-// [Serializable]
-// public class SharedAIPath : SharedVariable<AIPath>
-// {
-//     public static implicit operator SharedAIPath(AIPath value)
-//     {
-//         return new SharedAIPath { Value = value };
-//     }
-// }
+public class SharedVariableObject<T> : SharedVariable<T>, IObject where T : Object
+{
+    [SerializeField] private bool useGetComponent;
+
+    public bool UseGetComponent
+    {
+        get => useGetComponent;
+        set => useGetComponent = value;
+    }
+}
 
 [Serializable]
 public class SharedBool : SharedVariable<bool>
@@ -111,14 +117,12 @@ public class SharedBool : SharedVariable<bool>
 }
 
 [Serializable]
-public class SharedCollider : SharedVariable<Collider>, IComponent
+public class SharedCollider : SharedVariableObject<Collider>
 {
     public static implicit operator SharedCollider(Collider value)
     {
         return new SharedCollider { Value = value };
     }
-
-    public bool UseGetComponent { get; set; }
 }
 
 [Serializable]
@@ -149,14 +153,12 @@ public class SharedFloat : SharedVariable<float>
 }
 
 [Serializable]
-public class SharedGameObject : SharedVariable<GameObject>, IComponent
+public class SharedGameObject : SharedVariableObject<GameObject>
 {
     public static implicit operator SharedGameObject(GameObject value)
     {
         return new SharedGameObject { Value = value };
     }
-
-    public bool UseGetComponent { get; set; }
 }
 
 [Serializable]
@@ -196,14 +198,12 @@ public class SharedMaterial : SharedVariable<Material>
 }
 
 [Serializable]
-public class SharedNavMeshAgent : SharedVariable<NavMeshAgent>, IComponent
+public class SharedNavMeshAgent : SharedVariableObject<NavMeshAgent>
 {
     public static implicit operator SharedNavMeshAgent(NavMeshAgent value)
     {
         return new SharedNavMeshAgent { Value = value };
     }
-
-    public bool UseGetComponent { get; set; }
 }
 
 [Serializable]
@@ -234,14 +234,12 @@ public class SharedString : SharedVariable<string>
 }
 
 [Serializable]
-public class SharedTransform : SharedVariable<Transform>, IComponent
+public class SharedTransform : SharedVariableObject<Transform>
 {
     public static implicit operator SharedTransform(Transform value)
     {
         return new SharedTransform { Value = value };
     }
-
-    public bool UseGetComponent { get; set; }
 }
 
 [Serializable]

@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8435753638408371698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  position: {x: -131, y: 461}
+  guid: 7b395605faae447cc809cb964a44bb20
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
+  duration: 1
+--- !u!114 &-7316778599439609781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: -4, y: 334}
+  guid: 6a450968b6d39441580f0c2743db532c
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
+  children:
+  - {fileID: -8435753638408371698}
+  - {fileID: 8002971464458752451}
+--- !u!114 &-1728337008650172587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be9e34c566ea45b9e282b1adcb028, type: 3}
+  m_Name: Selector
+  m_EditorClassIdentifier: 
+  position: {x: 5, y: 225}
+  guid: c4eb357e4fbd7459f84efe56284b6f44
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
+  children:
+  - {fileID: -7316778599439609781}
+--- !u!114 &-581298069238703283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9642f0013642aaa2348d6d396dff9b, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
+  guid: 7cc02aa9c47a5490fa38f286fc862bd7
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
+  child: {fileID: 7777864539147216782}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4798a1e70ce74448d9aa81235c4e045a, type: 3}
+  m_Name: New External Behavior Tree
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: -581298069238703283}
+  nodes:
+  - {fileID: -581298069238703283}
+  - {fileID: 7777864539147216782}
+  - {fileID: -1728337008650172587}
+  - {fileID: -7316778599439609781}
+  - {fileID: -8435753638408371698}
+  - {fileID: 8002971464458752451}
+--- !u!114 &7777864539147216782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 115}
+  guid: 950c921b24a6145a4a2c2179f5602a90
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
+  child: {fileID: -1728337008650172587}
+  restartOnSuccess: 1
+  restartOnFailure: 0
+--- !u!114 &8002971464458752451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 494fc11a09a804011ad5de8d81809457, type: 3}
+  m_Name: MoveToPosition
+  m_EditorClassIdentifier: 
+  position: {x: 60.868256, y: 484.46124}
+  guid: 638b8d15045b3411da2791c9ce9bbc6e
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
+  target:
+    variableName: Target
+    variableType: 0
+    _value: {fileID: 0}
+    useGetComponent: 0
+  agent:
+    variableName: Agent
+    variableType: 0
+    _value: {fileID: 0}
+    useGetComponent: 0

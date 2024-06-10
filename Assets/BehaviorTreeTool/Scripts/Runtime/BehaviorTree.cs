@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using BehaviorTreeTool.Scripts.CustomInterface;
 using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "BehaviorTree/Tree")]
+[CreateAssetMenu(menuName = "BehaviorTree/Behavior Tree")]
 public class BehaviorTree : ScriptableObject
 {
     public Node RootNode => rootNode;
     public List<Node> Nodes => nodes;
 
-    private SharedData _sharedData;
+    protected SharedData sharedData;
 
-    [SerializeField] private Node rootNode;
-    [SerializeField] private List<Node> nodes = new();
+    [SerializeField] protected Node rootNode;
+    [SerializeField] protected List<Node> nodes = new();
 
     public void TreeUpdate()
     {
@@ -58,11 +59,11 @@ public class BehaviorTree : ScriptableObject
         var tree = Instantiate(this);
         tree.rootNode = tree.rootNode.Clone();
         tree.nodes = new List<Node>();
-        tree._sharedData = rootNode.SharedData.Clone();
+        tree.sharedData = rootNode.SharedData.Clone();
         Traverse(tree.rootNode, n =>
         {
             tree.nodes.Add(n);
-            n.SetData(transform, tree._sharedData);
+            n.SetData(transform, tree.sharedData);
         });
         AssignSharedVariables(tree.nodes);
         Traverse(tree.rootNode, n => n.Init());
@@ -70,7 +71,7 @@ public class BehaviorTree : ScriptableObject
         return tree;
     }
 
-    private static void AssignSharedVariables(IReadOnlyList<Node> nodeList)
+    protected static void AssignSharedVariables(IReadOnlyList<Node> nodeList)
     {
         // 우선 배열의 최대 크기를 계산하기 위해 전체 필드 개수를 셉니다.
         var totalFieldCount = 0;
@@ -114,7 +115,6 @@ public class BehaviorTree : ScriptableObject
                 }
 
                 var sharedDataVariable = GetSharedVariable(node.SharedData, sharedVariable.VariableName);
-
                 if (sharedDataVariable == null || sharedDataVariable.GetType() != sharedVariable.GetType())
                 {
                     continue;
@@ -137,10 +137,9 @@ public class BehaviorTree : ScriptableObject
             var kvp = sharedVariablesTable[i];
             var value = kvp.SharedVariable.GetValue();
 
-            if (kvp.SharedVariable is IComponent { UseGetComponent: true } && value is Component)
+            if (kvp.SharedVariable is IObject { UseGetComponent: true } && value is Component)
             {
                 var componentType = value.GetType();
-
                 if (kvp.Node.NodeTransform.TryGetComponent(componentType, out var component))
                 {
                     kvp.SharedVariable.SetValue(component);

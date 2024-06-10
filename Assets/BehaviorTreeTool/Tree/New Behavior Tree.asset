@@ -16,7 +16,7 @@ MonoBehaviour:
   guid: e0babdfdb92cd42dca724e49c485f061
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: fa310ddf726e54d9986a7028786c54ac, type: 2}
+  sharedData: {fileID: 11400000, guid: f99730fc0035d4c6c9e5fd29370bb896, type: 2}
   children:
   - {fileID: -2479628478522713504}
 --- !u!114 &-5275797217640860432
@@ -35,18 +35,14 @@ MonoBehaviour:
   guid: ac08dc6eb298843c1a74457d3651d2b9
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: fa310ddf726e54d9986a7028786c54ac, type: 2}
+  sharedData: {fileID: 11400000, guid: f99730fc0035d4c6c9e5fd29370bb896, type: 2}
   agent:
-    variableName: agent
+    variableName: Agent
     _value: {fileID: 0}
+    useGetComponent: 0
   wayPoints:
-    variableName: way points
-    _value:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    variableName: Way Points
+    _value: []
 --- !u!114 &-2479628478522713504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,7 +59,7 @@ MonoBehaviour:
   guid: e268de750d53b4123933a9a5d879475e
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: fa310ddf726e54d9986a7028786c54ac, type: 2}
+  sharedData: {fileID: 11400000, guid: f99730fc0035d4c6c9e5fd29370bb896, type: 2}
   children:
   - {fileID: -1897069962732970177}
   - {fileID: 1828390113428255115}
@@ -84,10 +80,11 @@ MonoBehaviour:
   guid: 6f80f8e6fc0f249a6a26890887054708
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: fa310ddf726e54d9986a7028786c54ac, type: 2}
+  sharedData: {fileID: 11400000, guid: f99730fc0035d4c6c9e5fd29370bb896, type: 2}
   navMeshAgent:
     variableName: agent
     _value: {fileID: 0}
+    useGetComponent: 0
 --- !u!114 &-970283244458698592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +101,7 @@ MonoBehaviour:
   guid: 67aad46ae98e04a3294dabfea017f128
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: fa310ddf726e54d9986a7028786c54ac, type: 2}
+  sharedData: {fileID: 11400000, guid: f99730fc0035d4c6c9e5fd29370bb896, type: 2}
   child: {fileID: 1448666587202487165}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -143,7 +140,7 @@ MonoBehaviour:
   guid: 83d9f1202e28e439e9b761dfb2a107d9
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: fa310ddf726e54d9986a7028786c54ac, type: 2}
+  sharedData: {fileID: 11400000, guid: f99730fc0035d4c6c9e5fd29370bb896, type: 2}
   child: {fileID: -6703778128806155894}
   restartOnSuccess: 1
   restartOnFailure: 0
@@ -163,5 +160,5 @@ MonoBehaviour:
   guid: 7066fd9e5623e449c8134c62078f9421
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: fa310ddf726e54d9986a7028786c54ac, type: 2}
+  sharedData: {fileID: 11400000, guid: f99730fc0035d4c6c9e5fd29370bb896, type: 2}
   duration: 1

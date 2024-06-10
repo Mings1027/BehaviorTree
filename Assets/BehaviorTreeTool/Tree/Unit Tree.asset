@@ -16,10 +16,12 @@ MonoBehaviour:
   guid: 87d55cdacb3ac475a9026a73dd667857
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   navMeshAgent:
     variableName: Agent
+    variableType: 0
     _value: {fileID: 0}
+    useGetComponent: 0
   minPos: -10
   maxPos: 10
 --- !u!114 &-6244939870627640992
@@ -38,13 +40,17 @@ MonoBehaviour:
   guid: d7caea512e1364a6db28cceafa574bc6
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   target:
     variableName: Target
+    variableType: 0
     _value: {fileID: 0}
+    useGetComponent: 0
   navMeshAgent:
     variableName: Agent
+    variableType: 0
     _value: {fileID: 0}
+    useGetComponent: 0
 --- !u!114 &-5551168184907278297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,7 +67,7 @@ MonoBehaviour:
   guid: acfc9bafb51d64192bd60fa693a748d1
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   children:
   - {fileID: 729849098838070512}
   - {fileID: -1968115196556714456}
@@ -82,7 +88,7 @@ MonoBehaviour:
   guid: 299ea4bafa86f42b38afe36d8979b146
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   duration: 1
 --- !u!114 &-4811680494111286927
 MonoBehaviour:
@@ -100,7 +106,7 @@ MonoBehaviour:
   guid: 6926795ca7c0d4a3ea1dd7b4833e6c14
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   children:
   - {fileID: -4715913646256040161}
   - {fileID: -1173974757255780795}
@@ -121,7 +127,7 @@ MonoBehaviour:
   guid: a92f90c799e684e41928f1fde5cefba2
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   duration: 1
 --- !u!114 &-3780028975851343708
 MonoBehaviour:
@@ -139,7 +145,7 @@ MonoBehaviour:
   guid: 4e578f8b846624565ad42e344ac7a14b
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   child: {fileID: 8181437512819230551}
   restartOnSuccess: 1
   restartOnFailure: 0
@@ -159,12 +165,15 @@ MonoBehaviour:
   guid: 7e6315f99fb1846aab53f3272833498f
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   target:
     variableName: Target
+    variableType: 0
     _value: {fileID: 0}
+    useGetComponent: 0
   viewAngle:
     variableName: View Angle
+    variableType: 0
     _value: 80
   detectRange: 7
   targetLayer:
@@ -188,10 +197,12 @@ MonoBehaviour:
   guid: 586c28ddf787c47fdb84e8931622a745
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   navMeshAgent:
     variableName: Agent
+    variableType: 0
     _value: {fileID: 0}
+    useGetComponent: 0
 --- !u!114 &-1173974757255780795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,16 +219,21 @@ MonoBehaviour:
   guid: d8b7577325fae4e71b3d92609dcf5e8b
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   target:
     variableName: Target
+    variableType: 0
     _value: {fileID: 0}
+    useGetComponent: 0
   viewAngle:
     variableName: View Angle
+    variableType: 0
     _value: 80
   navMeshAgent:
     variableName: Agent
+    variableType: 0
     _value: {fileID: 0}
+    useGetComponent: 0
   attackRange: 1.5
 --- !u!114 &11400000
 MonoBehaviour:
@@ -264,7 +280,7 @@ MonoBehaviour:
   guid: 32325c13342bb4ea7afbab5e85d1d897
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   duration: 1
 --- !u!114 &931406598775762104
 MonoBehaviour:
@@ -282,7 +298,7 @@ MonoBehaviour:
   guid: 404fe0d12ac3e4bf0b9856f3f4941ed7
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   child: {fileID: -3780028975851343708}
 --- !u!114 &7192564177387149360
 MonoBehaviour:
@@ -300,10 +316,12 @@ MonoBehaviour:
   guid: d78ca445f65e843b6a30aa84686d9e88
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   target:
     variableName: Target
+    variableType: 0
     _value: {fileID: 0}
+    useGetComponent: 0
   attackDamage: 10
 --- !u!114 &8181437512819230551
 MonoBehaviour:
@@ -321,7 +339,7 @@ MonoBehaviour:
   guid: bda2b118803a64f89a99a67cf7d49383
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   children:
   - {fileID: -4811680494111286927}
   - {fileID: -5551168184907278297}
@@ -342,7 +360,7 @@ MonoBehaviour:
   guid: 41aaebe169e8149aa853b5a5e5d2716c
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 1d45ed1d31a5d47c7a6ce2006711d31f, type: 2}
+  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   children:
   - {fileID: -5387095629779617074}
   - {fileID: -1619325705506823190}

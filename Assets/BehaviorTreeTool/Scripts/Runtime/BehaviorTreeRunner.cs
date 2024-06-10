@@ -1,9 +1,10 @@
+using BehaviorTreeTool.Scripts.CustomInterface;
 using UnityEngine;
 
 /// <summary>
 /// For any object that intends to use behavior trees, this class is essential.
 /// </summary>
-public class BehaviorTreeRunner : MonoBehaviour
+public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
 {
 #if UNITY_EDITOR
     public BehaviorTree Tree => tree;

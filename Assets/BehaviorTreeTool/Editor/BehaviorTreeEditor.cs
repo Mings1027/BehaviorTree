@@ -146,12 +146,15 @@ namespace BehaviorTreeTool.Editor
                         {
                             tree = behaviorTreeRunner.Tree;
                         }
+                        else if (Selection.activeGameObject.TryGetComponent(out MonoBehaviorTree monoBehaviorTree))
+                        {
+                            tree = monoBehaviorTree.ExternalBehaviorTree;
+                        }
                     }
                 }
 
                 SelectTree(tree);
             }
-            ;
         }
 
         private void SelectTree(BehaviorTree newTree)

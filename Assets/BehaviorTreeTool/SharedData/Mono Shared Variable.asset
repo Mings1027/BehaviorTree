@@ -10,33 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e6d47f862fa46deadff805a0a827f66, type: 3}
-  m_Name: Test Shared Data
+  m_Name: Mono Shared Variable
   m_EditorClassIdentifier: 
   variables:
-  - rid: 1497354677274542096
-  - rid: 1497354677274542097
-  - rid: 1497354701027672064
-  - rid: 1497354701027672067
+  - rid: 1497354726587498497
+  - rid: 1497354727722844161
+  - rid: 1497354727722844162
   references:
     version: 2
     RefIds:
-    - rid: 1497354677274542096
-      type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: agent
-        _value: {fileID: 0}
-    - rid: 1497354677274542097
-      type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: way points
-        _value: []
-    - rid: 1497354701027672064
+    - rid: 1497354726587498497
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: Wait Time
-        _value: 0
-    - rid: 1497354701027672067
-      type: {class: SharedColliderArray, ns: , asm: Assembly-CSharp}
+        _value: 63
+    - rid: 1497354727722844161
+      type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
       data:
-        variableName: SharedColliders
+        variableName: Agent
+        _value: {fileID: 0}
+        useGetComponent: 0
+    - rid: 1497354727722844162
+      type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Way Points
         _value: []

@@ -10,7 +10,7 @@ public class SharedData : ScriptableObject
     public List<SharedVariableBase> Variables
     {
         get => variables;
-        private set => variables = value;
+        set => variables = value;
     }
 
     private void OnEnable()

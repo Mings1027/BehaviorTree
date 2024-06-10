@@ -1,34 +1,35 @@
 using System.Collections.Generic;
+using BehaviorTreeTool.Scripts.CustomInterface;
 using UnityEngine;
 
 public class BehaviorTreeManager : MonoBehaviour
 {
     private static BehaviorTreeManager _instance;
-    private List<BehaviorTreeRunner> _behaviorTreeRunners;
+    [SerializeField] private List<IBehaviorTree> _behaviorTree;
 
     private void Awake()
     {
         _instance = this;
-        _behaviorTreeRunners = new List<BehaviorTreeRunner>();
+        _behaviorTree = new List<IBehaviorTree>();
     }
 
     private void Update()
     {
-        for (int i = 0; i < _behaviorTreeRunners.Count; i++)
+        for (int i = 0; i < _behaviorTree.Count; i++)
         {
-            _behaviorTreeRunners[i].TreeUpdate();
+            _behaviorTree[i].TreeUpdate();
         }
     }
 
-    public static void AddTree(BehaviorTreeRunner BehaviorTreeRunner)
+    public static void AddTree(IBehaviorTree behaviorTree)
     {
-        if (_instance._behaviorTreeRunners.Contains(BehaviorTreeRunner)) return;
-        _instance._behaviorTreeRunners.Add(BehaviorTreeRunner);
+        if (_instance._behaviorTree.Contains(behaviorTree)) return;
+        _instance._behaviorTree.Add(behaviorTree);
     }
 
-    public static void RemoveTree(BehaviorTreeRunner BehaviorTreeRunner)
+    public static void RemoveTree(IBehaviorTree behaviorTree)
     {
-        if (_instance._behaviorTreeRunners.Contains(BehaviorTreeRunner))
-            _instance._behaviorTreeRunners.Remove(BehaviorTreeRunner);
+        if (_instance._behaviorTree.Contains(behaviorTree))
+            _instance._behaviorTree.Remove(behaviorTree);
     }
 }
