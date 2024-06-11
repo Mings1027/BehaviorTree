@@ -39,12 +39,12 @@ MonoBehaviour:
   agent:
     variableName: Agent
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
   wayPoints:
     variableName: Way Points
     variableType: 0
-    _value: []
+    value: []
 --- !u!114 &-2479628478522713504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,7 +86,7 @@ MonoBehaviour:
   navMeshAgent:
     variableName: agent
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
 --- !u!114 &-970283244458698592
 MonoBehaviour:

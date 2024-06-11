@@ -75,17 +75,17 @@ public class SharedVariableBase
 [Serializable]
 public class SharedVariable<T> : SharedVariableBase
 {
-    [SerializeField] private T _value;
+    [SerializeField] private T value;
 
     public T Value
     {
-        get => _value;
-        set => _value = value;
+        get => value;
+        set => this.value = value;
     }
 
     public override object GetValue()
     {
-        return _value;
+        return value;
     }
 
     public override void SetValue(object value)
@@ -94,14 +94,14 @@ public class SharedVariable<T> : SharedVariableBase
         {
             T typedValue => typedValue,
             null => default,
-            _ => _value
+            _ => this.value
         };
     }
 
     public override SharedVariableBase Clone()
     {
         var clone = (SharedVariable<T>)base.Clone();
-        clone._value = _value;
+        clone.value = value;
         return clone;
     }
 }

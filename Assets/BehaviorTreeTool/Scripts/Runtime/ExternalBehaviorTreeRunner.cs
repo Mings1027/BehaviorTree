@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
@@ -21,11 +22,7 @@ public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
         }
     }
 
-    public BehaviorTree Tree
-    {
-        get => behaviorTree;
-        set => behaviorTree = (ExternalBehaviorTree)value;
-    }
+    public BehaviorTree Tree => behaviorTree;
 
 #endif
     [SerializeField] private ExternalBehaviorTree behaviorTree;
@@ -51,7 +48,10 @@ public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
     {
         var clonedTree = (ExternalBehaviorTree)behaviorTree.Clone(transform);
         behaviorTree = clonedTree;
-        SyncVariableValues();
+        Assign();
+        // behaviorTree.AssignSharedVariables(behaviorTree.Nodes);
+        // SyncVariableValues();
+        BehaviorTree.Traverse(behaviorTree.RootNode, n => n.Init());
     }
 
     public void TreeUpdate()
@@ -72,18 +72,52 @@ public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
         }
     }
 
-    private void SyncVariableValues()
+    private void Assign()
     {
-        for (var i = 0; i < variables.Count; i++)
+        var variableList = new List<(Node Node, SharedVariableBase sharedVariable)>();
+        var nodes = behaviorTree.Nodes;
+        for (int i = 0; i < nodes.Count; i++)
         {
-            var variable = variables[i];
-            var sharedVariable = behaviorTree.RootNode.SharedData.Variables[i];
-
-            if (variable is not IComponentObject { UseGetComponent: true })
+            var node = nodes[i];
+            var allFields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+            for (int j = 0; j < allFields.Length; j++)
             {
-                sharedVariable.SetValue(variable.GetValue());
+                var field = allFields[j];
+                if (!typeof(SharedVariableBase).IsAssignableFrom(field.FieldType)) continue;
+                var sharedVariable = (SharedVariableBase)field.GetValue(node);
+                field.SetValue(node, GetSharedVariable(sharedVariable));
+                variableList.Add((node, sharedVariable));
             }
         }
+        var v = behaviorTree.RootNode.SharedData.Variables;
+        for (int i = 0; i < v.Count; i++)
+        {
+            if (v[i] is IComponentObject { UseGetComponent: true })
+            {
+                for (int j = 0; j < variableList.Count; j++)
+                {
+                    if (v[i].VariableName == variableList[j].sharedVariable.VariableName)
+                    {
+                        var value = v[i].GetValue();
+                        var componentType = value.GetType();
+                        if (variableList[j].Node.NodeTransform.TryGetComponent(componentType, out var component))
+                        {
+                            variableList[j].sharedVariable.SetValue(component);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private SharedVariableBase GetSharedVariable(SharedVariableBase sharedVariable)
+    {
+        for (int i = 0; i < variables.Count; i++)
+        {
+            if (sharedVariable.VariableName == variables[i].VariableName)
+                return variables[i];
+        }
+        return null;
     }
 
 #if UNITY_EDITOR

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -9,8 +10,6 @@ public class BehaviorTree : ScriptableObject
 {
     public Node RootNode => rootNode;
     public List<Node> Nodes => nodes;
-
-    private SharedData _sharedData;
 
     [SerializeField] protected Node rootNode;
     [SerializeField] protected List<Node> nodes = new();
@@ -58,23 +57,24 @@ public class BehaviorTree : ScriptableObject
         var tree = Instantiate(this);
         tree.rootNode = tree.rootNode.Clone();
         tree.nodes = new List<Node>();
-        tree._sharedData = rootNode.SharedData.Clone();
+        var sharedData = rootNode.SharedData.Clone();
         Traverse(tree.rootNode, n =>
         {
             tree.nodes.Add(n);
-            n.SetData(transform, tree._sharedData);
+            n.SetData(transform, sharedData);
         });
-        AssignSharedVariables(tree.nodes);
-        Traverse(tree.rootNode, n => n.Init());
+        // AssignSharedVariables(tree.nodes);
+        // Traverse(tree.rootNode, n => n.Init());
 
         return tree;
     }
 
-    private static void AssignSharedVariables(IReadOnlyList<Node> nodeList)
+    public virtual void AssignSharedVariables(IReadOnlyList<Node> nodeList)
     {
-        // 우선 배열의 최대 크기를 계산하기 위해 전체 필드 개수를 셉니다.
-        var totalFieldCount = 0;
+        var sharedVariablesTable = new List<(Node Node, SharedVariableBase SharedVariable)>();
+        var variableNameSet = new HashSet<string>();
 
+        // 모든 노드에 대해 필드를 캐싱하고 필요한 작업을 한 번의 반복에서 수행
         for (var i = 0; i < nodeList.Count; i++)
         {
             var node = nodeList[i];
@@ -83,71 +83,42 @@ public class BehaviorTree : ScriptableObject
             for (var j = 0; j < allFields.Length; j++)
             {
                 var field = allFields[j];
-                if (typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
-                {
-                    totalFieldCount++;
-                }
-            }
-        }
-
-        var sharedVariablesTable = new (Node Node, SharedVariableBase SharedVariable)[totalFieldCount];
-        var currentIndex = 0;
-
-        for (var i = 0; i < nodeList.Count; i++)
-        {
-            var node = nodeList[i];
-            var allFields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-
-            for (var j = 0; j < allFields.Length; j++)
-            {
-                var field = allFields[j];
-                if (!typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
-                {
-                    continue;
-                }
+                if (!typeof(SharedVariableBase).IsAssignableFrom(field.FieldType)) continue;
 
                 var sharedVariable = (SharedVariableBase)field.GetValue(node);
-
-                if (sharedVariable == null || string.IsNullOrEmpty(sharedVariable.VariableName))
-                {
-                    continue;
-                }
+                if (sharedVariable == null || string.IsNullOrEmpty(sharedVariable.VariableName)) continue;
 
                 var sharedDataVariable = GetSharedVariable(node.SharedData, sharedVariable.VariableName);
-                if (sharedDataVariable == null || sharedDataVariable.GetType() != sharedVariable.GetType())
-                {
-                    continue;
-                }
+                if (sharedDataVariable == null || sharedDataVariable.GetType() != sharedVariable.GetType()) continue;
 
-                var currentValue = sharedVariable.GetValue();
                 field.SetValue(node, sharedDataVariable);
 
-                if (currentValue != null)
+                // 중복되지 않는 변수만 sharedVariablesTable에 추가
+                if (variableNameSet.Add(sharedVariable.VariableName))
                 {
-                    sharedDataVariable.SetValue(currentValue);
+                    sharedVariablesTable.Add((node, sharedDataVariable));
                 }
-
-                sharedVariablesTable[currentIndex++] = (node, sharedDataVariable);
             }
         }
 
-        for (var i = 0; i < currentIndex; i++)
+        // 추가된 sharedVariablesTable 항목에 대해 필요한 Component 설정
+        for (var i = 0; i < sharedVariablesTable.Count; i++)
         {
-            var kvp = sharedVariablesTable[i];
-            var value = kvp.SharedVariable.GetValue();
-
-            if (kvp.SharedVariable is IComponentObject { UseGetComponent: true } && value is Component)
+            var (node, sharedVariable) = sharedVariablesTable[i];
+            var value = sharedVariable.GetValue();
+            if (sharedVariable is IComponentObject { UseGetComponent: true } && value is Component)
             {
                 var componentType = value.GetType();
-                if (kvp.Node.NodeTransform.TryGetComponent(componentType, out var component))
+                if (node.NodeTransform.TryGetComponent(componentType, out var component))
                 {
-                    kvp.SharedVariable.SetValue(component);
+                    sharedVariable.SetValue(component);
                 }
             }
         }
     }
 
-    private static SharedVariableBase GetSharedVariable(SharedData sharedData, string variableName)
+// GetSharedVariable 메서드는 동일하게 유지됩니다.
+    protected static SharedVariableBase GetSharedVariable(SharedData sharedData, string variableName)
     {
         if (sharedData == null || sharedData.Variables == null) return null;
 

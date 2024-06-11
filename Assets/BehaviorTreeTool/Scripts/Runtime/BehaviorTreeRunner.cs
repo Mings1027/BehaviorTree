@@ -3,11 +3,7 @@ using UnityEngine;
 public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
 {
 #if UNITY_EDITOR
-    public BehaviorTree Tree
-    {
-        get => tree;
-        set => tree = value;
-    }
+    public BehaviorTree Tree => tree;
 #endif
     [SerializeField] protected BehaviorTree tree;
 
@@ -18,7 +14,7 @@ public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
 
     private void Start()
     {
-        TreeInit();
+        InitializeTree();
     }
 
     private void OnDisable()
@@ -26,10 +22,12 @@ public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
         BehaviorTreeManager.RemoveTree(this);
     }
 
-    private void TreeInit()
+    private void InitializeTree()
     {
         var clonedTree = tree.Clone(transform);
         tree = clonedTree;
+        tree.AssignSharedVariables(tree.Nodes);
+        BehaviorTree.Traverse(tree.RootNode, n => n.Init());
     }
 
     public void TreeUpdate()

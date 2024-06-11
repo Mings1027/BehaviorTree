@@ -20,7 +20,7 @@ MonoBehaviour:
   navMeshAgent:
     variableName: Agent
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
   minPos: -10
   maxPos: 10
@@ -44,12 +44,12 @@ MonoBehaviour:
   target:
     variableName: Target
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
-  navMeshAgent:
+  agent:
     variableName: Agent
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
 --- !u!114 &-5551168184907278297
 MonoBehaviour:
@@ -169,12 +169,12 @@ MonoBehaviour:
   target:
     variableName: Target
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
   viewAngle:
     variableName: View Angle
     variableType: 0
-    _value: 80
+    value: 0
   detectRange: 7
   targetLayer:
     serializedVersion: 2
@@ -201,7 +201,7 @@ MonoBehaviour:
   navMeshAgent:
     variableName: Agent
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
 --- !u!114 &-1173974757255780795
 MonoBehaviour:
@@ -215,25 +215,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
   m_Name: ReadyToAttack
   m_EditorClassIdentifier: 
-  position: {x: -482.00006, y: 483.00003}
+  position: {x: -482, y: 483}
   guid: d8b7577325fae4e71b3d92609dcf5e8b
   description: 
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   target:
     variableName: Target
-    variableType: 0
-    _value: {fileID: 0}
+    variableType: 2
+    value: {fileID: 0}
     useGetComponent: 0
   viewAngle:
     variableName: View Angle
-    variableType: 0
-    _value: 80
+    variableType: 8
+    value: 0
   navMeshAgent:
     variableName: Agent
-    variableType: 0
-    _value: {fileID: 0}
-    useGetComponent: 0
+    variableType: 11
+    value: {fileID: 0}
+    useGetComponent: 1
   attackRange: 1.5
 --- !u!114 &11400000
 MonoBehaviour:
@@ -320,7 +320,7 @@ MonoBehaviour:
   target:
     variableName: Target
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
   attackDamage: 10
 --- !u!114 &8181437512819230551

@@ -78,7 +78,7 @@ namespace BehaviorTreeTool.Editor
         private void DrawSharedVariableField(SerializedProperty variableProperty)
         {
             var variableType = (SharedVariableType)variableProperty.FindPropertyRelative("variableType").enumValueIndex;
-            var valueProperty = variableProperty.FindPropertyRelative("_value");
+            var valueProperty = variableProperty.FindPropertyRelative("value");
             var variableName = variableProperty.FindPropertyRelative("variableName").stringValue;
             var propertyPath = variableProperty.propertyPath;
 

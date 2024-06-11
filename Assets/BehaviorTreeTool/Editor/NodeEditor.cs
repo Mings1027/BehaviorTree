@@ -511,10 +511,14 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.BeginVertical(style);
             EditorGUILayout.BeginHorizontal();
 
-            var foldoutIcon = _foldouts[index] ? _downArrowTexture : _rightArrowTexture;
-            if (GUILayout.Button(foldoutIcon, GUILayout.Width(20), GUILayout.Height(20)))
+            // 플레이 중일 때만 폴드 버튼을 표시
+            if (Application.isPlaying)
             {
-                _foldouts[index] = !_foldouts[index];
+                var foldoutIcon = _foldouts[index] ? _downArrowTexture : _rightArrowTexture;
+                if (GUILayout.Button(foldoutIcon, GUILayout.Width(20), GUILayout.Height(20)))
+                {
+                    _foldouts[index] = !_foldouts[index];
+                }
             }
 
             EditorGUILayout.LabelField(kvp.Key, GUILayout.MinWidth(100));
@@ -539,16 +543,18 @@ namespace BehaviorTreeTool.Editor
 
             EditorGUILayout.EndHorizontal();
 
-            if (_foldouts[index] && selectedIndex != 0)
-            {
+            // 플레이 중일 때만 DrawSharedVariableValueField 호출
+            // if (Application.isPlaying && _foldouts[index] && selectedIndex != 0)
+            // {
                 EditorGUI.indentLevel++;
                 TreeUtility.DrawSharedVariableValueField(kvp.Value, "Value");
                 EditorGUI.indentLevel--;
-            }
+            // }
             EditorGUILayout.EndVertical();
         }
 
-        private void UpdateVariableSelection(Node node, SharedVariableBase variable, IReadOnlyList<string> variableNames,
+        private void UpdateVariableSelection(Node node, SharedVariableBase variable,
+            IReadOnlyList<string> variableNames,
             int selectedIndex)
         {
             if (selectedIndex == 0)

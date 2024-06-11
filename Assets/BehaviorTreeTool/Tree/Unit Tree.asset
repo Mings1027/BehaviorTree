@@ -20,7 +20,7 @@ MonoBehaviour:
   navMeshAgent:
     variableName: Agent
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
   minPos: -10
   maxPos: 10
@@ -44,12 +44,12 @@ MonoBehaviour:
   target:
     variableName: Target
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
   agent:
     variableName: Agent
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
 --- !u!114 &-5551168184907278297
 MonoBehaviour:
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9be2344f233174f00ab84680954b4195, type: 3}
   m_Name: RangeChecker
   m_EditorClassIdentifier: 
-  position: {x: -0.000030517578, y: 483}
+  position: {x: 0, y: 483}
   guid: 7e6315f99fb1846aab53f3272833498f
   description: 
   drawGizmos: 0
@@ -169,12 +169,12 @@ MonoBehaviour:
   target:
     variableName: Target
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
   viewAngle:
     variableName: View Angle
     variableType: 0
-    _value: 80
+    value: 55
   detectRange: 7
   targetLayer:
     serializedVersion: 2
@@ -201,7 +201,7 @@ MonoBehaviour:
   navMeshAgent:
     variableName: Agent
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
 --- !u!114 &-1173974757255780795
 MonoBehaviour:
@@ -223,16 +223,16 @@ MonoBehaviour:
   target:
     variableName: Target
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
   viewAngle:
     variableName: View Angle
     variableType: 0
-    _value: 80
+    value: 55
   navMeshAgent:
     variableName: Agent
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
   attackRange: 1.5
 --- !u!114 &11400000
@@ -320,7 +320,7 @@ MonoBehaviour:
   target:
     variableName: Target
     variableType: 0
-    _value: {fileID: 0}
+    value: {fileID: 0}
     useGetComponent: 0
   attackDamage: 10
 --- !u!114 &8181437512819230551
