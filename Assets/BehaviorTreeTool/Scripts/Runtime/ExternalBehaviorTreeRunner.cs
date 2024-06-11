@@ -1,23 +1,36 @@
 using System.Collections.Generic;
 using UnityEngine;
-using BehaviorTreeTool.Scripts.CustomInterface;
 
-public class MonoBehaviorTree : MonoBehaviour, IBehaviorTree
+public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
 {
+#if UNITY_EDITOR
     public ExternalBehaviorTree ExternalBehaviorTree
     {
         get => behaviorTree;
         set
         {
             behaviorTree = value;
-            UpdateVariables();
+            if (behaviorTree == null)
+            {
+                variables.Clear();
+            }
+            else
+            {
+                UpdateVariables();
+            }
         }
     }
 
+    public BehaviorTree Tree
+    {
+        get => behaviorTree;
+        set => behaviorTree = (ExternalBehaviorTree)value;
+    }
+
+#endif
     [SerializeField] private ExternalBehaviorTree behaviorTree;
 
-    [SerializeReference]
-    private List<SharedVariableBase> variables;
+    [SerializeReference] private List<SharedVariableBase> variables;
 
     private void OnEnable()
     {
@@ -26,22 +39,19 @@ public class MonoBehaviorTree : MonoBehaviour, IBehaviorTree
 
     private void Start()
     {
-        // 클론시 새로운 변수 리스트 전달
-        var clonedVariables = new List<SharedVariableBase>();
-        for (var i = 0; i < variables.Count; i++)
-        {
-            var variable = variables[i];
-            clonedVariables.Add(variable.Clone());
-        }
-
-        var clonedTree = (ExternalBehaviorTree)behaviorTree.Clone(transform);
-        behaviorTree = clonedTree;
-        CopyVariablesToBehaviorTree();
+        InitializeTree();
     }
 
     private void OnDisable()
     {
         BehaviorTreeManager.RemoveTree(this);
+    }
+
+    private void InitializeTree()
+    {
+        var clonedTree = (ExternalBehaviorTree)behaviorTree.Clone(transform);
+        behaviorTree = clonedTree;
+        SyncVariableValues();
     }
 
     public void TreeUpdate()
@@ -51,6 +61,7 @@ public class MonoBehaviorTree : MonoBehaviour, IBehaviorTree
 
     private void UpdateVariables()
     {
+        variables.Clear();
         if (behaviorTree?.RootNode?.SharedData?.Variables != null)
         {
             variables = new List<SharedVariableBase>();
@@ -61,17 +72,20 @@ public class MonoBehaviorTree : MonoBehaviour, IBehaviorTree
         }
     }
 
-    private void CopyVariablesToBehaviorTree()
+    private void SyncVariableValues()
     {
-        behaviorTree.RootNode.SharedData.Variables.Clear();
-     Debug.Log("=======================================");
-        for (int i = 0; i < variables.Count; i++)
+        for (var i = 0; i < variables.Count; i++)
         {
-            var clonedVariable = variables[i].Clone();
-            behaviorTree.RootNode.SharedData.Variables.Add(clonedVariable);
-            Debug.Log(behaviorTree.RootNode.SharedData.Variables[i].GetValue());
+            var variable = variables[i];
+            var sharedVariable = behaviorTree.RootNode.SharedData.Variables[i];
+
+            if (variable is not IComponentObject { UseGetComponent: true })
+            {
+                sharedVariable.SetValue(variable.GetValue());
+            }
         }
     }
+
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {

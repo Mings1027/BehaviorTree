@@ -13,18 +13,13 @@ MonoBehaviour:
   m_Name: External SharedVariable
   m_EditorClassIdentifier: 
   variables:
-  - rid: 1497354755480748099
   - rid: 1497354755480748100
+  - rid: 1497354765879476248
+  - rid: 1497354765879476351
+  - rid: 1497354765879476352
   references:
     version: 2
     RefIds:
-    - rid: 1497354755480748099
-      type: {class: SharedTransform, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: Target
-        variableType: 15
-        _value: {fileID: 0}
-        useGetComponent: 0
     - rid: 1497354755480748100
       type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
       data:
@@ -32,3 +27,22 @@ MonoBehaviour:
         variableType: 11
         _value: {fileID: 0}
         useGetComponent: 1
+    - rid: 1497354765879476248
+      type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: WayPoints
+        variableType: 16
+        _value: []
+    - rid: 1497354765879476351
+      type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Target
+        variableType: 2
+        _value: {fileID: 0}
+        useGetComponent: 0
+    - rid: 1497354765879476352
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: View Angle
+        variableType: 8
+        _value: 0

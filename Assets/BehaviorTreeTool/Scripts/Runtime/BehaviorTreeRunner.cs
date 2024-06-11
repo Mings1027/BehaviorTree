@@ -1,15 +1,15 @@
-using BehaviorTreeTool.Scripts.CustomInterface;
 using UnityEngine;
 
-/// <summary>
-/// For any object that intends to use behavior trees, this class is essential.
-/// </summary>
 public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
 {
 #if UNITY_EDITOR
-    public BehaviorTree Tree => tree;
+    public BehaviorTree Tree
+    {
+        get => tree;
+        set => tree = value;
+    }
 #endif
-    [SerializeField] private BehaviorTree tree;
+    [SerializeField] protected BehaviorTree tree;
 
     private void OnEnable()
     {
@@ -18,8 +18,7 @@ public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
 
     private void Start()
     {
-        var clonedTree = tree.Clone(transform);
-        tree = clonedTree;
+        TreeInit();
     }
 
     private void OnDisable()
@@ -27,14 +26,16 @@ public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
         BehaviorTreeManager.RemoveTree(this);
     }
 
-    /// <summary>
-    /// If you don't want to use BehaviorTreeManager then You can change to Update
-    /// </summary>
+    private void TreeInit()
+    {
+        var clonedTree = tree.Clone(transform);
+        tree = clonedTree;
+    }
+
     public void TreeUpdate()
     {
         tree.TreeUpdate();
     }
-
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {

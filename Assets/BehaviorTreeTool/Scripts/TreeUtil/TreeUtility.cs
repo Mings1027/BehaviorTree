@@ -54,7 +54,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                     { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Color => new SharedColor
                     { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.GameObject => new SharedGameObject
+                SharedVariableType.GameObject => new SharedGameComponentObject
                     { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.GameObjectList => new SharedGameObjectList
                     { VariableName = variableName, VariableType = variableType },
@@ -87,7 +87,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                 SharedColliderArray => SharedVariableType.ColliderArray,
                 SharedColor => SharedVariableType.Color,
                 SharedFloat => SharedVariableType.Float,
-                SharedGameObject => SharedVariableType.GameObject,
+                SharedGameComponentObject => SharedVariableType.GameObject,
                 SharedGameObjectList => SharedVariableType.GameObjectList,
                 SharedInt => SharedVariableType.Int,
                 SharedLayerMask => SharedVariableType.LayerMask,
@@ -176,7 +176,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                         sharedColor.SetValue(newColorValue);
                     }
                     break;
-                case SharedGameObject sharedGameObject:
+                case SharedGameComponentObject sharedGameObject:
                     var newGameObjectValue =
                         (GameObject)EditorGUILayout.ObjectField(valueLabel, sharedGameObject.Value, typeof(GameObject),
                             true);

@@ -9,5 +9,10 @@ namespace BehaviorTreeTool.Scripts.Actions
         {
             agent.Value.destination = target.Value.position;
         }
+
+        protected override TaskState OnUpdate()
+        {
+            return TaskState.Success;
+        }
     }
 }

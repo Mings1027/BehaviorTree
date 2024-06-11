@@ -3,13 +3,13 @@ namespace BehaviorTreeTool.Scripts.Actions
     public class MoveToTarget : ActionNode
     {
         public SharedCollider target;
-        public SharedNavMeshAgent navMeshAgent;
+        public SharedNavMeshAgent agent;
 
         protected override void OnStart()
         {
             if (target.Value)
             {
-                navMeshAgent.Value.destination = target.Value.transform.position;
+                agent.Value.destination = target.Value.transform.position;
             }
         }
 
@@ -17,7 +17,7 @@ namespace BehaviorTreeTool.Scripts.Actions
         {
             if (target.Value)
             {
-                navMeshAgent.Value.destination = target.Value.transform.position;
+                agent.Value.destination = target.Value.transform.position;
                 return TaskState.Success;
             }
 

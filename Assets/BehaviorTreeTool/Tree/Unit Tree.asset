@@ -46,7 +46,7 @@ MonoBehaviour:
     variableType: 0
     _value: {fileID: 0}
     useGetComponent: 0
-  navMeshAgent:
+  agent:
     variableName: Agent
     variableType: 0
     _value: {fileID: 0}
@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9be2344f233174f00ab84680954b4195, type: 3}
   m_Name: RangeChecker
   m_EditorClassIdentifier: 
-  position: {x: -0.000011444092, y: 482.99994}
+  position: {x: -0.000030517578, y: 483}
   guid: 7e6315f99fb1846aab53f3272833498f
   description: 
   drawGizmos: 0

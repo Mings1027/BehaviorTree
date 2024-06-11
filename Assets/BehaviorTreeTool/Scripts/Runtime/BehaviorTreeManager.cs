@@ -1,11 +1,13 @@
 using System.Collections.Generic;
-using BehaviorTreeTool.Scripts.CustomInterface;
+using System.Diagnostics;
 using UnityEngine;
 
 public class BehaviorTreeManager : MonoBehaviour
 {
     private static BehaviorTreeManager _instance;
-    [SerializeField] private List<IBehaviorTree> _behaviorTree;
+    private List<IBehaviorTree> _behaviorTree;
+
+    public bool drawGizmos = false; // 모든 트리의 drawGizmos 속성을 제어하는 토글
 
     private void Awake()
     {
@@ -31,5 +33,21 @@ public class BehaviorTreeManager : MonoBehaviour
     {
         if (_instance._behaviorTree.Contains(behaviorTree))
             _instance._behaviorTree.Remove(behaviorTree);
+    }
+
+    [Conditional("UNITY_EDITOR")]
+    public void ToggleDrawGizmos()
+    {
+        drawGizmos = !drawGizmos;
+        foreach (var tree in _behaviorTree)
+        {
+            if (tree?.Tree?.RootNode != null)
+            {
+                BehaviorTree.Traverse(tree.Tree.RootNode, node =>
+                {
+                    node.drawGizmos = drawGizmos;
+                });
+            }
+        }
     }
 }

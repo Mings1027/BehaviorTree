@@ -1,113 +1,108 @@
 using UnityEngine;
 
-
-    public class RootNode : Node
+public class RootNode : Node
+{
+    public Node Child
     {
-        public Node Child
-        {
-            get => child;
-            set => child = value;
-        }
+        get => child;
+        set => child = value;
+    }
 
-        public override SharedData SharedData
+    public override SharedData SharedData
+    {
+        get => base.SharedData;
+        set
         {
-            get => base.SharedData;
-            set
+            base.SharedData = value;
+            TraverseChildrenAndSetSharedData(this, value);
+        }
+    }
+
+    [SerializeField] private Node child;
+
+    public void OnValidate()
+    {
+        if (SharedData != null)
+        {
+            TraverseChildrenAndSetSharedData(this, SharedData);
+        }
+    }
+
+    public override Node Clone()
+    {
+        var clone = Instantiate(this);
+        clone.Child = Child.Clone();
+        return clone;
+    }
+
+    protected override void OnStart() { }
+
+    protected override void OnEnd() { }
+
+    protected override TaskState OnUpdate()
+    {
+        return Child != null ? Child.Update() : TaskState.Failure;
+    }
+
+    private void TraverseChildrenAndSetSharedData(Node node, SharedData sharedData)
+    {
+        if (node is CompositeNode compositeNode)
+        {
+            foreach (var child in compositeNode.Children)
             {
-                base.SharedData = value;
-                TraverseChildrenAndSetSharedData(this, value);
+                child.SharedData = sharedData;
+                TraverseChildrenAndSetSharedData(child, sharedData);
             }
         }
-
-        [SerializeField] private Node child;
-
-        public void OnValidate()
+        else if (node is DecoratorNode decoratorNode)
         {
-            if (SharedData != null)
+            if (decoratorNode.Child != null)
             {
-                TraverseChildrenAndSetSharedData(this, SharedData);
+                decoratorNode.Child.SharedData = sharedData;
+                TraverseChildrenAndSetSharedData(decoratorNode.Child, sharedData);
             }
         }
-
-        public override Node Clone()
+        else if (node is RootNode rootNode)
         {
-            var clone = Instantiate(this);
-            clone.Child = Child.Clone();
-            return clone;
-        }
-
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnEnd()
-        {
-        }
-
-        protected override TaskState OnUpdate()
-        {
-            return Child != null ? Child.Update() : TaskState.Failure;
-        }
-
-        private void TraverseChildrenAndSetSharedData(Node node, SharedData sharedData)
-        {
-            if (node is CompositeNode compositeNode)
+            if (rootNode.Child != null)
             {
-                foreach (var child in compositeNode.Children)
-                {
-                    child.SharedData = sharedData;
-                    TraverseChildrenAndSetSharedData(child, sharedData);
-                }
-            }
-            else if (node is DecoratorNode decoratorNode)
-            {
-                if (decoratorNode.Child != null)
-                {
-                    decoratorNode.Child.SharedData = sharedData;
-                    TraverseChildrenAndSetSharedData(decoratorNode.Child, sharedData);
-                }
-            }
-            else if (node is RootNode rootNode)
-            {
-                if (rootNode.Child != null)
-                {
-                    rootNode.Child.SharedData = sharedData;
-                    TraverseChildrenAndSetSharedData(rootNode.Child, sharedData);
-                }
-            }
-            else if (node != null)
-            {
-                node.SharedData = sharedData;
+                rootNode.Child.SharedData = sharedData;
+                TraverseChildrenAndSetSharedData(rootNode.Child, sharedData);
             }
         }
+        else if (node != null)
+        {
+            node.SharedData = sharedData;
+        }
+    }
 
 #if UNITY_EDITOR
-        public override void OnDrawGizmos()
+    public override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        if (child)
         {
-            base.OnDrawGizmos();
-            if (child)
-            {
-                TraverseDrawGizmos(child);
-            }
+            TraverseDrawGizmos(child);
         }
-
-        private void TraverseDrawGizmos(Node node)
-        {
-            node.OnDrawGizmos();
-            if (node is CompositeNode compositeNode)
-            {
-                for (var i = 0; i < compositeNode.Children.Count; i++)
-                {
-                    TraverseDrawGizmos(compositeNode.Children[i]);
-                }
-            }
-            else if (node is DecoratorNode decoratorNode)
-            {
-                if (decoratorNode.Child)
-                {
-                    TraverseDrawGizmos(decoratorNode.Child);
-                }
-            }
-        }
-#endif
     }
+
+    private void TraverseDrawGizmos(Node node)
+    {
+        node.OnDrawGizmos();
+        if (node is CompositeNode compositeNode)
+        {
+            for (var i = 0; i < compositeNode.Children.Count; i++)
+            {
+                TraverseDrawGizmos(compositeNode.Children[i]);
+            }
+        }
+        else if (node is DecoratorNode decoratorNode)
+        {
+            if (decoratorNode.Child)
+            {
+                TraverseDrawGizmos(decoratorNode.Child);
+            }
+        }
+    }
+#endif
+}

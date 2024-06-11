@@ -23,16 +23,19 @@ MonoBehaviour:
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
+        variableType: 0
         _value: {fileID: 0}
         useGetComponent: 0
     - rid: 1497354724234493953
       type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
       data:
         variableName: Agent
+        variableType: 0
         _value: {fileID: 0}
         useGetComponent: 1
     - rid: 1497354724234493954
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: View Angle
+        variableType: 0
         _value: 126

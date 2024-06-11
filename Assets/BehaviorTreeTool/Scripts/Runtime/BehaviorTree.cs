@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using BehaviorTreeTool.Scripts.CustomInterface;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ public class BehaviorTree : ScriptableObject
     public Node RootNode => rootNode;
     public List<Node> Nodes => nodes;
 
-    protected SharedData sharedData;
+    private SharedData _sharedData;
 
     [SerializeField] protected Node rootNode;
     [SerializeField] protected List<Node> nodes = new();
@@ -59,11 +58,11 @@ public class BehaviorTree : ScriptableObject
         var tree = Instantiate(this);
         tree.rootNode = tree.rootNode.Clone();
         tree.nodes = new List<Node>();
-        tree.sharedData = rootNode.SharedData.Clone();
+        tree._sharedData = rootNode.SharedData.Clone();
         Traverse(tree.rootNode, n =>
         {
             tree.nodes.Add(n);
-            n.SetData(transform, tree.sharedData);
+            n.SetData(transform, tree._sharedData);
         });
         AssignSharedVariables(tree.nodes);
         Traverse(tree.rootNode, n => n.Init());
@@ -71,7 +70,7 @@ public class BehaviorTree : ScriptableObject
         return tree;
     }
 
-    protected static void AssignSharedVariables(IReadOnlyList<Node> nodeList)
+    private static void AssignSharedVariables(IReadOnlyList<Node> nodeList)
     {
         // 우선 배열의 최대 크기를 계산하기 위해 전체 필드 개수를 셉니다.
         var totalFieldCount = 0;
@@ -137,7 +136,7 @@ public class BehaviorTree : ScriptableObject
             var kvp = sharedVariablesTable[i];
             var value = kvp.SharedVariable.GetValue();
 
-            if (kvp.SharedVariable is IObject { UseGetComponent: true } && value is Component)
+            if (kvp.SharedVariable is IComponentObject { UseGetComponent: true } && value is Component)
             {
                 var componentType = value.GetType();
                 if (kvp.Node.NodeTransform.TryGetComponent(componentType, out var component))

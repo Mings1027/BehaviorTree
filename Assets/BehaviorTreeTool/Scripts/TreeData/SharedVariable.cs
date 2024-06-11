@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using BehaviorTreeTool.Scripts.CustomInterface;
 using UnityEngine;
 using UnityEngine.AI;
 using Object = UnityEngine.Object;
@@ -28,6 +27,17 @@ public enum SharedVariableType
     Vector2Int,
     Vector3,
     Vector3Int
+}
+
+public interface IComponentObject
+{
+    bool UseGetComponent { get; set; }
+}
+
+public interface IBehaviorTree
+{
+    BehaviorTree Tree { get; }
+    void TreeUpdate();
 }
 
 [Serializable]
@@ -96,7 +106,7 @@ public class SharedVariable<T> : SharedVariableBase
     }
 }
 
-public class SharedVariableObject<T> : SharedVariable<T>, IObject where T : Object
+public class SharedVariableComponentObject<T> : SharedVariable<T>, IComponentObject where T : Object
 {
     [SerializeField] private bool useGetComponent;
 
@@ -117,7 +127,7 @@ public class SharedBool : SharedVariable<bool>
 }
 
 [Serializable]
-public class SharedCollider : SharedVariableObject<Collider>
+public class SharedCollider : SharedVariableComponentObject<Collider>
 {
     public static implicit operator SharedCollider(Collider value)
     {
@@ -153,11 +163,11 @@ public class SharedFloat : SharedVariable<float>
 }
 
 [Serializable]
-public class SharedGameObject : SharedVariableObject<GameObject>
+public class SharedGameComponentObject : SharedVariableComponentObject<GameObject>
 {
-    public static implicit operator SharedGameObject(GameObject value)
+    public static implicit operator SharedGameComponentObject(GameObject value)
     {
-        return new SharedGameObject { Value = value };
+        return new SharedGameComponentObject { Value = value };
     }
 }
 
@@ -198,7 +208,7 @@ public class SharedMaterial : SharedVariable<Material>
 }
 
 [Serializable]
-public class SharedNavMeshAgent : SharedVariableObject<NavMeshAgent>
+public class SharedNavMeshAgent : SharedVariableComponentObject<NavMeshAgent>
 {
     public static implicit operator SharedNavMeshAgent(NavMeshAgent value)
     {
@@ -234,7 +244,7 @@ public class SharedString : SharedVariable<string>
 }
 
 [Serializable]
-public class SharedTransform : SharedVariableObject<Transform>
+public class SharedTransform : SharedVariable<Transform>
 {
     public static implicit operator SharedTransform(Transform value)
     {
@@ -285,4 +295,21 @@ public class SharedVector3Int : SharedVariable<Vector3Int>
     {
         return new SharedVector3Int { Value = value };
     }
+}
+
+[Serializable]
+public class SharedCustomClass : SharedVariable<CustomClass>
+{
+    public static implicit operator SharedCustomClass(CustomClass value)
+    {
+        return new SharedCustomClass { Value = value };
+    }
+}
+
+[Serializable]
+public class CustomClass
+{
+    public string name;
+    public Transform myPos;
+    public int height;
 }

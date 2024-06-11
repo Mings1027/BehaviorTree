@@ -146,7 +146,7 @@ namespace BehaviorTreeTool.Editor
                         {
                             tree = behaviorTreeRunner.Tree;
                         }
-                        else if (Selection.activeGameObject.TryGetComponent(out MonoBehaviorTree monoBehaviorTree))
+                        else if (Selection.activeGameObject.TryGetComponent(out ExternalBehaviorTreeRunner monoBehaviorTree))
                         {
                             tree = monoBehaviorTree.ExternalBehaviorTree;
                         }

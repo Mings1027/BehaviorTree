@@ -38,10 +38,12 @@ MonoBehaviour:
   sharedData: {fileID: 11400000, guid: f99730fc0035d4c6c9e5fd29370bb896, type: 2}
   agent:
     variableName: Agent
+    variableType: 0
     _value: {fileID: 0}
     useGetComponent: 0
   wayPoints:
     variableName: Way Points
+    variableType: 0
     _value: []
 --- !u!114 &-2479628478522713504
 MonoBehaviour:
@@ -83,6 +85,7 @@ MonoBehaviour:
   sharedData: {fileID: 11400000, guid: f99730fc0035d4c6c9e5fd29370bb896, type: 2}
   navMeshAgent:
     variableName: agent
+    variableType: 0
     _value: {fileID: 0}
     useGetComponent: 0
 --- !u!114 &-970283244458698592
