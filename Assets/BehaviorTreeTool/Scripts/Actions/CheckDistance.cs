@@ -7,13 +7,6 @@ namespace BehaviorTreeTool.Scripts.Actions
     {
         public SharedNavMeshAgent navMeshAgent;
 
-        protected override void OnAwake()
-        {
-            navMeshAgent.Value.destination = nodeTransform.position + new Vector3(1, 0, 1);
-        }
-
-        protected override void OnStart() { }
-
         protected override TaskState OnUpdate()
         {
             if (navMeshAgent.Value.pathPending) return TaskState.Running;

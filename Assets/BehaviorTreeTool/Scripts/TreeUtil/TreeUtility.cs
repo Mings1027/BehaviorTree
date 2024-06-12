@@ -78,35 +78,6 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             };
         }
 
-        public static SharedVariableType DisplayType(SharedVariableBase variable)
-        {
-            var sharedType = variable switch
-            {
-                SharedBool => SharedVariableType.Bool,
-                SharedCollider => SharedVariableType.Collider,
-                SharedColliderArray => SharedVariableType.ColliderArray,
-                SharedColor => SharedVariableType.Color,
-                SharedFloat => SharedVariableType.Float,
-                SharedGameComponentObject => SharedVariableType.GameObject,
-                SharedGameObjectList => SharedVariableType.GameObjectList,
-                SharedInt => SharedVariableType.Int,
-                SharedLayerMask => SharedVariableType.LayerMask,
-                SharedMaterial => SharedVariableType.Material,
-                SharedNavMeshAgent => SharedVariableType.NavMeshAgent,
-                SharedQuaternion => SharedVariableType.Quaternion,
-                SharedRect => SharedVariableType.Rect,
-                SharedString => SharedVariableType.String,
-                SharedTransform => SharedVariableType.Transform,
-                SharedTransformArray => SharedVariableType.TransformArray,
-                SharedVector2 => SharedVariableType.Vector2,
-                SharedVector2Int => SharedVariableType.Vector2Int,
-                SharedVector3 => SharedVariableType.Vector3,
-                SharedVector3Int => SharedVariableType.Vector3Int,
-                _ => SharedVariableType.Bool
-            };
-            return sharedType;
-        }
-
         public static void DrawSharedVariableValueField(SharedVariableBase variable, string valueLabel)
         {
             switch (variable)
@@ -255,65 +226,6 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             }
         }
 
-        private static void DrawArrayField<T>(SharedVariable<T[]> sharedVariableArray)
-        {
-            var array = sharedVariableArray.Value ?? Array.Empty<T>();
-
-            EditorGUILayout.BeginHorizontal();
-
-            if (!string.IsNullOrEmpty(sharedVariableArray.VariableName))
-            {
-                ArrayFoldouts.TryAdd(sharedVariableArray.VariableName, false);
-
-                ArrayFoldouts[sharedVariableArray.VariableName] =
-                    EditorGUILayout.Foldout(ArrayFoldouts[sharedVariableArray.VariableName],
-                        $"Array Elements", true);
-            }
-
-            var newSize = EditorGUILayout.IntField(array.Length, GUILayout.Width(50));
-            if (GUILayout.Button(new GUIContent(PlusTexture), GUILayout.Width(20), GUILayout.Height(20)))
-            {
-                newSize++;
-            }
-
-            if (GUILayout.Button(new GUIContent(MinusTexture), GUILayout.Width(20), GUILayout.Height(20)))
-            {
-                newSize--;
-            }
-
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.Space(1);
-
-            if (newSize < 0) newSize = 0;
-            if (newSize != array.Length)
-            {
-                var newArray = new T[newSize];
-                for (var i = 0; i < Mathf.Min(newSize, array.Length); i++)
-                {
-                    newArray[i] = array[i];
-                }
-                sharedVariableArray.SetValue(newArray);
-                array = newArray;
-            }
-
-            if (!string.IsNullOrEmpty(sharedVariableArray.VariableName) &&
-                ArrayFoldouts.ContainsKey(sharedVariableArray.VariableName) &&
-                ArrayFoldouts[sharedVariableArray.VariableName])
-            {
-                EditorGUI.indentLevel++;
-                for (var i = 0; i < array.Length; i++)
-                {
-                    var newValue = (T)DrawFieldForType(typeof(T), array[i], $"Element {i}");
-                    if (!EqualityComparer<T>.Default.Equals(array[i], newValue))
-                    {
-                        array[i] = newValue;
-                        sharedVariableArray.SetValue(array);
-                    }
-                }
-                EditorGUI.indentLevel--;
-            }
-        }
-
         // 타입에 맞는 필드를 그리는 함수
         private static object DrawFieldForType(Type type, object value, string label)
         {
@@ -357,6 +269,41 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             return value;
         }
 
+        private static void DrawArrayField<T>(SharedVariable<T[]> sharedVariableArray)
+        {
+            var array = sharedVariableArray.Value ?? Array.Empty<T>();
+
+            EditorGUILayout.BeginHorizontal();
+
+            if (!string.IsNullOrEmpty(sharedVariableArray.VariableName))
+            {
+                ArrayFoldouts.TryAdd(sharedVariableArray.VariableName, false);
+
+                ArrayFoldouts[sharedVariableArray.VariableName] =
+                    EditorGUILayout.Foldout(ArrayFoldouts[sharedVariableArray.VariableName], $"Array Elements", true);
+            }
+
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.Space(1);
+
+            if (!string.IsNullOrEmpty(sharedVariableArray.VariableName) &&
+                ArrayFoldouts.ContainsKey(sharedVariableArray.VariableName) &&
+                ArrayFoldouts[sharedVariableArray.VariableName])
+            {
+                EditorGUI.indentLevel++;
+                for (var i = 0; i < array.Length; i++)
+                {
+                    var newValue = (T)DrawFieldForType(typeof(T), array[i], $"Element {i}");
+                    if (!EqualityComparer<T>.Default.Equals(array[i], newValue))
+                    {
+                        array[i] = newValue;
+                        sharedVariableArray.SetValue(array);
+                    }
+                }
+                EditorGUI.indentLevel--;
+            }
+        }
+
         private static void DrawListField<T>(SharedVariable<List<T>> sharedVariableList) where T : Object
         {
             var list = sharedVariableList.Value ?? new List<T>();
@@ -368,39 +315,11 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                 EditorGUILayout.BeginHorizontal();
 
                 ListFoldouts[sharedVariableList.VariableName] =
-                    EditorGUILayout.Foldout(ListFoldouts[sharedVariableList.VariableName],
-                        $"List Elements", true);
-            }
-
-            var newSize = EditorGUILayout.IntField(list.Count, GUILayout.Width(50));
-            if (GUILayout.Button(new GUIContent(PlusTexture), GUILayout.Width(20), GUILayout.Height(20)))
-            {
-                newSize++;
-            }
-
-            if (GUILayout.Button(new GUIContent(MinusTexture), GUILayout.Width(20), GUILayout.Height(20)))
-            {
-                newSize--;
+                    EditorGUILayout.Foldout(ListFoldouts[sharedVariableList.VariableName], $"List Elements", true);
             }
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(1);
-
-            if (newSize < 0) newSize = 0;
-            if (newSize != list.Count)
-            {
-                var newList = new List<T>(newSize);
-                for (var i = 0; i < Mathf.Min(newSize, list.Count); i++)
-                {
-                    newList.Add(list[i]);
-                }
-                for (var i = list.Count; i < newSize; i++)
-                {
-                    newList.Add(null);
-                }
-                sharedVariableList.SetValue(newList);
-                list = newList;
-            }
 
             if (!string.IsNullOrEmpty(sharedVariableList.VariableName) &&
                 ListFoldouts.ContainsKey(sharedVariableList.VariableName) &&
@@ -420,53 +339,6 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             }
         }
 
-        // 필드를 그리는 함수
-        public static void DrawField(FieldInfo field, Node node)
-        {
-            var fieldType = field.FieldType;
-            var fieldValue = field.GetValue(node);
-
-            EditorGUILayout.BeginVertical("box");
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(field.Name, GUILayout.Width(EditorGUIUtility.labelWidth));
-
-            if (fieldType == typeof(int))
-            {
-                field.SetValue(node, EditorGUILayout.IntField((int)fieldValue));
-            }
-            else if (fieldType == typeof(float))
-            {
-                field.SetValue(node, EditorGUILayout.FloatField((float)fieldValue));
-            }
-            else if (fieldType == typeof(string))
-            {
-                field.SetValue(node, EditorGUILayout.TextField((string)fieldValue));
-            }
-            else if (fieldType == typeof(bool))
-            {
-                field.SetValue(node, EditorGUILayout.Toggle((bool)fieldValue));
-            }
-            else if (fieldType == typeof(Vector3))
-            {
-                field.SetValue(node, EditorGUILayout.Vector3Field("", (Vector3)fieldValue));
-            }
-            else if (fieldType == typeof(Color))
-            {
-                field.SetValue(node, EditorGUILayout.ColorField((Color)fieldValue));
-            }
-            else if (typeof(Object).IsAssignableFrom(fieldType))
-            {
-                field.SetValue(node, EditorGUILayout.ObjectField((Object)fieldValue, fieldType, true));
-            }
-            else
-            {
-                EditorGUILayout.LabelField($"Unsupported field type: {fieldType}");
-            }
-
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndVertical();
-        }
-
         // 가로선을 그리는 함수
         public static void DrawHorizontalLine(Color color, int thickness = 1)
         {
@@ -474,23 +346,9 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             EditorGUI.DrawRect(rect, color);
         }
 
-        // 폴드아웃 상태를 저장하는 함수
-        public static void SaveFoldoutStates(string key, bool[] states)
+        public static Texture2D LoadTexture(string path)
         {
-            for (int i = 0; i < states.Length; i++)
-            {
-                EditorPrefs.SetBool($"{key}_{i}", states[i]);
-            }
-        }
-
-        public static bool[] LoadFoldoutStates(string key, int size)
-        {
-            bool[] states = new bool[size];
-            for (int i = 0; i < size; i++)
-            {
-                states[i] = EditorPrefs.GetBool($"{key}_{i}", false);
-            }
-            return states;
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         }
 
         // 노드 타입 이름을 가져오는 함수

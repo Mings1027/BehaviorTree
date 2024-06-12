@@ -58,7 +58,7 @@ public abstract class Node : ScriptableObject
 
     #region Behavior Tree Life Cycle
 
-    public virtual void Init()
+    public void Init()
     {
         OnAwake();
     }
@@ -72,11 +72,11 @@ public abstract class Node : ScriptableObject
     {
         if (!_taskStarted)
         {
-            OnStart(); // Expensive because Breakpoint Node
+            OnStart();
             _taskStarted = true;
         }
 
-        _taskState = OnUpdate(); // Expensive because Attack Node
+        _taskState = OnUpdate();
 
         if (_taskState != TaskState.Running)
         {

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7845037523625463286
+--- !u!114 &-7794184702911180102
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
   m_Name: CheckDistance
   m_EditorClassIdentifier: 
-  position: {x: 219.00015, y: 487}
-  guid: 7f8d62efba5a14e54b539c8afdf2cbe4
+  position: {x: 135, y: 487.99997}
+  guid: 4cf9a44f6a07945af830fd7884fdbc93
   description: 
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
@@ -41,8 +41,28 @@ MonoBehaviour:
   sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
   child: {fileID: 4324299982708452399}
   restartOnSuccess: 1
-  restartOnFailure: 0
---- !u!114 &-608137839918697619
+  restartOnFailure: 1
+--- !u!114 &-4553988841672744064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: 210, y: 359}
+  guid: c5cd5e0d085b4419e8f371f0ee27b12a
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
+  children:
+  - {fileID: -7794184702911180102}
+  - {fileID: -2086832291569094504}
+--- !u!114 &-2086832291569094504
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,8 +74,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c232782adebc440a1887b0b0cc0ef76c, type: 3}
   m_Name: MoveToWaypoint
   m_EditorClassIdentifier: 
-  position: {x: 396.26453, y: 488.1879}
-  guid: 5e5f78670e8b345b0a03234dabf4676f
+  position: {x: 285, y: 487.99997}
+  guid: 50646e3d7810f4992986d10e254463b0
   description: 
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
@@ -86,12 +106,11 @@ MonoBehaviour:
   - {fileID: -5648153884683092005}
   - {fileID: 4324299982708452399}
   - {fileID: 1337520803758716397}
-  - {fileID: 4337865630511048794}
   - {fileID: 4873733868546686240}
   - {fileID: 7276764217626753197}
-  - {fileID: 2176928938071735381}
-  - {fileID: -7845037523625463286}
-  - {fileID: -608137839918697619}
+  - {fileID: -4553988841672744064}
+  - {fileID: -7794184702911180102}
+  - {fileID: -2086832291569094504}
 --- !u!114 &1337520803758716397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,24 +131,6 @@ MonoBehaviour:
   children:
   - {fileID: 4873733868546686240}
   - {fileID: 7276764217626753197}
---- !u!114 &2176928938071735381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
-  m_Name: Wait
-  m_EditorClassIdentifier: 
-  position: {x: 69.00016, y: 487}
-  guid: 2deed23de23e3424cbdd0c417e9b0144
-  description: 
-  drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  duration: 1
 --- !u!114 &3428577875666421008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,28 +168,7 @@ MonoBehaviour:
   sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
   children:
   - {fileID: 1337520803758716397}
-  - {fileID: 4337865630511048794}
---- !u!114 &4337865630511048794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
-  m_Name: Sequencer
-  m_EditorClassIdentifier: 
-  position: {x: 218.758, y: 359}
-  guid: b1d5ac3b51ba44662928209544eac840
-  description: 
-  drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  children:
-  - {fileID: 2176928938071735381}
-  - {fileID: -7845037523625463286}
-  - {fileID: -608137839918697619}
+  - {fileID: -4553988841672744064}
 --- !u!114 &4873733868546686240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9be2344f233174f00ab84680954b4195, type: 3}
   m_Name: RangeChecker
   m_EditorClassIdentifier: 
-  position: {x: -332.9118, y: 486.94568}
+  position: {x: -355, y: 488}
   guid: 86499b43193864a93a51765773bf195e
   description: 
   drawGizmos: 0
@@ -233,7 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75afc2c29ac8d4006a178de9f358287e, type: 3}
   m_Name: MoveToTarget
   m_EditorClassIdentifier: 
-  position: {x: -175.15134, y: 505.5788}
+  position: {x: -205, y: 488}
   guid: 85f087eeb8d694afd8b15edf3b93de02
   description: 
   drawGizmos: 0

@@ -157,41 +157,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviorTree: {fileID: 11400000, guid: 4c5652357777045bfbff9f52372b8797, type: 2}
   variables:
-  - rid: 1497354771278857028
-  - rid: 1497354771278857029
-  - rid: 1497354771278857030
-  - rid: 1497354771278857031
+  - rid: 1497354790351929452
+  - rid: 1497354790351929453
+  - rid: 1497354790351929454
+  - rid: 1497354790351929455
   references:
     version: 2
     RefIds:
-    - rid: 1497354771278857028
+    - rid: 1497354790351929452
       type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
       data:
         variableName: Agent
         variableType: 11
         value: {fileID: 0}
         useGetComponent: 1
-    - rid: 1497354771278857029
+    - rid: 1497354790351929453
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: WayPoints
         variableType: 16
         value:
-        - {fileID: 73092628}
+        - {fileID: 866118227}
         - {fileID: 690580547}
-    - rid: 1497354771278857030
+        - {fileID: 1605107213}
+    - rid: 1497354790351929454
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 2
         value: {fileID: 0}
         useGetComponent: 0
-    - rid: 1497354771278857031
+    - rid: 1497354790351929455
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: View Angle
         variableType: 8
-        value: 80
+        value: 65
 --- !u!135 &5657320
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -528,7 +529,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1482176984702828428, guid: 853a0988dee634966bed428bd92b53ae, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6685833549245031416, guid: 853a0988dee634966bed428bd92b53ae, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1430,7 +1431,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa8d75748e249c9889c13396ca7ba07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  drawGizmos: 0
 --- !u!4 &796108467
 Transform:
   m_ObjectHideFlags: 0
@@ -1668,7 +1668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!195 &1239276730
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1740,7 +1740,7 @@ MonoBehaviour:
       data:
         variableName: View Angle
         variableType: 8
-        value: 80
+        value: 120
 --- !u!135 &1239276732
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2187,7 +2187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7465638069665485485, guid: 9c5444e6e4ca2457a95d0ae53e6bcae2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

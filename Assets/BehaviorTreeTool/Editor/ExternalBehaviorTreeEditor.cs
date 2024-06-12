@@ -90,6 +90,13 @@ namespace BehaviorTreeTool.Editor
             }
             else
             {
+                if (variableProperty.managedReferenceValue is IComponentObject componentObject)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Use GetComponent", GUILayout.Width(120));
+                    componentObject.UseGetComponent = EditorGUILayout.Toggle(componentObject.UseGetComponent);
+                    EditorGUILayout.EndHorizontal();
+                }
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(variableName, GUILayout.Width(110));
                 DrawSharedVariableValue(variableType, valueProperty);

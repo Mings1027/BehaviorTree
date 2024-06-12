@@ -13,29 +13,29 @@ MonoBehaviour:
   m_Name: Cube Shared Variable
   m_EditorClassIdentifier: 
   variables:
-  - rid: 1497354774048145444
-  - rid: 1497354774048145445
-  - rid: 1497354774048145446
+  - rid: 1497354790243139590
+  - rid: 1497354790243139591
+  - rid: 1497354790351929349
   references:
     version: 2
     RefIds:
-    - rid: 1497354774048145444
+    - rid: 1497354790243139590
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 2
         value: {fileID: 0}
         useGetComponent: 0
-    - rid: 1497354774048145445
+    - rid: 1497354790243139591
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: View Angle
+        variableType: 8
+        value: 35
+    - rid: 1497354790351929349
       type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
       data:
         variableName: Agent
         variableType: 11
         value: {fileID: 0}
         useGetComponent: 1
-    - rid: 1497354774048145446
-      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: View Angle
-        variableType: 8
-        value: 0

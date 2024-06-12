@@ -17,26 +17,21 @@ namespace BehaviorTreeTool.Editor
         private Vector2 _variableScrollPos;
         private Vector2 _inspectorScrollPos;
         private Vector2 _noneSharedVarsScrollPos;
-        private SharedVariableType _variableType;
-        private string _variableName = "";
-        private bool[] _foldouts;
-        private string _foldoutKey;
 
-        private Texture2D _upArrowTexture;
+        private SerializedProperty _sharedDataProperty;
+        private UnityEditor.Editor _sharedDataEditor;
+
         private Texture2D _downArrowTexture;
         private Texture2D _rightArrowTexture;
-        private Texture2D _removeTexture;
-
-        private SerializedProperty _variablesProperty;
-        private SerializedProperty _sharedDataProperty;
 
         private static int _selectedTab;
 
         private void OnEnable()
         {
+            _downArrowTexture = TreeUtility.LoadTexture("Assets/BehaviorTreeTool/Sprites/Arrow Simple Down.png");
+            _rightArrowTexture =
+                AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Arrow Simple Right.png");
             InitializeProperties();
-            LoadTextures();
-            UpdateSerializedVariables();
         }
 
         public override void OnInspectorGUI()
@@ -58,46 +53,9 @@ namespace BehaviorTreeTool.Editor
             {
                 Debug.LogError("Failed to find 'sharedData' property. Make sure it exists in the Node class.");
             }
-        }
-
-        private void LoadTextures()
-        {
-            _upArrowTexture = LoadTexture("Assets/BehaviorTreeTool/Sprites/Arrow Simple Up.png");
-            _downArrowTexture = LoadTexture("Assets/BehaviorTreeTool/Sprites/Arrow Simple Down.png");
-            _rightArrowTexture = LoadTexture("Assets/BehaviorTreeTool/Sprites/Arrow Simple Right.png");
-            _removeTexture = LoadTexture("Assets/BehaviorTreeTool/Sprites/Remove.png");
-            return;
-
-            static Texture2D LoadTexture(string path)
+            else if (_sharedDataProperty.objectReferenceValue != null)
             {
-                return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
-            }
-        }
-
-        private void UpdateSerializedVariables()
-        {
-            if (_sharedDataProperty.objectReferenceValue is SharedData sharedData)
-            {
-                var serializedSharedData = new SerializedObject(sharedData);
-                _variablesProperty = serializedSharedData.FindProperty("variables");
-
-                if (_variablesProperty == null)
-                {
-                    Debug.LogError("Failed to find 'variables' property. Make sure it exists in the SharedData class.");
-                    return;
-                }
-
-                _foldoutKey = $"{BehaviorTreeEditor.treeName}_SharedDataFoldouts";
-                _foldouts = TreeUtility.LoadFoldoutStates(_foldoutKey, _variablesProperty.arraySize);
-
-                if (_foldouts.Length != _variablesProperty.arraySize)
-                {
-                    Array.Resize(ref _foldouts, _variablesProperty.arraySize);
-                }
-            }
-            else
-            {
-                Debug.LogError("Failed to find 'SharedData' object. Make sure it is assigned in the Node.");
+                _sharedDataEditor = CreateEditor(_sharedDataProperty.objectReferenceValue);
             }
         }
 
@@ -210,233 +168,10 @@ namespace BehaviorTreeTool.Editor
 
         private void DrawVariablesTab()
         {
-            var sharedData = (SharedData)serializedObject.FindProperty("sharedData").objectReferenceValue;
-            if (!sharedData) return;
-
-            DrawVariableInputFields();
-
-            TreeUtility.DrawHorizontalLine(Color.gray);
-            _variableScrollPos = EditorGUILayout.BeginScrollView(_variableScrollPos);
-            DrawVariablesList();
-            EditorGUILayout.EndScrollView();
-        }
-
-        private void DrawVariableInputFields()
-        {
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Name", GUILayout.Width(50));
-            _variableName = EditorGUILayout.TextField(_variableName);
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Type", GUILayout.Width(50));
-            _variableType = (SharedVariableType)EditorGUILayout.EnumPopup(_variableType);
-
-            if (GUILayout.Button("Add", GUILayout.Width(50)))
+            if (_sharedDataProperty.objectReferenceValue != null && _sharedDataEditor != null)
             {
-                AddVariable(_variableName, _variableType, (SharedData)_sharedDataProperty.objectReferenceValue);
+                _sharedDataEditor.OnInspectorGUI();
             }
-
-            EditorGUILayout.EndHorizontal();
-        }
-
-        private void AddVariable(string variableName, SharedVariableType variableType, SharedData sharedData)
-        {
-            variableName = variableName.Trim();
-            if (string.IsNullOrEmpty(variableName))
-            {
-                EditorUtility.DisplayDialog("Invalid Variable Name", "Variable name cannot be empty.", "OK");
-                return;
-            }
-
-            if (IsVariableNameDuplicate(variableName, sharedData))
-            {
-                EditorUtility.DisplayDialog("Duplicate Variable Name", "Variable name already exists.", "OK");
-                return;
-            }
-
-            var newVariable = TreeUtility.CreateSharedVariable(variableName, variableType);
-
-            if (newVariable != null)
-            {
-                sharedData.AddVariable(newVariable);
-                UpdateVariablesFoldouts(sharedData);
-                EditorUtility.SetDirty(sharedData);
-                AssetDatabase.SaveAssets();
-            }
-            else
-            {
-                Debug.LogError("Failed to create new variable.");
-            }
-
-            _variableName = "";
-        }
-
-        private void UpdateVariablesFoldouts(SharedData sharedData)
-        {
-            var serializedSharedData = new SerializedObject(sharedData);
-            _variablesProperty = serializedSharedData.FindProperty("variables");
-
-            Array.Resize(ref _foldouts, _variablesProperty.arraySize);
-            _foldouts[_variablesProperty.arraySize - 1] = true;
-        }
-
-        private void DrawVariablesList()
-        {
-            var node = (Node)target;
-            var variables = node.SharedData.Variables;
-            if (_foldouts.Length != variables.Count)
-            {
-                Array.Resize(ref _foldouts, variables.Count);
-            }
-
-            for (int i = 0; i < variables.Count; i++)
-            {
-                DrawVariableItem(variables[i], i);
-            }
-
-            TreeUtility.SaveFoldoutStates(_foldoutKey, _foldouts);
-        }
-
-        private void DrawVariableItem(SharedVariableBase variable, int index)
-        {
-            var style = CreateBoxStyle();
-
-            EditorGUILayout.BeginVertical(style);
-            EditorGUILayout.BeginHorizontal();
-
-            _foldouts[index] = EditorGUILayout.Foldout(_foldouts[index],
-                $"{variable.VariableName} ({TreeUtility.DisplayType(variable)})", true);
-
-            DrawMoveButtons(index);
-            DrawRemoveButton(variable, index);
-
-            EditorGUILayout.EndHorizontal();
-
-            if (_foldouts[index])
-            {
-                DrawVariableDetails(variable);
-            }
-
-            EditorGUILayout.EndVertical();
-            TreeUtility.DrawHorizontalLine(Color.gray);
-        }
-
-        private GUIStyle CreateBoxStyle()
-        {
-            return new GUIStyle(GUI.skin.box)
-            {
-                normal = { background = MakeTex(2, 2, new Color(0.3f, 0.3f, 0.3f, 1.0f)) },
-                hover = { background = MakeTex(2, 2, new Color(0.2f, 0.2f, 0.2f, 1.0f)) },
-                padding = new RectOffset(10, 10, 5, 5),
-                margin = new RectOffset(4, 4, 2, 2)
-            };
-        }
-
-        private void DrawMoveButtons(int index)
-        {
-            if (GUILayout.Button(new GUIContent(_upArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
-            {
-                MoveVariableUp(index);
-            }
-
-            if (GUILayout.Button(new GUIContent(_downArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
-            {
-                MoveVariableDown(index);
-            }
-        }
-
-        private void DrawRemoveButton(SharedVariableBase variable, int index)
-        {
-            if (GUILayout.Button(new GUIContent(_removeTexture), GUILayout.Width(21), GUILayout.Height(21)))
-            {
-                var confirmDelete = EditorUtility.DisplayDialog("Delete Variable",
-                    $"Are you sure you want to delete the variable '{variable.VariableName}'?", "Yes", "No");
-                if (confirmDelete)
-                {
-                    DeleteVariable(variable.VariableName, index);
-                }
-            }
-        }
-
-        private void DrawVariableDetails(SharedVariableBase variable)
-        {
-            EditorGUILayout.Space();
-
-            if (variable is IComponentObject componentVariable)
-            {
-                DrawUseGetComponentField(componentVariable);
-            }
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Name", GUILayout.Width(50));
-            EditorGUILayout.TextField(variable.VariableName);
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Type", GUILayout.Width(50));
-            EditorGUILayout.EnumPopup(TreeUtility.DisplayType(variable));
-            EditorGUILayout.EndHorizontal();
-
-            TreeUtility.DrawSharedVariableValueField(variable, "Value");
-        }
-
-        private void DrawUseGetComponentField(IComponentObject componentVariable)
-        {
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Use GetComponent", GUILayout.Width(120));
-            var useGetComponent = EditorGUILayout.Toggle(componentVariable.UseGetComponent);
-            if (useGetComponent != componentVariable.UseGetComponent)
-            {
-                componentVariable.UseGetComponent = useGetComponent;
-            }
-            EditorGUILayout.EndHorizontal();
-        }
-
-        private void MoveVariableUp(int index)
-        {
-            if (index > 0)
-            {
-                _variablesProperty.MoveArrayElement(index, index - 1);
-                _variablesProperty.serializedObject.ApplyModifiedProperties();
-            }
-        }
-
-        private void MoveVariableDown(int index)
-        {
-            if (index < _variablesProperty.arraySize - 1)
-            {
-                _variablesProperty.MoveArrayElement(index, index + 1);
-                _variablesProperty.serializedObject.ApplyModifiedProperties();
-            }
-        }
-
-        private void DeleteVariable(string variableName, int index)
-        {
-            var sharedData = (SharedData)serializedObject.FindProperty("sharedData").objectReferenceValue;
-
-            sharedData.RemoveVariable(variableName);
-            _variablesProperty.DeleteArrayElementAtIndex(index);
-
-            Array.Resize(ref _foldouts, _variablesProperty.arraySize);
-        }
-
-        private bool IsVariableNameDuplicate(string variableName, SharedData sharedData)
-        {
-            return sharedData.Variables.Any(variable => variable.VariableName == variableName);
-        }
-
-        private static Texture2D MakeTex(int width, int height, Color col)
-        {
-            var pix = new Color[width * height];
-            for (var i = 0; i < pix.Length; i++)
-            {
-                pix[i] = col;
-            }
-            var result = new Texture2D(width, height);
-            result.SetPixels(pix);
-            result.Apply();
-            return result;
         }
 
 #endregion
@@ -492,34 +227,34 @@ namespace BehaviorTreeTool.Editor
                     new KeyValuePair<string, SharedVariableBase>(field.Name, (SharedVariableBase)field.GetValue(node)))
                 .ToList();
 
-            if (_foldouts == null || _foldouts.Length != sharedVariables.Count)
-            {
-                _foldouts = new bool[sharedVariables.Count];
-            }
-
             for (int i = 0; i < sharedVariables.Count; i++)
             {
-                DrawSharedVariableField(node, sharedVariables[i], i);
+                DrawSharedVariableField(node, sharedVariables[i]);
                 EditorGUILayout.Space(3);
             }
-            TreeUtility.SaveFoldoutStates(_foldoutKey, _foldouts);
         }
 
-        private void DrawSharedVariableField(Node node, KeyValuePair<string, SharedVariableBase> kvp, int index)
+        private void DrawSharedVariableField(Node node, KeyValuePair<string, SharedVariableBase> kvp)
         {
-            var style = CreateBoxStyle();
+            var style = new GUIStyle(GUI.skin.box)
+            {
+                normal = { background = MakeTex(2, 2, new Color(0.3f, 0.3f, 0.3f, 1.0f)) },
+                hover = { background = MakeTex(2, 2, new Color(0.2f, 0.2f, 0.2f, 1.0f)) },
+                padding = new RectOffset(10, 10, 5, 5),
+                margin = new RectOffset(4, 4, 2, 2)
+            };
+
             EditorGUILayout.BeginVertical(style);
             EditorGUILayout.BeginHorizontal();
 
-            // 플레이 중일 때만 폴드 버튼을 표시
-            if (Application.isPlaying)
+            // Add a foldout button to show/hide the variable value
+            var foldout = EditorPrefs.GetBool($"{kvp.Key}Foldout", false);
+            var arrowTexture = foldout ? _downArrowTexture : _rightArrowTexture;
+            if (GUILayout.Button(arrowTexture, GUILayout.Width(20), GUILayout.Height(20)))
             {
-                var foldoutIcon = _foldouts[index] ? _downArrowTexture : _rightArrowTexture;
-                if (GUILayout.Button(foldoutIcon, GUILayout.Width(20), GUILayout.Height(20)))
-                {
-                    _foldouts[index] = !_foldouts[index];
-                }
+                foldout = !foldout;
             }
+            EditorPrefs.SetBool($"{kvp.Key}Foldout", foldout);
 
             EditorGUILayout.LabelField(kvp.Key, GUILayout.MinWidth(100));
 
@@ -543,19 +278,18 @@ namespace BehaviorTreeTool.Editor
 
             EditorGUILayout.EndHorizontal();
 
-            // 플레이 중일 때만 DrawSharedVariableValueField 호출
-            // if (Application.isPlaying && _foldouts[index] && selectedIndex != 0)
-            // {
+            if (currentIndex != 0 && foldout && Application.isPlaying)
+            {
                 EditorGUI.indentLevel++;
                 TreeUtility.DrawSharedVariableValueField(kvp.Value, "Value");
                 EditorGUI.indentLevel--;
-            // }
+            }
+
             EditorGUILayout.EndVertical();
         }
 
         private void UpdateVariableSelection(Node node, SharedVariableBase variable,
-            IReadOnlyList<string> variableNames,
-            int selectedIndex)
+            IReadOnlyList<string> variableNames, int selectedIndex)
         {
             if (selectedIndex == 0)
             {
@@ -589,10 +323,6 @@ namespace BehaviorTreeTool.Editor
                 {
                     EditorGUILayout.PropertyField(property, new GUIContent(field.Name), true);
                 }
-                // else if (field.IsPublic || field.IsDefined(typeof(SerializeField), false))
-                // {
-                //     TreeUtility.DrawField(field, node);
-                // }
             }
         }
 
@@ -711,6 +441,19 @@ namespace BehaviorTreeTool.Editor
 
                 EditorGUILayout.EndScrollView();
             }
+        }
+
+        private static Texture2D MakeTex(int width, int height, Color col)
+        {
+            var pix = new Color[width * height];
+            for (var i = 0; i < pix.Length; i++)
+            {
+                pix[i] = col;
+            }
+            var result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
         }
     }
 }

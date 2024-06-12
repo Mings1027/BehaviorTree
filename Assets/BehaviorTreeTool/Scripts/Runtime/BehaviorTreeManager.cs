@@ -7,8 +7,6 @@ public class BehaviorTreeManager : MonoBehaviour
     private static BehaviorTreeManager _instance;
     private List<IBehaviorTree> _behaviorTree;
 
-    public bool drawGizmos = false; // 모든 트리의 drawGizmos 속성을 제어하는 토글
-
     private void Awake()
     {
         _instance = this;
@@ -36,17 +34,13 @@ public class BehaviorTreeManager : MonoBehaviour
     }
 
     [Conditional("UNITY_EDITOR")]
-    public void ToggleDrawGizmos()
+    public void ToggleDrawGizmos(bool enable)
     {
-        drawGizmos = !drawGizmos;
         foreach (var tree in _behaviorTree)
         {
             if (tree?.Tree?.RootNode != null)
             {
-                BehaviorTree.Traverse(tree.Tree.RootNode, node =>
-                {
-                    node.drawGizmos = drawGizmos;
-                });
+                BehaviorTree.Traverse(tree.Tree.RootNode, node => { node.drawGizmos = enable; });
             }
         }
     }

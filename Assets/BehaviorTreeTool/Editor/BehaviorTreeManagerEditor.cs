@@ -8,6 +8,7 @@ namespace BehaviorTreeTool.Editor
     public class BehaviorTreeManagerEditor : UnityEditor.Editor
     {
         private BehaviorTreeManager _manager;
+        private bool _gizmosEnabled = false;
 
         private void OnEnable()
         {
@@ -16,8 +17,6 @@ namespace BehaviorTreeTool.Editor
 
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector();
-
             if (Application.isPlaying)
             {
                 EditorGUILayout.LabelField("Behavior Trees", EditorStyles.boldLabel);
@@ -47,15 +46,43 @@ namespace BehaviorTreeTool.Editor
                     // Draw the drawGizmos toggle
                     EditorGUILayout.Space();
                     EditorGUILayout.LabelField("Debug Options", EditorStyles.boldLabel);
-                    if (GUILayout.Button(_manager.drawGizmos ? "Disable Gizmos" : "Enable Gizmos"))
+                    if (GUILayout.Button(_gizmosEnabled ? "Disable Gizmos" : "Enable Gizmos"))
                     {
-                        _manager.ToggleDrawGizmos();
+                        _gizmosEnabled = !_gizmosEnabled;
+                        _manager.ToggleDrawGizmos(_gizmosEnabled);
+                    }
+
+                    // Add a button to select all behavior trees
+                    if (GUILayout.Button("Select All Behavior Trees"))
+                    {
+                        SelectAllBehaviorTrees(behaviorTrees);
                     }
                 }
             }
             else
             {
                 EditorGUILayout.LabelField("Run the game to see the behavior trees.");
+            }
+        }
+
+        private void SelectAllBehaviorTrees(List<IBehaviorTree> behaviorTrees)
+        {
+            if (behaviorTrees != null && behaviorTrees.Count > 0)
+            {
+                // Use a list to store the transforms of all selected GameObjects
+                var transforms = new List<Transform>();
+
+                foreach (var behaviorTree in behaviorTrees)
+                {
+                    var treeObject = behaviorTree as MonoBehaviour;
+                    if (treeObject != null)
+                    {
+                        transforms.Add(treeObject.transform);
+                    }
+                }
+
+                // Use Selection.objects to set the transforms without changing their hierarchy
+                Selection.objects = transforms.ConvertAll(t => t.gameObject).ToArray();
             }
         }
 

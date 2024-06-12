@@ -106,6 +106,7 @@ public class SharedVariable<T> : SharedVariableBase
     }
 }
 
+[Serializable]
 public class SharedVariableComponentObject<T> : SharedVariable<T>, IComponentObject where T : Object
 {
     [SerializeField] private bool useGetComponent;

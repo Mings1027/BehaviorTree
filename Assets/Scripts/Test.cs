@@ -1,50 +1,31 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class Test : MonoBehaviour
+[CreateAssetMenu]
+public class Test : ScriptableObject
 {
-    public List<Transform> TransformList => transformList;
-    [SerializeField] private List<Transform> transformList;
+    [SerializeField] private TestInt testInt;
 }
 
-[CustomEditor(typeof(Test))]
-public class TestEditor: Editor
+[Serializable]
+public class TestGeneric<T>
 {
-    public override void OnInspectorGUI()
+    public T Value
     {
-        var test = (Test)target;
-        EditorGUILayout.LabelField("Transform List", EditorStyles.boldLabel);
+        get => value;
+        set => this.value = value;
+    }
 
-        if (test.TransformList != null)
-        {
-            for (int i = 0; i < test.TransformList.Count; i++)
-            {
-                EditorGUILayout.BeginHorizontal();
-                
-                // Transform 객체를 ObjectField로 표시
-                test.TransformList[i] = (Transform)EditorGUILayout.ObjectField(test.TransformList[i], typeof(Transform), true);
+    [SerializeField] private T value;
+}
 
-                // 항목 제거 버튼
-                if (GUILayout.Button("Remove"))
-                {
-                    test.TransformList.RemoveAt(i);
-                }
-                
-                EditorGUILayout.EndHorizontal();
-            }
-        }
-
-        // 새로운 Transform 객체 추가 버튼
-        if (GUILayout.Button("Add Transform"))
-        {
-            test.TransformList.Add(null);
-        }
-
-        // 변경 사항 저장
-        if (GUI.changed)
-        {
-            EditorUtility.SetDirty(test);
-        }       
+[Serializable]
+public class TestInt : TestGeneric<int>
+{
+    public static implicit operator TestInt(int value)
+    {
+        return new TestInt { Value = value };
     }
 }
