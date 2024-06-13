@@ -25,24 +25,24 @@ MonoBehaviour:
       data:
         variableName: Agent
         variableType: 11
-        _value: {fileID: 0}
-        useGetComponent: 1
+        value: {fileID: 0}
+        useGetComponent: 0
     - rid: 1497354765879476248
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: WayPoints
         variableType: 16
-        _value: []
+        value: []
     - rid: 1497354765879476351
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 2
-        _value: {fileID: 0}
+        value: {fileID: 0}
         useGetComponent: 0
     - rid: 1497354765879476352
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: View Angle
         variableType: 8
-        _value: 0
+        value: 30

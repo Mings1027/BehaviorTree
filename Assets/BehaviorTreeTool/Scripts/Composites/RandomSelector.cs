@@ -4,18 +4,18 @@ namespace BehaviorTreeTool.Scripts.Composites
 {
     public class RandomSelector : CompositeNode
     {
-        protected int current;
+        private int _current;
 
         protected override void OnStart()
         {
-            current = Random.Range(0, children.Count);
+            _current = Random.Range(0, children.Count);
         }
 
         protected override void OnEnd() { }
 
         protected override TaskState OnUpdate()
         {
-            var child = children[current];
+            var child = children[_current];
             return child.Update();
         }
     }

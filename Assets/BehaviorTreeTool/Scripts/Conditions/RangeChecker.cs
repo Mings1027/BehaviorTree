@@ -12,39 +12,50 @@ namespace BehaviorTreeTool.Scripts.Conditions
         [SerializeField] private LayerMask targetLayer;
         [SerializeField] private Collider[] targetColliders;
 
-        private float _curRange;
+        private const float CheckInterval = 0.5f; // Check every 0.5 seconds
+        private float _nextCheckTime;
+
+        protected override void OnAwake()
+        {
+            _nextCheckTime = Time.time;
+        }
 
         protected override TaskState OnUpdate()
         {
-            if (target.Value && target.Value.enabled)
-            {
-                var distance = Vector3.Distance(target.Value.transform.position, nodeTransform.position);
-                var dirToTarget = (target.Value.transform.position - nodeTransform.position).normalized;
-                var angleToTarget = Vector3.Angle(nodeTransform.forward, dirToTarget);
+            if (Time.time < _nextCheckTime)
+                return TaskState.Running;
 
-                if (distance <= detectRange && angleToTarget <= viewAngle.Value)
-                {
-                    return TaskState.Success;
-                }
-            }
+            _nextCheckTime = Time.time + CheckInterval;
 
-            _curRange = 0f;
-            while (_curRange <= detectRange)
+            // OverlapSphereNonAlloc 사용하여 콜라이더 찾기
+            var size = Physics.OverlapSphereNonAlloc(nodeTransform.position, detectRange, targetColliders, targetLayer);
+            if (size > 0)
             {
-                var size = Physics.OverlapSphereNonAlloc(nodeTransform.position, _curRange, targetColliders,
-                    targetLayer);
-                if (size > 0)
+                Collider closestCollider = null;
+                var closestDistance = float.MaxValue;
+
+                for (var i = 0; i < size; i++)
                 {
-                    var dirToTarget = (targetColliders[0].transform.position - nodeTransform.position).normalized;
-                    var angleToTarget = Vector3.Angle(nodeTransform.forward, dirToTarget);
+                    var collider = targetColliders[i];
+                    var directionToTarget = (collider.transform.position - nodeTransform.position).normalized;
+                    var angleToTarget = Vector3.Angle(nodeTransform.forward, directionToTarget);
+
                     if (angleToTarget <= viewAngle.Value)
                     {
-                        target.Value = targetColliders[0];
-                        return TaskState.Success;
+                        var distance = Vector3.SqrMagnitude(nodeTransform.position - collider.transform.position);
+                        if (distance < closestDistance)
+                        {
+                            closestDistance = distance;
+                            closestCollider = collider;
+                        }
                     }
                 }
 
-                _curRange += Time.deltaTime;
+                if (closestCollider != null)
+                {
+                    target.Value = closestCollider;
+                    return TaskState.Success;
+                }
             }
 
             target.Value = null;
@@ -56,7 +67,7 @@ namespace BehaviorTreeTool.Scripts.Conditions
         {
             if (nodeTransform == null) return;
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(nodeTransform.position, _curRange);
+            Gizmos.DrawWireSphere(nodeTransform.position, detectRange);
             Handles.color = new Color(0, 0, 1, 0.2f);
             var forward = nodeTransform.forward * detectRange;
             var leftBoundary = Quaternion.Euler(0, -viewAngle.Value, 0) * forward;

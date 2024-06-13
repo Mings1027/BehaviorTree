@@ -30,7 +30,7 @@ public abstract class Node : ScriptableObject
     private TaskState _taskState = TaskState.Running;
     private bool _taskStarted;
 
-    [ SerializeField] protected SharedData sharedData;
+    [HideInInspector, SerializeField] protected SharedData sharedData;
 
     public void SetData(Transform transform, SharedData sharedData)
     {

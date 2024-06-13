@@ -72,69 +72,62 @@ public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
 
     private void Assign()
     {
-        // 먼저 variables 리스트를 순회하면서 UseGetComponent가 true인 경우 처리
-        AssignComponentVariables();
+        var nodes = behaviorTree.Nodes;
+        var sharedVariablesTable = new List<SharedVariableBase>();
+        var variableNameSet = new HashSet<string>();
 
-        // variables 리스트에서 VariableName과 매칭되는 변수를 빠르게 찾기 위해 사전 생성
-        var variableDict = new Dictionary<string, SharedVariableBase>();
-        foreach (var variable in variables)
+        for (var i = 0; i < nodes.Count; i++)
         {
-            if (!string.IsNullOrEmpty(variable.VariableName))
+            var node = nodes[i];
+            var allFields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
+            for (var j = 0; j < allFields.Length; j++)
             {
-                variableDict[variable.VariableName] = variable;
+                var field = allFields[j];
+                if (!typeof(SharedVariableBase).IsAssignableFrom(field.FieldType)) continue;
+
+                var sharedVariable = (SharedVariableBase)field.GetValue(node);
+                if (sharedVariable == null || string.IsNullOrEmpty(sharedVariable.VariableName)) continue;
+
+                var variableFromVariables = GetVariableFromVariables(sharedVariable.VariableName);
+
+                field.SetValue(node, variableFromVariables);
+
+                // 중복되지 않는 변수만 sharedVariablesTable에 추가
+                if (variableNameSet.Add(sharedVariable.VariableName))
+                {
+                    sharedVariablesTable.Add(variableFromVariables);
+                }
             }
         }
 
-        // 노드와 필드, SharedVariable 쌍을 저장할 리스트를 생성하고 할당을 한 번에 처리
-        var nodeVariablePairs = GetNodeVariablePairs(behaviorTree.Nodes);
-
-        foreach (var pair in nodeVariablePairs)
+        for (int i = 0; i < sharedVariablesTable.Count; i++)
         {
-            if (variableDict.TryGetValue(pair.sharedVariable.VariableName, out var matchingVariable))
+            var sharedVariable = sharedVariablesTable[i];
+            var value = sharedVariable.GetValue();
+            if (sharedVariable is IComponentObject { UseGetComponent: true })
             {
-                pair.field.SetValue(pair.node, matchingVariable);
-            }
-        }
-    }
-
-// UseGetComponent가 true인 경우 처리
-    private void AssignComponentVariables()
-    {
-        foreach (var variable in variables)
-        {
-            if (variable is IComponentObject componentObject && componentObject.UseGetComponent)
-            {
-                var componentType = variable.GetValue().GetType();
+                var componentType = value.GetType();
                 if (transform.TryGetComponent(componentType, out var component))
                 {
-                    variable.SetValue(component);
+                    sharedVariable.SetValue(component);
                 }
             }
         }
+
     }
 
-// 각 노드를 순회하면서 SharedVariableBase 타입의 public 필드를 가져와서 리스트로 반환
-    private List<(Node node, FieldInfo field, SharedVariableBase sharedVariable)> GetNodeVariablePairs(List<Node> nodes)
+    private SharedVariableBase GetVariableFromVariables(string variableName)
     {
-        var nodeVariablePairs = new List<(Node node, FieldInfo field, SharedVariableBase sharedVariable)>();
-
-        foreach (var node in nodes)
+        for (var i = 0; i < variables.Count; i++)
         {
-            var allFields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var field in allFields)
+            var variable = variables[i];
+            if (variable.VariableName == variableName)
             {
-                if (typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
-                {
-                    var sharedVariable = (SharedVariableBase)field.GetValue(node);
-                    if (sharedVariable != null)
-                    {
-                        nodeVariablePairs.Add((node, field, sharedVariable));
-                    }
-                }
+                return variable;
             }
         }
 
-        return nodeVariablePairs;
+        return null;
     }
 
 #if UNITY_EDITOR

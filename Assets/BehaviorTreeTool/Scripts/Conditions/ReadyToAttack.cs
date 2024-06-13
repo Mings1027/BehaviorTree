@@ -6,13 +6,13 @@ namespace BehaviorTreeTool.Scripts.Conditions
     {
         public SharedCollider target;
         public SharedInt viewAngle;
-        public SharedNavMeshAgent navMeshAgent;
+        public SharedNavMeshAgent agent;
 
         [SerializeField] private float attackRange;
 
         protected override void OnAwake()
         {
-            navMeshAgent.Value.stoppingDistance = attackRange;
+            agent.Value.stoppingDistance = attackRange;
         }
 
         protected override TaskState OnUpdate()

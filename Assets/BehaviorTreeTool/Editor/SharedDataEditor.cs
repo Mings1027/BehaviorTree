@@ -12,7 +12,7 @@ namespace BehaviorTreeTool.Editor
         private Texture2D _upArrowTexture;
         private Texture2D _downArrowTexture;
         private Texture2D _removeTexture;
-
+        private Vector2 _variablesScrollPos;
         private SerializedProperty _variablesProperty;
         private string _variableName;
         private SharedVariableType _variableType;
@@ -32,18 +32,21 @@ namespace BehaviorTreeTool.Editor
             serializedObject.Update();
 
             DrawVariableInputField();
+            TreeUtility.DrawHorizontalLine(Color.gray);
             if (_variablesProperty.arraySize == 0)
             {
                 EditorGUILayout.HelpBox("No variables available. Add a new variable to get started.", MessageType.Info);
             }
             else
             {
+                _variablesScrollPos = EditorGUILayout.BeginScrollView(_variablesScrollPos);
                 for (var i = 0; i < _variablesProperty.arraySize; i++)
                 {
                     var variableProperty = _variablesProperty.GetArrayElementAtIndex(i);
                     DrawVariable(variableProperty, i);
                     TreeUtility.DrawHorizontalLine(Color.gray);
                 }
+                EditorGUILayout.EndScrollView();
             }
 
             serializedObject.ApplyModifiedProperties();
@@ -165,10 +168,13 @@ namespace BehaviorTreeTool.Editor
                 }
                 EditorGUILayout.EndHorizontal();
 
-                EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Value", GUILayout.Width(50));
-                EditorGUILayout.PropertyField(variableProperty.FindPropertyRelative("value"), GUIContent.none);
-                EditorGUILayout.EndHorizontal();
+                if (variableProperty.managedReferenceValue.GetType().BaseType?.GetGenericArguments()[0].IsValueType == true)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Value", GUILayout.Width(50));
+                    EditorGUILayout.PropertyField(variableProperty.FindPropertyRelative("value"), GUIContent.none);
+                    EditorGUILayout.EndHorizontal();
+                }
             }
 
             EditorGUILayout.EndVertical();

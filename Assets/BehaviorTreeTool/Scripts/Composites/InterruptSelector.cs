@@ -1,15 +1,18 @@
-public class InterruptSelector : Selector
+namespace BehaviorTreeTool.Scripts.Composites
 {
-    protected override TaskState OnUpdate()
+    public class InterruptSelector : Selector
     {
-        var previous = current;
-        base.OnStart();
-        var status = base.OnUpdate();
-        if (previous != current && children[previous].NodeTaskState == TaskState.Running)
+        protected override TaskState OnUpdate()
         {
-            children[previous].Abort();
-        }
+            var previous = current;
+            base.OnStart();
+            var status = base.OnUpdate();
+            if (previous != current && children[previous].NodeTaskState == TaskState.Running)
+            {
+                children[previous].Abort();
+            }
 
-        return status;
+            return status;
+        }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class Health : MonoBehaviour, IDamageable
@@ -23,7 +22,6 @@ public class Health : MonoBehaviour, IDamageable
         curHealth -= amount;
         if (curHealth <= 0)
         {
-            Debug.Log("Dead!!!");
             collider.enabled = false;
             gameObject.SetActive(false);
         }

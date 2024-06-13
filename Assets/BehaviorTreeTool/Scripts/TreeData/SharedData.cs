@@ -18,23 +18,6 @@ public class SharedData : ScriptableObject
         variables ??= new List<SharedVariableBase>();
     }
 
-    public void AddVariable(SharedVariableBase variable)
-    {
-        variables.Add(variable);
-    }
-
-    public void RemoveVariable(string variableName)
-    {
-        for (int i = 0; i < variables.Count; i++)
-        {
-            if (variables[i].VariableName == variableName)
-            {
-                variables.RemoveAt(i);
-                break;
-            }
-        }
-    }
-
     public SharedData Clone()
     {
         var clone = Instantiate(this);

@@ -1,17 +1,20 @@
 using UnityEngine;
 
-public class Breakpoint : ActionNode
+namespace BehaviorTreeTool.Scripts.Actions
 {
-    protected override void OnStart()
+    public class Breakpoint : ActionNode
     {
-        Debug.Log("Triggered Breakpoint");
-        Debug.Break();
-    }
+        protected override void OnStart()
+        {
+            Debug.Log("Triggered Breakpoint");
+            Debug.Break();
+        }
 
-    protected override void OnEnd() { }
+        protected override void OnEnd() { }
 
-    protected override TaskState OnUpdate()
-    {
-        return TaskState.Success;
+        protected override TaskState OnUpdate()
+        {
+            return TaskState.Success;
+        }
     }
 }

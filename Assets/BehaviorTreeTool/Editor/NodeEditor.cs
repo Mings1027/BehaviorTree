@@ -14,7 +14,6 @@ namespace BehaviorTreeTool.Editor
         private string _searchQuery = "";
         private readonly string[] _tabTitles = { "Tasks", "Variables", "Inspector" };
         private Vector2 _taskScrollPos;
-        private Vector2 _variableScrollPos;
         private Vector2 _inspectorScrollPos;
         private Vector2 _noneSharedVarsScrollPos;
 
@@ -96,7 +95,7 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-#region DrawTasksTab
+        #region DrawTasksTab
 
         private void DrawTasksTab()
         {
@@ -162,9 +161,9 @@ namespace BehaviorTreeTool.Editor
             treeView?.CreateNode(type);
         }
 
-#endregion
+        #endregion
 
-#region DrawVariablesTab
+        #region DrawVariablesTab
 
         private void DrawVariablesTab()
         {
@@ -174,9 +173,9 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-#endregion
+        #endregion
 
-#region DrawInspectorTab
+        #region DrawInspectorTab
 
         private void DrawInspectorTab()
         {
@@ -218,14 +217,20 @@ namespace BehaviorTreeTool.Editor
 
         private void DrawSharedVariableFields(Node node)
         {
-            EditorGUILayout.LabelField("Shared Variables", EditorStyles.boldLabel);
-
             var sharedVariables = node.GetType()
                 .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                 .Where(field => typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
                 .Select(field =>
                     new KeyValuePair<string, SharedVariableBase>(field.Name, (SharedVariableBase)field.GetValue(node)))
                 .ToList();
+
+            if (sharedVariables.Count <= 0)
+            {
+                EditorGUILayout.LabelField("No Shared Variables", EditorStyles.boldLabel);
+                return;
+            }
+
+            EditorGUILayout.LabelField("Shared Variables", EditorStyles.boldLabel);
 
             for (int i = 0; i < sharedVariables.Count; i++)
             {
@@ -247,17 +252,6 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.BeginVertical(style);
             EditorGUILayout.BeginHorizontal();
 
-            // Add a foldout button to show/hide the variable value
-            var foldout = EditorPrefs.GetBool($"{kvp.Key}Foldout", false);
-            var arrowTexture = foldout ? _downArrowTexture : _rightArrowTexture;
-            if (GUILayout.Button(arrowTexture, GUILayout.Width(20), GUILayout.Height(20)))
-            {
-                foldout = !foldout;
-            }
-            EditorPrefs.SetBool($"{kvp.Key}Foldout", foldout);
-
-            EditorGUILayout.LabelField(kvp.Key, GUILayout.MinWidth(100));
-
             var variableNames = node.SharedData.Variables
                 .Where(v => v.GetType() == kvp.Value.GetType())
                 .Select(v => v.VariableName)
@@ -269,6 +263,22 @@ namespace BehaviorTreeTool.Editor
                 ? 0
                 : variableNames.IndexOf(kvp.Value.VariableName);
 
+            // Add a foldout button to show/hide the variable value
+            var foldout = EditorPrefs.GetBool($"{kvp.Key}Foldout", false);
+
+            if (currentIndex == 0 || Application.isPlaying)
+            {
+                var arrowTexture = foldout ? _downArrowTexture : _rightArrowTexture;
+                if (GUILayout.Button(arrowTexture, GUILayout.Width(20), GUILayout.Height(20)))
+                {
+                    foldout = !foldout;
+                }
+                EditorPrefs.SetBool($"{kvp.Key}Foldout", foldout);
+            }
+
+            // Draw the variable name
+            EditorGUILayout.LabelField(kvp.Key, GUILayout.MinWidth(100));
+
             var selectedIndex = EditorGUILayout.Popup(currentIndex, variableNames.ToArray(), GUILayout.Width(150));
             if (selectedIndex != currentIndex)
             {
@@ -278,11 +288,14 @@ namespace BehaviorTreeTool.Editor
 
             EditorGUILayout.EndHorizontal();
 
-            if (currentIndex != 0 && foldout && Application.isPlaying)
+            if (foldout)
             {
-                EditorGUI.indentLevel++;
-                TreeUtility.DrawSharedVariableValueField(kvp.Value, "Value");
-                EditorGUI.indentLevel--;
+                if (currentIndex == 0 || Application.isPlaying)
+                {
+                    EditorGUI.indentLevel++;
+                    TreeUtility.DrawSharedVariableValueField(kvp.Value, "Value");
+                    EditorGUI.indentLevel--;
+                }
             }
 
             EditorGUILayout.EndVertical();
@@ -301,13 +314,12 @@ namespace BehaviorTreeTool.Editor
                 var selectedVariable =
                     node.SharedData.Variables.First(v => v.VariableName == variableNames[selectedIndex]);
                 variable.VariableName = selectedVariable.VariableName;
-                variable.SetValue(selectedVariable.GetValue());
             }
         }
 
         private void DrawNonSharedVariableFields(Node node)
         {
-            EditorGUILayout.LabelField("Non-Shared Variables", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Local Variables", EditorStyles.boldLabel);
 
             foreach (var field in node.GetType()
                          .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
@@ -326,7 +338,7 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-#endregion
+        #endregion
 
         private void CheckAssignSharedData()
         {

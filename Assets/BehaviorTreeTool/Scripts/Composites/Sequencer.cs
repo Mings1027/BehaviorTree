@@ -1,18 +1,21 @@
-public class Sequencer : CompositeNode
+namespace BehaviorTreeTool.Scripts.Composites
 {
-    protected override void OnStart() { }
-
-    protected override void OnEnd() { }
-
-    protected override TaskState OnUpdate()
+    public class Sequencer : CompositeNode
     {
-        for (var i = 0; i < children.Count; i++)
-        {
-            var state = children[i].Update();
-            if (state == TaskState.Success) continue;
-            return state;
-        }
+        protected override void OnStart() { }
 
-        return TaskState.Success;
+        protected override void OnEnd() { }
+
+        protected override TaskState OnUpdate()
+        {
+            for (var i = 0; i < children.Count; i++)
+            {
+                var state = children[i].Update();
+                if (state == TaskState.Success) continue;
+                return state;
+            }
+
+            return TaskState.Success;
+        }
     }
 }

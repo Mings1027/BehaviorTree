@@ -6,7 +6,8 @@ using UnityEngine.AI;
 
 namespace BehaviorTreeTool.Editor
 {
-    [CanEditMultipleObjects] [CustomEditor(typeof(ExternalBehaviorTreeRunner))]
+    [CanEditMultipleObjects]
+    [CustomEditor(typeof(ExternalBehaviorTreeRunner))]
     public class ExternalBehaviorTreeEditor : UnityEditor.Editor
     {
         private SerializedProperty _externalTreeProperty;
@@ -90,16 +91,24 @@ namespace BehaviorTreeTool.Editor
             }
             else
             {
+                bool useGetComponent = false;
                 if (variableProperty.managedReferenceValue is IComponentObject componentObject)
                 {
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Use GetComponent", GUILayout.Width(120));
-                    componentObject.UseGetComponent = EditorGUILayout.Toggle(componentObject.UseGetComponent);
+                    useGetComponent = EditorGUILayout.Toggle(componentObject.UseGetComponent);
+                    componentObject.UseGetComponent = useGetComponent;
                     EditorGUILayout.EndHorizontal();
                 }
+
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(variableName, GUILayout.Width(110));
+
+                // 필드 비활성화
+                EditorGUI.BeginDisabledGroup(useGetComponent);
                 DrawSharedVariableValue(variableType, valueProperty);
+                EditorGUI.EndDisabledGroup();
+
                 EditorGUILayout.EndHorizontal();
             }
 

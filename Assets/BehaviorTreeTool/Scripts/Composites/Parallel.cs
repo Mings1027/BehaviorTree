@@ -1,53 +1,56 @@
 using System.Collections.Generic;
 
-public class Parallel : CompositeNode
+namespace BehaviorTreeTool.Scripts.Composites
 {
-    private readonly List<TaskState> _childrenLeftToExecute = new();
-
-    protected override void OnStart()
+    public class Parallel : CompositeNode
     {
-        _childrenLeftToExecute.Clear();
-        for (var i = 0; i < children.Count; i++)
-        {
-            _childrenLeftToExecute.Add(TaskState.Running);
-        }
-    }
+        private readonly List<TaskState> _childrenLeftToExecute = new();
 
-    protected override void OnEnd() { }
-
-    protected override TaskState OnUpdate()
-    {
-        var stillRunning = false;
-        for (var i = 0; i < _childrenLeftToExecute.Count; ++i)
+        protected override void OnStart()
         {
-            if (_childrenLeftToExecute[i] == TaskState.Running)
+            _childrenLeftToExecute.Clear();
+            for (var i = 0; i < children.Count; i++)
             {
-                var status = children[i].Update();
-                if (status == TaskState.Failure)
-                {
-                    AbortRunningChildren();
-                    return TaskState.Failure;
-                }
-
-                if (status == TaskState.Running)
-                {
-                    stillRunning = true;
-                }
-
-                _childrenLeftToExecute[i] = status;
+                _childrenLeftToExecute.Add(TaskState.Running);
             }
         }
 
-        return stillRunning ? TaskState.Running : TaskState.Success;
-    }
+        protected override void OnEnd() { }
 
-    void AbortRunningChildren()
-    {
-        for (int i = 0; i < _childrenLeftToExecute.Count; ++i)
+        protected override TaskState OnUpdate()
         {
-            if (_childrenLeftToExecute[i] == TaskState.Running)
+            var stillRunning = false;
+            for (var i = 0; i < _childrenLeftToExecute.Count; ++i)
             {
-                children[i].Abort();
+                if (_childrenLeftToExecute[i] == TaskState.Running)
+                {
+                    var status = children[i].Update();
+                    if (status == TaskState.Failure)
+                    {
+                        AbortRunningChildren();
+                        return TaskState.Failure;
+                    }
+
+                    if (status == TaskState.Running)
+                    {
+                        stillRunning = true;
+                    }
+
+                    _childrenLeftToExecute[i] = status;
+                }
+            }
+
+            return stillRunning ? TaskState.Running : TaskState.Success;
+        }
+
+        void AbortRunningChildren()
+        {
+            for (int i = 0; i < _childrenLeftToExecute.Count; ++i)
+            {
+                if (_childrenLeftToExecute[i] == TaskState.Running)
+                {
+                    children[i].Abort();
+                }
             }
         }
     }

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
   m_Name: CheckDistance
   m_EditorClassIdentifier: 
-  position: {x: 135, y: 487.99997}
+  position: {x: 60, y: 488}
   guid: 4cf9a44f6a07945af830fd7884fdbc93
   description: 
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  navMeshAgent:
+  agent:
     variableName: Agent
     variableType: 0
     value: {fileID: 0}
@@ -61,6 +61,7 @@ MonoBehaviour:
   sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
   children:
   - {fileID: -7794184702911180102}
+  - {fileID: 3881483749770672075}
   - {fileID: -2086832291569094504}
 --- !u!114 &-2086832291569094504
 MonoBehaviour:
@@ -74,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c232782adebc440a1887b0b0cc0ef76c, type: 3}
   m_Name: MoveToWaypoint
   m_EditorClassIdentifier: 
-  position: {x: 285, y: 487.99997}
+  position: {x: 360, y: 488}
   guid: 50646e3d7810f4992986d10e254463b0
   description: 
   drawGizmos: 0
@@ -111,6 +112,7 @@ MonoBehaviour:
   - {fileID: -4553988841672744064}
   - {fileID: -7794184702911180102}
   - {fileID: -2086832291569094504}
+  - {fileID: 3881483749770672075}
 --- !u!114 &1337520803758716397
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,6 +151,24 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
   child: {fileID: -5648153884683092005}
+--- !u!114 &3881483749770672075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  position: {x: 210, y: 488}
+  guid: 133e34c186e8f4ef0b2b37c0d6979446
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
+  duration: 1
 --- !u!114 &4324299982708452399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +220,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   targetColliders:
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 0}
 --- !u!114 &7276764217626753197
 MonoBehaviour:

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -35,45 +34,45 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             return variableType switch
             {
                 SharedVariableType.Int => new SharedInt
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Float => new SharedFloat
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Transform => new SharedTransform
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Collider => new SharedCollider
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.ColliderArray => new SharedColliderArray
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.LayerMask => new SharedLayerMask
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Vector3 => new SharedVector3
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.TransformArray => new SharedTransformArray
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Bool => new SharedBool
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Color => new SharedColor
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.GameObject => new SharedGameComponentObject
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.GameObjectList => new SharedGameObjectList
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Material => new SharedMaterial
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.NavMeshAgent => new SharedNavMeshAgent
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Quaternion => new SharedQuaternion
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Rect => new SharedRect
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.String => new SharedString
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Vector2 => new SharedVector2
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Vector2Int => new SharedVector2Int
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Vector3Int => new SharedVector3Int
-                    { VariableName = variableName, VariableType = variableType },
+                { VariableName = variableName, VariableType = variableType },
                 _ => null
             };
         }
@@ -176,15 +175,15 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                     }
                     break;
                 case SharedQuaternion sharedQuaternion:
-                {
-                    var newEulerAngles =
-                        EditorGUILayout.Vector3Field(valueLabel, sharedQuaternion.Value.eulerAngles);
-                    if (sharedQuaternion.Value.eulerAngles != newEulerAngles)
                     {
-                        sharedQuaternion.SetValue(Quaternion.Euler(newEulerAngles));
+                        var newEulerAngles =
+                            EditorGUILayout.Vector3Field(valueLabel, sharedQuaternion.Value.eulerAngles);
+                        if (sharedQuaternion.Value.eulerAngles != newEulerAngles)
+                        {
+                            sharedQuaternion.SetValue(Quaternion.Euler(newEulerAngles));
+                        }
+                        break;
                     }
-                    break;
-                }
                 case SharedRect sharedRect:
                     var newRectValue = EditorGUILayout.RectField(valueLabel, sharedRect.Value);
                     if (sharedRect.Value != newRectValue)
@@ -275,7 +274,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
 
             EditorGUILayout.BeginHorizontal();
 
-            if (!string.IsNullOrEmpty(sharedVariableArray.VariableName))
+            // if (!string.IsNullOrEmpty(sharedVariableArray.VariableName))
             {
                 ArrayFoldouts.TryAdd(sharedVariableArray.VariableName, false);
 
@@ -286,7 +285,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(1);
 
-            if (!string.IsNullOrEmpty(sharedVariableArray.VariableName) &&
+            if (/* !string.IsNullOrEmpty(sharedVariableArray.VariableName) && */
                 ArrayFoldouts.ContainsKey(sharedVariableArray.VariableName) &&
                 ArrayFoldouts[sharedVariableArray.VariableName])
             {

@@ -1,22 +1,25 @@
 using UnityEngine;
 
-public class RandomFailure : ActionNode
+namespace BehaviorTreeTool.Scripts.Actions
 {
-    [Range(0, 1)]
-    public float chanceOfFailure = 0.5f;
-
-    protected override void OnStart() { }
-
-    protected override void OnEnd() { }
-
-    protected override TaskState OnUpdate()
+    public class RandomFailure : ActionNode
     {
-        float value = Random.value;
-        if (value > chanceOfFailure)
-        {
-            return TaskState.Failure;
-        }
+        [Range(0, 1)]
+        public float chanceOfFailure = 0.5f;
 
-        return TaskState.Success;
+        protected override void OnStart() { }
+
+        protected override void OnEnd() { }
+
+        protected override TaskState OnUpdate()
+        {
+            float value = Random.value;
+            if (value > chanceOfFailure)
+            {
+                return TaskState.Failure;
+            }
+
+            return TaskState.Success;
+        }
     }
 }

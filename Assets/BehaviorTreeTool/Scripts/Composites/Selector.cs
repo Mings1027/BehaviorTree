@@ -1,29 +1,32 @@
-public class Selector : CompositeNode
+namespace BehaviorTreeTool.Scripts.Composites
 {
-    protected int current;
-
-    protected override void OnStart()
+    public class Selector : CompositeNode
     {
-        current = 0;
-    }
+        protected int current;
 
-    protected override void OnEnd() { }
-
-    protected override TaskState OnUpdate()
-    {
-        while (current < children.Count)
+        protected override void OnStart()
         {
-            var child = children[current];
-            var childState = child.Update();
-
-            if (childState is TaskState.Running or TaskState.Success)
-            {
-                return childState;
-            }
-
-            current++;
+            current = 0;
         }
 
-        return TaskState.Failure;
+        protected override void OnEnd() { }
+
+        protected override TaskState OnUpdate()
+        {
+            while (current < children.Count)
+            {
+                var child = children[current];
+                var childState = child.Update();
+
+                if (childState is TaskState.Running or TaskState.Success)
+                {
+                    return childState;
+                }
+
+                current++;
+            }
+
+            return TaskState.Failure;
+        }
     }
 }

@@ -17,13 +17,12 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
-  navMeshAgent:
+  agent:
     variableName: Agent
     variableType: 0
     value: {fileID: 0}
     useGetComponent: 0
-  minPos: -10
-  maxPos: 10
+  range: 10
 --- !u!114 &-6244939870627640992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,7 +68,6 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   children:
-  - {fileID: 729849098838070512}
   - {fileID: -1968115196556714456}
   - {fileID: -6244939870627640992}
 --- !u!114 &-5387095629779617074
@@ -84,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
-  position: {x: 313, y: 483}
+  position: {x: 462.99994, y: 482.99997}
   guid: 299ea4bafa86f42b38afe36d8979b146
   description: 
   drawGizmos: 0
@@ -108,8 +106,8 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   children:
-  - {fileID: -4715913646256040161}
   - {fileID: -1173974757255780795}
+  - {fileID: -4715913646256040161}
   - {fileID: 7192564177387149360}
 --- !u!114 &-4715913646256040161
 MonoBehaviour:
@@ -123,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
-  position: {x: -632, y: 483}
+  position: {x: -481.99997, y: 482.99997}
   guid: a92f90c799e684e41928f1fde5cefba2
   description: 
   drawGizmos: 0
@@ -181,6 +179,8 @@ MonoBehaviour:
     m_Bits: 64
   targetColliders:
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &-1619325705506823190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,12 +193,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
   m_Name: CheckDistance
   m_EditorClassIdentifier: 
-  position: {x: 463, y: 483}
+  position: {x: 312.99994, y: 482.99997}
   guid: 586c28ddf787c47fdb84e8931622a745
   description: 
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
-  navMeshAgent:
+  agent:
     variableName: Agent
     variableType: 0
     value: {fileID: 0}
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
   m_Name: ReadyToAttack
   m_EditorClassIdentifier: 
-  position: {x: -482.00006, y: 483.00003}
+  position: {x: -632, y: 482.99997}
   guid: d8b7577325fae4e71b3d92609dcf5e8b
   description: 
   drawGizmos: 0
@@ -229,7 +229,7 @@ MonoBehaviour:
     variableName: View Angle
     variableType: 0
     value: 55
-  navMeshAgent:
+  agent:
     variableName: Agent
     variableType: 0
     value: {fileID: 0}
@@ -258,30 +258,11 @@ MonoBehaviour:
   - {fileID: -4715913646256040161}
   - {fileID: -1173974757255780795}
   - {fileID: 7192564177387149360}
-  - {fileID: 729849098838070512}
   - {fileID: -6244939870627640992}
   - {fileID: -5387095629779617074}
   - {fileID: -6907821466610298657}
   - {fileID: -1619325705506823190}
   - {fileID: -1968115196556714456}
---- !u!114 &729849098838070512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
-  m_Name: Wait
-  m_EditorClassIdentifier: 
-  position: {x: -150, y: 483}
-  guid: 32325c13342bb4ea7afbab5e85d1d897
-  description: 
-  drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
-  duration: 1
 --- !u!114 &931406598775762104
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,6 +343,6 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 11400000, guid: dcd37e0b58f3d4984bc26f75d8df977d, type: 2}
   children:
-  - {fileID: -5387095629779617074}
   - {fileID: -1619325705506823190}
+  - {fileID: -5387095629779617074}
   - {fileID: -6907821466610298657}

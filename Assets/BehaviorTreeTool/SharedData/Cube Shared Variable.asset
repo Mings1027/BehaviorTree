@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variables:
   - rid: 1497354790243139590
-  - rid: 1497354790243139591
+  - rid: 1497354813063042257
   - rid: 1497354790351929349
   references:
     version: 2
@@ -26,12 +26,6 @@ MonoBehaviour:
         variableType: 2
         value: {fileID: 0}
         useGetComponent: 0
-    - rid: 1497354790243139591
-      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: View Angle
-        variableType: 8
-        value: 35
     - rid: 1497354790351929349
       type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
       data:
@@ -39,3 +33,9 @@ MonoBehaviour:
         variableType: 11
         value: {fileID: 0}
         useGetComponent: 1
+    - rid: 1497354813063042257
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: View Angle
+        variableType: 8
+        value: 80

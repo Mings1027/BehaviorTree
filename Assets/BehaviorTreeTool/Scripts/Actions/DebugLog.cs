@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class DebugLog : ActionNode
+namespace BehaviorTreeTool.Scripts.Actions
 {
-    public string message;
-
-    protected override void OnStart() { }
-
-    protected override void OnEnd() { }
-
-    protected override TaskState OnUpdate()
+    public class DebugLog : ActionNode
     {
-        Debug.Log($"{message}");
-        return TaskState.Success;
+        public string message;
+
+        protected override void OnStart() { }
+
+        protected override void OnEnd() { }
+
+        protected override TaskState OnUpdate()
+        {
+            Debug.Log($"{message}");
+            return TaskState.Success;
+        }
     }
 }

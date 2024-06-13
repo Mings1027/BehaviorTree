@@ -1,17 +1,24 @@
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace BehaviorTreeTool.Scripts.Actions
 {
     public class RandomPosition : ActionNode
     {
-        public SharedNavMeshAgent navMeshAgent;
-        [SerializeField] private float minPos;
-        [SerializeField] private float maxPos;
+        public SharedNavMeshAgent agent;
+        [SerializeField] private int range;
 
         protected override void OnStart()
         {
-            navMeshAgent.Value.destination = new Vector3(Random.Range(minPos, maxPos), 0, Random.Range(minPos, maxPos));
+            var randomDir = Random.insideUnitSphere * range;
+            randomDir += nodeTransform.position;
+
+            if (NavMesh.SamplePosition(randomDir, out var hit, range, NavMesh.AllAreas))
+            {
+                var finalPosition = hit.position;
+                agent.Value.SetDestination(finalPosition);
+            }
         }
 
         protected override TaskState OnUpdate()
