@@ -168,6 +168,10 @@ namespace BehaviorTreeTool.Editor
             if (!tree.RootNode)
             {
                 var rootNode = tree.CreateNode(typeof(RootNode)) as RootNode;
+                var sharedData = CreateInstance<SharedData>();
+                AssetDatabase.AddObjectToAsset(sharedData, tree);
+                rootNode.SharedData = sharedData;
+                rootNode.SharedData.name = "SharedData";
                 tree.SetRootNode(rootNode);
             }
 

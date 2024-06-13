@@ -1,139 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7794184702911180102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
-  m_Name: CheckDistance
-  m_EditorClassIdentifier: 
-  position: {x: 60, y: 488}
-  guid: 4cf9a44f6a07945af830fd7884fdbc93
-  description: 
-  drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  agent:
-    variableName: Agent
-    variableType: 0
-    value: {fileID: 0}
-    useGetComponent: 0
---- !u!114 &-5648153884683092005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
-  m_Name: Repeat
-  m_EditorClassIdentifier: 
-  position: {x: 2.4844637, y: 109.31434}
-  guid: c24526f644be64f8b9d86fd60b653c40
-  description: 
-  drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  child: {fileID: 4324299982708452399}
-  restartOnSuccess: 1
-  restartOnFailure: 1
---- !u!114 &-4553988841672744064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
-  m_Name: Sequencer
-  m_EditorClassIdentifier: 
-  position: {x: 210, y: 359}
-  guid: c5cd5e0d085b4419e8f371f0ee27b12a
-  description: 
-  drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  children:
-  - {fileID: -7794184702911180102}
-  - {fileID: 3881483749770672075}
-  - {fileID: -2086832291569094504}
---- !u!114 &-2086832291569094504
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c232782adebc440a1887b0b0cc0ef76c, type: 3}
-  m_Name: MoveToWaypoint
-  m_EditorClassIdentifier: 
-  position: {x: 360, y: 488}
-  guid: 50646e3d7810f4992986d10e254463b0
-  description: 
-  drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  agent:
-    variableName: Agent
-    variableType: 0
-    value: {fileID: 0}
-    useGetComponent: 0
-  wayPoints:
-    variableName: WayPoints
-    variableType: 0
-    value: []
---- !u!114 &11400000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4798a1e70ce74448d9aa81235c4e045a, type: 3}
-  m_Name: New External Behavior Tree
-  m_EditorClassIdentifier: 
-  rootNode: {fileID: 3428577875666421008}
-  nodes:
-  - {fileID: 3428577875666421008}
-  - {fileID: -5648153884683092005}
-  - {fileID: 4324299982708452399}
-  - {fileID: 1337520803758716397}
-  - {fileID: 4873733868546686240}
-  - {fileID: 7276764217626753197}
-  - {fileID: -4553988841672744064}
-  - {fileID: -7794184702911180102}
-  - {fileID: -2086832291569094504}
-  - {fileID: 3881483749770672075}
---- !u!114 &1337520803758716397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
-  m_Name: Sequencer
-  m_EditorClassIdentifier: 
-  position: {x: -280.24222, y: 359}
-  guid: 48c95f92642b54baebaaee772dc23e54
-  description: 
-  drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  children:
-  - {fileID: 4873733868546686240}
-  - {fileID: 7276764217626753197}
---- !u!114 &3428577875666421008
+--- !u!114 &-6689101481297014291
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -146,12 +13,12 @@ MonoBehaviour:
   m_Name: RootNode
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
-  guid: e0b26b71a39e94c0f99b7a2107a52bce
+  guid: a30e7cb6f7a1947aaa8d024f1d4f5d0b
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  child: {fileID: -5648153884683092005}
---- !u!114 &3881483749770672075
+  sharedData: {fileID: -4703450953143579571}
+  child: {fileID: 4940678938987303971}
+--- !u!114 &-4703450953143579571
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,16 +27,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
-  m_Name: Wait
+  m_Script: {fileID: 11500000, guid: 5e6d47f862fa46deadff805a0a827f66, type: 3}
+  m_Name: SharedData
   m_EditorClassIdentifier: 
-  position: {x: 210, y: 488}
-  guid: 133e34c186e8f4ef0b2b37c0d6979446
-  description: 
-  drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  duration: 1
---- !u!114 &4324299982708452399
+  variables:
+  - rid: 1497354823174455312
+  - rid: 1497354823174455313
+  - rid: 1497354823174455314
+  - rid: 1497354823174455315
+  references:
+    version: 2
+    RefIds:
+    - rid: 1497354823174455312
+      type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Target
+        variableType: 3
+        value: {fileID: 0}
+        useGetComponent: 0
+    - rid: 1497354823174455313
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Check Range
+        variableType: 9
+        value: 0
+    - rid: 1497354823174455314
+      type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Agent
+        variableType: 12
+        value: {fileID: 0}
+        useGetComponent: 0
+    - rid: 1497354823174455315
+      type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Way Points
+        variableType: 17
+        value: []
+--- !u!114 &-3151957245891208166
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -178,52 +73,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 460be9e34c566ea45b9e282b1adcb028, type: 3}
-  m_Name: Selector
+  m_Script: {fileID: 11500000, guid: c232782adebc440a1887b0b0cc0ef76c, type: 3}
+  m_Name: MoveToWaypoint
   m_EditorClassIdentifier: 
-  position: {x: 2.0001354, y: 215.99997}
-  guid: d62563ebb8fe3439c9d75e87fae9ec34
+  position: {x: 318, y: 503}
+  guid: 64b6d6673bdb047b28495fe363ab02da
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  children:
-  - {fileID: 1337520803758716397}
-  - {fileID: -4553988841672744064}
---- !u!114 &4873733868546686240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9be2344f233174f00ab84680954b4195, type: 3}
-  m_Name: RangeChecker
-  m_EditorClassIdentifier: 
-  position: {x: -355, y: 488}
-  guid: 86499b43193864a93a51765773bf195e
-  description: 
-  drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
-  target:
-    variableName: Target
+  sharedData: {fileID: -4703450953143579571}
+  agent:
+    variableName: Agent
     variableType: 0
     value: {fileID: 0}
     useGetComponent: 0
-  viewAngle:
-    variableName: View Angle
+  wayPoints:
+    variableName: Way Points
     variableType: 0
-    value: 0
-  detectRange: 5
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  targetColliders:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
---- !u!114 &7276764217626753197
+    value: []
+--- !u!114 &-2220956779511149145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: 206, y: 366}
+  guid: a74c72b6521aa49a897641bee91b9604
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
+  children:
+  - {fileID: 6375404546799310704}
+  - {fileID: -3151957245891208166}
+--- !u!114 &-1419544544039644268
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -235,16 +122,183 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75afc2c29ac8d4006a178de9f358287e, type: 3}
   m_Name: MoveToTarget
   m_EditorClassIdentifier: 
-  position: {x: -205, y: 488}
-  guid: 85f087eeb8d694afd8b15edf3b93de02
+  position: {x: -182, y: 510}
+  guid: 8c1b0dcba75ad489dbf2edfcf7363140
   description: 
   drawGizmos: 0
-  sharedData: {fileID: 11400000, guid: 4e3063469dd6c4b2aaf30703e7157520, type: 2}
+  sharedData: {fileID: -4703450953143579571}
   target:
     variableName: Target
     variableType: 0
     value: {fileID: 0}
     useGetComponent: 0
+  agent:
+    variableName: Agent
+    variableType: 0
+    value: {fileID: 0}
+    useGetComponent: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4798a1e70ce74448d9aa81235c4e045a, type: 3}
+  m_Name: New External Behavior Tree
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: -6689101481297014291}
+  nodes:
+  - {fileID: -6689101481297014291}
+  - {fileID: 4940678938987303971}
+  - {fileID: 5609910098673690177}
+  - {fileID: 1864880251115423170}
+  - {fileID: 3781888004852974316}
+  - {fileID: 1610975140558902736}
+  - {fileID: -1419544544039644268}
+  - {fileID: -2220956779511149145}
+  - {fileID: 6375404546799310704}
+  - {fileID: -3151957245891208166}
+--- !u!114 &1610975140558902736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5f6fc4f91e74cba83eac7528cd5efd, type: 3}
+  m_Name: CheckInViewAngle
+  m_EditorClassIdentifier: 
+  position: {x: -349, y: 497}
+  guid: b538f407e7e174c0d8caabffa87e1e36
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
+  target:
+    variableName: Target
+    variableType: 0
+    value: {fileID: 0}
+    useGetComponent: 0
+  checkRange:
+    variableName: Check Range
+    variableType: 0
+    value: 0
+  viewAngle: 70
+--- !u!114 &1864880251115423170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: -272, y: 363}
+  guid: 3c5efa5b12c7d40bbbb78918216a498f
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
+  children:
+  - {fileID: 3781888004852974316}
+  - {fileID: 1610975140558902736}
+  - {fileID: -1419544544039644268}
+--- !u!114 &3781888004852974316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e34f5795f1164020bcf4f71282b72f5, type: 3}
+  m_Name: CheckInRange
+  m_EditorClassIdentifier: 
+  position: {x: -516, y: 503}
+  guid: 672b987f5d27c47dfbfd0c3380b65134
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
+  target:
+    variableName: Target
+    variableType: 0
+    value: {fileID: 0}
+    useGetComponent: 0
+  checkRange:
+    variableName: Check Range
+    variableType: 0
+    value: 0
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 72
+  targetColliders:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &4940678938987303971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  position: {x: 2, y: 108}
+  guid: 75bb8da8550ff4fa4899fed5d5b6e4a8
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
+  child: {fileID: 5609910098673690177}
+  restartOnSuccess: 1
+  restartOnFailure: 0
+--- !u!114 &5609910098673690177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be9e34c566ea45b9e282b1adcb028, type: 3}
+  m_Name: Selector
+  m_EditorClassIdentifier: 
+  position: {x: -6, y: 229}
+  guid: 22d9e3bc2812043f9aed0b65bd39c648
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
+  children:
+  - {fileID: 1864880251115423170}
+  - {fileID: -2220956779511149145}
+--- !u!114 &6375404546799310704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
+  m_Name: CheckDistance
+  m_EditorClassIdentifier: 
+  position: {x: 109, y: 503}
+  guid: ee71b730b80334f18932d59e79b36be9
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
   agent:
     variableName: Agent
     variableType: 0

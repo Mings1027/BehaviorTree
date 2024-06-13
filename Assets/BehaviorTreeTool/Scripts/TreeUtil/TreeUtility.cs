@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
@@ -33,191 +34,114 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
         {
             return variableType switch
             {
-                SharedVariableType.Int => new SharedInt
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Float => new SharedFloat
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Transform => new SharedTransform
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Collider => new SharedCollider
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.ColliderArray => new SharedColliderArray
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.LayerMask => new SharedLayerMask
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Vector3 => new SharedVector3
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.TransformArray => new SharedTransformArray
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Bool => new SharedBool
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Color => new SharedColor
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.GameObject => new SharedGameComponentObject
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.GameObjectList => new SharedGameObjectList
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Material => new SharedMaterial
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.NavMeshAgent => new SharedNavMeshAgent
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Quaternion => new SharedQuaternion
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Rect => new SharedRect
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.String => new SharedString
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Vector2 => new SharedVector2
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Vector2Int => new SharedVector2Int
-                { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.Vector3Int => new SharedVector3Int
-                { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Bool
+                    => new SharedBool { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Collider
+                    => new SharedCollider { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.ColliderArray
+                    => new SharedColliderArray { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Color
+                    => new SharedColor { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Float
+                    => new SharedFloat { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.GameObject
+                    => new SharedGameComponentObject { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.GameObjectList
+                    => new SharedGameObjectList { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Int
+                    => new SharedInt { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.LayerMask
+                    => new SharedLayerMask { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Material
+                    => new SharedMaterial { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.NavMeshAgent
+                    => new SharedNavMeshAgent { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Quaternion
+                    => new SharedQuaternion { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Rect
+                    => new SharedRect { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.String
+                    => new SharedString { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Transform
+                    => new SharedTransform { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.TransformArray
+                    => new SharedTransformArray { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Vector2
+                    => new SharedVector2 { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Vector2Int
+                    => new SharedVector2Int { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Vector3
+                    => new SharedVector3 { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.Vector3Int
+                    => new SharedVector3Int { VariableName = variableName, VariableType = variableType },
                 _ => null
             };
         }
+
 
         public static void DrawSharedVariableValueField(SharedVariableBase variable, string valueLabel)
         {
             switch (variable)
             {
-                case SharedInt sharedInt:
-                    var newIntValue = EditorGUILayout.IntField(valueLabel, sharedInt.Value);
-                    if (sharedInt.Value != newIntValue)
-                    {
-                        sharedInt.SetValue(newIntValue);
-                    }
-                    break;
-                case SharedFloat sharedFloat:
-                    var newFloatValue = EditorGUILayout.FloatField(valueLabel, sharedFloat.Value);
-                    if (!Mathf.Approximately(sharedFloat.Value, newFloatValue))
-                    {
-                        sharedFloat.SetValue(newFloatValue);
-                    }
-                    break;
-                case SharedTransform sharedTransform:
-                    var newTransformValue =
-                        (Transform)EditorGUILayout.ObjectField(valueLabel, sharedTransform.Value, typeof(Transform),
-                            true);
-                    if (sharedTransform.Value != newTransformValue)
-                    {
-                        sharedTransform.SetValue(newTransformValue);
-                    }
+                case SharedBool sharedBool:
+                    sharedBool.SetValue(EditorGUILayout.Toggle(valueLabel, sharedBool.Value));
                     break;
                 case SharedCollider sharedCollider:
-                    var newColliderValue =
-                        (Collider)EditorGUILayout.ObjectField(valueLabel, sharedCollider.Value, typeof(Collider), true);
-                    if (sharedCollider.Value != newColliderValue)
-                    {
-                        sharedCollider.SetValue(newColliderValue);
-                    }
+                    sharedCollider.SetValue((Collider)EditorGUILayout.ObjectField(valueLabel, sharedCollider.Value, typeof(Collider), true));
                     break;
                 case SharedColliderArray sharedColliderArray:
                     DrawArrayField(sharedColliderArray);
                     break;
-                case SharedLayerMask sharedLayerMask:
-                    LayerMask newLayerMaskValue = EditorGUILayout.LayerField(valueLabel, sharedLayerMask.Value);
-                    if (sharedLayerMask.Value != newLayerMaskValue)
-                    {
-                        sharedLayerMask.SetValue(newLayerMaskValue);
-                    }
-                    break;
-                case SharedVector3 sharedVector3:
-                    var newVector3Value = EditorGUILayout.Vector3Field(valueLabel, sharedVector3.Value);
-                    if (sharedVector3.Value != newVector3Value)
-                    {
-                        sharedVector3.SetValue(newVector3Value);
-                    }
-                    break;
-                case SharedTransformArray sharedTransformArray:
-                    DrawArrayField(sharedTransformArray);
-                    break;
-                case SharedBool sharedBool:
-                    var newBoolValue = EditorGUILayout.Toggle(valueLabel, sharedBool.Value);
-                    if (sharedBool.Value != newBoolValue)
-                    {
-                        sharedBool.SetValue(newBoolValue);
-                    }
-                    break;
                 case SharedColor sharedColor:
-                    var newColorValue = EditorGUILayout.ColorField(valueLabel, sharedColor.Value);
-                    if (sharedColor.Value != newColorValue)
-                    {
-                        sharedColor.SetValue(newColorValue);
-                    }
+                    sharedColor.SetValue(EditorGUILayout.ColorField(valueLabel, sharedColor.Value));
+                    break;
+                case SharedFloat sharedFloat:
+                    sharedFloat.SetValue(EditorGUILayout.FloatField(valueLabel, sharedFloat.Value));
                     break;
                 case SharedGameComponentObject sharedGameObject:
-                    var newGameObjectValue =
-                        (GameObject)EditorGUILayout.ObjectField(valueLabel, sharedGameObject.Value, typeof(GameObject),
-                            true);
-                    if (sharedGameObject.Value != newGameObjectValue)
-                    {
-                        sharedGameObject.SetValue(newGameObjectValue);
-                    }
+                    sharedGameObject.SetValue((GameObject)EditorGUILayout.ObjectField(valueLabel, sharedGameObject.Value, typeof(GameObject), true));
                     break;
                 case SharedGameObjectList sharedGameObjectList:
                     DrawListField(sharedGameObjectList);
                     break;
+                case SharedInt sharedInt:
+                    sharedInt.SetValue(EditorGUILayout.IntField(valueLabel, sharedInt.Value));
+                    break;
+                case SharedLayerMask sharedLayerMask:
+                    sharedLayerMask.SetValue((LayerMask)EditorGUILayout.LayerField(valueLabel, sharedLayerMask.Value));
+                    break;
                 case SharedMaterial sharedMaterial:
-                    var newMaterialValue =
-                        (Material)EditorGUILayout.ObjectField(valueLabel, sharedMaterial.Value, typeof(Material), true);
-                    if (sharedMaterial.Value != newMaterialValue)
-                    {
-                        sharedMaterial.SetValue(newMaterialValue);
-                    }
+                    sharedMaterial.SetValue((Material)EditorGUILayout.ObjectField(valueLabel, sharedMaterial.Value, typeof(Material), true));
                     break;
                 case SharedNavMeshAgent sharedNavMeshAgent:
-                    var newNavMeshAgentValue = (NavMeshAgent)EditorGUILayout.ObjectField(valueLabel,
-                        sharedNavMeshAgent.Value, typeof(NavMeshAgent), true);
-                    if (sharedNavMeshAgent.Value != newNavMeshAgentValue)
-                    {
-                        sharedNavMeshAgent.SetValue(newNavMeshAgentValue);
-                    }
+                    sharedNavMeshAgent.SetValue((NavMeshAgent)EditorGUILayout.ObjectField(valueLabel, sharedNavMeshAgent.Value, typeof(NavMeshAgent), true));
                     break;
                 case SharedQuaternion sharedQuaternion:
-                    {
-                        var newEulerAngles =
-                            EditorGUILayout.Vector3Field(valueLabel, sharedQuaternion.Value.eulerAngles);
-                        if (sharedQuaternion.Value.eulerAngles != newEulerAngles)
-                        {
-                            sharedQuaternion.SetValue(Quaternion.Euler(newEulerAngles));
-                        }
-                        break;
-                    }
+                    sharedQuaternion.SetValue(Quaternion.Euler(EditorGUILayout.Vector3Field(valueLabel, sharedQuaternion.Value.eulerAngles)));
+                    break;
                 case SharedRect sharedRect:
-                    var newRectValue = EditorGUILayout.RectField(valueLabel, sharedRect.Value);
-                    if (sharedRect.Value != newRectValue)
-                    {
-                        sharedRect.SetValue(newRectValue);
-                    }
+                    sharedRect.SetValue(EditorGUILayout.RectField(valueLabel, sharedRect.Value));
                     break;
                 case SharedString sharedString:
-                    var newStringValue = EditorGUILayout.TextField(valueLabel, sharedString.Value);
-                    if (sharedString.Value != newStringValue)
-                    {
-                        sharedString.SetValue(newStringValue);
-                    }
+                    sharedString.SetValue(EditorGUILayout.TextField(valueLabel, sharedString.Value));
+                    break;
+                case SharedTransform sharedTransform:
+                    sharedTransform.SetValue((Transform)EditorGUILayout.ObjectField(valueLabel, sharedTransform.Value, typeof(Transform), true));
+                    break;
+                case SharedTransformArray sharedTransformArray:
+                    DrawArrayField(sharedTransformArray);
                     break;
                 case SharedVector2 sharedVector2:
-                    var newVector2Value = EditorGUILayout.Vector2Field(valueLabel, sharedVector2.Value);
-                    if (sharedVector2.Value != newVector2Value)
-                    {
-                        sharedVector2.SetValue(newVector2Value);
-                    }
+                    sharedVector2.SetValue(EditorGUILayout.Vector2Field(valueLabel, sharedVector2.Value));
                     break;
                 case SharedVector2Int sharedVector2Int:
-                    var newVector2IntValue = EditorGUILayout.Vector2IntField(valueLabel, sharedVector2Int.Value);
-                    if (sharedVector2Int.Value != newVector2IntValue)
-                    {
-                        sharedVector2Int.SetValue(newVector2IntValue);
-                    }
+                    sharedVector2Int.SetValue(EditorGUILayout.Vector2IntField(valueLabel, sharedVector2Int.Value));
+                    break;
+                case SharedVector3 sharedVector3:
+                    sharedVector3.SetValue(EditorGUILayout.Vector3Field(valueLabel, sharedVector3.Value));
                     break;
                 case SharedVector3Int sharedVector3Int:
-                    var newVector3IntValue = EditorGUILayout.Vector3IntField(valueLabel, sharedVector3Int.Value);
-                    if (sharedVector3Int.Value != newVector3IntValue)
-                    {
-                        sharedVector3Int.SetValue(newVector3IntValue);
-                    }
+                    sharedVector3Int.SetValue(EditorGUILayout.Vector3IntField(valueLabel, sharedVector3Int.Value));
                     break;
                 default:
                     EditorGUILayout.LabelField("Unsupported SharedVariable type");
@@ -338,6 +262,56 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             }
         }
 
+        public static void DrawArrayField<T>(SerializedProperty arrayProperty) where T : Object
+        {
+            EditorGUILayout.BeginVertical();
+            var arraySize = arrayProperty.arraySize;
+            arraySize = EditorGUILayout.IntField("Size", arraySize);
+
+            if (arraySize != arrayProperty.arraySize)
+            {
+                while (arraySize > arrayProperty.arraySize)
+                    arrayProperty.InsertArrayElementAtIndex(arrayProperty.arraySize);
+                while (arraySize < arrayProperty.arraySize)
+                    arrayProperty.DeleteArrayElementAtIndex(arrayProperty.arraySize - 1);
+            }
+
+            EditorGUI.indentLevel++;
+            for (var i = 0; i < arrayProperty.arraySize; i++)
+            {
+                var elementProperty = arrayProperty.GetArrayElementAtIndex(i);
+                elementProperty.objectReferenceValue = EditorGUILayout.ObjectField($"Element {i}",
+                    elementProperty.objectReferenceValue, typeof(T), true);
+            }
+            EditorGUI.indentLevel--;
+            EditorGUILayout.EndVertical();
+        }
+
+        public static void DrawListField<T>(SerializedProperty listProperty) where T : Object
+        {
+            EditorGUILayout.BeginVertical();
+            var listSize = listProperty.arraySize;
+            listSize = EditorGUILayout.IntField("Size", listSize);
+
+            if (listSize != listProperty.arraySize)
+            {
+                while (listSize > listProperty.arraySize)
+                    listProperty.InsertArrayElementAtIndex(listProperty.arraySize);
+                while (listSize < listProperty.arraySize)
+                    listProperty.DeleteArrayElementAtIndex(listProperty.arraySize - 1);
+            }
+
+            EditorGUI.indentLevel++;
+            for (var i = 0; i < listProperty.arraySize; i++)
+            {
+                var elementProperty = listProperty.GetArrayElementAtIndex(i);
+                elementProperty.objectReferenceValue = EditorGUILayout.ObjectField($"Element {i}",
+                    elementProperty.objectReferenceValue, typeof(T), true);
+            }
+            EditorGUI.indentLevel--;
+            EditorGUILayout.EndVertical();
+        }
+
         // 가로선을 그리는 함수
         public static void DrawHorizontalLine(Color color, int thickness = 1)
         {
@@ -354,6 +328,207 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
         public static string GetNodeTypeName(Type type)
         {
             return NodeTypeNames.FirstOrDefault(nodeType => nodeType.Key.IsAssignableFrom(type)).Value ?? "Unknown";
+        }
+
+        public static void DrawSharedVariableValue(SharedVariableType variableType, SerializedProperty valueProperty)
+        {
+            switch (variableType)
+            {
+                case SharedVariableType.AIPath:
+                    DrawAIPathField(valueProperty);
+                    break;
+                case SharedVariableType.Animator:
+                    DrawAnimatorField(valueProperty);
+                    break;
+                case SharedVariableType.Bool:
+                    DrawBoolField(valueProperty);
+                    break;
+                case SharedVariableType.Collider:
+                    DrawColliderField(valueProperty);
+                    break;
+                case SharedVariableType.Color:
+                    DrawColorField(valueProperty);
+                    break;
+                case SharedVariableType.Float:
+                    DrawFloatField(valueProperty);
+                    break;
+                case SharedVariableType.GameObject:
+                    DrawGameObjectField(valueProperty);
+                    break;
+                case SharedVariableType.Int:
+                    DrawIntField(valueProperty);
+                    break;
+                case SharedVariableType.LayerMask:
+                    DrawLayerMaskField(valueProperty);
+                    break;
+                case SharedVariableType.Material:
+                    DrawMaterialField(valueProperty);
+                    break;
+                case SharedVariableType.NavMeshAgent:
+                    DrawNavMeshAgentField(valueProperty);
+                    break;
+                case SharedVariableType.Quaternion:
+                    DrawQuaternionField(valueProperty);
+                    break;
+                case SharedVariableType.Rect:
+                    DrawRectField(valueProperty);
+                    break;
+                case SharedVariableType.String:
+                    DrawStringField(valueProperty);
+                    break;
+                case SharedVariableType.Transform:
+                    DrawTransformField(valueProperty);
+                    break;
+                case SharedVariableType.Vector2:
+                    DrawVector2Field(valueProperty);
+                    break;
+                case SharedVariableType.Vector2Int:
+                    DrawVector2IntField(valueProperty);
+                    break;
+                case SharedVariableType.Vector3:
+                    DrawVector3Field(valueProperty);
+                    break;
+                case SharedVariableType.Vector3Int:
+                    DrawVector3IntField(valueProperty);
+                    break;
+                default:
+                    EditorGUILayout.LabelField("Unsupported SharedVariable type");
+                    break;
+            }
+        }
+
+        public static void DrawCollectionField(SharedVariableType variableType, SerializedProperty collectionProperty)
+        {
+            switch (variableType)
+            {
+                case SharedVariableType.ColliderArray:
+                    DrawArrayField<Collider>(collectionProperty);
+                    break;
+                case SharedVariableType.GameObjectList:
+                    DrawListField<GameObject>(collectionProperty);
+                    break;
+                case SharedVariableType.TransformArray:
+                    DrawArrayField<Transform>(collectionProperty);
+                    break;
+            }
+        }
+
+        private static void DrawAIPathField(SerializedProperty valueProperty)
+        {
+            EditorGUILayout.LabelField("AIPath type not supported");
+        }
+
+        private static void DrawAnimatorField(SerializedProperty valueProperty)
+        {
+            valueProperty.objectReferenceValue =
+                EditorGUILayout.ObjectField(valueProperty.objectReferenceValue, typeof(Animator), true);
+        }
+
+        private static void DrawBoolField(SerializedProperty valueProperty)
+        {
+            valueProperty.boolValue = EditorGUILayout.Toggle(valueProperty.boolValue);
+        }
+
+        private static void DrawColliderField(SerializedProperty valueProperty)
+        {
+            valueProperty.objectReferenceValue =
+                EditorGUILayout.ObjectField(valueProperty.objectReferenceValue, typeof(Collider), true);
+        }
+
+        private static void DrawColorField(SerializedProperty valueProperty)
+        {
+            valueProperty.colorValue = EditorGUILayout.ColorField(valueProperty.colorValue);
+        }
+
+        private static void DrawFloatField(SerializedProperty valueProperty)
+        {
+            valueProperty.floatValue = EditorGUILayout.FloatField(valueProperty.floatValue);
+        }
+
+        private static void DrawGameObjectField(SerializedProperty valueProperty)
+        {
+            valueProperty.objectReferenceValue =
+                EditorGUILayout.ObjectField(valueProperty.objectReferenceValue, typeof(GameObject), true);
+        }
+
+        private static void DrawIntField(SerializedProperty valueProperty)
+        {
+            valueProperty.intValue = EditorGUILayout.IntField(valueProperty.intValue);
+        }
+
+        private static void DrawLayerMaskField(SerializedProperty valueProperty)
+        {
+            valueProperty.intValue = EditorGUILayout.LayerField(valueProperty.intValue);
+        }
+
+        private static void DrawMaterialField(SerializedProperty valueProperty)
+        {
+            valueProperty.objectReferenceValue =
+                EditorGUILayout.ObjectField(valueProperty.objectReferenceValue, typeof(Material), true);
+        }
+
+        private static void DrawNavMeshAgentField(SerializedProperty valueProperty)
+        {
+            valueProperty.objectReferenceValue =
+                EditorGUILayout.ObjectField(valueProperty.objectReferenceValue, typeof(NavMeshAgent), true);
+        }
+
+        private static void DrawQuaternionField(SerializedProperty valueProperty)
+        {
+            var eulerValue = valueProperty.quaternionValue.eulerAngles;
+            eulerValue = EditorGUILayout.Vector3Field("", eulerValue);
+            valueProperty.quaternionValue = Quaternion.Euler(eulerValue);
+        }
+
+        private static void DrawRectField(SerializedProperty valueProperty)
+        {
+            valueProperty.rectValue = EditorGUILayout.RectField(valueProperty.rectValue);
+        }
+
+        private static void DrawStringField(SerializedProperty valueProperty)
+        {
+            valueProperty.stringValue = EditorGUILayout.TextField(valueProperty.stringValue);
+        }
+
+        private static void DrawTransformField(SerializedProperty valueProperty)
+        {
+            valueProperty.objectReferenceValue =
+                EditorGUILayout.ObjectField(valueProperty.objectReferenceValue, typeof(Transform), true);
+        }
+
+        private static void DrawVector2Field(SerializedProperty valueProperty)
+        {
+            valueProperty.vector2Value = EditorGUILayout.Vector2Field("", valueProperty.vector2Value);
+        }
+
+        private static void DrawVector2IntField(SerializedProperty valueProperty)
+        {
+            valueProperty.vector2IntValue = EditorGUILayout.Vector2IntField("", valueProperty.vector2IntValue);
+        }
+
+        private static void DrawVector3Field(SerializedProperty valueProperty)
+        {
+            valueProperty.vector3Value = EditorGUILayout.Vector3Field("", valueProperty.vector3Value);
+        }
+
+        private static void DrawVector3IntField(SerializedProperty valueProperty)
+        {
+            valueProperty.vector3IntValue = EditorGUILayout.Vector3IntField("", valueProperty.vector3IntValue);
+        }
+
+
+
+        public static Texture2D MakeTex(int width, int height, Color col)
+        {
+            var pix = new Color[width * height];
+            for (var i = 0; i < pix.Length; i++)
+            {
+                pix[i] = col;
+            }
+            var result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
         }
     }
 }

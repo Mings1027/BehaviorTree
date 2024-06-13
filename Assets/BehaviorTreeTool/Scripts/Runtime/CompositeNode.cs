@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class CompositeNode : Node
 {
     public List<Node> Children => children;
-    [SerializeField] protected List<Node> children;
+    [HideInInspector, SerializeField] protected List<Node> children;
 
     private void OnEnable()
     {

@@ -6,28 +6,32 @@ using Object = UnityEngine.Object;
 
 public enum SharedVariableType
 {
-    AIPath,
-    Bool,
-    Collider,
-    ColliderArray,
-    Color,
-    Float,
-    GameObject,
-    GameObjectList,
-    Int,
-    LayerMask,
-    Material,
-    NavMeshAgent,
-    Quaternion,
-    Rect,
-    String,
-    Transform,
-    TransformArray,
-    Vector2,
-    Vector2Int,
-    Vector3,
-    Vector3Int
+    AIPath = 0,
+    Animator = 1,
+    Bool = 2,
+    Collider = 3,
+    ColliderArray = 4,
+    Color = 5,
+    Float = 6,
+    GameObject = 7,
+    GameObjectList = 8,
+    Int = 9,
+    LayerMask = 10,
+    Material = 11,
+    NavMeshAgent = 12,
+    Quaternion = 13,
+    Rect = 14,
+    String = 15,
+    Transform = 16,
+    TransformArray = 17,
+    Vector2 = 18,
+    Vector2Int = 19,
+    Vector3 = 20,
+    Vector3Int = 21
 }
+
+
+
 
 public interface IComponentObject
 {
@@ -115,6 +119,24 @@ public class SharedVariableComponentObject<T> : SharedVariable<T>, IComponentObj
     {
         get => useGetComponent;
         set => useGetComponent = value;
+    }
+}
+
+// [Serializable]
+// public class SharedAIPath : SharedVariableComponentObject<AIPath>
+// {
+//     public static implicit operator SharedAIPath(AIPath value)
+//     {
+//         return new SharedAIPath { Value = value };
+//     }
+// }
+
+[Serializable]
+public class SharedAnimator : SharedVariableComponentObject<Animator>
+{
+    public static implicit operator SharedAnimator(Animator value)
+    {
+        return new SharedAnimator { Value = value };
     }
 }
 
@@ -296,21 +318,4 @@ public class SharedVector3Int : SharedVariable<Vector3Int>
     {
         return new SharedVector3Int { Value = value };
     }
-}
-
-[Serializable]
-public class SharedCustomClass : SharedVariable<CustomClass>
-{
-    public static implicit operator SharedCustomClass(CustomClass value)
-    {
-        return new SharedCustomClass { Value = value };
-    }
-}
-
-[Serializable]
-public class CustomClass
-{
-    public string name;
-    public Transform myPos;
-    public int height;
 }

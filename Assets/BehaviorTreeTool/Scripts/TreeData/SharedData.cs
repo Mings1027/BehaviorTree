@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "BehaviorTree/SharedData")]
 public class SharedData : ScriptableObject
 {
     [SerializeReference]

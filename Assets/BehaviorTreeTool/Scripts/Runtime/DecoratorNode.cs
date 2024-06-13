@@ -8,7 +8,7 @@ public abstract class DecoratorNode : Node
         set => child = value;
     }
 
-    [SerializeField] protected Node child;
+    [HideInInspector, SerializeField] protected Node child;
 
     public override Node Clone()
     {

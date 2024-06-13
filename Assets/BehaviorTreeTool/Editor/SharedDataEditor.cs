@@ -35,7 +35,7 @@ namespace BehaviorTreeTool.Editor
             TreeUtility.DrawHorizontalLine(Color.gray);
             if (_variablesProperty.arraySize == 0)
             {
-                EditorGUILayout.HelpBox("No variables available. Add a new variable to get started.", MessageType.Info);
+                DrawNoVariablesMessage();
             }
             else
             {
@@ -109,6 +109,22 @@ namespace BehaviorTreeTool.Editor
         {
             var sharedData = (SharedData)target;
             return sharedData.Variables.Any(variable => variable.VariableName == _variableName);
+        }
+
+        private void DrawNoVariablesMessage()
+        {
+            EditorGUILayout.BeginVertical(GUI.skin.box);
+            var style = new GUIStyle(GUI.skin.label)
+            {
+                fontSize = 14,
+                fontStyle = FontStyle.Bold,
+                wordWrap = true,
+                alignment = TextAnchor.MiddleCenter,
+                normal = { textColor = new Color(1.0f, 0.5f, 0f) }
+            };
+
+            GUILayout.Label("No variables available.\nAdd a new variable to get started.", style);
+            EditorGUILayout.EndVertical();
         }
 
         private void DrawVariable(SerializedProperty variableProperty, int index)

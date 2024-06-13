@@ -243,8 +243,8 @@ namespace BehaviorTreeTool.Editor
         {
             var style = new GUIStyle(GUI.skin.box)
             {
-                normal = { background = MakeTex(2, 2, new Color(0.3f, 0.3f, 0.3f, 1.0f)) },
-                hover = { background = MakeTex(2, 2, new Color(0.2f, 0.2f, 0.2f, 1.0f)) },
+                normal = { background = TreeUtility.MakeTex(2, 2, new Color(0.3f, 0.3f, 0.3f, 1.0f)) },
+                hover = { background = TreeUtility.MakeTex(2, 2, new Color(0.2f, 0.2f, 0.2f, 1.0f)) },
                 padding = new RectOffset(10, 10, 5, 5),
                 margin = new RectOffset(4, 4, 2, 2)
             };
@@ -326,6 +326,15 @@ namespace BehaviorTreeTool.Editor
             {
                 if (typeof(SharedVariableBase).IsAssignableFrom(field.FieldType) ||
                     field.IsDefined(typeof(HideInInspector), false))
+                {
+                    continue;
+                }
+
+                // OnDrawGizmos 함수가 오버라이드되어 있는지 확인
+                bool hasDrawGizmosOverride = node.GetType().GetMethod("OnDrawGizmos",
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).DeclaringType != typeof(Node);
+
+                if (field.Name == "drawGizmos" && !hasDrawGizmosOverride)
                 {
                     continue;
                 }
@@ -455,17 +464,5 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        private static Texture2D MakeTex(int width, int height, Color col)
-        {
-            var pix = new Color[width * height];
-            for (var i = 0; i < pix.Length; i++)
-            {
-                pix[i] = col;
-            }
-            var result = new Texture2D(width, height);
-            result.SetPixels(pix);
-            result.Apply();
-            return result;
-        }
     }
 }

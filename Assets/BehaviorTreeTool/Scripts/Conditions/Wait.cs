@@ -6,7 +6,7 @@ namespace BehaviorTreeTool.Scripts.Conditions
     public class Wait : ConditionNode
     {
         private float _startTime;
-        [SerializeField] private int duration = 1;
+        [SerializeField] private float duration = 1;
 
         private string _remainingTimeText;
 
