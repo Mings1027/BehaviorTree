@@ -157,34 +157,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviorTree: {fileID: 11400000, guid: 4c5652357777045bfbff9f52372b8797, type: 2}
   variables:
-  - rid: 1497354823174455316
-  - rid: 1497354823174455317
-  - rid: 1497354823174455318
-  - rid: 1497354823174455319
+  - rid: 1497354839954817064
+  - rid: 1497354839954817065
+  - rid: 1497354839954817066
+  - rid: 1497354839954817067
+  - rid: 1497354839954817068
   references:
     version: 2
     RefIds:
-    - rid: 1497354823174455316
+    - rid: 1497354839954817064
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
         useGetComponent: 0
-    - rid: 1497354823174455317
+    - rid: 1497354839954817065
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
-        value: 10
-    - rid: 1497354823174455318
+        value: 5
+    - rid: 1497354839954817066
       type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
       data:
         variableName: Agent
         variableType: 12
         value: {fileID: 0}
         useGetComponent: 1
-    - rid: 1497354823174455319
+    - rid: 1497354839954817067
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: Way Points
@@ -193,6 +194,12 @@ MonoBehaviour:
         - {fileID: 2000954063}
         - {fileID: 73092628}
         - {fileID: 1605107213}
+    - rid: 1497354839954817068
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: View Angle
+        variableType: 9
+        value: 30
 --- !u!135 &5657320
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -812,7 +819,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.4082179, y: -0.2345697, z: 0.1093816, w: 0.8754261}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1366,43 +1373,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   behaviorTree: {fileID: 11400000, guid: 4c5652357777045bfbff9f52372b8797, type: 2}
   variables:
-  - rid: 1497354823174455320
-  - rid: 1497354823174455321
-  - rid: 1497354823174455322
-  - rid: 1497354823174455323
+  - rid: 1497354839954817059
+  - rid: 1497354839954817060
+  - rid: 1497354839954817061
+  - rid: 1497354839954817062
+  - rid: 1497354839954817063
   references:
     version: 2
     RefIds:
-    - rid: 1497354823174455320
+    - rid: 1497354839954817059
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
         useGetComponent: 0
-    - rid: 1497354823174455321
+    - rid: 1497354839954817060
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
-        value: 7
-    - rid: 1497354823174455322
+        value: 5
+    - rid: 1497354839954817061
       type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
       data:
         variableName: Agent
         variableType: 12
         value: {fileID: 0}
         useGetComponent: 1
-    - rid: 1497354823174455323
+    - rid: 1497354839954817062
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
         value:
-        - {fileID: 866118227}
-        - {fileID: 690580547}
+        - {fileID: 2000954063}
         - {fileID: 73092628}
         - {fileID: 1605107213}
+        - {fileID: 1605107213}
+    - rid: 1497354839954817063
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: View Angle
+        variableType: 9
+        value: 30
 --- !u!195 &1643874107
 NavMeshAgent:
   m_ObjectHideFlags: 0

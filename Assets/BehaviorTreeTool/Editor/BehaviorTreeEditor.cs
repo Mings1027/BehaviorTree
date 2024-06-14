@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
@@ -34,20 +33,6 @@ namespace BehaviorTreeTool.Editor
             return false;
         }
 
-        private List<T> LoadAssets<T>() where T : Object
-        {
-            var assetIds = AssetDatabase.FindAssets($"t:{typeof(T).Name}");
-            var assets = new List<T>();
-            foreach (var assetId in assetIds)
-            {
-                var path = AssetDatabase.GUIDToAssetPath(assetId);
-                var asset = AssetDatabase.LoadAssetAtPath<T>(path);
-                assets.Add(asset);
-            }
-
-            return assets;
-        }
-
         public void CreateGUI()
         {
             _settings = BehaviorTreeSettings.GetOrCreateSettings();
@@ -78,26 +63,7 @@ namespace BehaviorTreeTool.Editor
 
             // Main treeview
             TreeView = root.Q<BehaviorTreeView>("behaviorTreeView");
-            if (TreeView == null)
-            {
-                Debug.LogError("TreeView is null. Please check if BehaviorTreeView is defined in the UXML file.");
-
-                Debug.Log("Root children:");
-                foreach (var element in root.Children())
-                {
-                    Debug.Log(element.GetType().Name);
-                    if (element is TemplateContainer templateContainer)
-                    {
-                        Debug.Log("TemplateContainer children:");
-                        foreach (var child in templateContainer.Children())
-                        {
-                            Debug.Log(child.GetType().Name + " " + child.name);
-                        }
-                    }
-                }
-
-                return;
-            }
+            if (TreeView == null) return;
 
             TreeView.OnNodeSelected = OnNodeSelectionChanged;
 
@@ -135,73 +101,47 @@ namespace BehaviorTreeTool.Editor
 
         private void OnSelectionChange()
         {
-            // EditorApplication.delayCall += () =>
+            var tree = Selection.activeObject as BehaviorTree;
+            if (!tree)
             {
-                var tree = Selection.activeObject as BehaviorTree;
-                if (!tree)
+                if (Selection.activeGameObject)
                 {
-                    if (Selection.activeGameObject)
+                    if (Selection.activeGameObject.TryGetComponent(out BehaviorTreeRunner behaviorTree))
                     {
-                        if (Selection.activeGameObject.TryGetComponent(out BehaviorTreeRunner behaviorTreeRunner))
-                        {
-                            tree = behaviorTreeRunner.Tree;
-                        }
-                        else if (Selection.activeGameObject.TryGetComponent(out ExternalBehaviorTreeRunner monoBehaviorTree))
-                        {
-                            tree = monoBehaviorTree.ExternalBehaviorTree;
-                        }
+                        tree = behaviorTree.Tree;
+                    }
+                    else if (Selection.activeGameObject.TryGetComponent(out ExternalBehaviorTreeRunner externalTree))
+                    {
+                        tree = externalTree.ExternalBehaviorTree;
                     }
                 }
-
-                SelectTree(tree);
             }
+
+            SelectTree(tree);
         }
 
         private void SelectTree(BehaviorTree newTree)
         {
             if (TreeView == null || newTree == null) return;
-
-            var currentSelectedNodeGuid = TreeView.SelectedNodeView?.Node.guid;
-            var selectSameNode = tree != null && tree.name == newTree.name;
+            if (tree == newTree) return;
 
             tree = newTree;
+            treeName = tree.name;
+
             if (!tree.RootNode)
             {
                 var rootNode = tree.CreateNode(typeof(RootNode)) as RootNode;
                 var sharedData = CreateInstance<SharedData>();
                 AssetDatabase.AddObjectToAsset(sharedData, tree);
-                rootNode.SharedData = sharedData;
-                rootNode.SharedData.name = "SharedData";
-                tree.SetRootNode(rootNode);
+                if (rootNode != null)
+                {
+                    rootNode.SharedData = sharedData;
+                    rootNode.SharedData.name = "SharedData";
+                    tree.SetRootNode(rootNode);
+                }
             }
 
             TreeView.PopulateView();
-
-            // Save the selected tree name to EditorPrefs
-            treeName = tree.name;
-
-            // 마지막 커밋전엔 이거 if 자체가 없었고 관련된 BehaviorTreeView에 함수랑 프로퍼티도 없엇음
-            if (tree.RootNode != null)
-            {
-                if (selectSameNode && !string.IsNullOrEmpty(currentSelectedNodeGuid))
-                {
-                    var selectedNodeView = TreeView.FindNodeViewByGuid(currentSelectedNodeGuid);
-                    if (selectedNodeView != null)
-                    {
-                        TreeView.SelectNodeView(selectedNodeView);
-                    }
-                    else
-                    {
-                        // If the node does not exist in the new tree, select the root node
-                        OnNodeSelectionChanged(TreeView.FindNodeView(tree.RootNode));
-                    }
-                }
-                else
-                {
-                    // If no node was previously selected, select the root node
-                    OnNodeSelectionChanged(TreeView.FindNodeView(tree.RootNode));
-                }
-            }
 
             EditorApplication.delayCall += () => { TreeView.FrameAll(); };
         }

@@ -17,6 +17,7 @@
 #input {
     align-items: center;
     min-height: auto;
+    -unity-slice-scale: 0;
 }
 
 #output {
@@ -75,7 +76,7 @@
 #title {
     -unity-font-style: bold;
     font-size: 14px;
-    min-height: 15px;
+    min-height: 30px;
 }
 
 #description {

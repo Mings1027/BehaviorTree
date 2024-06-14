@@ -1,1 +1,4 @@
-public abstract class ConditionNode : Node { }
+namespace BehaviorTreeTool.Scripts.Runtime
+{
+    public abstract class ConditionNode : Node { }
+}

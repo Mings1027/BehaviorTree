@@ -131,7 +131,7 @@ public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
     }
 
 #if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         if (!behaviorTree)
         {

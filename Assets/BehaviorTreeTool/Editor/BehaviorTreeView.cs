@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BehaviorTreeTool.Scripts.Runtime;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -12,7 +13,8 @@ namespace BehaviorTreeTool.Editor
     {
         public new class UxmlFactory : UxmlFactory<BehaviorTreeView, UxmlTraits> { }
 
-        public NodeView SelectedNodeView { get; private set; }
+        private readonly List<NodeView> _nodeViewPool = new();
+
         public Action<NodeView> OnNodeSelected { get; set; }
         private TaskSearchWindow _taskSearchWindow; // 캐싱된 TaskSearchWindow 인스턴스
         private Vector2 _lastMousePosition; // 마지막 마우스 위치 저장
@@ -78,18 +80,6 @@ namespace BehaviorTreeTool.Editor
             return GetNodeByGuid(node.guid) as NodeView;
         }
 
-        public NodeView FindNodeViewByGuid(string guid)
-        {
-            return nodes.OfType<NodeView>().FirstOrDefault(nv => nv.Node.guid == guid);
-        }
-
-        public void SelectNodeView(NodeView nodeView)
-        {
-            ClearSelection();
-            AddToSelection(nodeView);
-            SelectedNodeView = nodeView;
-            OnNodeSelected?.Invoke(nodeView);
-        }
         private void OnUndoRedo()
         {
             RefreshView();
@@ -99,13 +89,22 @@ namespace BehaviorTreeTool.Editor
         {
             if (_tree == null) return;
 
-            // Clear existing elements
+            // Clear existing elements but keep in the pool
             graphViewChanged -= OnGraphViewChanged;
-            DeleteElements(graphElements.ToList());
+            foreach (var element in graphElements.ToList())
+            {
+                if (element is NodeView nodeView)
+                {
+                    RemoveNodeView(nodeView);
+                }
+                else
+                {
+                    RemoveElement(element);
+                }
+            }
             graphViewChanged += OnGraphViewChanged;
 
             // Recreate the node views
-
             for (var i = 0; i < _tree.Nodes.Count; i++)
             {
                 var node = _tree.Nodes[i];
@@ -274,13 +273,35 @@ namespace BehaviorTreeTool.Editor
             return viewCenter;
         }
 
+        private NodeView GetOrCreateNodeView(Node node)
+        {
+            var nodeView = _nodeViewPool.FirstOrDefault(nv => nv.style.display == DisplayStyle.None);
+
+            if (nodeView == null)
+            {
+                nodeView = new NodeView(node)
+                {
+                    OnNodeSelected = OnNodeSelected
+                };
+                _nodeViewPool.Add(nodeView);
+            }
+            else
+            {
+                nodeView.SetNode(node);
+            }
+
+            return nodeView;
+        }
+
         private void CreateNodeView(Node node)
         {
-            var nodeView = new NodeView(node)
-            {
-                OnNodeSelected = OnNodeSelected
-            };
+            var nodeView = GetOrCreateNodeView(node);
             AddElement(nodeView);
+        }
+
+        private void RemoveNodeView(NodeView nodeView)
+        {
+            nodeView.Hide();
         }
 
         public void UpdateNodeStates()

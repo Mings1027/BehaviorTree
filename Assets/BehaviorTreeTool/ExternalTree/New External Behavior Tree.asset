@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7769519701394522130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
+  m_Name: ReadyToAttack
+  m_EditorClassIdentifier: 
+  position: {x: -745, y: 490}
+  guid: 5e0c152f9ef7e4b3b9e9829ad26d0daf
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
+  target:
+    variableName: Target
+    variableType: 0
+    value: {fileID: 0}
+    useGetComponent: 0
+  viewAngle:
+    variableName: View Angle
+    variableType: 0
+    value: 0
+  agent:
+    variableName: Agent
+    variableType: 0
+    value: {fileID: 0}
+    useGetComponent: 0
+  attackRange: 1.5
 --- !u!114 &-6689101481297014291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,12 +44,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a9642f0013642aaa2348d6d396dff9b, type: 3}
   m_Name: RootNode
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 0}
+  position: {x: -5.999944, y: 0.0000038146973}
   guid: a30e7cb6f7a1947aaa8d024f1d4f5d0b
   description: 
   drawGizmos: 0
   sharedData: {fileID: -4703450953143579571}
   child: {fileID: 4940678938987303971}
+--- !u!114 &-4989579907799421387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4295113ac5cd434e9f4bdcef7570a975, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  position: {x: -447, y: 490}
+  guid: ce8f2436414f34c9a880dac7a4b12662
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
+  target:
+    variableName: Target
+    variableType: 0
+    value: {fileID: 0}
+    useGetComponent: 0
+  attackDamage: 10
 --- !u!114 &-4703450953143579571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35,6 +90,7 @@ MonoBehaviour:
   - rid: 1497354823174455313
   - rid: 1497354823174455314
   - rid: 1497354823174455315
+  - rid: 1497354839954817040
   references:
     version: 2
     RefIds:
@@ -64,6 +120,56 @@ MonoBehaviour:
         variableName: Way Points
         variableType: 17
         value: []
+    - rid: 1497354839954817040
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: View Angle
+        variableType: 9
+        value: 0
+--- !u!114 &-3492936440253273216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79172bfe693b944a49fd85bcda5bff60, type: 3}
+  m_Name: LookAtTarget
+  m_EditorClassIdentifier: 
+  position: {x: 69, y: 503}
+  guid: 2b7f7853edce241cea4336e458188814
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
+  target:
+    variableName: Target
+    variableType: 0
+    value: {fileID: 0}
+    useGetComponent: 0
+  rotationSpeed: 1
+--- !u!114 &-3295398312091705034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: -595, y: 363}
+  guid: c91620814ede241ddabfb4ac30d2f9df
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
+  children:
+  - {fileID: -7769519701394522130}
+  - {fileID: -629308539986036182}
+  - {fileID: -4989579907799421387}
 --- !u!114 &-3151957245891208166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c232782adebc440a1887b0b0cc0ef76c, type: 3}
   m_Name: MoveToWaypoint
   m_EditorClassIdentifier: 
-  position: {x: 318, y: 503}
+  position: {x: 652.00006, y: 503.00003}
   guid: 64b6d6673bdb047b28495fe363ab02da
   description: 
   drawGizmos: 0
@@ -102,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
   m_Name: Sequencer
   m_EditorClassIdentifier: 
-  position: {x: 206, y: 366}
+  position: {x: 577.43994, y: 363}
   guid: a74c72b6521aa49a897641bee91b9604
   description: 
   drawGizmos: 0
@@ -122,7 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75afc2c29ac8d4006a178de9f358287e, type: 3}
   m_Name: MoveToTarget
   m_EditorClassIdentifier: 
-  position: {x: -182, y: 510}
+  position: {x: 219.00002, y: 502.99994}
   guid: 8c1b0dcba75ad489dbf2edfcf7363140
   description: 
   drawGizmos: 0
@@ -137,6 +243,24 @@ MonoBehaviour:
     variableType: 0
     value: {fileID: 0}
     useGetComponent: 0
+--- !u!114 &-629308539986036182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  position: {x: -597, y: 490}
+  guid: 8cb88f8a3cffb4d629dfadb9dc11368b
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: -4703450953143579571}
+  duration: 2
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,6 +285,11 @@ MonoBehaviour:
   - {fileID: -2220956779511149145}
   - {fileID: 6375404546799310704}
   - {fileID: -3151957245891208166}
+  - {fileID: -3492936440253273216}
+  - {fileID: -3295398312091705034}
+  - {fileID: -7769519701394522130}
+  - {fileID: -629308539986036182}
+  - {fileID: -4989579907799421387}
 --- !u!114 &1610975140558902736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b5f6fc4f91e74cba83eac7528cd5efd, type: 3}
   m_Name: CheckInViewAngle
   m_EditorClassIdentifier: 
-  position: {x: -349, y: 497}
+  position: {x: -81, y: 503}
   guid: b538f407e7e174c0d8caabffa87e1e36
   description: 
   drawGizmos: 0
@@ -200,7 +329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
   m_Name: Sequencer
   m_EditorClassIdentifier: 
-  position: {x: -272, y: 363}
+  position: {x: -6, y: 363}
   guid: 3c5efa5b12c7d40bbbb78918216a498f
   description: 
   drawGizmos: 0
@@ -208,6 +337,7 @@ MonoBehaviour:
   children:
   - {fileID: 3781888004852974316}
   - {fileID: 1610975140558902736}
+  - {fileID: -3492936440253273216}
   - {fileID: -1419544544039644268}
 --- !u!114 &3781888004852974316
 MonoBehaviour:
@@ -221,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e34f5795f1164020bcf4f71282b72f5, type: 3}
   m_Name: CheckInRange
   m_EditorClassIdentifier: 
-  position: {x: -516, y: 503}
+  position: {x: -230.99986, y: 502.99997}
   guid: 672b987f5d27c47dfbfd0c3380b65134
   description: 
   drawGizmos: 0
@@ -254,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
   m_Name: Repeat
   m_EditorClassIdentifier: 
-  position: {x: 2, y: 108}
+  position: {x: -5.9999437, y: 111.91229}
   guid: 75bb8da8550ff4fa4899fed5d5b6e4a8
   description: 
   drawGizmos: 0
@@ -280,6 +410,7 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: -4703450953143579571}
   children:
+  - {fileID: -3295398312091705034}
   - {fileID: 1864880251115423170}
   - {fileID: -2220956779511149145}
 --- !u!114 &6375404546799310704
@@ -294,7 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
   m_Name: CheckDistance
   m_EditorClassIdentifier: 
-  position: {x: 109, y: 503}
+  position: {x: 502.00015, y: 503.00003}
   guid: ee71b730b80334f18932d59e79b36be9
   description: 
   drawGizmos: 0

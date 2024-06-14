@@ -1,4 +1,6 @@
 using System;
+using BehaviorTreeTool.Scripts.Runtime;
+using Codice.CM.Common;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
@@ -10,12 +12,29 @@ namespace BehaviorTreeTool.Editor
     public class NodeView : UnityEditor.Experimental.GraphView.Node
     {
         public Action<NodeView> OnNodeSelected { get; set; }
-        public Node Node { get; }
+        public Node Node { get; private set; }
         public Port Input { get; private set; }
         public Port Output { get; private set; }
 
         public NodeView(Node node) : base(
             AssetDatabase.GetAssetPath(BehaviorTreeSettings.GetOrCreateSettings().NodeXml))
+        {
+            Initialize();
+            SetNode(node);
+        }
+
+        private void Initialize()
+        {
+            // 이 메서드는 포트와 스타일을 초기화합니다.
+            ClearPorts();
+            RemoveFromClassList("condition");
+            RemoveFromClassList("action");
+            RemoveFromClassList("composite");
+            RemoveFromClassList("decorator");
+            RemoveFromClassList("root");
+        }
+
+        public void SetNode(Node node)
         {
             Node = node;
             Node.name = node.GetType().Name;
@@ -25,10 +44,23 @@ namespace BehaviorTreeTool.Editor
             style.left = node.position.x;
             style.top = node.position.y;
 
+            Initialize();
             CreateInputPorts();
             CreateOutputPorts();
             SetupClasses();
             SetupDataBinding();
+            style.display = DisplayStyle.Flex;
+        }
+
+        public void Hide()
+        {
+            style.display = DisplayStyle.None;
+        }
+
+        private void ClearPorts()
+        {
+            inputContainer.Clear();
+            outputContainer.Clear();
         }
 
         private void SetupDataBinding()
@@ -62,15 +94,15 @@ namespace BehaviorTreeTool.Editor
 
         private void CreateInputPorts()
         {
-            if (Node is ConditionNode)
-            {
-                Input = new NodePort(Direction.Input, Port.Capacity.Single);
-            }
-            else if (Node is ActionNode)
+            if (Node is ActionNode)
             {
                 Input = new NodePort(Direction.Input, Port.Capacity.Single);
             }
             else if (Node is CompositeNode)
+            {
+                Input = new NodePort(Direction.Input, Port.Capacity.Single);
+            }
+            else if (Node is ConditionNode)
             {
                 Input = new NodePort(Direction.Input, Port.Capacity.Single);
             }
@@ -79,7 +111,6 @@ namespace BehaviorTreeTool.Editor
                 Input = new NodePort(Direction.Input, Port.Capacity.Single);
             }
             else if (Node is RootNode) { }
-
             if (Input != null)
             {
                 Input.portName = "";
@@ -90,19 +121,20 @@ namespace BehaviorTreeTool.Editor
 
         private void CreateOutputPorts()
         {
-            if (Node is ConditionNode) { }
-            else if (Node is ActionNode) { }
-            else if (Node is CompositeNode)
+            // CompositeNode에만 Multi Output 포트를 추가합니다.
+            if (Node is CompositeNode)
             {
                 Output = new NodePort(Direction.Output, Port.Capacity.Multi);
             }
-            else if (Node is DecoratorNode)
+            // DecoratorNode와 RootNode에만 Single Output 포트를 추가합니다.
+            else if (Node is DecoratorNode or RootNode)
             {
                 Output = new NodePort(Direction.Output, Port.Capacity.Single);
             }
-            else if (Node is RootNode)
+            // ConditionNode에는 Output 포트를 추가하지 않습니다.
+            else if (Node is ConditionNode or ActionNode)
             {
-                Output = new NodePort(Direction.Output, Port.Capacity.Single);
+                Output = null;
             }
 
             if (Output != null)

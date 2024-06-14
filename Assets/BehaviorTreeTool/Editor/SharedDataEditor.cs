@@ -22,9 +22,15 @@ namespace BehaviorTreeTool.Editor
 
         private void OnEnable()
         {
-            _variablesProperty = serializedObject.FindProperty("variables");
-            LoadTextures();
-            LoadFoldoutStates();
+            if (target is SharedData sharedData)
+            {
+                if (sharedData.Variables != null)
+                {
+                    _variablesProperty = serializedObject.FindProperty("variables");
+                    LoadTextures();
+                    LoadFoldoutStates();
+                }
+            }
         }
 
         public override void OnInspectorGUI()
@@ -57,7 +63,6 @@ namespace BehaviorTreeTool.Editor
             _upArrowTexture = TreeUtility.LoadTexture("Assets/BehaviorTreeTool/Sprites/Arrow Simple Up.png");
             _downArrowTexture = TreeUtility.LoadTexture("Assets/BehaviorTreeTool/Sprites/Arrow Simple Down.png");
             _removeTexture = TreeUtility.LoadTexture("Assets/BehaviorTreeTool/Sprites/Remove.png");
-
         }
 
         private void DrawVariableInputField()
@@ -184,7 +189,8 @@ namespace BehaviorTreeTool.Editor
                 }
                 EditorGUILayout.EndHorizontal();
 
-                if (variableProperty.managedReferenceValue.GetType().BaseType?.GetGenericArguments()[0].IsValueType == true)
+                if (variableProperty.managedReferenceValue.GetType().BaseType?.GetGenericArguments()[0].IsValueType ==
+                    true)
                 {
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField("Value", GUILayout.Width(50));

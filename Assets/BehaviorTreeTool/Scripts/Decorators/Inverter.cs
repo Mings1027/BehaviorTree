@@ -1,3 +1,5 @@
+using BehaviorTreeTool.Scripts.Runtime;
+
 namespace BehaviorTreeTool.Scripts.Decorators
 {
     public class Inverter : DecoratorNode

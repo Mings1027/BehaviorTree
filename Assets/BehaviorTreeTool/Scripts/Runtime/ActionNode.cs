@@ -1,1 +1,4 @@
-public abstract class ActionNode : Node { }
+namespace BehaviorTreeTool.Scripts.Runtime
+{
+    public abstract class ActionNode : Node { }
+}

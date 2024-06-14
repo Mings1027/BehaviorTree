@@ -1,3 +1,4 @@
+using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
 
 namespace BehaviorTreeTool.Scripts.Conditions
@@ -12,16 +13,16 @@ namespace BehaviorTreeTool.Scripts.Conditions
 
         protected override TaskState OnUpdate()
         {
-            int targetCount = Physics.OverlapSphereNonAlloc(nodeTransform.position, checkRange.Value, targetColliders, targetLayer);
+            var targetCount = Physics.OverlapSphereNonAlloc(nodeTransform.position, checkRange.Value, targetColliders,
+                targetLayer);
             if (targetCount > 0)
             {
-
-                float closestDistance = Mathf.Infinity;
+                var closestDistance = Mathf.Infinity;
                 Collider closestTarget = null;
 
-                for (int i = 0; i < targetCount; i++)
+                for (var i = 0; i < targetCount; i++)
                 {
-                    float distance = Vector3.SqrMagnitude(nodeTransform.position - targetColliders[i].transform.position);
+                    var distance = Vector3.SqrMagnitude(nodeTransform.position - targetColliders[i].transform.position);
                     if (distance < closestDistance)
                     {
                         closestDistance = distance;
