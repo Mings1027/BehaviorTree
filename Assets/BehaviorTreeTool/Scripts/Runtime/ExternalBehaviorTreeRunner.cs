@@ -23,7 +23,7 @@ public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
     }
 
     public BehaviorTree Tree => behaviorTree;
-
+    public string Name => name;
 #endif
     [SerializeField] private ExternalBehaviorTree behaviorTree;
 
@@ -48,7 +48,7 @@ public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
     {
         var clonedTree = (ExternalBehaviorTree)behaviorTree.Clone(transform);
         behaviorTree = clonedTree;
-        Assign();
+        AssignSharedVariables();
         BehaviorTree.Traverse(behaviorTree.RootNode, n => n.Init());
     }
 
@@ -63,14 +63,15 @@ public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
         if (behaviorTree?.RootNode?.SharedData?.Variables != null)
         {
             variables = new List<SharedVariableBase>();
-            foreach (var variable in behaviorTree.RootNode.SharedData.Variables)
+            for (int i = 0; i < behaviorTree.RootNode.SharedData.Variables.Count; i++)
             {
+                var variable = behaviorTree.RootNode.SharedData.Variables[i];
                 variables.Add(variable.Clone());
             }
         }
     }
 
-    private void Assign()
+    private void AssignSharedVariables()
     {
         var nodes = behaviorTree.Nodes;
         var sharedVariablesTable = new List<SharedVariableBase>();
@@ -88,46 +89,16 @@ public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
                 var sharedVariable = (SharedVariableBase)field.GetValue(node);
                 if (sharedVariable == null || string.IsNullOrEmpty(sharedVariable.VariableName)) continue;
 
-                var variableFromVariables = GetVariableFromVariables(sharedVariable.VariableName);
+                var variableFromVariables = BehaviorTreeManager.GetSharedVariable(variables, sharedVariable.VariableName);
 
                 field.SetValue(node, variableFromVariables);
 
-                // 중복되지 않는 변수만 sharedVariablesTable에 추가
                 if (variableNameSet.Add(sharedVariable.VariableName))
                 {
                     sharedVariablesTable.Add(variableFromVariables);
                 }
             }
         }
-
-        for (int i = 0; i < sharedVariablesTable.Count; i++)
-        {
-            var sharedVariable = sharedVariablesTable[i];
-            var value = sharedVariable.GetValue();
-            if (sharedVariable is IComponentObject { UseGetComponent: true })
-            {
-                var componentType = value.GetType();
-                if (transform.TryGetComponent(componentType, out var component))
-                {
-                    sharedVariable.SetValue(component);
-                }
-            }
-        }
-
-    }
-
-    private SharedVariableBase GetVariableFromVariables(string variableName)
-    {
-        for (var i = 0; i < variables.Count; i++)
-        {
-            var variable = variables[i];
-            if (variable.VariableName == variableName)
-            {
-                return variable;
-            }
-        }
-
-        return null;
     }
 
 #if UNITY_EDITOR

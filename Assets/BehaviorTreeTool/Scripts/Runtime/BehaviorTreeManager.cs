@@ -33,11 +33,28 @@ public class BehaviorTreeManager : MonoBehaviour
             _instance._behaviorTree.Remove(behaviorTree);
     }
 
+    public static SharedVariableBase GetSharedVariable(List<SharedVariableBase> variables, string variableName)
+    {
+        if (variables == null || variables.Count == 0) return null;
+        for (var i = 0; i < variables.Count; i++)
+        {
+            var sharedVariable = variables[i];
+            if (sharedVariable.VariableName == variableName)
+            {
+                return sharedVariable;
+            }
+        }
+
+        return null;
+    }
+
     [Conditional("UNITY_EDITOR")]
     public void ToggleDrawGizmos(bool enable)
     {
-        foreach (var tree in _behaviorTree)
+        if (_behaviorTree == null || _behaviorTree.Count == 0) return;
+        for (int i = 0; i < _behaviorTree.Count; i++)
         {
+            IBehaviorTree tree = _behaviorTree[i];
             if (tree?.Tree?.RootNode != null)
             {
                 BehaviorTree.Traverse(tree.Tree.RootNode, node => { node.drawGizmos = enable; });

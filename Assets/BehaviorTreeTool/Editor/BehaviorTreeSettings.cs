@@ -6,7 +6,6 @@ using UnityEngine.UIElements;
 namespace BehaviorTreeTool.Editor
 {
     // Create a new type of Settings Asset.
-    [CreateAssetMenu]
     internal class BehaviorTreeSettings : ScriptableObject
     {
         public VisualTreeAsset BehaviorTreeXml => behaviorTreeXml;
@@ -64,9 +63,9 @@ namespace BehaviorTreeTool.Editor
         }
     }
 
-// Register a SettingsProvider using UIElements for the drawing framework:
     internal static class MyCustomSettingsUIElementsRegister
     {
+        // The SettingsProvider attribute is used to add a menu to the Project Settings.
         [SettingsProvider]
         public static SettingsProvider CreateMyCustomSettingsProvider()
         {

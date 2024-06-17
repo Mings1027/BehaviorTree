@@ -227,6 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  damageColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0}
 --- !u!114 &8524602317087264859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,4 +240,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 042d4035eb314f46b406b57d9ed16a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tree: {fileID: 11400000, guid: 7236f9f47b2fa4c5f8a8eef468cabac1, type: 2}
+  behaviorTree: {fileID: 11400000, guid: 7236f9f47b2fa4c5f8a8eef468cabac1, type: 2}

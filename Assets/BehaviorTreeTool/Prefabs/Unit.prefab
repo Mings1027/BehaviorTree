@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  damageColor: {r: 0.7264151, g: 0.7161356, b: 0.7161356, a: 0}
 --- !u!114 &7125571281206757134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 042d4035eb314f46b406b57d9ed16a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tree: {fileID: 11400000, guid: a3fff91bd8af64f1bbbcb5e854cd819e, type: 2}
+  behaviorTree: {fileID: 11400000, guid: a3fff91bd8af64f1bbbcb5e854cd819e, type: 2}
 --- !u!1 &7184661752651512939
 GameObject:
   m_ObjectHideFlags: 0

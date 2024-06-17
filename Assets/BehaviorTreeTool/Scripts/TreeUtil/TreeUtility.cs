@@ -46,7 +46,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                 SharedVariableType.Float
                     => new SharedFloat { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.GameObject
-                    => new SharedGameComponentObject { VariableName = variableName, VariableType = variableType },
+                    => new SharedGameObject { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.GameObjectList
                     => new SharedGameObjectList { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Int
@@ -99,7 +99,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                 case SharedFloat sharedFloat:
                     sharedFloat.SetValue(EditorGUILayout.FloatField(valueLabel, sharedFloat.Value));
                     break;
-                case SharedGameComponentObject sharedGameObject:
+                case SharedGameObject sharedGameObject:
                     sharedGameObject.SetValue((GameObject)EditorGUILayout.ObjectField(valueLabel, sharedGameObject.Value, typeof(GameObject), true));
                     break;
                 case SharedGameObjectList sharedGameObjectList:

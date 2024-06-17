@@ -5,9 +5,10 @@ using UnityEngine;
 public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
 {
 #if UNITY_EDITOR
-    public BehaviorTree Tree => tree;
+    public BehaviorTree Tree => behaviorTree;
+    public string Name => name;
 #endif
-    [SerializeField] protected BehaviorTree tree;
+    [SerializeField] protected BehaviorTree behaviorTree;
 
     private void OnEnable()
     {
@@ -26,26 +27,28 @@ public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
 
     private void InitializeTree()
     {
-        var clonedTree = tree.Clone(transform);
-        tree = clonedTree;
-        AssignSharedVariables(tree.Nodes);
-        BehaviorTree.Traverse(tree.RootNode, n => n.Init());
+        behaviorTree = behaviorTree.Clone(transform);
+        AssignSharedVariables();
+        BehaviorTree.Traverse(behaviorTree.RootNode, n => n.Init());
     }
 
     public void TreeUpdate()
     {
-        tree.TreeUpdate();
+        behaviorTree.TreeUpdate();
     }
 
-    private void AssignSharedVariables(List<Node> nodeList)
+    /// <summary>
+    /// Assign shared variables to nodes in the tree.
+    /// </summary>
+    private void AssignSharedVariables()
     {
+        var nodes = behaviorTree.Nodes;
         var sharedVariablesTable = new List<(Node Node, SharedVariableBase SharedVariable)>();
         var variableNameSet = new HashSet<string>();
 
-        // 모든 노드에 대해 필드를 캐싱하고 필요한 작업을 한 번의 반복에서 수행
-        for (var i = 0; i < nodeList.Count; i++)
+        for (var i = 0; i < nodes.Count; i++)
         {
-            var node = nodeList[i];
+            var node = nodes[i];
             var allFields = node.GetType().GetFields(BindingFlags.Public | BindingFlags.Instance);
 
             for (var j = 0; j < allFields.Length; j++)
@@ -56,12 +59,10 @@ public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
                 var sharedVariable = (SharedVariableBase)field.GetValue(node);
                 if (sharedVariable == null || string.IsNullOrEmpty(sharedVariable.VariableName)) continue;
 
-                var sharedDataVariable = GetSharedVariable(node.SharedData, sharedVariable.VariableName);
-                if (sharedDataVariable == null || sharedDataVariable.GetType() != sharedVariable.GetType()) continue;
+                var sharedDataVariable = BehaviorTreeManager.GetSharedVariable(node.SharedData.Variables, sharedVariable.VariableName);
 
                 field.SetValue(node, sharedDataVariable);
 
-                // 중복되지 않는 변수만 sharedVariablesTable에 추가
                 if (variableNameSet.Add(sharedVariable.VariableName))
                 {
                     sharedVariablesTable.Add((node, sharedDataVariable));
@@ -69,7 +70,6 @@ public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
             }
         }
 
-        // 추가된 sharedVariablesTable 항목에 대해 필요한 Component 설정
         for (var i = 0; i < sharedVariablesTable.Count; i++)
         {
             var (node, sharedVariable) = sharedVariablesTable[i];
@@ -85,33 +85,15 @@ public class BehaviorTreeRunner : MonoBehaviour, IBehaviorTree
         }
     }
 
-// GetSharedVariable 메서드는 동일하게 유지됩니다.
-    private static SharedVariableBase GetSharedVariable(SharedData sharedData, string variableName)
-    {
-        if (sharedData == null || sharedData.Variables == null) return null;
-
-        var variables = sharedData.Variables;
-        for (var i = 0; i < variables.Count; i++)
-        {
-            var sharedVariable = variables[i];
-            if (sharedVariable.VariableName == variableName)
-            {
-                return sharedVariable;
-            }
-        }
-
-        return null;
-    }
-
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        if (!tree)
+        if (!behaviorTree)
         {
             return;
         }
 
-        BehaviorTree.Traverse(tree.RootNode, n =>
+        BehaviorTree.Traverse(behaviorTree.RootNode, n =>
         {
             if (n.drawGizmos)
             {

@@ -49,8 +49,9 @@ public class RootNode : Node
     {
         if (node is CompositeNode compositeNode)
         {
-            foreach (var child in compositeNode.Children)
+            for (int i = 0; i < compositeNode.Children.Count; i++)
             {
+                Node child = compositeNode.Children[i];
                 child.SharedData = sharedData;
                 TraverseChildrenAndSetSharedData(child, sharedData);
             }

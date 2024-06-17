@@ -42,6 +42,7 @@ namespace BehaviorTreeTool.Editor
 
             // Import UXML if it has not been cloned yet
             var visualTree = _settings.BehaviorTreeXml;
+
             if (visualTree == null)
             {
                 Debug.LogError("BehaviorTreeXml is null. Please check the UXML file path in BehaviorTreeSettings.");
@@ -143,7 +144,15 @@ namespace BehaviorTreeTool.Editor
 
             TreeView.PopulateView();
 
-            EditorApplication.delayCall += () => { TreeView.FrameAll(); };
+            EditorApplication.delayCall += () =>
+            {
+                TreeView.FrameAll();
+                var rootNodeView = TreeView.FindNodeView(tree.RootNode);
+                if (rootNodeView != null)
+                {
+                    TreeView.SelectNodeView(rootNodeView);
+                }
+            };
         }
 
         private void OnNodeSelectionChanged(NodeView nodeView)

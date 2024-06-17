@@ -21,8 +21,9 @@ public class SharedData : ScriptableObject
     {
         var clone = Instantiate(this);
         clone.Variables = new List<SharedVariableBase>();
-        foreach (var variable in variables)
+        for (int i = 0; i < variables.Count; i++)
         {
+            SharedVariableBase variable = variables[i];
             clone.Variables.Add(variable.Clone());
         }
 

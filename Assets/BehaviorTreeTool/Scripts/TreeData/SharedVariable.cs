@@ -31,8 +31,6 @@ public enum SharedVariableType
 }
 
 
-
-
 public interface IComponentObject
 {
     bool UseGetComponent { get; set; }
@@ -42,25 +40,28 @@ public interface IBehaviorTree
 {
     BehaviorTree Tree { get; }
     void TreeUpdate();
+#if UNITY_EDITOR
+    public string Name { get; }
+#endif
 }
 
 [Serializable]
 public class SharedVariableBase
 {
-    [SerializeField] private string variableName;
-    [SerializeField] private SharedVariableType variableType;
-
     public string VariableName
     {
         get => variableName;
         set => variableName = value;
     }
-
+    [SerializeField] private string variableName;
+#if UNITY_EDITOR
     public SharedVariableType VariableType
     {
         get => variableType;
         set => variableType = value;
     }
+    [SerializeField] private SharedVariableType variableType;
+#endif
 
     public virtual object GetValue()
     {
@@ -186,11 +187,11 @@ public class SharedFloat : SharedVariable<float>
 }
 
 [Serializable]
-public class SharedGameComponentObject : SharedVariableComponentObject<GameObject>
+public class SharedGameObject : SharedVariableComponentObject<GameObject>
 {
-    public static implicit operator SharedGameComponentObject(GameObject value)
+    public static implicit operator SharedGameObject(GameObject value)
     {
-        return new SharedGameComponentObject { Value = value };
+        return new SharedGameObject { Value = value };
     }
 }
 

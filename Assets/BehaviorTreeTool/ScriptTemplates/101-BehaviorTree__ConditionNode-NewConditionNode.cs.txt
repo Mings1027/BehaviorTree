@@ -1,3 +1,4 @@
+using BehaviorTreeTool.Scripts.Runtime;
 namespace BehaviorTreeTool.Scripts.Conditions
 { 
     public class #SCRIPTNAME# : ConditionNode

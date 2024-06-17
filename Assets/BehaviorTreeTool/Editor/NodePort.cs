@@ -53,8 +53,9 @@ namespace BehaviorTreeTool.Editor
                     edgesToCreate = graphView.graphViewChanged(m_GraphViewChange).edgesToCreate;
                 }
 
-                foreach (Edge e in edgesToCreate)
+                for (int i = 0; i < edgesToCreate.Count; i++)
                 {
+                    Edge e = edgesToCreate[i];
                     graphView.AddElement(e);
                     edge.input.Connect(e);
                     edge.output.Connect(e);

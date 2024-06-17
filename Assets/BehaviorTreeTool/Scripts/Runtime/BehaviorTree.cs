@@ -66,7 +66,7 @@ public class BehaviorTree : ScriptableObject
         return tree;
     }
 
-#region Use Only Editor
+    #region Use Only Editor
 
 #if UNITY_EDITOR
     public void SetRootNode(RootNode rootNode)
@@ -166,5 +166,5 @@ public class BehaviorTree : ScriptableObject
     }
 #endif
 
-#endregion
+    #endregion
 }

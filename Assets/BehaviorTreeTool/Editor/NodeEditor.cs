@@ -322,9 +322,11 @@ namespace BehaviorTreeTool.Editor
         {
             EditorGUILayout.LabelField("Local Variables", EditorStyles.boldLabel);
 
-            foreach (var field in node.GetType()
-                         .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            var array = node.GetType()
+                         .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            for (int i = 0; i < array.Length; i++)
             {
+                FieldInfo field = array[i];
                 if (typeof(SharedVariableBase).IsAssignableFrom(field.FieldType) ||
                     field.IsDefined(typeof(HideInInspector), false))
                 {
@@ -376,8 +378,9 @@ namespace BehaviorTreeTool.Editor
                 GUILayout.Label("*Please assign Shared Data in the Root Node*", style);
                 GUILayout.Label("Unassigned Nodes", style);
 
-                foreach (var nodeName in nodesWithoutSharedData)
+                for (int i = 0; i < nodesWithoutSharedData.Count; i++)
                 {
+                    string nodeName = nodesWithoutSharedData[i];
                     EditorGUILayout.LabelField(nodeName, style);
                 }
             }
@@ -449,8 +452,9 @@ namespace BehaviorTreeTool.Editor
                 _noneSharedVarsScrollPos =
                     EditorGUILayout.BeginScrollView(_noneSharedVarsScrollPos, GUILayout.Height(200));
 
-                foreach (var noneSharedVariable in noneSharedVariables)
+                for (int i = 0; i < noneSharedVariables.Count; i++)
                 {
+                    string noneSharedVariable = noneSharedVariables[i];
                     var parts = noneSharedVariable.Split(new[] { " - " }, StringSplitOptions.None);
                     var nodeName = parts[0];
                     var variableName = parts[1];

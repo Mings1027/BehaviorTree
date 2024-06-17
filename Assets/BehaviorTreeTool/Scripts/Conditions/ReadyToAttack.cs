@@ -23,7 +23,8 @@ namespace BehaviorTreeTool.Scripts.Conditions
                 var distance = Vector3.Distance(target.Value.transform.position, nodeTransform.position);
                 var dirToTarget = (target.Value.transform.position - nodeTransform.position).normalized;
                 var angleToTarget = Vector3.Angle(nodeTransform.forward, dirToTarget);
-                if (distance <= attackRange && angleToTarget <= viewAngle.Value)
+
+                if (distance <= attackRange)
                 {
                     return TaskState.Success;
                 }
