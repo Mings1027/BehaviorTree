@@ -40,7 +40,6 @@ namespace BehaviorTreeTool.Editor
 
             DisplayTreeName();
             DisplayTabs();
-            CheckAssignSharedData();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -186,13 +185,11 @@ namespace BehaviorTreeTool.Editor
             TreeUtility.DrawHorizontalLine(Color.gray);
 
             _inspectorScrollPos = EditorGUILayout.BeginScrollView(_inspectorScrollPos);
-            DrawSharedDataField(node);
-            TreeUtility.DrawHorizontalLine(Color.gray);
             DrawSharedVariableFields(node);
             TreeUtility.DrawHorizontalLine(Color.gray);
-            DrawNonSharedVariableFields(node);
+            DrawLocalVariableFields(node);
             TreeUtility.DrawHorizontalLine(Color.gray);
-            DrawNoneSharedVariables();
+            CheckUnassignVariableName();
             EditorGUILayout.EndScrollView();
         }
 
@@ -202,17 +199,6 @@ namespace BehaviorTreeTool.Editor
             if (descriptionProperty != null)
             {
                 EditorGUILayout.PropertyField(descriptionProperty, true);
-            }
-        }
-
-        private void DrawSharedDataField(Node node)
-        {
-            var sharedDataProperty = serializedObject.FindProperty("sharedData");
-            EditorGUILayout.PropertyField(sharedDataProperty, new GUIContent("Shared Data"));
-
-            if (sharedDataProperty.objectReferenceValue != null)
-            {
-                node.SharedData = (SharedData)sharedDataProperty.objectReferenceValue;
             }
         }
 
@@ -312,32 +298,36 @@ namespace BehaviorTreeTool.Editor
             }
             else
             {
-                var selectedVariable =
-                    node.SharedData.Variables.First(v => v.VariableName == variableNames[selectedIndex]);
-                variable.VariableName = selectedVariable.VariableName;
+                var selectedVariableName = variableNames[selectedIndex];
+                var variables = node.SharedData.Variables;
+                for (int i = 0; i < variables.Count; i++)
+                {
+                    if (variables[i].VariableName == selectedVariableName)
+                    {
+                        variable.VariableName = variables[i].VariableName;
+                        break;
+                    }
+                }
             }
         }
 
-        private void DrawNonSharedVariableFields(Node node)
+        private void DrawLocalVariableFields(Node node)
         {
             EditorGUILayout.LabelField("Local Variables", EditorStyles.boldLabel);
 
             var array = node.GetType()
                          .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+            // Check if the OnDrawGizmos method is overridden
+            bool hasDrawGizmosOverride = node.GetType().GetMethod("OnDrawGizmos",
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).DeclaringType != typeof(Node);
+
             for (int i = 0; i < array.Length; i++)
             {
                 FieldInfo field = array[i];
                 if (typeof(SharedVariableBase).IsAssignableFrom(field.FieldType) ||
-                    field.IsDefined(typeof(HideInInspector), false))
-                {
-                    continue;
-                }
-
-                // OnDrawGizmos 함수가 오버라이드되어 있는지 확인
-                bool hasDrawGizmosOverride = node.GetType().GetMethod("OnDrawGizmos",
-                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).DeclaringType != typeof(Node);
-
-                if (field.Name == "drawGizmos" && !hasDrawGizmosOverride)
+                    field.IsDefined(typeof(HideInInspector), false) ||
+                    field.Name == "drawGizmos" && !hasDrawGizmosOverride)
                 {
                     continue;
                 }
@@ -352,41 +342,8 @@ namespace BehaviorTreeTool.Editor
 
         #endregion
 
-        private void CheckAssignSharedData()
-        {
-            var tree = BehaviorTreeEditor.tree;
 
-            if (!tree) return;
-            var nodesWithoutSharedData = new List<string>();
-            BehaviorTree.Traverse(tree.RootNode, node =>
-            {
-                if (!node.SharedData)
-                {
-                    nodesWithoutSharedData.Add(node.name);
-                }
-            });
-            if (nodesWithoutSharedData.Count > 0)
-            {
-                var style = new GUIStyle(GUI.skin.label)
-                {
-                    fontSize = 14,
-                    fontStyle = FontStyle.Bold,
-                    wordWrap = true,
-                    normal = { textColor = new Color(1.0f, 0.5f, 0f) }
-                };
-
-                GUILayout.Label("*Please assign Shared Data in the Root Node*", style);
-                GUILayout.Label("Unassigned Nodes", style);
-
-                for (int i = 0; i < nodesWithoutSharedData.Count; i++)
-                {
-                    string nodeName = nodesWithoutSharedData[i];
-                    EditorGUILayout.LabelField(nodeName, style);
-                }
-            }
-        }
-
-        private void DrawNoneSharedVariables()
+        private void CheckUnassignVariableName()
         {
             var tree = BehaviorTreeEditor.tree;
 
@@ -410,7 +367,6 @@ namespace BehaviorTreeTool.Editor
                     }
                 }
             });
-
             if (noneSharedVariables.Count > 0)
             {
                 var style = new GUIStyle(GUI.skin.box)

@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Callbacks;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -11,6 +13,7 @@ namespace BehaviorTreeTool.Editor
         public static string treeName;
         public BehaviorTreeView TreeView { get; private set; }
         private InspectorView _inspectorView;
+        private ToolbarMenu _toolbarMenu;
         private BehaviorTreeSettings _settings;
 
         [MenuItem("BehaviorTree/BehaviorTreeEditor ...")]
@@ -76,6 +79,10 @@ namespace BehaviorTreeTool.Editor
                 return;
             }
 
+            _toolbarMenu = root.Q<ToolbarMenu>();
+            var behaviorTrees = LoadAssets<BehaviorTree>();
+            behaviorTrees.ForEach(behaviorTree => _toolbarMenu.menu.AppendAction(behaviorTree.name, action => Selection.activeObject = behaviorTree));
+
             if (tree == null)
             {
                 OnSelectionChange();
@@ -98,6 +105,22 @@ namespace BehaviorTreeTool.Editor
         private void OnDisable()
         {
             EditorApplication.quitting -= SaveTree;
+        }
+
+        private List<T> LoadAssets<T>() where T : Object
+        {
+            var assetIds = AssetDatabase.FindAssets("t:" + typeof(T).Name);
+            var assets = new List<T>();
+            foreach (var assetId in assetIds)
+            {
+                var assetPath = AssetDatabase.GUIDToAssetPath(assetId);
+                var asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                if (asset != null)
+                {
+                    assets.Add(asset);
+                }
+            }
+            return assets;
         }
 
         private void OnSelectionChange()

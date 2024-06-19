@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 4228974962760635740}
   - component: {fileID: 6471559284782711345}
   - component: {fileID: -7765095634259207210}
-  - component: {fileID: 8524602317087264859}
+  - component: {fileID: -2162234174044647158}
   m_Layer: 6
   m_Name: Cube Monster
   m_TagString: Untagged
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   damageColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0}
---- !u!114 &8524602317087264859
+--- !u!114 &-2162234174044647158
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,7 +237,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 7465638069665485485}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 042d4035eb314f46b406b57d9ed16a67, type: 3}
+  m_Script: {fileID: 11500000, guid: af4cade9f5da4e689faa2e0beb6fc5c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviorTree: {fileID: 11400000, guid: 7236f9f47b2fa4c5f8a8eef468cabac1, type: 2}
+  behaviorTree: {fileID: 11400000, guid: 085a676c01e1a436a8652b9ca0c963a9, type: 2}
+  variables:
+  - rid: 1497354949208834091
+  - rid: 1497354949208834092
+  - rid: 1497354949208834093
+  - rid: 1497354949208834094
+  references:
+    version: 2
+    RefIds:
+    - rid: 1497354949208834091
+      type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Agent
+        variableType: 12
+        value: {fileID: 6471559284782711345}
+        useGetComponent: 0
+    - rid: 1497354949208834092
+      type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Target
+        variableType: 3
+        value: {fileID: 0}
+        useGetComponent: 0
+    - rid: 1497354949208834093
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Check Range
+        variableType: 9
+        value: 7
+    - rid: 1497354949208834094
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: View Angle
+        variableType: 9
+        value: 50

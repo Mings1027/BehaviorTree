@@ -59,15 +59,14 @@ public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
 
     private void UpdateVariables()
     {
+        variables ??= new List<SharedVariableBase>();
         variables.Clear();
-        if (behaviorTree?.RootNode?.SharedData?.Variables != null)
+
+        variables = new List<SharedVariableBase>();
+        for (int i = 0; i < behaviorTree.RootNode.SharedData.Variables.Count; i++)
         {
-            variables = new List<SharedVariableBase>();
-            for (int i = 0; i < behaviorTree.RootNode.SharedData.Variables.Count; i++)
-            {
-                var variable = behaviorTree.RootNode.SharedData.Variables[i];
-                variables.Add(variable.Clone());
-            }
+            var variable = behaviorTree.RootNode.SharedData.Variables[i];
+            variables.Add(variable.Clone());
         }
     }
 
@@ -89,7 +88,8 @@ public class ExternalBehaviorTreeRunner : MonoBehaviour, IBehaviorTree
                 var sharedVariable = (SharedVariableBase)field.GetValue(node);
                 if (sharedVariable == null || string.IsNullOrEmpty(sharedVariable.VariableName)) continue;
 
-                var variableFromVariables = BehaviorTreeManager.GetSharedVariable(variables, sharedVariable.VariableName);
+                var variableFromVariables =
+                    BehaviorTreeManager.GetSharedVariable(variables, sharedVariable.VariableName);
 
                 field.SetValue(node, variableFromVariables);
 

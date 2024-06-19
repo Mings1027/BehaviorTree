@@ -35,6 +35,8 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
         {
             return variableType switch
             {
+                SharedVariableType.Animator
+                    => new SharedAnimator { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Bool
                     => new SharedBool { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Collider
@@ -84,6 +86,9 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
         {
             switch (variable)
             {
+                case SharedAnimator sharedAnimator:
+                    sharedAnimator.SetValue((Animator)EditorGUILayout.ObjectField(valueLabel, sharedAnimator.Value, typeof(Animator), true));
+                    break;
                 case SharedBool sharedBool:
                     sharedBool.SetValue(EditorGUILayout.Toggle(valueLabel, sharedBool.Value));
                     break;

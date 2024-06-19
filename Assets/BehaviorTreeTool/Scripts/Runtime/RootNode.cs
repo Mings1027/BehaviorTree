@@ -19,7 +19,7 @@ public class RootNode : Node
         }
     }
 
-    [SerializeField] private Node child;
+    [HideInInspector, SerializeField] private Node child;
 
     public void OnValidate()
     {

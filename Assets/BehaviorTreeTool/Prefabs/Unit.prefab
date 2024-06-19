@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8905542632923878992}
   - component: {fileID: -5905052681921823171}
   - component: {fileID: 8910609696212136808}
-  - component: {fileID: 7125571281206757134}
+  - component: {fileID: 9125178522895828135}
   m_Layer: 3
   m_Name: Unit
   m_TagString: Untagged
@@ -145,7 +145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   damageColor: {r: 0.7264151, g: 0.7161356, b: 0.7161356, a: 0}
---- !u!114 &7125571281206757134
+--- !u!114 &9125178522895828135
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,10 +154,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 1482176984702828428}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 042d4035eb314f46b406b57d9ed16a67, type: 3}
+  m_Script: {fileID: 11500000, guid: af4cade9f5da4e689faa2e0beb6fc5c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  behaviorTree: {fileID: 11400000, guid: a3fff91bd8af64f1bbbcb5e854cd819e, type: 2}
+  behaviorTree: {fileID: 11400000, guid: e3a4b92022c254c7cb9c084559cbda8e, type: 2}
+  variables:
+  - rid: 1497354949208834099
+  - rid: 1497354949208834100
+  - rid: 1497354949208834101
+  - rid: 1497354949208834102
+  references:
+    version: 2
+    RefIds:
+    - rid: 1497354949208834099
+      type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Agent
+        variableType: 12
+        value: {fileID: -5905052681921823171}
+        useGetComponent: 0
+    - rid: 1497354949208834100
+      type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Target
+        variableType: 3
+        value: {fileID: 0}
+        useGetComponent: 0
+    - rid: 1497354949208834101
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Check Range
+        variableType: 9
+        value: 5
+    - rid: 1497354949208834102
+      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: View Angle
+        variableType: 9
+        value: 70
 --- !u!1 &7184661752651512939
 GameObject:
   m_ObjectHideFlags: 0

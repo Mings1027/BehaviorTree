@@ -108,6 +108,8 @@ namespace BehaviorTreeTool.Editor
                 Array.Resize(ref _foldouts, _variablesProperty.arraySize); // Resize foldouts array
                 SaveFoldoutStates(); // Save updated foldout states
             }
+
+            _variableName = string.Empty;
         }
 
         private bool IsVariableNameDuplicate()

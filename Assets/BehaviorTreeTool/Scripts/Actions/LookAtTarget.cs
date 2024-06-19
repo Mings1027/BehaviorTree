@@ -7,26 +7,26 @@ namespace BehaviorTreeTool.Scripts.Actions
     public class LookAtTarget : ActionNode
     {
         public SharedCollider target;
-        public SharedNavMeshAgent agent;
 
-        [SerializeField] private int rotationSpeed;
-        [SerializeField] private float rotationThreshold = 0.1f; // 회전 완료로 간주할 각도 차이
+        [SerializeField] private int rotationSpeed = 1;
+        [SerializeField] private float rotationThreshold = 10f; // 회전 완료로 간주할 각도 차이
 
         protected override TaskState OnUpdate()
         {
-            var directionToTarget = target.Value.transform.position - nodeTransform.position;
-            var targetRotation = Quaternion.LookRotation(directionToTarget);
-            nodeTransform.rotation = Quaternion.Slerp(nodeTransform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            if (!target.Value) return TaskState.Failure;
+
+            var direction = target.Value.transform.position - nodeTransform.position;
+            var lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            nodeTransform.rotation = Quaternion.Slerp(nodeTransform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
 
             // 현재 회전과 목표 회전 사이의 각도 차이 계산
-            float angleDifference = Quaternion.Angle(nodeTransform.rotation, targetRotation);
-            if (angleDifference < rotationThreshold)
+            float angle = Vector3.Angle(nodeTransform.forward, direction);
+            if (angle > rotationThreshold)
             {
-                agent.Value.isStopped = false;
-                return TaskState.Success;
+                return TaskState.Running;
             }
 
-            return TaskState.Running;
+            return TaskState.Success;
         }
 
 

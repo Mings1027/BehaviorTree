@@ -21,8 +21,8 @@ namespace BehaviorTreeTool.Scripts.Conditions
             if (target.Value && target.Value.enabled)
             {
                 var distance = Vector3.Distance(target.Value.transform.position, nodeTransform.position);
-                var dirToTarget = (target.Value.transform.position - nodeTransform.position).normalized;
-                var angleToTarget = Vector3.Angle(nodeTransform.forward, dirToTarget);
+                // var dirToTarget = (target.Value.transform.position - nodeTransform.position).normalized;
+                // var angleToTarget = Vector3.Angle(nodeTransform.forward, dirToTarget);
 
                 if (distance <= attackRange)
                 {

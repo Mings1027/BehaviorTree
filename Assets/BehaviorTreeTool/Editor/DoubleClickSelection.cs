@@ -21,8 +21,7 @@ namespace BehaviorTreeTool.Editor
         private void OnMouseDown(MouseDownEvent evt)
         {
             var graphView = target as BehaviorTreeView;
-            if (graphView == null)
-                return;
+            if (graphView == null) return;
 
             var duration = EditorApplication.timeSinceStartup - _time;
             if (duration < _doubleClickDuration)
@@ -36,19 +35,16 @@ namespace BehaviorTreeTool.Editor
         private void SelectChildren(MouseDownEvent evt)
         {
             var graphView = target as BehaviorTreeView;
-            if (graphView == null)
-                return;
+            if (graphView == null) return;
 
-            if (!CanStopManipulation(evt))
-                return;
+            if (!CanStopManipulation(evt)) return;
 
             var clickedElement = evt.target as NodeView;
             if (clickedElement == null)
             {
                 var ve = evt.target as VisualElement;
                 clickedElement = ve.GetFirstAncestorOfType<NodeView>();
-                if (clickedElement == null)
-                    return;
+                if (clickedElement == null) return;
             }
 
             // Add children to selection so the root element can be moved
