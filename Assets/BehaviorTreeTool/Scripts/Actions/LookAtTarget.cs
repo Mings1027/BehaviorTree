@@ -1,5 +1,4 @@
 using BehaviorTreeTool.Scripts.Runtime;
-using Unity.Mathematics;
 using UnityEngine;
 
 namespace BehaviorTreeTool.Scripts.Actions
@@ -16,8 +15,14 @@ namespace BehaviorTreeTool.Scripts.Actions
             if (!target.Value) return TaskState.Failure;
 
             var direction = target.Value.transform.position - nodeTransform.position;
-            var lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-            nodeTransform.rotation = Quaternion.Slerp(nodeTransform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+            var lookDirection = new Vector3(direction.x, 0, direction.z);
+
+            // lookDirection이 Zero가 아닐 때만 회전
+            if (lookDirection != Vector3.zero)
+            {
+                var lookRotation = Quaternion.LookRotation(lookDirection);
+                nodeTransform.rotation = Quaternion.Slerp(nodeTransform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+            }
 
             // 현재 회전과 목표 회전 사이의 각도 차이 계산
             float angle = Vector3.Angle(nodeTransform.forward, direction);

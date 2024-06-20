@@ -43,7 +43,7 @@ namespace BehaviorTreeTool.Scripts.Conditions
             if (nodeTransform == null) return;
 
             // 시야각을 그리기 위한 Handles 설정
-            Handles.color = new Color(1, 1, 0, 0.2f); // 노란색 반투명
+            Handles.color = target.Value ? new Color(0, 1, 0, 0.2f) : new Color(1, 1, 0, 0.2f); // 노란색 반투명
 
             // 원호를 채워진 형태로 그리기
             Vector3 forward = nodeTransform.forward * checkRange.Value;

@@ -6,7 +6,6 @@ namespace BehaviorTreeTool.Scripts.Conditions
     public class ReadyToAttack : ConditionNode
     {
         public SharedCollider target;
-        public SharedInt viewAngle;
         public SharedNavMeshAgent agent;
 
         [SerializeField] private float attackRange;
@@ -21,8 +20,6 @@ namespace BehaviorTreeTool.Scripts.Conditions
             if (target.Value && target.Value.enabled)
             {
                 var distance = Vector3.Distance(target.Value.transform.position, nodeTransform.position);
-                // var dirToTarget = (target.Value.transform.position - nodeTransform.position).normalized;
-                // var angleToTarget = Vector3.Angle(nodeTransform.forward, dirToTarget);
 
                 if (distance <= attackRange)
                 {

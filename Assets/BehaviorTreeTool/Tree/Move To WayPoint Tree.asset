@@ -1,0 +1,171 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4527992771778200461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2932073b8a6c3b34391576c45d359457, type: 3}
+  m_Name: Parallel
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 235}
+  guid: 1a2fbf90d4a9e4730a134c21cebd7ed7
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 1526416177838379864}
+  children:
+  - {fileID: 5419542481328680645}
+  - {fileID: 4240713627045012999}
+  - {fileID: 3799124165130209698}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322e544b03434eb58aef050d006d06b5, type: 3}
+  m_Name: Move To WayPoint Tree
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: 488885664307889946}
+  nodes:
+  - {fileID: 488885664307889946}
+  - {fileID: 7154324659010357740}
+  - {fileID: 5419542481328680645}
+  - {fileID: 4240713627045012999}
+  - {fileID: 3799124165130209698}
+  - {fileID: -4527992771778200461}
+--- !u!114 &488885664307889946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9642f0013642aaa2348d6d396dff9b, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
+  guid: 8b4db3b344b27474389c4f795af2d57b
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 1526416177838379864}
+  child: {fileID: 7154324659010357740}
+--- !u!114 &1526416177838379864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6d47f862fa46deadff805a0a827f66, type: 3}
+  m_Name: SharedData
+  m_EditorClassIdentifier: 
+  variables:
+  - rid: 1497354976660291645
+  references:
+    version: 2
+    RefIds:
+    - rid: 1497354976660291645
+      type: {class: SharedVector3, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Current WayPoint
+        variableType: 20
+        value: {x: 0, y: 0, z: 0}
+--- !u!114 &3799124165130209698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae86425a93a540548571a5c18065053, type: 3}
+  m_Name: FollowPath
+  m_EditorClassIdentifier: 
+  position: {x: 103, y: 523}
+  guid: 23e7dfd01f040455b910925bc471b997
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 1526416177838379864}
+  curWayPoint:
+    variableName: Current WayPoint
+    variableType: 0
+    value: {x: 0, y: 0, z: 0}
+  moveSpeed: 1
+--- !u!114 &4240713627045012999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  position: {x: -145, y: 509}
+  guid: 908be758d35594c6daae2f54e963b481
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 1526416177838379864}
+  duration: 1
+--- !u!114 &5419542481328680645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8887a744523b4d4f83d6fc08eea5507, type: 3}
+  m_Name: DistanceToWaypoint
+  m_EditorClassIdentifier: 
+  position: {x: -299, y: 509}
+  guid: 32746ea250e094df5af419074a4ad017
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 1526416177838379864}
+  curWayPoint:
+    variableName: Current WayPoint
+    variableType: 0
+    value: {x: 0, y: 0, z: 0}
+  waypoints:
+  - {x: 12, y: 0, z: -12}
+  - {x: 12, y: 0, z: 12}
+  - {x: -12, y: 0, z: 12}
+  - {x: -12, y: 0, z: -12}
+  remainingDistance: 0.5
+--- !u!114 &7154324659010357740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 116}
+  guid: d9abc8eb5999f46bc85a6c32085032e6
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 1526416177838379864}
+  child: {fileID: -4527992771778200461}
+  repeatForever: 1
+  repeatCount: 0

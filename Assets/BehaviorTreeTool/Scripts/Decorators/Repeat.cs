@@ -4,24 +4,34 @@ namespace BehaviorTreeTool.Scripts.Decorators
 {
     public class Repeat : DecoratorNode
     {
-        public bool restartOnSuccess = true;
-        public bool restartOnFailure;
+        public bool repeatForever = true;
+        public int repeatCount;
 
-        protected override void OnStart() { }
+        private int currentCount;
+
+        protected override void OnStart()
+        {
+            currentCount = 0;
+        }
 
         protected override void OnEnd() { }
 
         protected override TaskState OnUpdate()
         {
-            switch (child.Update())
+            if (!repeatForever && currentCount >= repeatCount)
             {
-                case TaskState.Running:
-                    break;
-                case TaskState.Failure:
-                    return restartOnFailure ? TaskState.Running : TaskState.Failure;
+                return TaskState.Success;
+            }
 
-                case TaskState.Success:
-                    return restartOnSuccess ? TaskState.Running : TaskState.Success;
+            var childState = child.Update();
+
+            if (childState != TaskState.Running)
+            {
+                currentCount++;
+                if (!repeatForever && currentCount >= repeatCount)
+                {
+                    return TaskState.Success;
+                }
             }
 
             return TaskState.Running;

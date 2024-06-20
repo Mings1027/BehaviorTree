@@ -5,32 +5,34 @@ using UnityEngine;
 public class BehaviorTreeManager : MonoBehaviour
 {
     private static BehaviorTreeManager _instance;
-    private List<IBehaviorTree> _behaviorTree;
-
+    [SerializeField] private List<BehaviorTreeRunner> behaviorTrees;
+#if UNITY_EDITOR
+    public List<BehaviorTreeRunner> BehaviorTrees => behaviorTrees;
+#endif
     private void Awake()
     {
         _instance = this;
-        _behaviorTree = new List<IBehaviorTree>();
+        behaviorTrees = new List<BehaviorTreeRunner>();
     }
 
     private void Update()
     {
-        for (int i = 0; i < _behaviorTree.Count; i++)
+        for (int i = 0; i < behaviorTrees.Count; i++)
         {
-            _behaviorTree[i].TreeUpdate();
+            behaviorTrees[i].TreeUpdate();
         }
     }
 
-    public static void AddTree(IBehaviorTree behaviorTree)
+    public static void AddTree(BehaviorTreeRunner behaviorTree)
     {
-        if (_instance._behaviorTree.Contains(behaviorTree)) return;
-        _instance._behaviorTree.Add(behaviorTree);
+        if (_instance.behaviorTrees.Contains(behaviorTree)) return;
+        _instance.behaviorTrees.Add(behaviorTree);
     }
 
-    public static void RemoveTree(IBehaviorTree behaviorTree)
+    public static void RemoveTree(BehaviorTreeRunner behaviorTree)
     {
-        if (_instance._behaviorTree.Contains(behaviorTree))
-            _instance._behaviorTree.Remove(behaviorTree);
+        if (_instance.behaviorTrees.Contains(behaviorTree))
+            _instance.behaviorTrees.Remove(behaviorTree);
     }
 
     public static SharedVariableBase GetSharedVariable(List<SharedVariableBase> variables, string variableName)
@@ -51,10 +53,10 @@ public class BehaviorTreeManager : MonoBehaviour
     [Conditional("UNITY_EDITOR")]
     public void ToggleDrawGizmos(bool enable)
     {
-        if (_behaviorTree == null || _behaviorTree.Count == 0) return;
-        for (int i = 0; i < _behaviorTree.Count; i++)
+        if (behaviorTrees == null || behaviorTrees.Count == 0) return;
+        for (int i = 0; i < behaviorTrees.Count; i++)
         {
-            IBehaviorTree tree = _behaviorTree[i];
+            var tree = behaviorTrees[i];
             if (tree?.Tree?.RootNode != null)
             {
                 BehaviorTree.Traverse(tree.Tree.RootNode, node => { node.drawGizmos = enable; });

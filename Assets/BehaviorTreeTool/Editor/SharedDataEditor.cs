@@ -168,14 +168,6 @@ namespace BehaviorTreeTool.Editor
 
             if (_foldouts[index])
             {
-                if (variableProperty.managedReferenceValue is IComponentObject componentObject)
-                {
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Use GetComponent", GUILayout.Width(120));
-                    componentObject.UseGetComponent = EditorGUILayout.Toggle(componentObject.UseGetComponent);
-                    EditorGUILayout.EndHorizontal();
-                }
-
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Name", GUILayout.Width(50));
                 EditorGUILayout.PropertyField(variableProperty.FindPropertyRelative("variableName"), GUIContent.none);

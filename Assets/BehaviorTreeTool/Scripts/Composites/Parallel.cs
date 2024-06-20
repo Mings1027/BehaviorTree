@@ -16,8 +16,6 @@ namespace BehaviorTreeTool.Scripts.Composites
             }
         }
 
-        protected override void OnEnd() { }
-
         protected override TaskState OnUpdate()
         {
             var stillRunning = false;

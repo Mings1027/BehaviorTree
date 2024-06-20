@@ -9,7 +9,7 @@ namespace BehaviorTreeTool.Editor
 {
     public class BehaviorTreeEditor : EditorWindow
     {
-        public static BehaviorTree tree;
+        public static BehaviorTree tree { get; private set; }
         public static string treeName;
         public BehaviorTreeView TreeView { get; private set; }
         private InspectorView _inspectorView;
@@ -22,6 +22,13 @@ namespace BehaviorTreeTool.Editor
             var wnd = GetWindow<BehaviorTreeEditor>();
             wnd.titleContent = new GUIContent("BehaviorTreeEditor");
             wnd.minSize = new Vector2(800, 600);
+        }
+
+        public static void OpenWithTree(BehaviorTree newTree)
+        {
+            OpenWindow();
+            var wnd = GetWindow<BehaviorTreeEditor>();
+            wnd.SelectTree(newTree);
         }
 
         [OnOpenAsset]
@@ -45,7 +52,6 @@ namespace BehaviorTreeTool.Editor
 
             // Import UXML if it has not been cloned yet
             var visualTree = _settings.BehaviorTreeXml;
-
             if (visualTree == null)
             {
                 Debug.LogError("BehaviorTreeXml is null. Please check the UXML file path in BehaviorTreeSettings.");
@@ -53,7 +59,6 @@ namespace BehaviorTreeTool.Editor
             }
 
             visualTree.CloneTree(root);
-
             // A stylesheet can be added to a VisualElement.
             // The style will be applied to the VisualElement and all of its children.
             var styleSheet = _settings.BehaviorTreeStyle;
@@ -64,13 +69,11 @@ namespace BehaviorTreeTool.Editor
             }
 
             root.styleSheets.Add(styleSheet);
-
             // Main treeview
             TreeView = root.Q<BehaviorTreeView>("behaviorTreeView");
             if (TreeView == null) return;
 
             TreeView.OnNodeSelected = OnNodeSelectionChanged;
-
             // Inspector View
             _inspectorView = root.Q<InspectorView>();
             if (_inspectorView == null)
@@ -78,10 +81,13 @@ namespace BehaviorTreeTool.Editor
                 Debug.LogError("InspectorView is null. Please check if InspectorView is defined in the UXML file.");
                 return;
             }
-
             _toolbarMenu = root.Q<ToolbarMenu>();
             var behaviorTrees = LoadAssets<BehaviorTree>();
-            behaviorTrees.ForEach(behaviorTree => _toolbarMenu.menu.AppendAction(behaviorTree.name, action => Selection.activeObject = behaviorTree));
+            for (int i = 0; i < behaviorTrees.Count; i++)
+            {
+                var behaviorTree = behaviorTrees[i];
+                _toolbarMenu.menu.AppendAction(behaviorTree.name, action => Selection.activeObject = behaviorTree);
+            }
 
             if (tree == null)
             {
@@ -111,8 +117,9 @@ namespace BehaviorTreeTool.Editor
         {
             var assetIds = AssetDatabase.FindAssets("t:" + typeof(T).Name);
             var assets = new List<T>();
-            foreach (var assetId in assetIds)
+            for (int i = 0; i < assetIds.Length; i++)
             {
+                string assetId = assetIds[i];
                 var assetPath = AssetDatabase.GUIDToAssetPath(assetId);
                 var asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
                 if (asset != null)
@@ -133,10 +140,6 @@ namespace BehaviorTreeTool.Editor
                     if (Selection.activeGameObject.TryGetComponent(out BehaviorTreeRunner behaviorTree))
                     {
                         tree = behaviorTree.Tree;
-                    }
-                    else if (Selection.activeGameObject.TryGetComponent(out ExternalBehaviorTreeRunner externalTree))
-                    {
-                        tree = externalTree.ExternalBehaviorTree;
                     }
                 }
             }
@@ -167,15 +170,11 @@ namespace BehaviorTreeTool.Editor
 
             TreeView.PopulateView();
 
-            EditorApplication.delayCall += () =>
+            var rootNodeView = TreeView.FindNodeView(tree.RootNode);
+            if (rootNodeView != null)
             {
-                TreeView.FrameAll();
-                var rootNodeView = TreeView.FindNodeView(tree.RootNode);
-                if (rootNodeView != null)
-                {
-                    TreeView.SelectNodeView(rootNodeView);
-                }
-            };
+                TreeView.SelectNodeView(rootNodeView);
+            }
         }
 
         private void OnNodeSelectionChanged(NodeView nodeView)

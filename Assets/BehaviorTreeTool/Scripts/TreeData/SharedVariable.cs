@@ -30,19 +30,10 @@ public enum SharedVariableType
     Vector3Int = 21
 }
 
-
-public interface IComponentObject
+public enum TreeType
 {
-    bool UseGetComponent { get; set; }
-}
-
-public interface IBehaviorTree
-{
-    BehaviorTree Tree { get; }
-    void TreeUpdate();
-#if UNITY_EDITOR
-    public string Name { get; }
-#endif
+    BehaviorTree = 0,
+    ExternalBehaviorTree = 1
 }
 
 [Serializable]
@@ -111,18 +102,6 @@ public class SharedVariable<T> : SharedVariableBase
     }
 }
 
-[Serializable]
-public class SharedVariableComponentObject<T> : SharedVariable<T>, IComponentObject where T : Object
-{
-    [SerializeField] private bool useGetComponent;
-
-    public bool UseGetComponent
-    {
-        get => useGetComponent;
-        set => useGetComponent = value;
-    }
-}
-
 // [Serializable]
 // public class SharedAIPath : SharedVariableComponentObject<AIPath>
 // {
@@ -133,7 +112,7 @@ public class SharedVariableComponentObject<T> : SharedVariable<T>, IComponentObj
 // }
 
 [Serializable]
-public class SharedAnimator : SharedVariableComponentObject<Animator>
+public class SharedAnimator : SharedVariable<Animator>
 {
     public static implicit operator SharedAnimator(Animator value)
     {
@@ -151,7 +130,7 @@ public class SharedBool : SharedVariable<bool>
 }
 
 [Serializable]
-public class SharedCollider : SharedVariableComponentObject<Collider>
+public class SharedCollider : SharedVariable<Collider>
 {
     public static implicit operator SharedCollider(Collider value)
     {
@@ -187,7 +166,7 @@ public class SharedFloat : SharedVariable<float>
 }
 
 [Serializable]
-public class SharedGameObject : SharedVariableComponentObject<GameObject>
+public class SharedGameObject : SharedVariable<GameObject>
 {
     public static implicit operator SharedGameObject(GameObject value)
     {
@@ -232,7 +211,7 @@ public class SharedMaterial : SharedVariable<Material>
 }
 
 [Serializable]
-public class SharedNavMeshAgent : SharedVariableComponentObject<NavMeshAgent>
+public class SharedNavMeshAgent : SharedVariable<NavMeshAgent>
 {
     public static implicit operator SharedNavMeshAgent(NavMeshAgent value)
     {

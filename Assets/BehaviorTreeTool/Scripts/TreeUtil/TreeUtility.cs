@@ -204,7 +204,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
 
             EditorGUILayout.BeginHorizontal();
 
-            // if (!string.IsNullOrEmpty(sharedVariableArray.VariableName))
+            if (!string.IsNullOrEmpty(sharedVariableArray.VariableName))
             {
                 ArrayFoldouts.TryAdd(sharedVariableArray.VariableName, false);
 
@@ -271,16 +271,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
         public static void DrawArrayField<T>(SerializedProperty arrayProperty) where T : Object
         {
             EditorGUILayout.BeginVertical();
-            var arraySize = arrayProperty.arraySize;
-            arraySize = EditorGUILayout.IntField("Size", arraySize);
-
-            if (arraySize != arrayProperty.arraySize)
-            {
-                while (arraySize > arrayProperty.arraySize)
-                    arrayProperty.InsertArrayElementAtIndex(arrayProperty.arraySize);
-                while (arraySize < arrayProperty.arraySize)
-                    arrayProperty.DeleteArrayElementAtIndex(arrayProperty.arraySize - 1);
-            }
+            arrayProperty.arraySize = Mathf.Max(0, EditorGUILayout.IntField("Size", arrayProperty.arraySize));
 
             EditorGUI.indentLevel++;
             for (var i = 0; i < arrayProperty.arraySize; i++)
@@ -296,16 +287,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
         public static void DrawListField<T>(SerializedProperty listProperty) where T : Object
         {
             EditorGUILayout.BeginVertical();
-            var listSize = listProperty.arraySize;
-            listSize = EditorGUILayout.IntField("Size", listSize);
-
-            if (listSize != listProperty.arraySize)
-            {
-                while (listSize > listProperty.arraySize)
-                    listProperty.InsertArrayElementAtIndex(listProperty.arraySize);
-                while (listSize < listProperty.arraySize)
-                    listProperty.DeleteArrayElementAtIndex(listProperty.arraySize - 1);
-            }
+            listProperty.arraySize = Mathf.Max(0, EditorGUILayout.IntField("Size", listProperty.arraySize));
 
             EditorGUI.indentLevel++;
             for (var i = 0; i < listProperty.arraySize; i++)
@@ -317,6 +299,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             EditorGUI.indentLevel--;
             EditorGUILayout.EndVertical();
         }
+
 
         // 가로선을 그리는 함수
         public static void DrawHorizontalLine(Color color, int thickness = 1)
