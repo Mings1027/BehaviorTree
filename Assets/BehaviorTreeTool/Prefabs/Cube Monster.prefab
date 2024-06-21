@@ -240,30 +240,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 042d4035eb314f46b406b57d9ed16a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treeType: 1
+  initMode: 0
   behaviorTree: {fileID: 11400000, guid: ef019fac46b90493c80f9035f67b93ed, type: 2}
-  variables:
-  - rid: 1497354971335623024
-  - rid: 1497354971335623025
-  - rid: 1497354971335623026
+  variables: []
   references:
     version: 2
-    RefIds:
-    - rid: 1497354971335623024
-      type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: Target
-        variableType: 3
-        value: {fileID: 0}
-    - rid: 1497354971335623025
-      type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: Agent
-        variableType: 12
-        value: {fileID: 6471559284782711345}
-    - rid: 1497354971335623026
-      type: {class: SharedInt, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: Check Range
-        variableType: 9
-        value: 7
+    RefIds: []

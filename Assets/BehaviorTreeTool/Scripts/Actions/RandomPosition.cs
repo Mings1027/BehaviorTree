@@ -7,8 +7,14 @@ namespace BehaviorTreeTool.Scripts.Actions
 {
     public class RandomPosition : ActionNode
     {
-        public SharedNavMeshAgent agent;
+        private NavMeshAgent agent;
+
         [SerializeField] private int range;
+
+        protected override void OnAwake()
+        {
+            agent = nodeTransform.GetComponent<NavMeshAgent>();
+        }
 
         protected override void OnStart()
         {
@@ -18,7 +24,7 @@ namespace BehaviorTreeTool.Scripts.Actions
             if (NavMesh.SamplePosition(randomDir, out var hit, range, NavMesh.AllAreas))
             {
                 var finalPosition = hit.position;
-                agent.Value.SetDestination(finalPosition);
+                agent.SetDestination(finalPosition);
             }
         }
 

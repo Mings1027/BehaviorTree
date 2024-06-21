@@ -37,6 +37,8 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             {
                 SharedVariableType.Animator
                     => new SharedAnimator { VariableName = variableName, VariableType = variableType },
+                SharedVariableType.BehaviorTree
+                    => new SharedBehaviorTree { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Bool
                     => new SharedBool { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Collider
@@ -88,6 +90,9 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             {
                 case SharedAnimator sharedAnimator:
                     sharedAnimator.SetValue((Animator)EditorGUILayout.ObjectField(valueLabel, sharedAnimator.Value, typeof(Animator), true));
+                    break;
+                case SharedBehaviorTree sharedBehaviorTree:
+                    sharedBehaviorTree.SetValue((BehaviorTree)EditorGUILayout.ObjectField(valueLabel, sharedBehaviorTree.Value, typeof(BehaviorTree), true));
                     break;
                 case SharedBool sharedBool:
                     sharedBool.SetValue(EditorGUILayout.Toggle(valueLabel, sharedBool.Value));
@@ -268,7 +273,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             }
         }
 
-        public static void DrawArrayField<T>(SerializedProperty arrayProperty) where T : Object
+        private static void DrawArrayField<T>(SerializedProperty arrayProperty) where T : Object
         {
             EditorGUILayout.BeginVertical();
             arrayProperty.arraySize = Mathf.Max(0, EditorGUILayout.IntField("Size", arrayProperty.arraySize));
@@ -284,7 +289,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             EditorGUILayout.EndVertical();
         }
 
-        public static void DrawListField<T>(SerializedProperty listProperty) where T : Object
+        private static void DrawListField<T>(SerializedProperty listProperty) where T : Object
         {
             EditorGUILayout.BeginVertical();
             listProperty.arraySize = Mathf.Max(0, EditorGUILayout.IntField("Size", listProperty.arraySize));
@@ -328,6 +333,9 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                     break;
                 case SharedVariableType.Animator:
                     DrawAnimatorField(valueProperty);
+                    break;
+                case SharedVariableType.BehaviorTree:
+                    DrawBehaviorTreeField(valueProperty);
                     break;
                 case SharedVariableType.Bool:
                     DrawBoolField(valueProperty);
@@ -411,6 +419,13 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
         {
             valueProperty.objectReferenceValue =
                 EditorGUILayout.ObjectField(valueProperty.objectReferenceValue, typeof(Animator), true);
+        }
+
+        private static void DrawBehaviorTreeField(SerializedProperty valueProperty)
+        {
+            valueProperty.objectReferenceValue =
+                EditorGUILayout.ObjectField(valueProperty.objectReferenceValue, typeof(BehaviorTree), true);
+
         }
 
         private static void DrawBoolField(SerializedProperty valueProperty)

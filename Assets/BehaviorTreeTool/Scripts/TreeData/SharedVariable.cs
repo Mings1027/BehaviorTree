@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using Object = UnityEngine.Object;
 
 public enum SharedVariableType
 {
     AIPath = 0,
+    BehaviorTree = 22,
     Animator = 1,
     Bool = 2,
     Collider = 3,
@@ -30,10 +30,10 @@ public enum SharedVariableType
     Vector3Int = 21
 }
 
-public enum TreeType
+public enum InitMode
 {
-    BehaviorTree = 0,
-    ExternalBehaviorTree = 1
+    Runtime = 0,
+    Preload = 1
 }
 
 [Serializable]
@@ -44,6 +44,7 @@ public class SharedVariableBase
         get => variableName;
         set => variableName = value;
     }
+
     [SerializeField] private string variableName;
 #if UNITY_EDITOR
     public SharedVariableType VariableType
@@ -51,7 +52,13 @@ public class SharedVariableBase
         get => variableType;
         set => variableType = value;
     }
+
     [SerializeField] private SharedVariableType variableType;
+
+    public virtual bool IsReferenceType()
+    {
+        return false;
+    }
 #endif
 
     public virtual object GetValue()
@@ -71,6 +78,12 @@ public class SharedVariableBase
 [Serializable]
 public class SharedVariable<T> : SharedVariableBase
 {
+#if UNITY_EDITOR
+    public override bool IsReferenceType()
+    {
+        return !typeof(T).IsValueType;
+    }
+#endif
     [SerializeField] private T value;
 
     public T Value
@@ -117,6 +130,15 @@ public class SharedAnimator : SharedVariable<Animator>
     public static implicit operator SharedAnimator(Animator value)
     {
         return new SharedAnimator { Value = value };
+    }
+}
+
+[Serializable]
+public class SharedBehaviorTree : SharedVariable<BehaviorTree>
+{
+    public static implicit operator SharedBehaviorTree(BehaviorTree value)
+    {
+        return new SharedBehaviorTree { Value = value };
     }
 }
 

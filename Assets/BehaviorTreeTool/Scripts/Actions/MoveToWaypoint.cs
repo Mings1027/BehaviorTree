@@ -1,22 +1,24 @@
 using BehaviorTreeTool.Scripts.Runtime;
+using UnityEngine.AI;
 
 namespace BehaviorTreeTool.Scripts.Actions
 {
     public class MoveToWaypoint : ActionNode
     {
-        public SharedNavMeshAgent agent;
         public SharedTransformArray wayPoints;
 
+        private NavMeshAgent agent;
         private int _wayIndex;
 
         protected override void OnAwake()
         {
+            agent = nodeTransform.GetComponent<NavMeshAgent>();
             _wayIndex = 0;
         }
 
         protected override void OnStart()
         {
-            agent.Value.destination = wayPoints.Value[_wayIndex].position;
+            agent.destination = wayPoints.Value[_wayIndex].position;
             _wayIndex++;
             if (wayPoints.Value.Length <= _wayIndex)
             {

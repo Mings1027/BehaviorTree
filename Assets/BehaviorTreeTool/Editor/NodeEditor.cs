@@ -31,12 +31,23 @@ namespace BehaviorTreeTool.Editor
             _downArrowTexture = TreeUtility.LoadTexture("Assets/BehaviorTreeTool/Sprites/Arrow Simple Down.png");
             _rightArrowTexture =
                 AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Arrow Simple Right.png");
-            InitializeProperties();
         }
 
         public override void OnInspectorGUI()
         {
+            if (serializedObject == null)
+            {
+                Debug.LogError("SerializedObject is null. Make sure the target object is properly initialized.");
+                return;
+            }
+
             serializedObject.Update();
+
+            // Initialize properties if they haven't been initialized yet
+            if (_sharedDataProperty == null)
+            {
+                InitializeProperties();
+            }
 
             DisplayTreeName();
             DisplayTabs();
@@ -222,7 +233,6 @@ namespace BehaviorTreeTool.Editor
             for (int i = 0; i < sharedVariables.Count; i++)
             {
                 DrawSharedVariableField(node, sharedVariables[i]);
-                EditorGUILayout.Space(3);
             }
         }
 

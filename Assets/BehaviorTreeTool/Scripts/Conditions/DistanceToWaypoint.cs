@@ -7,8 +7,7 @@ namespace BehaviorTreeTool.Scripts.Conditions
     {
         public SharedVector3 curWayPoint;
 
-        private int curIndex;
-
+        [SerializeField] private int curIndex;
         [SerializeField] private Vector3[] waypoints;
         [SerializeField] private float remainingDistance;
 
@@ -23,6 +22,7 @@ namespace BehaviorTreeTool.Scripts.Conditions
             if (Vector3.Distance(curWayPoint.Value, nodeTransform.position) <= remainingDistance)
             {
                 curIndex = (curIndex + 1) % waypoints.Length;
+                curWayPoint.Value = waypoints[curIndex];
                 return TaskState.Success;
             }
 

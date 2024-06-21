@@ -7,7 +7,7 @@ using BehaviorTreeTool.Editor;
 [CustomEditor(typeof(BehaviorTreeRunner))]
 public class BehaviorTreeRunnerEditor : Editor
 {
-    private SerializedProperty _treeTypeProperty;
+    private SerializedProperty _initModeProperty;
     private SerializedProperty _behaviorTreeProperty;
     private SerializedProperty _variablesProperty;
 
@@ -15,7 +15,7 @@ public class BehaviorTreeRunnerEditor : Editor
 
     private void OnEnable()
     {
-        _treeTypeProperty = serializedObject.FindProperty("treeType");
+        _initModeProperty = serializedObject.FindProperty("initMode");
         _behaviorTreeProperty = serializedObject.FindProperty("behaviorTree");
         _variablesProperty = serializedObject.FindProperty("variables");
     }
@@ -25,8 +25,12 @@ public class BehaviorTreeRunnerEditor : Editor
         serializedObject.Update();
 
         var treeRunner = (BehaviorTreeRunner)target;
-        DrawTreeType(treeRunner);
-        DrawExternalBehaviorTreeHelpBox();
+        DrawInitMode(treeRunner);
+        if (treeRunner.InitMode == InitMode.Preload)
+        {
+            DrawExternalBehaviorTreeHelpBox();
+        }
+
         DrawBehaviorTreeField(treeRunner);
         CheckChangeTree(treeRunner);
         serializedObject.Update();
@@ -35,29 +39,35 @@ public class BehaviorTreeRunnerEditor : Editor
         serializedObject.ApplyModifiedProperties();
     }
 
-    private void DrawTreeType(BehaviorTreeRunner treeRunner)
+    private void DrawInitMode(BehaviorTreeRunner treeRunner)
     {
-        EditorGUILayout.PropertyField(_treeTypeProperty);
-        TreeType newTreeType = (TreeType)_treeTypeProperty.enumValueIndex;
-        if (treeRunner.TreeType != newTreeType)
+        EditorGUILayout.PropertyField(_initModeProperty, new GUIContent("Init Mode"));
+        if (treeRunner.InitMode != (InitMode)_initModeProperty.enumValueIndex)
         {
-            treeRunner.TreeType = newTreeType;
+            treeRunner.InitMode = (InitMode)_initModeProperty.enumValueIndex;
+            EditorUtility.SetDirty(target);
         }
     }
+
     private void DrawExternalBehaviorTreeHelpBox()
     {
         EditorGUILayout.Space();
         EditorGUI.indentLevel++;
         var wordWrapStyle = new GUIStyle(GUI.skin.label)
         {
+            fontStyle = FontStyle.Bold,
+            richText = true,
             wordWrap = true,
-            fontStyle = FontStyle.Bold
         };
-        GUILayout.Label("Use 'ExternalBehaviorTree' when SharedVariables contain reference types like GameObjects, Transforms, etc.", wordWrapStyle);
+        var message = "Use <b><color=#FFA500>Preload</color></b> if any element in"
+            + " the <b><color=#FFA500>Variables</color></b> is a <b><color=#FFA500>Reference</color></b> type"
+            + " that needs to be assigned before play.";
+        EditorGUILayout.LabelField(message, wordWrapStyle);
 
         EditorGUI.indentLevel--;
         EditorGUILayout.Space();
     }
+
     private void DrawBehaviorTreeField(BehaviorTreeRunner treeRunner)
     {
         EditorGUILayout.BeginHorizontal();

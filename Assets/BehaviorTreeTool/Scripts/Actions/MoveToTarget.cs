@@ -1,17 +1,24 @@
 using BehaviorTreeTool.Scripts.Runtime;
+using UnityEngine.AI;
 
 namespace BehaviorTreeTool.Scripts.Actions
 {
     public class MoveToTarget : ActionNode
     {
         public SharedCollider target;
-        public SharedNavMeshAgent agent;
+
+        private NavMeshAgent agent;
+
+        protected override void OnAwake()
+        {
+            agent = nodeTransform.GetComponent<NavMeshAgent>();
+        }
 
         protected override void OnStart()
         {
             if (target.Value)
             {
-                agent.Value.destination = target.Value.transform.position;
+                agent.destination = target.Value.transform.position;
             }
         }
 
@@ -19,7 +26,7 @@ namespace BehaviorTreeTool.Scripts.Actions
         {
             if (target.Value)
             {
-                agent.Value.destination = target.Value.transform.position;
+                agent.destination = target.Value.transform.position;
                 return TaskState.Success;
             }
 

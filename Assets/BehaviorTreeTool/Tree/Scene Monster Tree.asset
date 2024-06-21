@@ -44,6 +44,25 @@ MonoBehaviour:
   - {fileID: 5555585249849855701}
   - {fileID: 2634533925985065075}
   - {fileID: -7147479973926752697}
+--- !u!114 &-2165723073931961231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
+  m_Name: Wait
+  m_EditorClassIdentifier: 
+  position: {x: 336, y: 526}
+  guid: c857aa2ddc077472bba050b4bdbea951
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 8714764893293249165}
+  duration: 1
+  remaining: 0
 --- !u!114 &-795626960353004429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,10 +105,6 @@ MonoBehaviour:
     variableName: Target
     variableType: 0
     value: {fileID: 0}
-  agent:
-    variableName: Agent
-    variableType: 0
-    value: {fileID: 0}
   attackRange: 1.5
 --- !u!114 &11400000
 MonoBehaviour:
@@ -120,6 +135,7 @@ MonoBehaviour:
   - {fileID: 3243810773847590620}
   - {fileID: 7631157844346400631}
   - {fileID: 7690622208184661242}
+  - {fileID: -2165723073931961231}
 --- !u!114 &285006204517062418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +218,7 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
   duration: 1
+  remaining: 0
 --- !u!114 &3243810773847590620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,10 +238,6 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
-    value: {fileID: 0}
-  agent:
-    variableName: Agent
     variableType: 0
     value: {fileID: 0}
 --- !u!114 &5555585249849855701
@@ -248,7 +261,7 @@ MonoBehaviour:
     variableName: Target
     variableType: 0
     value: {fileID: 0}
-  rotationSpeed: 1
+  rotationSpeed: 5
   rotationThreshold: 10
 --- !u!114 &5699879156037257768
 MonoBehaviour:
@@ -277,7 +290,7 @@ MonoBehaviour:
     value: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 136
   targetColliders:
   - {fileID: 0}
   - {fileID: 0}
@@ -315,15 +328,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
   m_Name: CheckDistance
   m_EditorClassIdentifier: 
-  position: {x: 261, y: 526}
+  position: {x: 186, y: 526}
   guid: 0a7c16acf1d8442febfa4d61038938d7
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  agent:
-    variableName: Agent
-    variableType: 0
-    value: {fileID: 0}
 --- !u!114 &7690622208184661242
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,15 +345,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c232782adebc440a1887b0b0cc0ef76c, type: 3}
   m_Name: MoveToWaypoint
   m_EditorClassIdentifier: 
-  position: {x: 411, y: 526}
+  position: {x: 486, y: 526}
   guid: a64e025f238fe47e5bc78622c075a4d2
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  agent:
-    variableName: Agent
-    variableType: 0
-    value: {fileID: 0}
   wayPoints:
     variableName: Way Points
     variableType: 0
@@ -368,6 +373,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   children:
   - {fileID: 7631157844346400631}
+  - {fileID: -2165723073931961231}
   - {fileID: 7690622208184661242}
 --- !u!114 &8714764893293249165
 MonoBehaviour:
@@ -383,7 +389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variables:
   - rid: 1497354971335623021
-  - rid: 1497354971335623022
   - rid: 1497354971335623023
   - rid: 1497354971335623039
   references:
@@ -394,12 +399,6 @@ MonoBehaviour:
       data:
         variableName: Target
         variableType: 3
-        value: {fileID: 0}
-    - rid: 1497354971335623022
-      type: {class: SharedNavMeshAgent, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: Agent
-        variableType: 12
         value: {fileID: 0}
     - rid: 1497354971335623023
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}

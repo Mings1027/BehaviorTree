@@ -15,18 +15,18 @@ public class BehaviorTreeRunner : MonoBehaviour
         }
     }
 
-    public TreeType TreeType
+    public InitMode InitMode
     {
-        get => treeType;
+        get => initMode;
         set
         {
-            treeType = value;
+            initMode = value;
             UpdateVariables();
         }
     }
 #endif
 
-    [SerializeField] private TreeType treeType;
+    [SerializeField] private InitMode initMode;
     [SerializeField] protected BehaviorTree behaviorTree;
     [SerializeReference] private List<SharedVariableBase> variables;
 
@@ -59,11 +59,11 @@ public class BehaviorTreeRunner : MonoBehaviour
 
     private void UpdateVariables()
     {
-        if (treeType == TreeType.BehaviorTree)
+        if (initMode == InitMode.Runtime)
         {
             variables.Clear();
         }
-        else if (treeType == TreeType.ExternalBehaviorTree)
+        else if (initMode == InitMode.Preload)
         {
             variables ??= new List<SharedVariableBase>();
             variables.Clear();
@@ -84,7 +84,9 @@ public class BehaviorTreeRunner : MonoBehaviour
         var nodes = behaviorTree.Nodes;
         var sharedVariablesTable = new List<SharedVariableBase>();
         var variableNameSet = new HashSet<string>();
-        var sharedVariables = treeType == TreeType.BehaviorTree ? behaviorTree.RootNode.SharedData.Variables : variables;
+        var sharedVariables = initMode == InitMode.Runtime ? behaviorTree.RootNode.SharedData.Variables : variables;
+        if (initMode == InitMode.Runtime) variables = null;
+
         for (var i = 0; i < nodes.Count; i++)
         {
             var node = nodes[i];

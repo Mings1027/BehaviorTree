@@ -39,6 +39,11 @@ namespace BehaviorTreeTool.Editor
 
             DrawVariableInputField();
             TreeUtility.DrawHorizontalLine(Color.gray);
+
+            if (ContainsReferenceType())
+            {
+                DrawReferenceTypeWarning();
+            }
             if (_variablesProperty.arraySize == 0)
             {
                 DrawNoVariablesMessage();
@@ -140,10 +145,18 @@ namespace BehaviorTreeTool.Editor
             var variableTypeProperty = variableProperty.FindPropertyRelative("variableType");
             var variableType = (SharedVariableType)variableTypeProperty.enumValueIndex;
 
-            EditorGUILayout.BeginVertical(GUI.skin.box);
+            var style = new GUIStyle(GUI.skin.box)
+            {
+                normal = { background = TreeUtility.MakeTex(2, 2, new Color(0.3f, 0.3f, 0.3f, 1.0f)) },
+                hover = { background = TreeUtility.MakeTex(2, 2, new Color(0.2f, 0.2f, 0.2f, 1.0f)) },
+                padding = new RectOffset(10, 10, 5, 5),
+                margin = new RectOffset(4, 4, 2, 2)
+            };
+
+            EditorGUILayout.BeginVertical(style);
             EditorGUILayout.BeginHorizontal();
 
-            _foldouts[index] = EditorGUILayout.Foldout(_foldouts[index], $"{variableName} ({variableType})", true);
+            _foldouts[index] = EditorGUILayout.Foldout(_foldouts[index], $"{variableName}", true);
 
             if (GUILayout.Button(new GUIContent(_upArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
             {
@@ -247,5 +260,30 @@ namespace BehaviorTreeTool.Editor
                 _foldouts[i] = EditorPrefs.GetBool(FoldoutKeyPrefix + i, false);
             }
         }
+
+        private bool ContainsReferenceType()
+        {
+            var sharedData = (SharedData)target;
+            return sharedData.Variables.Any(variable => variable.IsReferenceType());
+        }
+
+        private void DrawReferenceTypeWarning()
+        {
+            var style = new GUIStyle(GUI.skin.label)
+            {
+                fontStyle = FontStyle.Bold,
+                richText = true,
+                wordWrap = true
+            };
+
+            var message = "There are <b><color=#FFA500>Reference</color></b> type elements. "
+                + "If they need to be assigned <b><color=#FFA500>before play</color></b>, "
+                + "set <b><color=#FFA500>InitMode</color></b> to <b><color=#FFA500>Preload</color></b> "
+                + "in the <b><color=#FFA500>BehaviorTreeRunner</color></b> component.";
+
+            EditorGUILayout.LabelField(message, style);
+        }
+
+
     }
 }

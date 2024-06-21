@@ -32,7 +32,7 @@ public class RootNode : Node
     public override Node Clone()
     {
         var clone = Instantiate(this);
-        clone.Child = Child.Clone();
+        clone.child = child.Clone();
         return clone;
     }
 
@@ -42,7 +42,7 @@ public class RootNode : Node
 
     protected override TaskState OnUpdate()
     {
-        return Child != null ? Child.Update() : TaskState.Failure;
+        return child != null ? child.Update() : TaskState.Failure;
     }
 
     private void TraverseChildrenAndSetSharedData(Node node, SharedData sharedData)

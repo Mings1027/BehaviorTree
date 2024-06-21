@@ -15,17 +15,20 @@ namespace BehaviorTreeTool.Scripts.Composites
 
         protected override TaskState OnUpdate()
         {
-            while (current < children.Count)
+            for (int i = current; i < children.Count; ++i)
             {
+                current = i;
                 var child = children[current];
-                var childState = child.Update();
 
-                if (childState is TaskState.Running or TaskState.Success)
+                switch (child.Update())
                 {
-                    return childState;
+                    case TaskState.Running:
+                        return TaskState.Running;
+                    case TaskState.Success:
+                        return TaskState.Success;
+                    case TaskState.Failure:
+                        continue;
                 }
-
-                current++;
             }
 
             return TaskState.Failure;
