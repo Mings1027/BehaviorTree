@@ -11,6 +11,11 @@ public class BehaviorTreeManager : MonoBehaviour
 #endif
     private void Awake()
     {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         _instance = this;
         behaviorTrees = new List<BehaviorTreeRunner>();
     }

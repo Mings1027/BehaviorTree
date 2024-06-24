@@ -4,7 +4,7 @@ namespace BehaviorTreeTool.Scripts.Actions
 {
     public class SetRandompoint : ActionNode
     {
-        public SharedVector3 curWayPoint;
+        public SharedVector3 curRandomPoint;
 
         [SerializeField] private Vector3 center;
         [SerializeField] private float radius;
@@ -22,7 +22,7 @@ namespace BehaviorTreeTool.Scripts.Actions
         private void SetRandompointInRange()
         {
             var randomPoint = center + new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
-            curWayPoint.Value = randomPoint;
+            curRandomPoint.Value = randomPoint;
         }
 
         public override void OnDrawGizmos()

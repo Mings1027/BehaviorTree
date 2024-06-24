@@ -39,6 +39,28 @@ MonoBehaviour:
   children:
   - {fileID: -1833793833689021405}
   - {fileID: -7990616885445862885}
+--- !u!114 &-5154783829899565683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7356c352c8d5047a7ba4198ff2832b25, type: 3}
+  m_Name: DistanceToRandomPoint
+  m_EditorClassIdentifier: 
+  position: {x: -388, y: 522}
+  guid: ac16e9b6b8d0d445caa5bbfca82ae71e
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 1526416177838379864}
+  curRandomPoint:
+    variableName: Current Random Point
+    variableType: 0
+    value: {x: 0, y: 0, z: 0}
+  remainingDistance: 1
 --- !u!114 &-1833793833689021405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,7 +79,7 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 1526416177838379864}
   children:
-  - {fileID: -1154239255733433258}
+  - {fileID: -5154783829899565683}
   - {fileID: -155162246459344012}
   - {fileID: -1461376175609969263}
 --- !u!114 &-1461376175609969263
@@ -77,34 +99,12 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 1526416177838379864}
-  curWayPoint:
-    variableName: Current WayPoint
+  curRandomPoint:
+    variableName: Current Random Point
     variableType: 0
     value: {x: 0, y: 0, z: 0}
   center: {x: 0, y: 0, z: 0}
   radius: 14
---- !u!114 &-1154239255733433258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7356c352c8d5047a7ba4198ff2832b25, type: 3}
-  m_Name: DistanceToRandomPoint
-  m_EditorClassIdentifier: 
-  position: {x: -388, y: 522}
-  guid: 6bc12f15881724f38b50c7600d400a49
-  description: 
-  drawGizmos: 0
-  sharedData: {fileID: 1526416177838379864}
-  curWayPoint:
-    variableName: Current WayPoint
-    variableType: 0
-    value: {x: 0, y: 0, z: 0}
-  remainingDistance: 1
 --- !u!114 &-155162246459344012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,13 +140,13 @@ MonoBehaviour:
   nodes:
   - {fileID: 488885664307889946}
   - {fileID: 7154324659010357740}
-  - {fileID: -1154239255733433258}
   - {fileID: -1461376175609969263}
   - {fileID: 873698732170116521}
   - {fileID: -6693520058962586356}
   - {fileID: -1833793833689021405}
   - {fileID: -7990616885445862885}
   - {fileID: -155162246459344012}
+  - {fileID: -5154783829899565683}
 --- !u!114 &488885664307889946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,15 +175,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ae86425a93a540548571a5c18065053, type: 3}
-  m_Name: FollowPath
+  m_Name: MoveAround
   m_EditorClassIdentifier: 
   position: {x: 225, y: 522}
   guid: b21c9c6cec72e4d7a8e5bbf27b7c1e43
   description: 
   drawGizmos: 1
   sharedData: {fileID: 1526416177838379864}
-  curWayPoint:
-    variableName: Current WayPoint
+  curRandomPoint:
+    variableName: Current Random Point
     variableType: 0
     value: {x: 0, y: 0, z: 0}
   moveSpeed: 5
@@ -209,7 +209,7 @@ MonoBehaviour:
     - rid: 1497354976660291645
       type: {class: SharedVector3, ns: , asm: Assembly-CSharp}
       data:
-        variableName: Current WayPoint
+        variableName: Current Random Point
         variableType: 20
         value: {x: 0, y: 0, z: 0}
 --- !u!114 &7154324659010357740

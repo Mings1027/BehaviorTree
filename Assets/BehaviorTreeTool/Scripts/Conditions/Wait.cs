@@ -29,12 +29,6 @@ namespace BehaviorTreeTool.Scripts.Conditions
             return TaskState.Running;
         }
 
-        protected override void OnEnd()
-        {
-            _startTime = -1;
-            remaining = 0;
-        }
-
 #if UNITY_EDITOR
         public override void OnDrawGizmos()
         {

@@ -60,7 +60,7 @@ public class BehaviorTreeRunnerEditor : Editor
             wordWrap = true,
         };
         var message = "Use <b><color=#FFA500>Preload</color></b> if any element in"
-            + " the <b><color=#FFA500>Variables</color></b> is a <b><color=#FFA500>Reference</color></b> type"
+            + " the <b><color=#FFA500>Variables</color></b> is a <b><color=#FFA500>Reference type</color></b>"
             + " that needs to be assigned before play.";
         EditorGUILayout.LabelField(message, wordWrapStyle);
 

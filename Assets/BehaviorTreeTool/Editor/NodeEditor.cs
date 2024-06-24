@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using BehaviorTreeTool.Scripts.Runtime;
@@ -198,7 +199,7 @@ namespace BehaviorTreeTool.Editor
             _inspectorScrollPos = EditorGUILayout.BeginScrollView(_inspectorScrollPos);
             DrawSharedVariableFields(node);
             TreeUtility.DrawHorizontalLine(Color.gray);
-            DrawLocalVariableFields(node);
+            DrawNodeVariables(node);
             TreeUtility.DrawHorizontalLine(Color.gray);
             CheckUnassignVariableName();
             EditorGUILayout.EndScrollView();
@@ -216,7 +217,7 @@ namespace BehaviorTreeTool.Editor
         private void DrawSharedVariableFields(Node node)
         {
             var sharedVariables = node.GetType()
-                .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .GetFields(BindingFlags.Public | BindingFlags.Instance)
                 .Where(field => typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
                 .Select(field =>
                     new KeyValuePair<string, SharedVariableBase>(field.Name, (SharedVariableBase)field.GetValue(node)))
@@ -224,11 +225,13 @@ namespace BehaviorTreeTool.Editor
 
             if (sharedVariables.Count <= 0)
             {
-                EditorGUILayout.LabelField("No Shared Variables", EditorStyles.boldLabel);
+                var style = new GUIStyle(EditorStyles.boldLabel) { fontSize = 15 };
+                EditorGUILayout.LabelField("This node has no Shared Variables", style);
                 return;
             }
 
-            EditorGUILayout.LabelField("Shared Variables", EditorStyles.boldLabel);
+            var boldLabelStyle = new GUIStyle(EditorStyles.boldLabel) { fontSize = 15 };
+            EditorGUILayout.LabelField("Shared Variables", boldLabelStyle);
 
             for (int i = 0; i < sharedVariables.Count; i++)
             {
@@ -273,8 +276,11 @@ namespace BehaviorTreeTool.Editor
                 EditorPrefs.SetBool($"{kvp.Key}Foldout", foldout);
             }
 
+            var serializedObject = new SerializedObject(node);
+            var property = serializedObject.FindProperty(kvp.Key);
+            var displayName = property != null ? property.displayName : ObjectNames.NicifyVariableName(kvp.Key);
             // Draw the variable name
-            EditorGUILayout.LabelField(kvp.Key, GUILayout.MinWidth(100));
+            EditorGUILayout.LabelField(displayName, GUILayout.MinWidth(100));
 
             var selectedIndex = EditorGUILayout.Popup(currentIndex, variableNames.ToArray(), GUILayout.Width(150));
             if (selectedIndex != currentIndex)
@@ -321,9 +327,10 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        private void DrawLocalVariableFields(Node node)
+        private void DrawNodeVariables(Node node)
         {
-            EditorGUILayout.LabelField("Local Variables", EditorStyles.boldLabel);
+            var boldLabelStyle = new GUIStyle(EditorStyles.boldLabel) { fontSize = 15 };
+            EditorGUILayout.LabelField("Node Variables", boldLabelStyle);
 
             var array = node.GetType()
                          .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -345,7 +352,8 @@ namespace BehaviorTreeTool.Editor
                 var property = serializedObject.FindProperty(field.Name);
                 if (property != null)
                 {
-                    EditorGUILayout.PropertyField(property, new GUIContent(field.Name), true);
+                    var displayName = ObjectNames.NicifyVariableName(field.Name);
+                    EditorGUILayout.PropertyField(property, new GUIContent(displayName), true);
                 }
             }
         }

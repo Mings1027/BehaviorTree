@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace BehaviorTreeTool.Scripts.Actions
 {
-    public class FollowPath : ActionNode
+    public class MoveAround : ActionNode
     {
-        public SharedVector3 curWayPoint;
+        public SharedVector3 curRandomPoint;
 
         [SerializeField] private float moveSpeed;
         [SerializeField] private float rotationSpeed;
@@ -13,9 +13,9 @@ namespace BehaviorTreeTool.Scripts.Actions
 
         protected override TaskState OnUpdate()
         {
-            nodeTransform.position = Vector3.MoveTowards(nodeTransform.position, curWayPoint.Value, moveSpeed * Time.deltaTime);
+            nodeTransform.position = Vector3.MoveTowards(nodeTransform.position, curRandomPoint.Value, moveSpeed * Time.deltaTime);
 
-            var direction = curWayPoint.Value - nodeTransform.position;
+            var direction = curRandomPoint.Value - nodeTransform.position;
             var lookDirection = new Vector3(direction.x, 0, direction.z);
 
             // lookDirection이 Zero가 아닐 때만 회전
@@ -40,7 +40,7 @@ namespace BehaviorTreeTool.Scripts.Actions
         {
             if (nodeTransform == null) return;
             Gizmos.color = Color.red;
-            Gizmos.DrawSphere(curWayPoint.Value, 0.2f);
+            Gizmos.DrawSphere(curRandomPoint.Value, 0.2f);
         }
 #endif
     }

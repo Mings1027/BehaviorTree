@@ -37,8 +37,8 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             {
                 SharedVariableType.Animator
                     => new SharedAnimator { VariableName = variableName, VariableType = variableType },
-                SharedVariableType.BehaviorTree
-                    => new SharedBehaviorTree { VariableName = variableName, VariableType = variableType },
+                // SharedVariableType.BehaviorTree
+                //     => new SharedBehaviorTree { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Bool
                     => new SharedBool { VariableName = variableName, VariableType = variableType },
                 SharedVariableType.Collider
@@ -91,9 +91,9 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                 case SharedAnimator sharedAnimator:
                     sharedAnimator.SetValue((Animator)EditorGUILayout.ObjectField(valueLabel, sharedAnimator.Value, typeof(Animator), true));
                     break;
-                case SharedBehaviorTree sharedBehaviorTree:
-                    sharedBehaviorTree.SetValue((BehaviorTree)EditorGUILayout.ObjectField(valueLabel, sharedBehaviorTree.Value, typeof(BehaviorTree), true));
-                    break;
+                // case SharedBehaviorTree sharedBehaviorTree:
+                //     sharedBehaviorTree.SetValue((BehaviorTree)EditorGUILayout.ObjectField(valueLabel, sharedBehaviorTree.Value, typeof(BehaviorTree), true));
+                //     break;
                 case SharedBool sharedBool:
                     sharedBool.SetValue(EditorGUILayout.Toggle(valueLabel, sharedBool.Value));
                     break;
@@ -334,9 +334,9 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                 case SharedVariableType.Animator:
                     DrawAnimatorField(valueProperty);
                     break;
-                case SharedVariableType.BehaviorTree:
-                    DrawBehaviorTreeField(valueProperty);
-                    break;
+                // case SharedVariableType.BehaviorTree:
+                //     DrawBehaviorTreeField(valueProperty);
+                //     break;
                 case SharedVariableType.Bool:
                     DrawBoolField(valueProperty);
                     break;
@@ -421,12 +421,11 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                 EditorGUILayout.ObjectField(valueProperty.objectReferenceValue, typeof(Animator), true);
         }
 
-        private static void DrawBehaviorTreeField(SerializedProperty valueProperty)
-        {
-            valueProperty.objectReferenceValue =
-                EditorGUILayout.ObjectField(valueProperty.objectReferenceValue, typeof(BehaviorTree), true);
-
-        }
+        // private static void DrawBehaviorTreeField(SerializedProperty valueProperty)
+        // {
+        //     valueProperty.objectReferenceValue =
+        //         EditorGUILayout.ObjectField(valueProperty.objectReferenceValue, typeof(BehaviorTree), true);
+        // }
 
         private static void DrawBoolField(SerializedProperty valueProperty)
         {

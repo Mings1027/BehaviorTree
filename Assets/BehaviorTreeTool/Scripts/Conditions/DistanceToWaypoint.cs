@@ -9,7 +9,7 @@ namespace BehaviorTreeTool.Scripts.Conditions
 
         [SerializeField] private int curIndex;
         [SerializeField] private Vector3[] waypoints;
-        [SerializeField] private float remainingDistance;
+        [SerializeField] private float remainingDistance = 1.0f;
 
         protected override void OnAwake()
         {

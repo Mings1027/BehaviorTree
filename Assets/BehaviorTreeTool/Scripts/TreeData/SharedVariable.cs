@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public enum SharedVariableType
 {
     AIPath = 0,
-    BehaviorTree = 22,
+    // BehaviorTree = 22,
     Animator = 1,
     Bool = 2,
     Collider = 3,
@@ -130,15 +130,6 @@ public class SharedAnimator : SharedVariable<Animator>
     public static implicit operator SharedAnimator(Animator value)
     {
         return new SharedAnimator { Value = value };
-    }
-}
-
-[Serializable]
-public class SharedBehaviorTree : SharedVariable<BehaviorTree>
-{
-    public static implicit operator SharedBehaviorTree(BehaviorTree value)
-    {
-        return new SharedBehaviorTree { Value = value };
     }
 }
 

@@ -387,7 +387,6 @@ MonoBehaviour:
   variables:
   - rid: 1497354971335623021
   - rid: 1497354971335623023
-  - rid: 1497354992360882433
   references:
     version: 2
     RefIds:
@@ -403,9 +402,3 @@ MonoBehaviour:
         variableName: Check Range
         variableType: 9
         value: 7
-    - rid: 1497354992360882433
-      type: {class: SharedBehaviorTree, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: be
-        variableType: 22
-        value: {fileID: 0}

@@ -11,8 +11,6 @@ namespace BehaviorTreeTool.Scripts.Composites
             current = 0;
         }
 
-        protected override void OnEnd() { }
-
         protected override TaskState OnUpdate()
         {
             for (int i = current; i < children.Count; ++i)
