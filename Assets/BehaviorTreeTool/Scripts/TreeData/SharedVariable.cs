@@ -5,15 +5,17 @@ using UnityEngine.AI;
 
 public enum SharedVariableType
 {
+    //The last number is 24
     AIPath = 0,
-    // BehaviorTree = 22,
     Animator = 1,
     Bool = 2,
     Collider = 3,
     ColliderArray = 4,
+    ColliderList = 22,
     Color = 5,
     Float = 6,
     GameObject = 7,
+    GameObjectArray = 23,
     GameObjectList = 8,
     Int = 9,
     LayerMask = 10,
@@ -24,6 +26,7 @@ public enum SharedVariableType
     String = 15,
     Transform = 16,
     TransformArray = 17,
+    TransformList = 24,
     Vector2 = 18,
     Vector2Int = 19,
     Vector3 = 20,
@@ -161,6 +164,15 @@ public class SharedColliderArray : SharedVariable<Collider[]>
 }
 
 [Serializable]
+public class SharedColliderList : SharedVariable<List<Collider>>
+{
+    public static implicit operator SharedColliderList(List<Collider> value)
+    {
+        return new SharedColliderList { Value = value };
+    }
+}
+
+[Serializable]
 public class SharedColor : SharedVariable<Color>
 {
     public static implicit operator SharedColor(Color value)
@@ -184,6 +196,15 @@ public class SharedGameObject : SharedVariable<GameObject>
     public static implicit operator SharedGameObject(GameObject value)
     {
         return new SharedGameObject { Value = value };
+    }
+}
+
+[Serializable]
+public class SharedGameObjectArray : SharedVariable<GameObject[]>
+{
+    public static implicit operator SharedGameObjectArray(GameObject[] value)
+    {
+        return new SharedGameObjectArray { Value = value };
     }
 }
 
@@ -274,6 +295,15 @@ public class SharedTransformArray : SharedVariable<Transform[]>
     public static implicit operator SharedTransformArray(Transform[] value)
     {
         return new SharedTransformArray { Value = value };
+    }
+}
+
+[Serializable]
+public class SharedTransformList : SharedVariable<List<Transform>>
+{
+    public static implicit operator SharedTransformList(List<Transform> value)
+    {
+        return new SharedTransformList { Value = value };
     }
 }
 

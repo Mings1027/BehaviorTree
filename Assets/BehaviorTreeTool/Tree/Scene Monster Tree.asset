@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4295113ac5cd434e9f4bdcef7570a975, type: 3}
   m_Name: Attack
   m_EditorClassIdentifier: 
-  position: {x: -266, y: 531}
+  position: {x: -210, y: 531}
   guid: 16c41152fc8ba4362aea1ee6ae61937a
   description: 
   drawGizmos: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
   m_Name: Sequencer
   m_EditorClassIdentifier: 
-  position: {x: -491, y: 398}
+  position: {x: -435, y: 398}
   guid: 852441ebb9e84491c866611d61fc92a3
   description: 
   drawGizmos: 0
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
   m_Name: ReadyToAttack
   m_EditorClassIdentifier: 
-  position: {x: -716, y: 531}
+  position: {x: -660, y: 531}
   guid: 1533ad9a3a3f84acfae680686ee8d4dd
   description: 
   drawGizmos: 0
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
-  position: {x: -416, y: 531}
+  position: {x: -360, y: 531}
   guid: c0db0a94b7bc44e40a4b813836801182
   description: 
   drawGizmos: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79172bfe693b944a49fd85bcda5bff60, type: 3}
   m_Name: LookAtTarget
   m_EditorClassIdentifier: 
-  position: {x: -566, y: 531}
+  position: {x: -510, y: 531}
   guid: 529c2f0d8ffdf4dccb9bef79d492ac44
   description: 
   drawGizmos: 0
@@ -281,7 +281,7 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
   target:
-    variableName: Target
+    variableName: 
     variableType: 0
     value: {fileID: 0}
   checkRange:

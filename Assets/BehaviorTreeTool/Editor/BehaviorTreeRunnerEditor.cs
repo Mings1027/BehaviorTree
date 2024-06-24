@@ -59,9 +59,8 @@ public class BehaviorTreeRunnerEditor : Editor
             richText = true,
             wordWrap = true,
         };
-        var message = "Use <b><color=#FFA500>Preload</color></b> if any element in"
-            + " the <b><color=#FFA500>Variables</color></b> is a <b><color=#FFA500>Reference type</color></b>"
-            + " that needs to be assigned before play.";
+        var message = "If you have <b><color=#FFA500>Reference type</color></b> variables that need to be assigned before play,"
+             + " set <b><color=#FFA500>InitMode</color></b> to <b><color=#FFA500>Preload</color></b>.";
         EditorGUILayout.LabelField(message, wordWrapStyle);
 
         EditorGUI.indentLevel--;

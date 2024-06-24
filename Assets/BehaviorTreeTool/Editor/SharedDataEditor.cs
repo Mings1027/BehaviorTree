@@ -276,11 +276,9 @@ namespace BehaviorTreeTool.Editor
                 wordWrap = true
             };
 
-            var message = "There are <b><color=#FFA500>Reference type</color></b> elements. "
-                + "If they need to be assigned <b><color=#FFA500>before play</color></b>, "
-                + "set <b><color=#FFA500>InitMode</color></b> to <b><color=#FFA500>Preload</color></b> "
-                + "in the <b><color=#FFA500>BehaviorTreeRunner</color></b> component.";
-
+            var message = "Set <b><color=#FFA500>InitMode</color></b> to <b><color=#FFA500>Preload</color></b> "
+             + "in the <b><color=#FFA500>BehaviorTreeRunner</color></b> component to assign "
+             + "reference type variables <b><color=#FFA500>before play</color></b>.";
             EditorGUILayout.LabelField(message, style);
         }
 
