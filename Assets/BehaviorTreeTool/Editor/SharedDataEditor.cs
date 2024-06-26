@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using BehaviorTreeTool.Scripts.TreeUtil;
 using UnityEditor;
@@ -19,6 +20,7 @@ namespace BehaviorTreeTool.Editor
 
         private bool[] _foldouts;
         private const string FoldoutKeyPrefix = "SharedDataEditor_Foldout_";
+        private readonly Dictionary<string, bool> _foldoutStates = new();
 
         private void OnEnable()
         {
@@ -40,24 +42,13 @@ namespace BehaviorTreeTool.Editor
             DrawVariableInputField();
             TreeUtility.DrawHorizontalLine(Color.gray);
 
-            if (ContainsReferenceType())
-            {
-                DrawReferenceTypeWarning();
-            }
             if (_variablesProperty.arraySize == 0)
             {
                 DrawNoVariablesMessage();
             }
             else
             {
-                _variablesScrollPos = EditorGUILayout.BeginScrollView(_variablesScrollPos);
-                for (var i = 0; i < _variablesProperty.arraySize; i++)
-                {
-                    var variableProperty = _variablesProperty.GetArrayElementAtIndex(i);
-                    DrawVariable(variableProperty, i);
-                    TreeUtility.DrawHorizontalLine(Color.gray);
-                }
-                EditorGUILayout.EndScrollView();
+                DrawVariables();
             }
 
             serializedObject.ApplyModifiedProperties();
@@ -73,15 +64,15 @@ namespace BehaviorTreeTool.Editor
         private void DrawVariableInputField()
         {
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Name", GUILayout.Width(50));
+            EditorGUILayout.LabelField("Name", GUILayout.Width(70));
             _variableName = EditorGUILayout.TextField(_variableName);
             EditorGUILayout.EndHorizontal();
 
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Type", GUILayout.Width(50));
+            EditorGUILayout.LabelField("Type", GUILayout.Width(70));
             _variableType = (SharedVariableType)EditorGUILayout.EnumPopup(_variableType);
 
-            if (GUILayout.Button("Add", GUILayout.Width(50)))
+            if (GUILayout.Button("Add", GUILayout.Width(60)))
             {
                 AddVariable();
             }
@@ -139,11 +130,25 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.EndVertical();
         }
 
+        private void DrawVariables()
+        {
+            _variablesScrollPos = EditorGUILayout.BeginScrollView(_variablesScrollPos);
+            for (var i = 0; i < _variablesProperty.arraySize; i++)
+            {
+                var variableProperty = _variablesProperty.GetArrayElementAtIndex(i);
+                DrawVariable(variableProperty, i);
+                TreeUtility.DrawHorizontalLine(Color.gray);
+            }
+            EditorGUILayout.EndScrollView();
+        }
+
         private void DrawVariable(SerializedProperty variableProperty, int index)
         {
             var variableName = variableProperty.FindPropertyRelative("variableName").stringValue;
             var variableTypeProperty = variableProperty.FindPropertyRelative("variableType");
             var variableType = (SharedVariableType)variableTypeProperty.enumValueIndex;
+            var valueProperty = variableProperty.FindPropertyRelative("value");
+            var propertyPath = variableProperty.propertyPath;
 
             var style = new GUIStyle(GUI.skin.box)
             {
@@ -182,12 +187,12 @@ namespace BehaviorTreeTool.Editor
             if (_foldouts[index])
             {
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Name", GUILayout.Width(50));
+                EditorGUILayout.LabelField("Name", GUILayout.Width(70));
                 EditorGUILayout.PropertyField(variableProperty.FindPropertyRelative("variableName"), GUIContent.none);
                 EditorGUILayout.EndHorizontal();
 
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Type", GUILayout.Width(50));
+                EditorGUILayout.LabelField("Type", GUILayout.Width(70));
                 EditorGUI.BeginChangeCheck();
                 var newVariableType = (SharedVariableType)EditorGUILayout.EnumPopup(variableType);
                 if (EditorGUI.EndChangeCheck())
@@ -199,16 +204,41 @@ namespace BehaviorTreeTool.Editor
                 if (variableProperty.managedReferenceValue.GetType().BaseType?.GetGenericArguments()[0].IsValueType ==
                     true)
                 {
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField("Value", GUILayout.Width(50));
-                    EditorGUILayout.PropertyField(variableProperty.FindPropertyRelative("value"), GUIContent.none);
-                    EditorGUILayout.EndHorizontal();
+                    if (TreeUtility.IsCollectionVariable(variableType))
+                    {
+                        EditorGUI.indentLevel++;
+                        DrawCollectionVariable(variableType, "Value", valueProperty, propertyPath);
+                        EditorGUI.indentLevel--;
+                    }
+                    else
+                    {
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUILayout.LabelField("Value", GUILayout.Width(70));
+                        TreeUtility.DrawSharedVariableValue(variableType, valueProperty);
+                        EditorGUILayout.EndHorizontal();
+                    }
                 }
             }
 
             EditorGUILayout.EndVertical();
 
             SaveFoldoutStates(); // Save updated foldout states
+        }
+
+        private void DrawCollectionVariable(SharedVariableType variableType, string variableName,
+            SerializedProperty valueProperty, string propertyPath)
+        {
+            _foldoutStates.TryAdd(propertyPath, true);
+
+            var isFolded = EditorGUILayout.Foldout(_foldoutStates[propertyPath], variableName, true);
+            _foldoutStates[propertyPath] = isFolded;
+
+            if (isFolded)
+            {
+                EditorGUI.indentLevel++;
+                TreeUtility.DrawCollectionField(variableType, valueProperty);
+                EditorGUI.indentLevel--;
+            }
         }
 
         private void ChangeVariableType(int index, SharedVariableType newVariableType)
@@ -260,28 +290,5 @@ namespace BehaviorTreeTool.Editor
                 _foldouts[i] = EditorPrefs.GetBool(FoldoutKeyPrefix + i, false);
             }
         }
-
-        private bool ContainsReferenceType()
-        {
-            var sharedData = (SharedData)target;
-            return sharedData.Variables.Any(variable => variable.IsReferenceType());
-        }
-
-        private void DrawReferenceTypeWarning()
-        {
-            var style = new GUIStyle(GUI.skin.label)
-            {
-                fontStyle = FontStyle.Bold,
-                richText = true,
-                wordWrap = true
-            };
-
-            var message = "Set <b><color=#FFA500>InitMode</color></b> to <b><color=#FFA500>Preload</color></b> "
-             + "in the <b><color=#FFA500>BehaviorTreeRunner</color></b> component to assign "
-             + "reference type variables <b><color=#FFA500>before play</color></b>.";
-            EditorGUILayout.LabelField(message, style);
-        }
-
-
     }
 }

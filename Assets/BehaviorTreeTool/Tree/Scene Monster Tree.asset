@@ -21,7 +21,7 @@ MonoBehaviour:
     variableName: Target
     variableType: 0
     value: {fileID: 0}
-  attackDamage: 10
+  attackDamage: 50
 --- !u!114 &-4152613854434300565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,7 +281,7 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
   target:
-    variableName: 
+    variableName: Target
     variableType: 0
     value: {fileID: 0}
   checkRange:
@@ -411,4 +411,7 @@ MonoBehaviour:
       data:
         variableName: Way Points
         variableType: 17
-        value: []
+        value:
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}

@@ -33,12 +33,6 @@ public enum SharedVariableType
     Vector3Int = 21
 }
 
-public enum InitMode
-{
-    Runtime = 0,
-    Preload = 1
-}
-
 [Serializable]
 public class SharedVariableBase
 {
@@ -58,10 +52,6 @@ public class SharedVariableBase
 
     [SerializeField] private SharedVariableType variableType;
 
-    public virtual bool IsReferenceType()
-    {
-        return false;
-    }
 #endif
 
     public virtual object GetValue()
@@ -81,12 +71,6 @@ public class SharedVariableBase
 [Serializable]
 public class SharedVariable<T> : SharedVariableBase
 {
-#if UNITY_EDITOR
-    public override bool IsReferenceType()
-    {
-        return !typeof(T).IsValueType;
-    }
-#endif
     [SerializeField] private T value;
 
     public T Value

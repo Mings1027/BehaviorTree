@@ -7,7 +7,7 @@ using BehaviorTreeTool.Editor;
 [CustomEditor(typeof(BehaviorTreeRunner))]
 public class BehaviorTreeRunnerEditor : Editor
 {
-    private SerializedProperty _initModeProperty;
+    private SerializedProperty _enableVariablesProperty;
     private SerializedProperty _behaviorTreeProperty;
     private SerializedProperty _variablesProperty;
 
@@ -15,7 +15,7 @@ public class BehaviorTreeRunnerEditor : Editor
 
     private void OnEnable()
     {
-        _initModeProperty = serializedObject.FindProperty("initMode");
+        _enableVariablesProperty = serializedObject.FindProperty("enableVariables");
         _behaviorTreeProperty = serializedObject.FindProperty("behaviorTree");
         _variablesProperty = serializedObject.FindProperty("variables");
     }
@@ -25,66 +25,46 @@ public class BehaviorTreeRunnerEditor : Editor
         serializedObject.Update();
 
         var treeRunner = (BehaviorTreeRunner)target;
-        DrawInitMode(treeRunner);
-        if (treeRunner.InitMode == InitMode.Preload)
-        {
-            DrawExternalBehaviorTreeHelpBox();
-        }
 
         DrawBehaviorTreeField(treeRunner);
-        CheckChangeTree(treeRunner);
-        serializedObject.Update();
-        DrawVariables(treeRunner);
+        DrawEnableVariablesField(treeRunner);
 
         serializedObject.ApplyModifiedProperties();
-    }
-
-    private void DrawInitMode(BehaviorTreeRunner treeRunner)
-    {
-        EditorGUILayout.PropertyField(_initModeProperty, new GUIContent("Init Mode"));
-        if (treeRunner.InitMode != (InitMode)_initModeProperty.enumValueIndex)
-        {
-            treeRunner.InitMode = (InitMode)_initModeProperty.enumValueIndex;
-            EditorUtility.SetDirty(target);
-        }
-    }
-
-    private void DrawExternalBehaviorTreeHelpBox()
-    {
-        EditorGUILayout.Space();
-        EditorGUI.indentLevel++;
-        var wordWrapStyle = new GUIStyle(GUI.skin.label)
-        {
-            fontStyle = FontStyle.Bold,
-            richText = true,
-            wordWrap = true,
-        };
-        var message = "If you have <b><color=#FFA500>Reference type</color></b> variables that need to be assigned before play,"
-             + " set <b><color=#FFA500>InitMode</color></b> to <b><color=#FFA500>Preload</color></b>.";
-        EditorGUILayout.LabelField(message, wordWrapStyle);
-
-        EditorGUI.indentLevel--;
-        EditorGUILayout.Space();
     }
 
     private void DrawBehaviorTreeField(BehaviorTreeRunner treeRunner)
     {
         EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.PropertyField(_behaviorTreeProperty);
+        EditorGUILayout.PropertyField(_behaviorTreeProperty, new GUIContent("Behavior Tree"));
         if (GUILayout.Button("Open", GUILayout.Width(50)))
         {
             // Open behavior tree logic
             BehaviorTreeEditor.OpenWithTree(treeRunner.Tree);
         }
         EditorGUILayout.EndHorizontal();
-    }
 
-    private void CheckChangeTree(BehaviorTreeRunner treeRunner)
-    {
         var currentBehaviorTree = (BehaviorTree)_behaviorTreeProperty.objectReferenceValue;
         if (currentBehaviorTree != treeRunner.Tree)
         {
             treeRunner.Tree = currentBehaviorTree;
+            serializedObject.ApplyModifiedProperties();  // 변경 사항을 즉시 반영합니다.
+            treeRunner.UpdateVariables();
+        }
+    }
+
+    private void DrawEnableVariablesField(BehaviorTreeRunner treeRunner)
+    {
+        EditorGUI.BeginChangeCheck();
+        EditorGUILayout.PropertyField(_enableVariablesProperty);
+        if (EditorGUI.EndChangeCheck())
+        {
+            serializedObject.ApplyModifiedProperties();
+            treeRunner.EnableVariables = _enableVariablesProperty.boolValue;
+        }
+
+        if (treeRunner.EnableVariables)
+        {
+            DrawVariables(treeRunner);
         }
     }
 
@@ -93,7 +73,7 @@ public class BehaviorTreeRunnerEditor : Editor
         var treeKey = treeRunner.GetInstanceID().ToString();
         _foldoutStates.TryAdd(treeKey, true);
 
-        bool isFolded = EditorGUILayout.Foldout(_foldoutStates[treeKey], "Variables", true);
+        var isFolded = EditorGUILayout.Foldout(_foldoutStates[treeKey], "Variables", true);
         _foldoutStates[treeKey] = isFolded;
 
         if (isFolded)
@@ -119,12 +99,12 @@ public class BehaviorTreeRunnerEditor : Editor
 
     private void DrawSharedVariableField(SerializedProperty variableProperty)
     {
+        var variableName = variableProperty.FindPropertyRelative("variableName").stringValue;
         var variableType = (SharedVariableType)variableProperty.FindPropertyRelative("variableType").enumValueIndex;
         var valueProperty = variableProperty.FindPropertyRelative("value");
-        var variableName = variableProperty.FindPropertyRelative("variableName").stringValue;
         var propertyPath = variableProperty.propertyPath;
 
-        if (IsCollectionVariable(variableType))
+        if (TreeUtility.IsCollectionVariable(variableType))
         {
             EditorGUI.indentLevel++;
             DrawCollectionVariable(variableType, variableName, valueProperty, propertyPath);
@@ -134,19 +114,11 @@ public class BehaviorTreeRunnerEditor : Editor
         {
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(variableName, GUILayout.Width(110));
-
             TreeUtility.DrawSharedVariableValue(variableType, valueProperty);
-
             EditorGUILayout.EndHorizontal();
         }
 
         TreeUtility.DrawHorizontalLine(Color.gray);
-    }
-
-    private static bool IsCollectionVariable(SharedVariableType variableType)
-    {
-        return variableType is SharedVariableType.ColliderArray or SharedVariableType.TransformArray
-            or SharedVariableType.GameObjectList;
     }
 
     private void DrawCollectionVariable(SharedVariableType variableType, string variableName,

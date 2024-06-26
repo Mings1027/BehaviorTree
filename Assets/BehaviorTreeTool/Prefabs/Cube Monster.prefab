@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 042d4035eb314f46b406b57d9ed16a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initMode: 0
+  enableVariables: 0
   behaviorTree: {fileID: 11400000, guid: ef019fac46b90493c80f9035f67b93ed, type: 2}
   variables: []
   references:

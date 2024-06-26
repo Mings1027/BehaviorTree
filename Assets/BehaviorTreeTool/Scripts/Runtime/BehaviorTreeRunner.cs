@@ -15,18 +15,19 @@ public class BehaviorTreeRunner : MonoBehaviour
         }
     }
 
-    public InitMode InitMode
+    public bool EnableVariables
     {
-        get => initMode;
+        get => enableVariables;
         set
         {
-            initMode = value;
+            enableVariables = value;
             UpdateVariables();
         }
     }
-#endif
 
-    [SerializeField] private InitMode initMode;
+#endif
+    [Tooltip("Enable if reference type variables need assignment before play.")]
+    [SerializeField] private bool enableVariables;
     [SerializeField] protected BehaviorTree behaviorTree;
     [SerializeReference] private List<SharedVariableBase> variables;
 
@@ -57,22 +58,28 @@ public class BehaviorTreeRunner : MonoBehaviour
         behaviorTree.TreeUpdate();
     }
 
-    private void UpdateVariables()
+    public void UpdateVariables()
     {
-        if (initMode == InitMode.Runtime)
+        if (!enableVariables)
         {
-            variables.Clear();
+            variables = null;
+            return;
         }
-        else if (initMode == InitMode.Preload)
+
+        if (behaviorTree == null || behaviorTree.RootNode.SharedData.Variables == null || behaviorTree.RootNode.SharedData.Variables.Count == 0)
         {
-            variables ??= new List<SharedVariableBase>();
             variables.Clear();
-            if (behaviorTree == null) return;
-            for (int i = 0; i < behaviorTree.RootNode.SharedData.Variables.Count; i++)
-            {
-                var variable = behaviorTree.RootNode.SharedData.Variables[i];
-                variables.Add(variable.Clone());
-            }
+            Debug.LogWarning("Behavior tree is null or Shared data has no variables");
+            return;
+        }
+
+        // Ensure the variables list is initialized.
+        variables ??= new List<SharedVariableBase>();
+
+        variables.Clear();
+        foreach (var variable in behaviorTree.RootNode.SharedData.Variables)
+        {
+            variables.Add(variable.Clone());
         }
     }
 
@@ -84,8 +91,8 @@ public class BehaviorTreeRunner : MonoBehaviour
         var nodes = behaviorTree.Nodes;
         var sharedVariablesTable = new List<SharedVariableBase>();
         var variableNameSet = new HashSet<string>();
-        var sharedVariables = initMode == InitMode.Runtime ? behaviorTree.RootNode.SharedData.Variables : variables;
-        if (initMode == InitMode.Runtime) variables = null;
+        var sharedVariables = enableVariables ? variables : behaviorTree.RootNode.SharedData.Variables;
+        if (!enableVariables) variables = null;
 
         for (var i = 0; i < nodes.Count; i++)
         {

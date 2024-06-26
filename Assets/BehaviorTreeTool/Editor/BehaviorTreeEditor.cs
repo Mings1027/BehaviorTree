@@ -15,6 +15,7 @@ namespace BehaviorTreeTool.Editor
         private InspectorView _inspectorView;
         private ToolbarMenu _toolbarMenu;
         private BehaviorTreeSettings _settings;
+        private static string lastSelectedNodeGuid;
 
         [MenuItem("BehaviorTree/BehaviorTreeEditor ...")]
         public static void OpenWindow()
@@ -47,10 +48,8 @@ namespace BehaviorTreeTool.Editor
         {
             _settings = BehaviorTreeSettings.GetOrCreateSettings();
 
-            // Each editor window contains a root VisualElement object
             var root = rootVisualElement;
 
-            // Import UXML if it has not been cloned yet
             var visualTree = _settings.BehaviorTreeXml;
             if (visualTree == null)
             {
@@ -59,8 +58,7 @@ namespace BehaviorTreeTool.Editor
             }
 
             visualTree.CloneTree(root);
-            // A stylesheet can be added to a VisualElement.
-            // The style will be applied to the VisualElement and all of its children.
+
             var styleSheet = _settings.BehaviorTreeStyle;
             if (styleSheet == null)
             {
@@ -69,18 +67,19 @@ namespace BehaviorTreeTool.Editor
             }
 
             root.styleSheets.Add(styleSheet);
-            // Main treeview
+
             TreeView = root.Q<BehaviorTreeView>("behaviorTreeView");
             if (TreeView == null) return;
 
             TreeView.OnNodeSelected = OnNodeSelectionChanged;
-            // Inspector View
+
             _inspectorView = root.Q<InspectorView>();
             if (_inspectorView == null)
             {
                 Debug.LogError("InspectorView is null. Please check if InspectorView is defined in the UXML file.");
                 return;
             }
+
             _toolbarMenu = root.Q<ToolbarMenu>();
             var behaviorTrees = LoadAssets<BehaviorTree>();
             for (int i = 0; i < behaviorTrees.Count; i++)
@@ -98,7 +97,6 @@ namespace BehaviorTreeTool.Editor
                 SelectTree(tree);
             }
 
-            // 트리를 로드
             LoadTree();
         }
 
@@ -170,16 +168,27 @@ namespace BehaviorTreeTool.Editor
 
             TreeView.PopulateView();
 
-            var rootNodeView = TreeView.FindNodeView(tree.RootNode);
-            if (rootNodeView != null)
+            NodeView nodeToSelect = TreeView.FindNodeView(tree.RootNode);
+
+            if (!string.IsNullOrEmpty(lastSelectedNodeGuid))
             {
-                TreeView.SelectNodeView(rootNodeView);
+                var lastSelectedNode = tree.Nodes.Find(n => n.guid == lastSelectedNodeGuid);
+                if (lastSelectedNode != null)
+                {
+                    nodeToSelect = TreeView.FindNodeView(lastSelectedNode);
+                }
+            }
+
+            if (nodeToSelect != null)
+            {
+                TreeView.SelectNodeView(nodeToSelect);
             }
         }
 
         private void OnNodeSelectionChanged(NodeView nodeView)
         {
             _inspectorView.UpdateSelection(nodeView);
+            lastSelectedNodeGuid = nodeView.Node.guid;
         }
 
         private void OnInspectorUpdate()

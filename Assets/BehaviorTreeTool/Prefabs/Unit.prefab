@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 042d4035eb314f46b406b57d9ed16a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initMode: 0
+  enableVariables: 0
   behaviorTree: {fileID: 11400000, guid: 7aa867c64e9124039b92f0651fcc9c68, type: 2}
   variables: []
   references:

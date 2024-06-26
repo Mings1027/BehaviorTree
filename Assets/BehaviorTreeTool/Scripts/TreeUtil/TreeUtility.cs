@@ -320,6 +320,14 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             return NodeTypeNames.FirstOrDefault(nodeType => nodeType.Key.IsAssignableFrom(type)).Value ?? "Unknown";
         }
 
+        public static bool IsCollectionVariable(SharedVariableType variableType)
+        {
+            return variableType
+                is SharedVariableType.ColliderArray or SharedVariableType.ColliderList
+                or SharedVariableType.TransformArray or SharedVariableType.TransformList
+                or SharedVariableType.GameObjectArray or SharedVariableType.GameObjectList;
+        }
+
         public static void DrawSharedVariableValue(SharedVariableType variableType, SerializedProperty valueProperty)
         {
             switch (variableType)
@@ -517,8 +525,6 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
         {
             valueProperty.vector3IntValue = EditorGUILayout.Vector3IntField("", valueProperty.vector3IntValue);
         }
-
-
 
         public static Texture2D MakeTex(int width, int height, Color col)
         {
