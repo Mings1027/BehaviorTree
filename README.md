@@ -42,5 +42,6 @@ Inspector 탭
 
 5. 트리를 사용할 객체에 'Behavior Tree Runner' 컴포넌트를 붙입니다.
 6. 플레이전에 값을 할당해야한다면 'Enable Variables'를 체크하고 값을 할당해줍니다.
+
 6-1. 미리 할당할 필요가 없는 경우 체크하지 않아도 됩니다.
 <img width="321" alt="image" src="https://github.com/Mings1027/BehaviorTree/assets/100500113/f97102d3-42d1-43d9-a9de-13017c612b07">
