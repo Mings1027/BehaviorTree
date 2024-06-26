@@ -28,28 +28,19 @@ Inspector 탭
 
 사용방법
 
+1. 원하는 행동을 정의하는 노드 클래스를 만듭니다.
 ![image](https://github.com/Mings1027/BehaviorTree/assets/100500113/0e7bf4e7-22c1-4e12-9886-4d28a26e2434)
 
-1. 원하는 행동을 정의하는 노드 클래스를 만듭니다.
-
-
+2. Behavior Tree Editor의 Tasks탭에서 만든 노드 클래스를 찾아 생성합니다.
 <img width="291" alt="image" src="https://github.com/Mings1027/BehaviorTree/assets/100500113/dbaf9028-1871-4c62-923e-e472324d5cc6">
 
-2. Behavior Tree Editor의 Tasks탭에서 만든 노드 클래스를 찾아 생성합니다.
-
-
+3. 노드간의 공유할 값이 있다면 Variables탭에 해당 값의 이름과 타입을 정해 만듭니다.
 <img width="243" alt="image" src="https://github.com/Mings1027/BehaviorTree/assets/100500113/bde39174-a24a-473c-b13f-2caa42eb68f2">
 
-3. 노드간의 공유할 값이 있다면 Variables탭에 해당 값의 이름과 타입을 정해 만듭니다
-
-
-![스크린샷 2024-06-26 오후 9 25 20](https://github.com/Mings1027/BehaviorTree/assets/100500113/5a5c7f05-59dc-4654-92bd-9d50a47bd4e9)
-
 4. 공유값을 만든 경우 Inspector탭에서 해당 노드를 선택해 Variables에서 만든 값의 이름을 찾아 할당합니다.
-
-
-<img width="321" alt="image" src="https://github.com/Mings1027/BehaviorTree/assets/100500113/f97102d3-42d1-43d9-a9de-13017c612b07">
+![스크린샷 2024-06-26 오후 9 25 20](https://github.com/Mings1027/BehaviorTree/assets/100500113/5a5c7f05-59dc-4654-92bd-9d50a47bd4e9)
 
 5. 트리를 사용할 객체에 'Behavior Tree Runner' 컴포넌트를 붙입니다.
 6. 플레이전에 값을 할당해야한다면 'Enable Variables'를 체크하고 값을 할당해줍니다.
 6-1. 미리 할당할 필요가 없는 경우 체크하지 않아도 됩니다.
+<img width="321" alt="image" src="https://github.com/Mings1027/BehaviorTree/assets/100500113/f97102d3-42d1-43d9-a9de-13017c612b07">
