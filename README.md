@@ -1,6 +1,5 @@
-![image](https://github.com/Mings1027/BehaviorTree/assets/100500113/f5ad2a95-4a0d-47a9-a4e3-4c1d12a6f7f1)
-
 Behavior Desinger 에셋과 유튜브를 참고하여 제작하였습니다.
+![image](https://github.com/Mings1027/BehaviorTree/assets/100500113/f5ad2a95-4a0d-47a9-a4e3-4c1d12a6f7f1)
 
 ![스크린샷 2024-06-26 오후 9 22 20](https://github.com/Mings1027/BehaviorTree/assets/100500113/a9d13d37-f2d7-4b9f-94bc-1d8af8bbb5a9)
 
