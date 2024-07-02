@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using BehaviorTreeTool.Scripts.TreeUtil;
 using UnityEditor;
 using UnityEngine;
@@ -145,8 +146,6 @@ namespace BehaviorTreeTool.Editor
         private void DrawVariable(SerializedProperty variableProperty, int index)
         {
             var variableName = variableProperty.FindPropertyRelative("variableName").stringValue;
-            var variableTypeProperty = variableProperty.FindPropertyRelative("variableType");
-            var variableType = (SharedVariableType)variableTypeProperty.enumValueIndex;
             var valueProperty = variableProperty.FindPropertyRelative("value");
             var propertyPath = variableProperty.propertyPath;
 
@@ -186,6 +185,7 @@ namespace BehaviorTreeTool.Editor
 
             if (_foldouts[index])
             {
+                EditorGUI.indentLevel++;
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Name", GUILayout.Width(70));
                 EditorGUILayout.PropertyField(variableProperty.FindPropertyRelative("variableName"), GUIContent.none);
@@ -193,31 +193,11 @@ namespace BehaviorTreeTool.Editor
 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Type", GUILayout.Width(70));
-                EditorGUI.BeginChangeCheck();
-                var newVariableType = (SharedVariableType)EditorGUILayout.EnumPopup(variableType);
-                if (EditorGUI.EndChangeCheck())
-                {
-                    ChangeVariableType(index, newVariableType);
-                }
+                EditorGUILayout.PropertyField(variableProperty.FindPropertyRelative("variableType"), GUIContent.none);
                 EditorGUILayout.EndHorizontal();
 
-                if (variableProperty.managedReferenceValue.GetType().BaseType?.GetGenericArguments()[0].IsValueType ==
-                    true)
-                {
-                    if (TreeUtility.IsCollectionVariable(variableType))
-                    {
-                        EditorGUI.indentLevel++;
-                        DrawCollectionVariable(variableType, "Value", valueProperty, propertyPath);
-                        EditorGUI.indentLevel--;
-                    }
-                    else
-                    {
-                        EditorGUILayout.BeginHorizontal();
-                        EditorGUILayout.LabelField("Value", GUILayout.Width(70));
-                        TreeUtility.DrawSharedVariableValue(variableType, valueProperty);
-                        EditorGUILayout.EndHorizontal();
-                    }
-                }
+                DrawSharedVariableField(variableProperty);
+                EditorGUI.indentLevel--;
             }
 
             EditorGUILayout.EndVertical();
@@ -225,34 +205,10 @@ namespace BehaviorTreeTool.Editor
             SaveFoldoutStates(); // Save updated foldout states
         }
 
-        private void DrawCollectionVariable(SharedVariableType variableType, string variableName,
-            SerializedProperty valueProperty, string propertyPath)
+        private void DrawSharedVariableField(SerializedProperty variableProperty)
         {
-            _foldoutStates.TryAdd(propertyPath, true);
-
-            var isFolded = EditorGUILayout.Foldout(_foldoutStates[propertyPath], variableName, true);
-            _foldoutStates[propertyPath] = isFolded;
-
-            if (isFolded)
-            {
-                EditorGUI.indentLevel++;
-                TreeUtility.DrawCollectionField(variableType, valueProperty);
-                EditorGUI.indentLevel--;
-            }
-        }
-
-        private void ChangeVariableType(int index, SharedVariableType newVariableType)
-        {
-            var variableProperty = _variablesProperty.GetArrayElementAtIndex(index);
-            var variableName = variableProperty.FindPropertyRelative("variableName").stringValue;
-
-            var newVariable = TreeUtility.CreateSharedVariable(variableName, newVariableType);
-
-            if (newVariable != null)
-            {
-                _variablesProperty.GetArrayElementAtIndex(index).managedReferenceValue = newVariable;
-                serializedObject.ApplyModifiedProperties();
-            }
+            var valueProperty = variableProperty.FindPropertyRelative("value");
+            EditorGUILayout.PropertyField(valueProperty, true);
         }
 
         private void MoveVariable(int oldIndex, int newIndex)

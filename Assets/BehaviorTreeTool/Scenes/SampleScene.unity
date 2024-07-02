@@ -190,33 +190,32 @@ MonoBehaviour:
   enableVariables: 1
   behaviorTree: {fileID: 11400000, guid: ba37340c6f119405c9bbae38cbe10641, type: 2}
   variables:
-  - rid: 1497355089096737024
-  - rid: 1497355089096737025
-  - rid: 1497355089096737026
+  - rid: 8703869340465496070
+  - rid: 8703869340465496071
+  - rid: 8703869340465496072
   references:
     version: 2
     RefIds:
-    - rid: 1497355089096737024
+    - rid: 8703869340465496070
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 1497355089096737025
+    - rid: 8703869340465496071
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
-        value: 6
-    - rid: 1497355089096737026
+        value: 5
+    - rid: 8703869340465496072
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
         value:
-        - {fileID: 690580547}
-        - {fileID: 73092628}
-        - {fileID: 1605107213}
+        - {fileID: 0}
+        - {fileID: 0}
 --- !u!114 &294671113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -887,32 +886,31 @@ MonoBehaviour:
   enableVariables: 1
   behaviorTree: {fileID: 11400000, guid: ba37340c6f119405c9bbae38cbe10641, type: 2}
   variables:
-  - rid: 1497355107107864625
-  - rid: 1497355107107864626
-  - rid: 1497355107107864627
+  - rid: 8703869337409159168
+  - rid: 8703869337409159169
+  - rid: 8703869337409159170
   references:
     version: 2
     RefIds:
-    - rid: 1497355107107864625
+    - rid: 8703869337409159168
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 1497355107107864626
+    - rid: 8703869337409159169
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
-        value: 6
-    - rid: 1497355107107864627
+        value: 5
+    - rid: 8703869337409159170
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
         value:
-        - {fileID: 1605107213}
-        - {fileID: 2000954063}
+        - {fileID: 866118227}
         - {fileID: 73092628}
 --- !u!114 &416827298
 MonoBehaviour:
@@ -1510,33 +1508,33 @@ MonoBehaviour:
   enableVariables: 1
   behaviorTree: {fileID: 11400000, guid: ba37340c6f119405c9bbae38cbe10641, type: 2}
   variables:
-  - rid: 1497355089096737024
-  - rid: 1497355089096737025
-  - rid: 1497355089096737026
+  - rid: 8703869338114588672
+  - rid: 8703869338114588673
+  - rid: 8703869338114588674
   references:
     version: 2
     RefIds:
-    - rid: 1497355089096737024
+    - rid: 8703869338114588672
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 1497355089096737025
+    - rid: 8703869338114588673
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
-        value: 6
-    - rid: 1497355089096737026
+        value: 5
+    - rid: 8703869338114588674
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
         value:
-        - {fileID: 2000954063}
-        - {fileID: 690580547}
-        - {fileID: 1605107213}
+        - {fileID: 866118227}
+        - {fileID: 73092628}
+        - {fileID: 73092628}
 --- !u!114 &1048091396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1780,32 +1778,33 @@ MonoBehaviour:
   enableVariables: 1
   behaviorTree: {fileID: 11400000, guid: ba37340c6f119405c9bbae38cbe10641, type: 2}
   variables:
-  - rid: 1497355089096737024
-  - rid: 1497355089096737025
-  - rid: 1497355089096737026
+  - rid: 8703869338093617152
+  - rid: 8703869338093617153
+  - rid: 8703869338093617154
   references:
     version: 2
     RefIds:
-    - rid: 1497355089096737024
+    - rid: 8703869338093617152
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 1497355089096737025
+    - rid: 8703869338093617153
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
-        value: 6
-    - rid: 1497355089096737026
+        value: 5
+    - rid: 8703869338093617154
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
         value:
-        - {fileID: 866118227}
-        - {fileID: 73092628}
+        - {fileID: 1605107213}
+        - {fileID: 2000954063}
+        - {fileID: 1605107213}
         - {fileID: 1605107213}
 --- !u!114 &1225488985
 MonoBehaviour:
@@ -2567,33 +2566,31 @@ MonoBehaviour:
   enableVariables: 1
   behaviorTree: {fileID: 11400000, guid: ba37340c6f119405c9bbae38cbe10641, type: 2}
   variables:
-  - rid: 1497355089096737024
-  - rid: 1497355089096737025
-  - rid: 1497355089096737026
+  - rid: 8703869337366953984
+  - rid: 8703869337366953985
+  - rid: 8703869337366953986
   references:
     version: 2
     RefIds:
-    - rid: 1497355089096737024
+    - rid: 8703869337366953984
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 1497355089096737025
+    - rid: 8703869337366953985
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
-        value: 6
-    - rid: 1497355089096737026
+        value: 5
+    - rid: 8703869337366953986
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
         value:
         - {fileID: 2000954063}
-        - {fileID: 73092628}
-        - {fileID: 1605107213}
 --- !u!114 &2104148793
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -78,21 +78,18 @@ public class BehaviorTreeRunnerEditor : Editor
 
         if (isFolded)
         {
-            if (_variablesProperty != null)
+            if (treeRunner.GetType().GetField("variables", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(treeRunner) is not List<SharedVariableBase> variables || variables.Count == 0)
             {
-                if (_variablesProperty.arraySize <= 0)
-                {
-                    EditorGUI.indentLevel++;
-                    EditorGUILayout.LabelField("There are no variables");
-                    EditorGUI.indentLevel--;
-                    return;
-                }
+                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("There are no variables");
+                EditorGUI.indentLevel--;
+                return;
+            }
 
-                for (var i = 0; i < _variablesProperty.arraySize; i++)
-                {
-                    var variableProperty = _variablesProperty.GetArrayElementAtIndex(i);
-                    DrawSharedVariableField(variableProperty);
-                }
+            for (var i = 0; i < _variablesProperty.arraySize; i++)
+            {
+                var variableProperty = _variablesProperty.GetArrayElementAtIndex(i);
+                DrawSharedVariableField(variableProperty);
             }
         }
     }
@@ -100,40 +97,26 @@ public class BehaviorTreeRunnerEditor : Editor
     private void DrawSharedVariableField(SerializedProperty variableProperty)
     {
         var variableName = variableProperty.FindPropertyRelative("variableName").stringValue;
-        var variableType = (SharedVariableType)variableProperty.FindPropertyRelative("variableType").enumValueIndex;
-        var valueProperty = variableProperty.FindPropertyRelative("value");
-        var propertyPath = variableProperty.propertyPath;
 
-        if (TreeUtility.IsCollectionVariable(variableType))
+        // Draw specific properties manually
+        var valueProperty = variableProperty.FindPropertyRelative("value");
+
+        bool isArrayOrList = valueProperty.isArray;
+
+        if (isArrayOrList)
         {
             EditorGUI.indentLevel++;
-            DrawCollectionVariable(variableType, variableName, valueProperty, propertyPath);
-            EditorGUI.indentLevel--;
         }
-        else
+
+        // Render each property except for "variableName" and "variableType"
+        EditorGUILayout.PropertyField(valueProperty, new GUIContent(variableName), true);
+
+        if (isArrayOrList)
         {
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(variableName, GUILayout.Width(110));
-            TreeUtility.DrawSharedVariableValue(variableType, valueProperty);
-            EditorGUILayout.EndHorizontal();
+            EditorGUI.indentLevel--;
         }
 
         TreeUtility.DrawHorizontalLine(Color.gray);
     }
 
-    private void DrawCollectionVariable(SharedVariableType variableType, string variableName,
-        SerializedProperty valueProperty, string propertyPath)
-    {
-        _foldoutStates.TryAdd(propertyPath, true);
-
-        var isFolded = EditorGUILayout.Foldout(_foldoutStates[propertyPath], variableName, true);
-        _foldoutStates[propertyPath] = isFolded;
-
-        if (isFolded)
-        {
-            EditorGUI.indentLevel++;
-            TreeUtility.DrawCollectionField(variableType, valueProperty);
-            EditorGUI.indentLevel--;
-        }
-    }
 }

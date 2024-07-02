@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using BehaviorTreeTool.Scripts.Runtime;
@@ -73,12 +72,12 @@ namespace BehaviorTreeTool.Editor
         private void DisplayTreeName()
         {
             var style = new GUIStyle(GUI.skin.label) { fontSize = 15, fontStyle = FontStyle.Bold };
-            var node = (Node)target;
-            var treeName = node.name;
-            var nodeType = TreeUtility.GetNodeTypeName(node.GetType());
+            // var node = (Node)target;
+            // var treeName = node.name;
+            // var nodeType = TreeUtility.GetNodeTypeName(node.GetType());
 
             EditorGUILayout.LabelField($"Behavior Tree : {BehaviorTreeEditor.treeName}", style);
-            EditorGUILayout.LabelField($"Node : {treeName} - {nodeType}", style);
+            // EditorGUILayout.LabelField($"Node : {treeName} - {nodeType}", style);
         }
 
         private void DisplayTabs()

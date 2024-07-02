@@ -29,7 +29,7 @@ public class BehaviorTreeRunner : MonoBehaviour
     [Tooltip("Enable if reference type variables need assignment before play.")]
     [SerializeField] private bool enableVariables;
     [SerializeField] protected BehaviorTree behaviorTree;
-    [SerializeReference] private List<SharedVariableBase> variables;
+    [SerializeReference] private List<SharedVariableBase> variables = new List<SharedVariableBase>();
 
     private void OnEnable()
     {
@@ -62,7 +62,7 @@ public class BehaviorTreeRunner : MonoBehaviour
     {
         if (!enableVariables)
         {
-            variables = null;
+            variables.Clear();
             return;
         }
 
@@ -74,8 +74,6 @@ public class BehaviorTreeRunner : MonoBehaviour
         }
 
         // Ensure the variables list is initialized.
-        variables ??= new List<SharedVariableBase>();
-
         variables.Clear();
         foreach (var variable in behaviorTree.RootNode.SharedData.Variables)
         {

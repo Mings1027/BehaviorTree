@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a055ff4bd9e6642b3f0dff32a86e1d, type: 3}
   m_Name: RandomPosition
   m_EditorClassIdentifier: 
-  position: {x: 599, y: 531}
+  position: {x: 606, y: 531}
   guid: 908e69ffd71c64276bfafceddf27415e
   description: 
   drawGizmos: 0
@@ -30,7 +30,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4295113ac5cd434e9f4bdcef7570a975, type: 3}
   m_Name: Attack
   m_EditorClassIdentifier: 
-  position: {x: -256, y: 531}
+  position: {x: -236, y: 531}
   guid: 16c41152fc8ba4362aea1ee6ae61937a
   description: 
   drawGizmos: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
   m_Name: Sequencer
   m_EditorClassIdentifier: 
-  position: {x: -481, y: 398}
+  position: {x: -536, y: 398}
   guid: 852441ebb9e84491c866611d61fc92a3
   description: 
   drawGizmos: 0
@@ -61,6 +61,7 @@ MonoBehaviour:
   - {fileID: -746907064955197298}
   - {fileID: 5555585249849855701}
   - {fileID: 2634533925985065075}
+  - {fileID: 160263996817822689}
   - {fileID: -7147479973926752697}
 --- !u!114 &-1297891019553937624
 MonoBehaviour:
@@ -74,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
-  position: {x: 449, y: 531}
+  position: {x: 456, y: 531}
   guid: 56abb879a191742a3a3f2291f9b6299e
   description: 
   drawGizmos: 0
@@ -114,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
   m_Name: ReadyToAttack
   m_EditorClassIdentifier: 
-  position: {x: -706, y: 531}
+  position: {x: -836, y: 531}
   guid: 1533ad9a3a3f84acfae680686ee8d4dd
   description: 
   drawGizmos: 0
@@ -154,6 +155,29 @@ MonoBehaviour:
   - {fileID: 7631157844346400631}
   - {fileID: -7754854117793499602}
   - {fileID: -1297891019553937624}
+  - {fileID: 160263996817822689}
+--- !u!114 &160263996817822689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
+  m_Name: ReadyToAttack
+  m_EditorClassIdentifier: 
+  position: {x: -386, y: 531}
+  guid: 39cd9c49007414c29bf4f53fd8b52a3e
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 8714764893293249165}
+  target:
+    variableName: Target
+    variableType: 0
+    value: {fileID: 0}
+  attackRange: 1.5
 --- !u!114 &285006204517062418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
-  position: {x: -406, y: 531}
+  position: {x: -536, y: 531}
   guid: c0db0a94b7bc44e40a4b813836801182
   description: 
   drawGizmos: 0
@@ -249,7 +273,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75afc2c29ac8d4006a178de9f358287e, type: 3}
   m_Name: MoveToTarget
   m_EditorClassIdentifier: 
-  position: {x: 153, y: 678}
+  position: {x: 152, y: 673}
   guid: debb7b0ddc75449a69f13c2f458e8393
   description: 
   drawGizmos: 0
@@ -270,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79172bfe693b944a49fd85bcda5bff60, type: 3}
   m_Name: LookAtTarget
   m_EditorClassIdentifier: 
-  position: {x: -556, y: 531}
+  position: {x: -686, y: 531}
   guid: 529c2f0d8ffdf4dccb9bef79d492ac44
   description: 
   drawGizmos: 0
@@ -346,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
   m_Name: CheckDistance
   m_EditorClassIdentifier: 
-  position: {x: 303, y: 531}
+  position: {x: 310, y: 531}
   guid: 0a7c16acf1d8442febfa4d61038938d7
   description: 
   drawGizmos: 0
@@ -363,7 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
   m_Name: Sequencer
   m_EditorClassIdentifier: 
-  position: {x: 449, y: 398}
+  position: {x: 456, y: 398}
   guid: f6aa7f3732986490a812dda8052cf042
   description: 
   drawGizmos: 0

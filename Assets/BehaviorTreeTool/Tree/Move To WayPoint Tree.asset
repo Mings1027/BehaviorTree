@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae86425a93a540548571a5c18065053, type: 3}
   m_Name: MoveAround
   m_EditorClassIdentifier: 
-  position: {x: 225, y: 522}
+  position: {x: 150, y: 522}
   guid: b21c9c6cec72e4d7a8e5bbf27b7c1e43
   description: 
   drawGizmos: 1
@@ -203,6 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variables:
   - rid: 1497354976660291645
+  - rid: 8703869330448973859
   references:
     version: 2
     RefIds:
@@ -212,6 +213,12 @@ MonoBehaviour:
         variableName: Current Random Point
         variableType: 20
         value: {x: 0, y: 0, z: 0}
+    - rid: 8703869330448973859
+      type: {class: SharedColliderList, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: col list
+        variableType: 22
+        value: []
 --- !u!114 &7154324659010357740
 MonoBehaviour:
   m_ObjectHideFlags: 0
