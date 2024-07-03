@@ -69,6 +69,7 @@ public class BehaviorTree : ScriptableObject
     #region Use Only Editor
 
 #if UNITY_EDITOR
+
     public void SetRootNode(RootNode rootNode)
     {
         this.rootNode = rootNode;

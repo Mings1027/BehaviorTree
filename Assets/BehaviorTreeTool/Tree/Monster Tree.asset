@@ -37,7 +37,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   attackDamage: 10
 --- !u!114 &-4152613854434300565
@@ -122,7 +122,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   attackRange: 1.5
 --- !u!114 &11400000
@@ -175,7 +175,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   attackRange: 1.5
 --- !u!114 &285006204517062418
@@ -215,11 +215,11 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   checkRange:
     variableName: Check Range
-    variableType: 0
+    variableType: 9
     value: 0
   viewAngle: 50
 --- !u!114 &1708775004541805551
@@ -280,7 +280,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
 --- !u!114 &5555585249849855701
 MonoBehaviour:
@@ -301,7 +301,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   rotationSpeed: 5
   rotationThreshold: 10
@@ -324,11 +324,11 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   checkRange:
     variableName: Check Range
-    variableType: 0
+    variableType: 9
     value: 0
   targetLayer:
     serializedVersion: 2

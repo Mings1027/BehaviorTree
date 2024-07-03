@@ -145,9 +145,10 @@ namespace BehaviorTreeTool.Editor
 
         private void DrawVariable(SerializedProperty variableProperty, int index)
         {
-            var variableName = variableProperty.FindPropertyRelative("variableName").stringValue;
-            var valueProperty = variableProperty.FindPropertyRelative("value");
-            var propertyPath = variableProperty.propertyPath;
+            var variableNameProperty = variableProperty.FindPropertyRelative("variableName");
+            var variableTypeProperty = variableProperty.FindPropertyRelative("variableType");
+
+            var variableName = variableNameProperty.stringValue;
 
             var style = new GUIStyle(GUI.skin.box)
             {
@@ -165,19 +166,22 @@ namespace BehaviorTreeTool.Editor
             if (GUILayout.Button(new GUIContent(_upArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
             {
                 MoveVariable(index, index - 1);
+                return;
             }
 
             if (GUILayout.Button(new GUIContent(_downArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
             {
                 MoveVariable(index, index + 1);
+                return;
             }
 
             if (GUILayout.Button(new GUIContent(_removeTexture), GUILayout.Width(21), GUILayout.Height(21)))
             {
                 if (EditorUtility.DisplayDialog("Delete Variable",
-                        $"Are you sure you want to delete the variable '{variableName}'?", "Yes", "No"))
+                        $"Are you sure you want to delete the variable '{variableNameProperty}'?", "Yes", "No"))
                 {
                     RemoveVariable(index);
+                    return;
                 }
             }
 
@@ -193,7 +197,17 @@ namespace BehaviorTreeTool.Editor
 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Type", GUILayout.Width(70));
+                EditorGUI.BeginChangeCheck();
                 EditorGUILayout.PropertyField(variableProperty.FindPropertyRelative("variableType"), GUIContent.none);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    var newVariable = TreeUtility.CreateSharedVariable(variableNameProperty.stringValue, (SharedVariableType)variableTypeProperty.enumValueIndex);
+                    if (newVariable != null)
+                    {
+                        variableProperty.managedReferenceValue = newVariable;
+                        serializedObject.ApplyModifiedProperties();
+                    }
+                }
                 EditorGUILayout.EndHorizontal();
 
                 DrawSharedVariableField(variableProperty);

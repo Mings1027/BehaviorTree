@@ -19,7 +19,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   attackDamage: 50
 --- !u!114 &-4152613854434300565
@@ -64,7 +64,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   attackRange: 1.5
 --- !u!114 &-2165723073931961231
@@ -126,7 +126,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   attackRange: 1.5
 --- !u!114 &11400000
@@ -197,11 +197,11 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   checkRange:
     variableName: Check Range
-    variableType: 0
+    variableType: 9
     value: 0
   viewAngle: 50
 --- !u!114 &1708775004541805551
@@ -262,7 +262,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
 --- !u!114 &5555585249849855701
 MonoBehaviour:
@@ -283,7 +283,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   rotationSpeed: 5
   rotationThreshold: 10
@@ -306,11 +306,11 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   target:
     variableName: Target
-    variableType: 0
+    variableType: 3
     value: {fileID: 0}
   checkRange:
     variableName: Check Range
-    variableType: 0
+    variableType: 9
     value: 0
   targetLayer:
     serializedVersion: 2
@@ -376,7 +376,7 @@ MonoBehaviour:
   sharedData: {fileID: 8714764893293249165}
   wayPoints:
     variableName: Way Points
-    variableType: 0
+    variableType: 17
     value: []
 --- !u!114 &8023903718992939915
 MonoBehaviour:
@@ -414,7 +414,7 @@ MonoBehaviour:
   variables:
   - rid: 1497354971335623021
   - rid: 1497354971335623023
-  - rid: 1497354971335623039
+  - rid: 8703869356489310440
   references:
     version: 2
     RefIds:
@@ -430,11 +430,9 @@ MonoBehaviour:
         variableName: Check Range
         variableType: 9
         value: 5
-    - rid: 1497354971335623039
+    - rid: 8703869356489310440
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
-        value:
-        - {fileID: 0}
-        - {fileID: 0}
+        value: []

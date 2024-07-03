@@ -190,25 +190,25 @@ MonoBehaviour:
   enableVariables: 1
   behaviorTree: {fileID: 11400000, guid: ba37340c6f119405c9bbae38cbe10641, type: 2}
   variables:
-  - rid: 8703869340465496070
-  - rid: 8703869340465496071
-  - rid: 8703869340465496072
+  - rid: 8703869356489310441
+  - rid: 8703869356489310442
+  - rid: 8703869356489310443
   references:
     version: 2
     RefIds:
-    - rid: 8703869340465496070
+    - rid: 8703869356489310441
       type: {class: SharedCollider, ns: , asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 8703869340465496071
+    - rid: 8703869356489310442
       type: {class: SharedInt, ns: , asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
         value: 5
-    - rid: 8703869340465496072
+    - rid: 8703869356489310443
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: Way Points
@@ -903,7 +903,7 @@ MonoBehaviour:
       data:
         variableName: Check Range
         variableType: 9
-        value: 5
+        value: 7
     - rid: 8703869337409159170
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
@@ -1534,7 +1534,7 @@ MonoBehaviour:
         value:
         - {fileID: 866118227}
         - {fileID: 73092628}
-        - {fileID: 73092628}
+        - {fileID: 690580547}
 --- !u!114 &1048091396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1795,17 +1795,17 @@ MonoBehaviour:
       data:
         variableName: Check Range
         variableType: 9
-        value: 5
+        value: 4
     - rid: 8703869338093617154
       type: {class: SharedTransformArray, ns: , asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
         value:
-        - {fileID: 1605107213}
+        - {fileID: 690580547}
         - {fileID: 2000954063}
-        - {fileID: 1605107213}
-        - {fileID: 1605107213}
+        - {fileID: 866118227}
+        - {fileID: 73092628}
 --- !u!114 &1225488985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2591,6 +2591,7 @@ MonoBehaviour:
         variableType: 17
         value:
         - {fileID: 2000954063}
+        - {fileID: 1605107213}
 --- !u!114 &2104148793
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -88,6 +88,10 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             {
                 return EditorGUILayout.DoubleField(label, (double)value);
             }
+            else if (fieldType == typeof(long))
+            {
+                return EditorGUILayout.LongField(label, (long)value);
+            }
             else if (fieldType == typeof(string))
             {
                 return EditorGUILayout.TextField(label, (string)value);
@@ -112,9 +116,17 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             {
                 return EditorGUILayout.Vector2Field(label, (Vector2)value);
             }
+            else if (fieldType == typeof(Vector2Int))
+            {
+                return EditorGUILayout.Vector2IntField(label, (Vector2Int)value);
+            }
             else if (fieldType == typeof(Vector3))
             {
                 return EditorGUILayout.Vector3Field(label, (Vector3)value);
+            }
+            else if (fieldType == typeof(Vector3Int))
+            {
+                return EditorGUILayout.Vector3IntField(label, (Vector3Int)value);
             }
             else if (fieldType == typeof(Vector4))
             {
@@ -124,13 +136,13 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             {
                 return Quaternion.Euler(EditorGUILayout.Vector3Field(label, ((Quaternion)value).eulerAngles));
             }
-            else if (fieldType.IsEnum)
-            {
-                return EditorGUILayout.EnumPopup(label, (Enum)value);
-            }
             else if (fieldType == typeof(LayerMask))
             {
                 return EditorGUILayout.LayerField(label, (LayerMask)value);
+            }
+            else if (fieldType.IsEnum)
+            {
+                return EditorGUILayout.EnumPopup(label, (Enum)value);
             }
             else if (typeof(UnityEngine.Object).IsAssignableFrom(fieldType))
             {
@@ -168,10 +180,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                 EditorGUI.indentLevel++;
 
                 // Initialize array if it's null
-                if (array == null)
-                {
-                    array = Array.CreateInstance(elementType, 0);
-                }
+                array ??= Array.CreateInstance(elementType, 0);
 
                 int newSize = Mathf.Max(0, EditorGUILayout.IntField("Size", array.Length));
                 if (newSize != array.Length)
@@ -214,10 +223,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             {
                 EditorGUI.indentLevel++;
 
-                if (list == null)
-                {
-                    list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(elementType));
-                }
+                list ??= (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(elementType));
 
                 int newSize = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
                 if (newSize != list.Count)

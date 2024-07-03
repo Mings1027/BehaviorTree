@@ -58,7 +58,7 @@ MonoBehaviour:
   sharedData: {fileID: 1526416177838379864}
   curRandomPoint:
     variableName: Current Random Point
-    variableType: 0
+    variableType: 20
     value: {x: 0, y: 0, z: 0}
   remainingDistance: 1
 --- !u!114 &-1833793833689021405
@@ -101,7 +101,7 @@ MonoBehaviour:
   sharedData: {fileID: 1526416177838379864}
   curRandomPoint:
     variableName: Current Random Point
-    variableType: 0
+    variableType: 20
     value: {x: 0, y: 0, z: 0}
   center: {x: 0, y: 0, z: 0}
   radius: 14
@@ -184,7 +184,7 @@ MonoBehaviour:
   sharedData: {fileID: 1526416177838379864}
   curRandomPoint:
     variableName: Current Random Point
-    variableType: 0
+    variableType: 20
     value: {x: 0, y: 0, z: 0}
   moveSpeed: 5
   rotationSpeed: 5
@@ -203,7 +203,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   variables:
   - rid: 1497354976660291645
-  - rid: 8703869330448973859
   references:
     version: 2
     RefIds:
@@ -213,12 +212,6 @@ MonoBehaviour:
         variableName: Current Random Point
         variableType: 20
         value: {x: 0, y: 0, z: 0}
-    - rid: 8703869330448973859
-      type: {class: SharedColliderList, ns: , asm: Assembly-CSharp}
-      data:
-        variableName: col list
-        variableType: 22
-        value: []
 --- !u!114 &7154324659010357740
 MonoBehaviour:
   m_ObjectHideFlags: 0

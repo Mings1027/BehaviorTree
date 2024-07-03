@@ -19,6 +19,7 @@ namespace BehaviorTreeTool.Editor
         private Vector2 _noneSharedVarsScrollPos;
 
         private SerializedProperty _sharedDataProperty;
+        private SerializedProperty _sharedVariableListProperty;
         private UnityEditor.Editor _sharedDataEditor;
 
         private Texture2D _downArrowTexture;
@@ -58,6 +59,7 @@ namespace BehaviorTreeTool.Editor
         private void InitializeProperties()
         {
             _sharedDataProperty = serializedObject.FindProperty("sharedData");
+            _sharedVariableListProperty = serializedObject.FindProperty("sharedVariableList");
 
             if (_sharedDataProperty == null)
             {
@@ -215,14 +217,14 @@ namespace BehaviorTreeTool.Editor
 
         private void DrawSharedVariableFields(Node node)
         {
-            var sharedVariables = node.GetType()
+            var fields = node.GetType()
                 .GetFields(BindingFlags.Public | BindingFlags.Instance)
                 .Where(field => typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
                 .Select(field =>
                     new KeyValuePair<string, SharedVariableBase>(field.Name, (SharedVariableBase)field.GetValue(node)))
                 .ToList();
 
-            if (sharedVariables.Count <= 0)
+            if (fields.Count <= 0)
             {
                 var style = new GUIStyle(EditorStyles.boldLabel) { fontSize = 15 };
                 EditorGUILayout.LabelField("This node has no Shared Variables", style);
@@ -232,9 +234,9 @@ namespace BehaviorTreeTool.Editor
             var boldLabelStyle = new GUIStyle(EditorStyles.boldLabel) { fontSize = 15 };
             EditorGUILayout.LabelField("Shared Variables", boldLabelStyle);
 
-            for (int i = 0; i < sharedVariables.Count; i++)
+            for (int i = 0; i < fields.Count; i++)
             {
-                DrawSharedVariableField(node, sharedVariables[i]);
+                DrawSharedVariableField(node, fields[i]);
             }
         }
 
@@ -320,11 +322,13 @@ namespace BehaviorTreeTool.Editor
                     if (variables[i].VariableName == selectedVariableName)
                     {
                         variable.VariableName = variables[i].VariableName;
+                        variable.VariableType = variables[i].VariableType;
                         break;
                     }
                 }
             }
         }
+
 
         private void DrawNodeVariables(Node node)
         {
