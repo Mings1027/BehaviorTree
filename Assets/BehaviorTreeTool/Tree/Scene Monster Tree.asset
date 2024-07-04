@@ -375,7 +375,7 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
   wayPoints:
-    variableName: Way Points
+    variableName: 
     variableType: 17
     value: []
 --- !u!114 &8023903718992939915

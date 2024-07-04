@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using BehaviorTreeTool.Scripts.Runtime;
 using UnityEditor;
 using UnityEngine;

@@ -26,10 +26,10 @@ namespace BehaviorTreeTool.Scripts.Conditions
         public SharedVector3 sharedVector3;
         public SharedVector3Int sharedVector3Int;
 
-        protected override void OnStart()
+        protected override TaskState OnUpdate()
         {
-            Debug.Log(sharedCollider);
-            Debug.Log(sharedAnimator);
+            nodeTransform.rotation = sharedQuaternion.Value;
+            return TaskState.Success;
         }
     }
 }

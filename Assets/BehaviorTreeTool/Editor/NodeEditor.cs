@@ -16,10 +16,8 @@ namespace BehaviorTreeTool.Editor
         private readonly string[] _tabTitles = { "Tasks", "Variables", "Inspector" };
         private Vector2 _taskScrollPos;
         private Vector2 _inspectorScrollPos;
-        private Vector2 _noneSharedVarsScrollPos;
 
         private SerializedProperty _sharedDataProperty;
-        private SerializedProperty _sharedVariableListProperty;
         private UnityEditor.Editor _sharedDataEditor;
 
         private Texture2D _downArrowTexture;
@@ -59,7 +57,6 @@ namespace BehaviorTreeTool.Editor
         private void InitializeProperties()
         {
             _sharedDataProperty = serializedObject.FindProperty("sharedData");
-            _sharedVariableListProperty = serializedObject.FindProperty("sharedVariableList");
 
             if (_sharedDataProperty == null)
             {
@@ -363,7 +360,6 @@ namespace BehaviorTreeTool.Editor
 
         #endregion
 
-
         private void CheckUnassignVariableName()
         {
             var tree = BehaviorTreeEditor.tree;
@@ -426,9 +422,6 @@ namespace BehaviorTreeTool.Editor
                 GUILayout.Label("Variable Name", headerStyle, GUILayout.ExpandWidth(true));
                 EditorGUILayout.EndHorizontal();
 
-                _noneSharedVarsScrollPos =
-                    EditorGUILayout.BeginScrollView(_noneSharedVarsScrollPos, GUILayout.Height(200));
-
                 for (int i = 0; i < noneSharedVariables.Count; i++)
                 {
                     string noneSharedVariable = noneSharedVariables[i];
@@ -441,10 +434,7 @@ namespace BehaviorTreeTool.Editor
                     GUILayout.Label(variableName, variableNameStyle, GUILayout.ExpandWidth(true));
                     EditorGUILayout.EndHorizontal();
                 }
-
-                EditorGUILayout.EndScrollView();
             }
         }
-
     }
 }

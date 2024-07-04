@@ -97,8 +97,6 @@ public class BehaviorTreeRunnerEditor : Editor
     private void DrawSharedVariableField(SerializedProperty variableProperty)
     {
         var variableName = variableProperty.FindPropertyRelative("variableName").stringValue;
-
-        // Draw specific properties manually
         var valueProperty = variableProperty.FindPropertyRelative("value");
 
         bool isArrayOrList = valueProperty.isArray;
@@ -108,8 +106,7 @@ public class BehaviorTreeRunnerEditor : Editor
             EditorGUI.indentLevel++;
         }
 
-        // Render each property except for "variableName" and "variableType"
-        EditorGUILayout.PropertyField(valueProperty, new GUIContent(variableName), true);
+        TreeUtility.DrawSharedVariableValueField((SharedVariableBase)variableProperty.managedReferenceValue, variableName);
 
         if (isArrayOrList)
         {

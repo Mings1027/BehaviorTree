@@ -9,8 +9,8 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
 {
     public static class TreeUtility
     {
-        private static readonly Dictionary<string, bool> ArrayFoldouts = new();
-        private static readonly Dictionary<string, bool> ListFoldouts = new();
+        private static readonly Dictionary<string, bool> arrayFoldouts = new();
+        private static readonly Dictionary<string, bool> listFoldouts = new();
 
         private static readonly Dictionary<SharedVariableType, Type> VariableTypeMap = new();
         private static readonly Dictionary<Type, SharedVariableType> TypeToEnumMap = new();
@@ -29,8 +29,9 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                 .Where(t => t.IsSubclassOf(baseType) && !t.IsAbstract)
                 .ToList();
 
-            foreach (var type in sharedVariableTypes)
+            for (int i = 0; i < sharedVariableTypes.Count; i++)
             {
+                Type type = sharedVariableTypes[i];
                 var enumName = type.Name.Replace("Shared", "");
                 if (Enum.TryParse(enumName, out SharedVariableType variableType))
                 {
@@ -63,9 +64,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             {
                 var value = valueProperty.GetValue(variable);
                 var fieldType = valueProperty.PropertyType;
-
                 value = DrawFieldForType(fieldType, value, valueLabel);
-
                 valueProperty.SetValue(variable, value);
             }
         }
@@ -138,7 +137,9 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             }
             else if (fieldType == typeof(LayerMask))
             {
-                return EditorGUILayout.LayerField(label, (LayerMask)value);
+                var layerIndex = LayerMaskToLayer((LayerMask)value);
+                var newLayerIndex = EditorGUILayout.LayerField(label, layerIndex);
+                return LayerToLayerMask(newLayerIndex);
             }
             else if (fieldType.IsEnum)
             {
@@ -167,19 +168,18 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
 
             if (!string.IsNullOrEmpty(label))
             {
-                ArrayFoldouts.TryAdd(label, false);
+                arrayFoldouts.TryAdd(label, false);
 
-                ArrayFoldouts[label] = EditorGUILayout.Foldout(ArrayFoldouts[label], $"{label}", true);
+                arrayFoldouts[label] = EditorGUILayout.Foldout(arrayFoldouts[label], $"{label}", true);
             }
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(1);
 
-            if (ArrayFoldouts.ContainsKey(label) && ArrayFoldouts[label])
+            if (arrayFoldouts.ContainsKey(label) && arrayFoldouts[label])
             {
                 EditorGUI.indentLevel++;
 
-                // Initialize array if it's null
                 array ??= Array.CreateInstance(elementType, 0);
 
                 int newSize = Mathf.Max(0, EditorGUILayout.IntField("Size", array.Length));
@@ -207,19 +207,19 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
 
         public static IList DrawListField(IList list, string label, Type elementType)
         {
+            EditorGUILayout.BeginHorizontal();
+
             if (!string.IsNullOrEmpty(label))
             {
-                ListFoldouts.TryAdd(label, false);
+                listFoldouts.TryAdd(label, false);
 
-                EditorGUILayout.BeginHorizontal();
-
-                ListFoldouts[label] = EditorGUILayout.Foldout(ListFoldouts[label], $"{label}", true);
+                listFoldouts[label] = EditorGUILayout.Foldout(listFoldouts[label], $"{label}", true);
             }
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(1);
 
-            if (ListFoldouts.ContainsKey(label) && ListFoldouts[label])
+            if (listFoldouts.ContainsKey(label) && listFoldouts[label])
             {
                 EditorGUI.indentLevel++;
 
@@ -231,14 +231,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                     var newList = (IList)Activator.CreateInstance(list.GetType());
                     for (int i = 0; i < newSize; i++)
                     {
-                        if (i < list.Count)
-                        {
-                            newList.Add(list[i]);
-                        }
-                        else
-                        {
-                            newList.Add(Activator.CreateInstance(elementType));
-                        }
+                        newList.Add(i < list.Count ? list[i] : null);
                     }
                     list = newList;
                 }
@@ -281,6 +274,24 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
         public static Texture2D LoadTexture(string path)
         {
             return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+        }
+
+        private static int LayerMaskToLayer(LayerMask layerMask)
+        {
+            int mask = layerMask.value;
+            for (int i = 0; i < 32; i++)
+            {
+                if ((mask & (1 << i)) != 0)
+                {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+        private static LayerMask LayerToLayerMask(int layerIndex)
+        {
+            return (LayerMask)(1 << layerIndex);
         }
     }
 }

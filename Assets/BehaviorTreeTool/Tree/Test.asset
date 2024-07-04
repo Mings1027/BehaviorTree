@@ -1,0 +1,251 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7894295184539587639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460be9e34c566ea45b9e282b1adcb028, type: 3}
+  m_Name: Selector
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 230}
+  guid: 14b5c263661b840759085f753d2c5b47
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 7009929555942676461}
+  children:
+  - {fileID: 6850965435643193306}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322e544b03434eb58aef050d006d06b5, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  rootNode: {fileID: 7379765552725279255}
+  nodes:
+  - {fileID: 7379765552725279255}
+  - {fileID: 1593040948689173168}
+  - {fileID: -7894295184539587639}
+  - {fileID: 6850965435643193306}
+  - {fileID: 8620532554584102270}
+--- !u!114 &1593040948689173168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
+  m_Name: Repeat
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 118}
+  guid: 3d2b1bec25d3b4e44b989540947a3f2f
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 7009929555942676461}
+  child: {fileID: -7894295184539587639}
+  repeatForever: 1
+  repeatCount: 0
+--- !u!114 &6850965435643193306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 349}
+  guid: a4f4ed48de400469eaa8f7b42a2e09dd
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 7009929555942676461}
+  children:
+  - {fileID: 8620532554584102270}
+--- !u!114 &7009929555942676461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6d47f862fa46deadff805a0a827f66, type: 3}
+  m_Name: SharedData
+  m_EditorClassIdentifier: 
+  variables:
+  - rid: 8703869376246317070
+  - rid: 8703869376246317071
+  - rid: 8703869376246317072
+  - rid: 8703869376246317085
+  references:
+    version: 2
+    RefIds:
+    - rid: 8703869376246317070
+      type: {class: SharedGameObjectList, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: MoveList
+        variableType: 8
+        value: []
+    - rid: 8703869376246317071
+      type: {class: SharedColliderList, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: ColList
+        variableType: 22
+        value: []
+    - rid: 8703869376246317072
+      type: {class: SharedTransformList, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: WayPoints
+        variableType: 24
+        value: []
+    - rid: 8703869376246317085
+      type: {class: SharedLayerMask, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Layer
+        variableType: 10
+        value:
+          serializedVersion: 2
+          m_Bits: 0
+--- !u!114 &7379765552725279255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9642f0013642aaa2348d6d396dff9b, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
+  guid: b94800bfeb2f845c592af243b4e6f10e
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 7009929555942676461}
+  child: {fileID: 1593040948689173168}
+--- !u!114 &8620532554584102270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e524836be609940bd9033a53e93f5c3c, type: 3}
+  m_Name: TestCondition
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 501}
+  guid: b3ce7f791e86741bbb05ee21cc0ece77
+  description: 
+  drawGizmos: 0
+  sharedData: {fileID: 7009929555942676461}
+  sharedCollider:
+    variableName: 
+    variableType: 0
+    value: {fileID: 0}
+  sharedAnimator:
+    variableName: 
+    variableType: 0
+    value: {fileID: 0}
+  sharedBool:
+    variableName: 
+    variableType: 0
+    value: 0
+  sharedColliderArray:
+    variableName: 
+    variableType: 0
+    value: []
+  sharedColor:
+    variableName: 
+    variableType: 0
+    value: {r: 0.745283, g: 0.19335175, b: 0.19335175, a: 0.4627451}
+  sharedFloat:
+    variableName: 
+    variableType: 0
+    value: 0.46
+  sharedGameObject:
+    variableName: 
+    variableType: 0
+    value: {fileID: 0}
+  sharedGameObjectList:
+    variableName: 
+    variableType: 0
+    value: []
+  sharedInt:
+    variableName: 
+    variableType: 0
+    value: 18
+  sharedLayerMask:
+    variableName: 
+    variableType: 0
+    value:
+      serializedVersion: 2
+      m_Bits: 8
+  sharedMaterial:
+    variableName: 
+    variableType: 0
+    value: {fileID: 0}
+  sharedNavMeshAgent:
+    variableName: 
+    variableType: 0
+    value: {fileID: 0}
+  sharedQuaternion:
+    variableName: 
+    variableType: 0
+    value: {x: 0.065838575, y: 0, z: 0, w: 0.9978303}
+  sharedRect:
+    variableName: 
+    variableType: 0
+    value:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+  sharedString:
+    variableName: 
+    variableType: 0
+    value: 
+  sharedTransform:
+    variableName: 
+    variableType: 0
+    value: {fileID: 0}
+  sharedTransformArray:
+    variableName: 
+    variableType: 0
+    value: []
+  sharedVector2:
+    variableName: 
+    variableType: 0
+    value: {x: 0, y: 3.92}
+  sharedVector2Int:
+    variableName: 
+    variableType: 0
+    value: {x: 35, y: 15}
+  sharedVector3:
+    variableName: 
+    variableType: 0
+    value: {x: 0, y: 20, z: 0}
+  sharedVector3Int:
+    variableName: 
+    variableType: 0
+    value: {x: 0, y: 50, z: 0}

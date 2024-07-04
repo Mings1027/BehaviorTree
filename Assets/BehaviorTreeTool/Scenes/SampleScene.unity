@@ -214,8 +214,8 @@ MonoBehaviour:
         variableName: Way Points
         variableType: 17
         value:
-        - {fileID: 0}
-        - {fileID: 0}
+        - {fileID: 73092628}
+        - {fileID: 1605107213}
 --- !u!114 &294671113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2715,6 +2715,86 @@ Transform:
   - {fileID: 334494770}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2107691184
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2107691186}
+  - component: {fileID: 2107691185}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2107691185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107691184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 042d4035eb314f46b406b57d9ed16a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enableVariables: 1
+  behaviorTree: {fileID: 11400000, guid: 0990437ba6d874608853b1a85bf8be1b, type: 2}
+  variables:
+  - rid: 8703869376246317099
+  - rid: 8703869376246317100
+  - rid: 8703869376246317101
+  - rid: 8703869376246317102
+  references:
+    version: 2
+    RefIds:
+    - rid: 8703869376246317099
+      type: {class: SharedGameObjectList, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: MoveList
+        variableType: 8
+        value: []
+    - rid: 8703869376246317100
+      type: {class: SharedColliderList, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: ColList
+        variableType: 22
+        value: []
+    - rid: 8703869376246317101
+      type: {class: SharedTransformList, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: WayPoints
+        variableType: 24
+        value: []
+    - rid: 8703869376246317102
+      type: {class: SharedLayerMask, ns: , asm: Assembly-CSharp}
+      data:
+        variableName: Layer
+        variableType: 10
+        value:
+          serializedVersion: 2
+          m_Bits: 1
+--- !u!4 &2107691186
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107691184}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2733,3 +2813,4 @@ SceneRoots:
   - {fileID: 1048091401}
   - {fileID: 294671118}
   - {fileID: 667737250}
+  - {fileID: 2107691186}

@@ -17,7 +17,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList: []
   range: 10
 --- !u!114 &-7147479973926752697
 MonoBehaviour:
@@ -36,9 +35,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList:
-  - variableName: Target
-    variableType: 3
   target:
     variableName: Target
     variableType: 3
@@ -61,7 +57,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList: []
   duration: 1
   remaining: 0
 --- !u!114 &-4152613854434300565
@@ -81,7 +76,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList: []
   children:
   - {fileID: -746907064955197298}
   - {fileID: 5555585249849855701}
@@ -105,7 +99,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList: []
   children:
   - {fileID: 5699879156037257768}
   - {fileID: 727361769783138484}
@@ -127,9 +120,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList:
-  - variableName: Target
-    variableType: 3
   target:
     variableName: Target
     variableType: 3
@@ -183,7 +173,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList: []
   child: {fileID: 1708775004541805551}
 --- !u!114 &727361769783138484
 MonoBehaviour:
@@ -202,11 +191,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList:
-  - variableName: Target
-    variableType: 3
-  - variableName: Check Range
-    variableType: 9
   target:
     variableName: Target
     variableType: 3
@@ -233,7 +217,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList: []
   child: {fileID: 6168506738919490296}
   repeatForever: 1
   repeatCount: 0
@@ -254,7 +237,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList: []
   duration: 1
   remaining: 0
 --- !u!114 &3243810773847590620
@@ -274,9 +256,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList:
-  - variableName: Target
-    variableType: 3
   target:
     variableName: Target
     variableType: 3
@@ -298,9 +277,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList:
-  - variableName: Target
-    variableType: 3
   target:
     variableName: Target
     variableType: 3
@@ -323,9 +299,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList:
-  - variableName: Target
-    variableType: 3
   target:
     variableName: Target
     variableType: 3
@@ -349,11 +322,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList:
-  - variableName: Target
-    variableType: 3
-  - variableName: Check Range
-    variableType: 9
   target:
     variableName: Target
     variableType: 3
@@ -386,7 +354,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList: []
   children:
   - {fileID: -4152613854434300565}
   - {fileID: -795626960353004429}
@@ -408,7 +375,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList: []
 --- !u!114 &8023903718992939915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -426,7 +392,6 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
-  sharedVariableList: []
   children:
   - {fileID: 7631157844346400631}
   - {fileID: -6752181970628247603}
