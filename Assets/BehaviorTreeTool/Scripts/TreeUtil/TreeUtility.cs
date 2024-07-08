@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using BehaviorTreeTool.Scripts.Runtime;
 using UnityEditor;
 using UnityEngine;
 
@@ -292,6 +293,16 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
         private static LayerMask LayerToLayerMask(int layerIndex)
         {
             return (LayerMask)(1 << layerIndex);
+        }
+
+        public static string GetNodeTypeName(Node node)
+        {
+            if (node is ActionNode) return "ActionNode";
+            if (node is DecoratorNode) return "DecoratorNode";
+            if (node is CompositeNode) return "CompositeNode";
+            if (node is ConditionNode) return "ConditionNode";
+            if (node is RootNode) return "RootNode";
+            return "Unknown";
         }
     }
 }

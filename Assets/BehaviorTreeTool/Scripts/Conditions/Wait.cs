@@ -1,5 +1,4 @@
 using BehaviorTreeTool.Scripts.Runtime;
-using UnityEditor;
 using UnityEngine;
 
 namespace BehaviorTreeTool.Scripts.Conditions
@@ -27,15 +26,5 @@ namespace BehaviorTreeTool.Scripts.Conditions
             }
             return TaskState.Running;
         }
-
-#if UNITY_EDITOR
-        public override void OnDrawGizmos()
-        {
-            if (Application.isPlaying)
-            {
-                Handles.Label(nodeTransform.position, $"Remaining : {remaining:F2} sec");
-            }
-        }
-#endif
     }
 }

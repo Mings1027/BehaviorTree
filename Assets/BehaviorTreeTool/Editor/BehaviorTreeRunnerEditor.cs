@@ -10,6 +10,7 @@ public class BehaviorTreeRunnerEditor : Editor
     private SerializedProperty _enableVariablesProperty;
     private SerializedProperty _behaviorTreeProperty;
     private SerializedProperty _variablesProperty;
+    private SerializedProperty _drawGizmosProperty;
 
     private readonly Dictionary<string, bool> _foldoutStates = new();
 
@@ -18,6 +19,7 @@ public class BehaviorTreeRunnerEditor : Editor
         _enableVariablesProperty = serializedObject.FindProperty("enableVariables");
         _behaviorTreeProperty = serializedObject.FindProperty("behaviorTree");
         _variablesProperty = serializedObject.FindProperty("variables");
+        _drawGizmosProperty = serializedObject.FindProperty("drawGizmos");
     }
 
     public override void OnInspectorGUI()
@@ -26,10 +28,22 @@ public class BehaviorTreeRunnerEditor : Editor
 
         var treeRunner = (BehaviorTreeRunner)target;
 
+        DrawGizmosField(treeRunner);
         DrawBehaviorTreeField(treeRunner);
         DrawEnableVariablesField(treeRunner);
 
         serializedObject.ApplyModifiedProperties();
+    }
+
+    private void DrawGizmosField(BehaviorTreeRunner treeRunner)
+    {
+        EditorGUI.BeginChangeCheck();
+        EditorGUILayout.PropertyField(_drawGizmosProperty, new GUIContent("Draw Gizmos"));
+        if (EditorGUI.EndChangeCheck())
+        {
+            serializedObject.ApplyModifiedProperties();
+            treeRunner.DrawGizmos = _drawGizmosProperty.boolValue;
+        }
     }
 
     private void DrawBehaviorTreeField(BehaviorTreeRunner treeRunner)

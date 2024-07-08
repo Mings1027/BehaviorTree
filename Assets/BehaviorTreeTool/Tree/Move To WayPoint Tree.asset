@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
   m_Name: Sequencer
   m_EditorClassIdentifier: 
-  position: {x: 150, y: 393}
+  position: {x: 210.56, y: 308}
   guid: 100087169e6364a14b52eb864b1832f6
   description: 
   drawGizmos: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 460be9e34c566ea45b9e282b1adcb028, type: 3}
   m_Name: Selector
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 262}
+  position: {x: 0, y: 126}
   guid: 6498d772fd5ee46e1b22f9f1e9082842
   description: 
   drawGizmos: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7356c352c8d5047a7ba4198ff2832b25, type: 3}
   m_Name: DistanceToRandomPoint
   m_EditorClassIdentifier: 
-  position: {x: -388, y: 522}
+  position: {x: -462, y: 446}
   guid: ac16e9b6b8d0d445caa5bbfca82ae71e
   description: 
   drawGizmos: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
   m_Name: Sequencer
   m_EditorClassIdentifier: 
-  position: {x: -208, y: 393}
+  position: {x: -282, y: 307.5}
   guid: 3a4c19dfa138e486fad5af3fb7c43f17
   description: 
   drawGizmos: 0
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3115d8981699046e0997dd25d7b70a16, type: 3}
   m_Name: SetRandompoint
   m_EditorClassIdentifier: 
-  position: {x: -58, y: 522}
+  position: {x: -132, y: 446}
   guid: 70ccea20ee15f486188c720918dad1d2
   description: 
   drawGizmos: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
-  position: {x: -208, y: 522}
+  position: {x: -282, y: 445.5}
   guid: 483742ae68d6d4bc7afd5573b77cbb3e
   description: 
   drawGizmos: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a9642f0013642aaa2348d6d396dff9b, type: 3}
   m_Name: RootNode
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 0}
+  position: {x: 0, y: -120}
   guid: 8b4db3b344b27474389c4f795af2d57b
   description: 
   drawGizmos: 0
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae86425a93a540548571a5c18065053, type: 3}
   m_Name: MoveAround
   m_EditorClassIdentifier: 
-  position: {x: 150, y: 522}
+  position: {x: 210.56, y: 417}
   guid: b21c9c6cec72e4d7a8e5bbf27b7c1e43
   description: 
   drawGizmos: 1
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb5496e8cd973748a10b3e3ef436ebd, type: 3}
   m_Name: Repeat
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 116}
+  position: {x: 0, y: 0}
   guid: d9abc8eb5999f46bc85a6c32085032e6
   description: 
   drawGizmos: 0

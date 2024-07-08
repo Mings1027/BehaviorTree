@@ -1,11 +1,12 @@
 using BehaviorTreeTool.Scripts.Runtime;
+using UnityEngine;
 
 namespace BehaviorTreeTool.Scripts.Decorators
 {
     public class Repeat : DecoratorNode
     {
-        public bool repeatForever = true;
-        public int repeatCount;
+        [SerializeField] private bool repeatForever = true;
+        [SerializeField] private int repeatCount;
 
         private int currentCount;
 

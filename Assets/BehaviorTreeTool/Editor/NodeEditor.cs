@@ -48,8 +48,8 @@ namespace BehaviorTreeTool.Editor
                 InitializeProperties();
             }
 
-            DisplayTreeName();
             DisplayTabs();
+            CheckUnassignVariableName();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -66,17 +66,6 @@ namespace BehaviorTreeTool.Editor
             {
                 _sharedDataEditor = CreateEditor(_sharedDataProperty.objectReferenceValue);
             }
-        }
-
-        private void DisplayTreeName()
-        {
-            var style = new GUIStyle(GUI.skin.label) { fontSize = 15, fontStyle = FontStyle.Bold };
-            // var node = (Node)target;
-            // var treeName = node.name;
-            // var nodeType = TreeUtility.GetNodeTypeName(node.GetType());
-
-            EditorGUILayout.LabelField($"Behavior Tree : {BehaviorTreeEditor.treeName}", style);
-            // EditorGUILayout.LabelField($"Node : {treeName} - {nodeType}", style);
         }
 
         private void DisplayTabs()
@@ -199,7 +188,6 @@ namespace BehaviorTreeTool.Editor
             TreeUtility.DrawHorizontalLine(Color.gray);
             DrawNodeVariables(node);
             TreeUtility.DrawHorizontalLine(Color.gray);
-            CheckUnassignVariableName();
             EditorGUILayout.EndScrollView();
         }
 
@@ -231,13 +219,24 @@ namespace BehaviorTreeTool.Editor
             var boldLabelStyle = new GUIStyle(EditorStyles.boldLabel) { fontSize = 15 };
             EditorGUILayout.LabelField("Shared Variables", boldLabelStyle);
 
+            // Calculate the maximum width of all labels
+            var maxWidth = fields.Select(kvp =>
+            {
+                var serializedObject = new SerializedObject(node);
+                var property = serializedObject.FindProperty(kvp.Key);
+                var displayName = property != null ? property.displayName : ObjectNames.NicifyVariableName(kvp.Key);
+                var labelStyle = new GUIStyle(GUI.skin.label);
+                return labelStyle.CalcSize(new GUIContent(displayName)).x;
+            }).Max();
+
             for (int i = 0; i < fields.Count; i++)
             {
-                DrawSharedVariableField(node, fields[i]);
+                DrawSharedVariableField(node, fields[i], maxWidth);
+                TreeUtility.DrawHorizontalLine(Color.gray);
             }
         }
 
-        private void DrawSharedVariableField(Node node, KeyValuePair<string, SharedVariableBase> kvp)
+        private void DrawSharedVariableField(Node node, KeyValuePair<string, SharedVariableBase> kvp, float labelWidth)
         {
             var style = new GUIStyle(GUI.skin.box)
             {
@@ -277,8 +276,8 @@ namespace BehaviorTreeTool.Editor
             var serializedObject = new SerializedObject(node);
             var property = serializedObject.FindProperty(kvp.Key);
             var displayName = property != null ? property.displayName : ObjectNames.NicifyVariableName(kvp.Key);
-            // Draw the variable name
-            EditorGUILayout.LabelField(displayName, GUILayout.MinWidth(100));
+
+            EditorGUILayout.LabelField(displayName, GUILayout.Width(labelWidth));
 
             var selectedIndex = EditorGUILayout.Popup(currentIndex, variableNames.ToArray(), GUILayout.Width(150));
             if (selectedIndex != currentIndex)
@@ -380,7 +379,8 @@ namespace BehaviorTreeTool.Editor
                     var sharedVariable = (SharedVariableBase)field.GetValue(node);
                     if (sharedVariable != null && string.IsNullOrEmpty(sharedVariable.VariableName))
                     {
-                        noneSharedVariables.Add($"{node.name} - {field.Name}");
+                        noneSharedVariables.Add(node.name);
+                        break;
                     }
                 }
             });
@@ -390,10 +390,11 @@ namespace BehaviorTreeTool.Editor
                 {
                     fontSize = 14,
                     fontStyle = FontStyle.Bold,
+                    wordWrap = true,
                     normal = { textColor = new Color(1.0f, 0.5f, 0f) }
                 };
 
-                EditorGUILayout.LabelField("Assign names in the Inspector tab.", style);
+                EditorGUILayout.LabelField("Set the variablename in the Inspector tab.", style);
 
                 var headerStyle = new GUIStyle(GUI.skin.label)
                 {
@@ -417,23 +418,39 @@ namespace BehaviorTreeTool.Editor
                     alignment = TextAnchor.MiddleCenter
                 };
 
-                EditorGUILayout.BeginHorizontal("box");
-                GUILayout.Label("Node Name", headerStyle, GUILayout.ExpandWidth(true));
-                GUILayout.Label("Variable Name", headerStyle, GUILayout.ExpandWidth(true));
-                EditorGUILayout.EndHorizontal();
-
                 for (int i = 0; i < noneSharedVariables.Count; i++)
                 {
                     string noneSharedVariable = noneSharedVariables[i];
                     var parts = noneSharedVariable.Split(new[] { " - " }, StringSplitOptions.None);
                     var nodeName = parts[0];
-                    var variableName = parts[1];
 
                     EditorGUILayout.BeginHorizontal("box");
-                    GUILayout.Label(nodeName, nodeNameStyle, GUILayout.ExpandWidth(true));
-                    GUILayout.Label(variableName, variableNameStyle, GUILayout.ExpandWidth(true));
+                    GUILayout.Label(nodeName, nodeNameStyle);
+                    if (GUILayout.Button("Select", GUILayout.Width(50)))
+                    {
+                        _selectedTab = 2;
+                        SelectNodeByName(nodeName);
+                    }
                     EditorGUILayout.EndHorizontal();
                 }
+            }
+        }
+
+        private void SelectNodeByName(string nodeName)
+        {
+            var tree = BehaviorTreeEditor.tree;
+            if (tree == null) return;
+
+            var node = tree.Nodes.Find(n => n.name == nodeName);
+            if (node == null) return;
+
+            var editorWindow = EditorWindow.GetWindow<BehaviorTreeEditor>();
+            var treeView = editorWindow.TreeView;
+            var nodeView = treeView?.FindNodeView(node);
+            if (nodeView != null)
+            {
+                treeView.SelectNodeView(nodeView);
+                editorWindow.Repaint();
             }
         }
     }

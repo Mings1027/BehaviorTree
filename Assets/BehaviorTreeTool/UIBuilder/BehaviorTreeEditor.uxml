@@ -12,6 +12,7 @@
         </ui:VisualElement>
         <ui:VisualElement name="right-panel">
             <ui:Label text="Tree View" display-tooltip-when-elided="true" style="background-color: rgb(37, 37, 37);" />
+            <ui:Label tabindex="-1" text="TreeInfoLabel" parse-escape-sequences="true" display-tooltip-when-elided="true" name="treeInfoLabel" style="font-size: 18px;" />
             <BehaviorTreeTool.Editor.BehaviorTreeView name="behaviorTreeView" focusable="true" style="flex-grow: 1;" />
         </ui:VisualElement>
     </BehaviorTreeTool.Editor.SplitView>

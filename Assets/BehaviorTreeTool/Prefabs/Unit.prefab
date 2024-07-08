@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c367104c352c4710a3617314c8768cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  unitStatus: {fileID: 11400000, guid: 873ac60880f834786888a1d6de2ac05b, type: 2}
   damageColor: {r: 0.7264151, g: 0.7161356, b: 0.7161356, a: 0}
 --- !u!114 &2231862897252943407
 MonoBehaviour:
@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 042d4035eb314f46b406b57d9ed16a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 0
   enableVariables: 0
   behaviorTree: {fileID: 11400000, guid: 7aa867c64e9124039b92f0651fcc9c68, type: 2}
   variables: []

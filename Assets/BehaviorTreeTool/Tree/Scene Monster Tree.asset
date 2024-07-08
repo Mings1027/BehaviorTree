@@ -21,7 +21,7 @@ MonoBehaviour:
     variableName: Target
     variableType: 3
     value: {fileID: 0}
-  attackDamage: 50
+  attackDamage: 10
 --- !u!114 &-4152613854434300565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +203,7 @@ MonoBehaviour:
     variableName: Check Range
     variableType: 9
     value: 0
-  viewAngle: 50
+  viewAngle: 100
 --- !u!114 &1708775004541805551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e34f5795f1164020bcf4f71282b72f5, type: 3}
   m_Name: CheckInRange
   m_EditorClassIdentifier: 
-  position: {x: -149, y: 672.92}
+  position: {x: -148, y: 673}
   guid: 05dae2667c6284e9f83f94e2e7f72f5e
   description: 
   drawGizmos: 0
@@ -375,7 +375,7 @@ MonoBehaviour:
   drawGizmos: 0
   sharedData: {fileID: 8714764893293249165}
   wayPoints:
-    variableName: 
+    variableName: Way Points
     variableType: 17
     value: []
 --- !u!114 &8023903718992939915

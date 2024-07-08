@@ -66,8 +66,6 @@ public class BehaviorTree : ScriptableObject
         return tree;
     }
 
-    #region Use Only Editor
-
 #if UNITY_EDITOR
 
     public void SetRootNode(RootNode rootNode)
@@ -97,10 +95,10 @@ public class BehaviorTree : ScriptableObject
             if (!Application.isPlaying)
             {
                 AssetDatabase.AddObjectToAsset(node, this);
+                Undo.RegisterCreatedObjectUndo(node, "Behavior Tree (CreateNode)");
             }
 
-            Undo.RegisterCreatedObjectUndo(node, "Behavior Tree (CreateNode)");
-
+            EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
             return node;
         }
@@ -166,6 +164,4 @@ public class BehaviorTree : ScriptableObject
         }
     }
 #endif
-
-    #endregion
 }

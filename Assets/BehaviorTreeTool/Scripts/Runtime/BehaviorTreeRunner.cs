@@ -25,6 +25,16 @@ public class BehaviorTreeRunner : MonoBehaviour
         }
     }
 
+    public bool DrawGizmos
+    {
+        get => drawGizmos;
+        set
+        {
+            drawGizmos = value;
+            SetDrawGismosForAllNodes(value);
+        }
+    }
+    [SerializeField] private bool drawGizmos;
 #endif
     [Tooltip("Enable if reference type variables need assignment before play.")]
     [SerializeField] private bool enableVariables;
@@ -117,17 +127,25 @@ public class BehaviorTreeRunner : MonoBehaviour
         }
     }
 
-
 #if UNITY_EDITOR
+
+    private void SetDrawGismosForAllNodes(bool value)
+    {
+        BehaviorTree.Traverse(behaviorTree.RootNode, n => { n.drawGizmos = value; });
+    }
+
     private void OnDrawGizmos()
     {
-        if (!behaviorTree)
-        {
-            return;
-        }
+        if (!behaviorTree) return;
 
         BehaviorTree.Traverse(behaviorTree.RootNode, n =>
         {
+            if (n.NodeTransform == null)
+            {
+                Debug.LogError("Node transform is null");
+                n.NodeTransform = transform;
+            }
+
             if (n.drawGizmos)
             {
                 n.OnDrawGizmos();

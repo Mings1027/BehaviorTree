@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public abstract class Node : ScriptableObject
@@ -11,11 +9,16 @@ public abstract class Node : ScriptableObject
         Success
     }
 #if UNITY_EDITOR
-    [HideInInspector] public Vector2 position;
+    public Vector2 position;
     [HideInInspector] public string guid;
     [HideInInspector][TextArea] public string description;
     public bool TaskStarted => _taskStarted;
     public bool drawGizmos;
+    public Transform NodeTransform
+    {
+        get => nodeTransform;
+        set => nodeTransform = value;
+    }
 #endif
     public TaskState NodeTaskState => _taskState;
 
@@ -24,8 +27,6 @@ public abstract class Node : ScriptableObject
         get => sharedData;
         set => sharedData = value;
     }
-
-    public Transform NodeTransform => nodeTransform;
 
     protected Transform nodeTransform;
 

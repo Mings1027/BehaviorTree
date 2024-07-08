@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -9,7 +8,7 @@ public class Health : MonoBehaviour, IDamageable
     private Color originColor;
     private int curHealth;
 
-    [SerializeField] private int maxHealth;
+    [SerializeField] private UnitStatus unitStatus;
     [SerializeField] private Color damageColor;
 
     private void Awake()
@@ -22,7 +21,7 @@ public class Health : MonoBehaviour, IDamageable
     private void OnEnable()
     {
         col.enabled = true;
-        curHealth = maxHealth;
+        curHealth = unitStatus.Health;
     }
 
     public void Damage(int amount)
