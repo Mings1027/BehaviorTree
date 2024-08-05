@@ -8,11 +8,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Unit
+  - Monster
   - Water
   - UI
-  - Monster
-  - 
+  - Unit
+  - Scene Monster
   - 
   - 
   - 
