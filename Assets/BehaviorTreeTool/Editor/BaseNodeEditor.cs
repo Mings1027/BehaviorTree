@@ -24,18 +24,27 @@ namespace BehaviorTreeTool.Editor
 
         private static int _selectedTab;
 
-        private void OnEnable()
+        private void Awake()
         {
             _downArrowTexture = TreeUtility.LoadTexture("Assets/BehaviorTreeTool/Sprites/Arrow Simple Down.png");
             _rightArrowTexture =
                 AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorTreeTool/Sprites/Arrow Simple Right.png");
         }
 
+        private void OnEnable()
+        {
+            BehaviorTreeView.IsNodeSelected = true;
+        }
+
         public override void OnInspectorGUI()
         {
+            if (!BehaviorTreeView.IsNodeSelected)
+            {
+                EditorGUILayout.LabelField("No node selected. Please select a node.");
+                return;
+            }
             serializedObject.Update();
 
-            // Initialize properties if they haven't been initialized yet
             if (_sharedDataProperty == null)
             {
                 InitializeProperties();
@@ -87,7 +96,7 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        #region DrawTasksTab
+#region DrawTasksTab
 
         private void DrawTasksTab()
         {
@@ -153,9 +162,9 @@ namespace BehaviorTreeTool.Editor
             treeView?.CreateNode(type);
         }
 
-        #endregion
+#endregion
 
-        #region DrawVariablesTab
+#region DrawVariablesTab
 
         private void DrawVariablesTab()
         {
@@ -165,9 +174,9 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        #endregion
+#endregion
 
-        #region DrawInspectorTab
+#region DrawInspectorTab
 
         private void DrawInspectorTab()
         {
@@ -229,7 +238,8 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        private void DrawSharedVariableField(BaseNode node, KeyValuePair<string, SharedVariableBase> kvp, float labelWidth)
+        private void DrawSharedVariableField(BaseNode node, KeyValuePair<string, SharedVariableBase> kvp,
+            float labelWidth)
         {
             var style = new GUIStyle(GUI.skin.box)
             {
@@ -318,14 +328,13 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-
         private void DrawNodeVariables(BaseNode node)
         {
             var boldLabelStyle = new GUIStyle(EditorStyles.boldLabel) { fontSize = 15 };
             EditorGUILayout.LabelField("Node Variables", boldLabelStyle);
 
             var array = node.GetType()
-                         .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
             // Check if the OnDrawGizmos method is overridden
             bool hasDrawGizmosOverride = node.GetType().GetMethod("OnDrawGizmos",
@@ -350,7 +359,7 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        #endregion
+#endregion
 
         private void CheckUnassignVariableName()
         {

@@ -13,12 +13,14 @@ namespace BehaviorTreeTool.Editor
     {
         public new class UxmlFactory : UxmlFactory<BehaviorTreeView, UxmlTraits> { }
 
+        public Action<NodeView> OnNodeSelected { get; set; }
+        public static bool IsNodeSelected { get; set; }
+
         private readonly List<NodeView> _nodeViewPool = new();
         private BehaviorTree _tree;
         private readonly BehaviorTreeSettings _settings;
         private Vector2 _nodePosition;
 
-        public Action<NodeView> OnNodeSelected { get; set; }
         private TaskSearchWindow _taskSearchWindow;
         private Vector2 _lastMousePosition;
 
@@ -470,13 +472,14 @@ namespace BehaviorTreeTool.Editor
             {
                 ShowTasksSearchWindow();
             }
-            else if (evt.keyCode == KeyCode.F && selection.OfType<NodeView>().Any())
+            else if (evt.keyCode == KeyCode.F && selection.OfType<NodeView>().Any() && !IsNodeSelected)
             {
                 FrameSelection(selection.OfType<NodeView>().First());
             }
             else if (evt.keyCode == KeyCode.Escape)
             {
                 ClearSelection();
+                IsNodeSelected = false;
             }
         }
 

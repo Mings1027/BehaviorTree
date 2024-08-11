@@ -15,10 +15,10 @@ namespace BehaviorTreeTool.Editor
         private InspectorView _inspectorView;
         private ToolbarMenu _toolbarMenu;
         private BehaviorTreeSettings _settings;
-        private static string _lastSelectedNodeGuid;
+        private string _lastSelectedNodeGuid;
         private Label _treeInfoLabel;
 
-        [MenuItem("Window/BehaviorTree/BehaviorTreeEditor ...")]
+        [MenuItem("BehaviorTree/BehaviorTreeEditor")]
         public static void OpenWindow()
         {
             var wnd = GetWindow<BehaviorTreeEditor>();
