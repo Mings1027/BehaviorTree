@@ -1,12 +1,12 @@
+#if UNITY_EDITOR
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace BehaviorTreeTool.Scripts.TreeUtil
+namespace Tree
 {
     public static class TreeUtility
     {
@@ -30,9 +30,9 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                 .Where(t => t.IsSubclassOf(baseType) && !t.IsAbstract)
                 .ToList();
 
-            for (int i = 0; i < sharedVariableTypes.Count; i++)
+            for (var i = 0; i < sharedVariableTypes.Count; i++)
             {
-                Type type = sharedVariableTypes[i];
+                var type = sharedVariableTypes[i];
                 var enumName = type.Name.Replace("Shared", "");
                 if (Enum.TryParse(enumName, out SharedVariableType variableType))
                 {
@@ -76,85 +76,105 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             {
                 return EditorGUILayout.Toggle(label, (bool)value);
             }
-            else if (fieldType == typeof(int))
+
+            if (fieldType == typeof(int))
             {
                 return EditorGUILayout.IntField(label, (int)value);
             }
-            else if (fieldType == typeof(float))
+
+            if (fieldType == typeof(float))
             {
                 return EditorGUILayout.FloatField(label, (float)value);
             }
-            else if (fieldType == typeof(double))
+
+            if (fieldType == typeof(double))
             {
                 return EditorGUILayout.DoubleField(label, (double)value);
             }
-            else if (fieldType == typeof(long))
+
+            if (fieldType == typeof(long))
             {
                 return EditorGUILayout.LongField(label, (long)value);
             }
-            else if (fieldType == typeof(string))
+
+            if (fieldType == typeof(string))
             {
                 return EditorGUILayout.TextField(label, (string)value);
             }
-            else if (fieldType == typeof(Color))
+
+            if (fieldType == typeof(Color))
             {
                 return EditorGUILayout.ColorField(label, (Color)value);
             }
-            else if (fieldType == typeof(AnimationCurve))
+
+            if (fieldType == typeof(AnimationCurve))
             {
                 return EditorGUILayout.CurveField(label, (AnimationCurve)value);
             }
-            else if (fieldType == typeof(Bounds))
+
+            if (fieldType == typeof(Bounds))
             {
                 return EditorGUILayout.BoundsField(label, (Bounds)value);
             }
-            else if (fieldType == typeof(Rect))
+
+            if (fieldType == typeof(Rect))
             {
                 return EditorGUILayout.RectField(label, (Rect)value);
             }
-            else if (fieldType == typeof(Vector2))
+
+            if (fieldType == typeof(Vector2))
             {
                 return EditorGUILayout.Vector2Field(label, (Vector2)value);
             }
-            else if (fieldType == typeof(Vector2Int))
+
+            if (fieldType == typeof(Vector2Int))
             {
                 return EditorGUILayout.Vector2IntField(label, (Vector2Int)value);
             }
-            else if (fieldType == typeof(Vector3))
+
+            if (fieldType == typeof(Vector3))
             {
                 return EditorGUILayout.Vector3Field(label, (Vector3)value);
             }
-            else if (fieldType == typeof(Vector3Int))
+
+            if (fieldType == typeof(Vector3Int))
             {
                 return EditorGUILayout.Vector3IntField(label, (Vector3Int)value);
             }
-            else if (fieldType == typeof(Vector4))
+
+            if (fieldType == typeof(Vector4))
             {
                 return EditorGUILayout.Vector4Field(label, (Vector4)value);
             }
-            else if (fieldType == typeof(Quaternion))
+
+            if (fieldType == typeof(Quaternion))
             {
                 return Quaternion.Euler(EditorGUILayout.Vector3Field(label, ((Quaternion)value).eulerAngles));
             }
-            else if (fieldType == typeof(LayerMask))
+
+            if (fieldType == typeof(LayerMask))
             {
                 var layerIndex = LayerMaskToLayer((LayerMask)value);
                 var newLayerIndex = EditorGUILayout.LayerField(label, layerIndex);
                 return LayerToLayerMask(newLayerIndex);
             }
-            else if (fieldType.IsEnum)
+
+            if (fieldType.IsEnum)
             {
                 return EditorGUILayout.EnumPopup(label, (Enum)value);
             }
-            else if (typeof(UnityEngine.Object).IsAssignableFrom(fieldType))
+
+            if (typeof(UnityEngine.Object).IsAssignableFrom(fieldType))
             {
                 return EditorGUILayout.ObjectField(label, (UnityEngine.Object)value, fieldType, true);
             }
-            else if (fieldType.IsArray)
+
+            if (fieldType.IsArray)
             {
                 return DrawArrayField((Array)value, label, fieldType.GetElementType());
             }
-            else if (typeof(IList).IsAssignableFrom(fieldType))
+
+            if (typeof(IList).IsAssignableFrom(fieldType))
             {
                 return DrawListField((IList)value, label, fieldType.GetGenericArguments()[0]);
             }
@@ -177,16 +197,16 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(1);
 
-            if (arrayFoldouts.ContainsKey(label) && arrayFoldouts[label])
+            if (label != null && arrayFoldouts.ContainsKey(label) && arrayFoldouts[label])
             {
                 EditorGUI.indentLevel++;
 
                 array ??= Array.CreateInstance(elementType, 0);
 
-                int newSize = Mathf.Max(0, EditorGUILayout.IntField("Size", array.Length));
+                var newSize = Mathf.Max(0, EditorGUILayout.IntField("Size", array.Length));
                 if (newSize != array.Length)
                 {
-                    Array newArray = Array.CreateInstance(elementType, newSize);
+                    var newArray = Array.CreateInstance(elementType, newSize);
                     Array.Copy(array, newArray, Math.Min(array.Length, newSize));
                     array = newArray;
                 }
@@ -200,6 +220,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                         array.SetValue(newValue, i);
                     }
                 }
+
                 EditorGUI.indentLevel--;
             }
 
@@ -220,20 +241,21 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(1);
 
-            if (listFoldouts.ContainsKey(label) && listFoldouts[label])
+            if (label != null && listFoldouts.ContainsKey(label) && listFoldouts[label])
             {
                 EditorGUI.indentLevel++;
 
                 list ??= (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(elementType));
 
-                int newSize = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
+                var newSize = Mathf.Max(0, EditorGUILayout.IntField("Size", list.Count));
                 if (newSize != list.Count)
                 {
                     var newList = (IList)Activator.CreateInstance(list.GetType());
-                    for (int i = 0; i < newSize; i++)
+                    for (var i = 0; i < newSize; i++)
                     {
                         newList.Add(i < list.Count ? list[i] : null);
                     }
+
                     list = newList;
                 }
 
@@ -246,6 +268,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
                         list[i] = newValue;
                     }
                 }
+
                 EditorGUI.indentLevel--;
             }
 
@@ -266,6 +289,7 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
             {
                 pix[i] = col;
             }
+
             var result = new Texture2D(width, height);
             result.SetPixels(pix);
             result.Apply();
@@ -279,30 +303,22 @@ namespace BehaviorTreeTool.Scripts.TreeUtil
 
         private static int LayerMaskToLayer(LayerMask layerMask)
         {
-            int mask = layerMask.value;
-            for (int i = 0; i < 32; i++)
+            var mask = layerMask.value;
+            for (var i = 0; i < 32; i++)
             {
                 if ((mask & (1 << i)) != 0)
                 {
                     return i;
                 }
             }
+
             return 0;
         }
 
         private static LayerMask LayerToLayerMask(int layerIndex)
         {
-            return (LayerMask)(1 << layerIndex);
-        }
-
-        public static string GetNodeTypeName(Node node)
-        {
-            if (node is ActionNode) return "ActionNode";
-            if (node is DecoratorNode) return "DecoratorNode";
-            if (node is CompositeNode) return "CompositeNode";
-            if (node is ConditionNode) return "ConditionNode";
-            if (node is RootNode) return "RootNode";
-            return "Unknown";
+            return 1 << layerIndex;
         }
     }
 }
+#endif

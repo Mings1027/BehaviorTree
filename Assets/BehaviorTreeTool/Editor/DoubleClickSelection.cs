@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine.UIElements;
+using Tree;
 
 namespace BehaviorTreeTool.Editor
 {
@@ -20,8 +21,7 @@ namespace BehaviorTreeTool.Editor
 
         private void OnMouseDown(MouseDownEvent evt)
         {
-            var graphView = target as BehaviorTreeView;
-            if (graphView == null) return;
+            if (target is not BehaviorTreeView) return;
 
             var duration = EditorApplication.timeSinceStartup - _time;
             if (duration < _doubleClickDuration)
@@ -34,8 +34,7 @@ namespace BehaviorTreeTool.Editor
 
         private void SelectChildren(MouseDownEvent evt)
         {
-            var graphView = target as BehaviorTreeView;
-            if (graphView == null) return;
+            if (target is not BehaviorTreeView graphView) return;
 
             if (!CanStopManipulation(evt)) return;
 

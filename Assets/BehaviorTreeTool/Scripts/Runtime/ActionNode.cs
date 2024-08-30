@@ -1,4 +1,4 @@
-namespace BehaviorTreeTool.Scripts.Runtime
+namespace Tree
 {
-    public abstract class ActionNode : Node { }
+    public abstract class ActionNode : BaseNode { }
 }

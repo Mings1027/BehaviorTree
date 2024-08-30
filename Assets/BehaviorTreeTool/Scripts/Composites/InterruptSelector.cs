@@ -1,4 +1,4 @@
-namespace BehaviorTreeTool.Scripts.Composites
+namespace Tree
 {
     public class InterruptSelector : Selector
     {

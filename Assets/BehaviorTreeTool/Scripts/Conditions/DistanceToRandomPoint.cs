@@ -1,17 +1,23 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
 
-namespace BehaviorTreeTool.Scripts.Conditions
+namespace Tree
 {
     public class DistanceToRandomPoint : ConditionNode
     {
         public SharedVector3 curRandomPoint;
+        public SharedFloat remainingDistance;
+        public SharedFloat closeDistance;
 
-        [SerializeField] private float remainingDistance = 1.0f;
+        protected override void OnAwake()
+        {
+            curRandomPoint.Value = nodeTransform.position;
+        }
 
         protected override TaskState OnUpdate()
         {
-            if (Vector3.Distance(curRandomPoint.Value, nodeTransform.position) <= remainingDistance)
+            remainingDistance.Value = Vector3.Distance(curRandomPoint.Value, nodeTransform.position);
+
+            if (remainingDistance.Value < closeDistance.Value)
             {
                 return TaskState.Success;
             }

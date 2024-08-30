@@ -1,13 +1,20 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
-namespace BehaviorTreeTool.Scripts.Actions
+using Tree;
+
+namespace Tree
 {
     public class SetRandompoint : ActionNode
     {
         public SharedVector3 curRandomPoint;
 
-        [SerializeField] private Vector3 center;
+        private Vector3 centerPosition;
+
         [SerializeField] private float radius;
+
+        protected override void OnAwake()
+        {
+            centerPosition = nodeTransform.position;
+        }
 
         protected override void OnStart()
         {
@@ -16,19 +23,21 @@ namespace BehaviorTreeTool.Scripts.Actions
 
         protected override TaskState OnUpdate()
         {
-            return TaskState.Success;
+            return TaskState.Failure;
         }
 
         private void SetRandompointInRange()
         {
-            var randomPoint = center + new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
+            var randomPoint = centerPosition +
+                              new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
             curRandomPoint.Value = randomPoint;
         }
-
+#if UNITY_EDITOR
         public override void OnDrawGizmos()
         {
             if (nodeTransform == null) return;
-            Gizmos.DrawWireSphere(center, radius);
+            Gizmos.DrawWireSphere(nodeTransform.position, radius);
         }
+#endif
     }
 }

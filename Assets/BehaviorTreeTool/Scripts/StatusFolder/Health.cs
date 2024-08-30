@@ -1,44 +1,47 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class Health : MonoBehaviour, IDamageable
+namespace Tree
 {
-    private Collider col;
-    private Renderer objectRenderer;
-    private Color originColor;
-    private int curHealth;
-
-    [SerializeField] private UnitStatus unitStatus;
-    [SerializeField] private Color damageColor;
-
-    private void Awake()
+    public class Health : MonoBehaviour, IDamageable
     {
-        col = GetComponent<Collider>();
-        objectRenderer = GetComponent<Renderer>();
-        originColor = objectRenderer.material.color;
-    }
+        private Collider col;
+        private Renderer objectRenderer;
+        private Color originColor;
+        private int curHealth;
 
-    private void OnEnable()
-    {
-        col.enabled = true;
-        curHealth = unitStatus.Health;
-    }
+        [SerializeField] private UnitStatus unitStatus;
+        [SerializeField] private Color damageColor;
 
-    public void Damage(int amount)
-    {
-        curHealth -= amount;
-        ChangeColor().Forget();
-        if (curHealth <= 0)
+        private void Awake()
         {
-            col.enabled = false;
-            gameObject.SetActive(false);
+            col = GetComponent<Collider>();
+            objectRenderer = GetComponent<Renderer>();
+            originColor = objectRenderer.material.color;
         }
-    }
 
-    private async UniTaskVoid ChangeColor()
-    {
-        objectRenderer.material.color = damageColor;
-        await UniTask.Delay(100, cancellationToken: this.GetCancellationTokenOnDestroy());
-        objectRenderer.material.color = originColor;
+        private void OnEnable()
+        {
+            col.enabled = true;
+            curHealth = unitStatus.Health;
+        }
+
+        public void Damage(int amount)
+        {
+            curHealth -= amount;
+            ChangeColor().Forget();
+            if (curHealth <= 0)
+            {
+                col.enabled = false;
+                gameObject.SetActive(false);
+            }
+        }
+
+        private async UniTaskVoid ChangeColor()
+        {
+            objectRenderer.material.color = damageColor;
+            await UniTask.Delay(100, cancellationToken: this.GetCancellationTokenOnDestroy());
+            objectRenderer.material.color = originColor;
+        }
     }
 }

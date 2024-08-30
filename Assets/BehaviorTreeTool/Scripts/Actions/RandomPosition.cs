@@ -1,9 +1,8 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
-namespace BehaviorTreeTool.Scripts.Actions
+namespace Tree
 {
     public class RandomPosition : ActionNode
     {

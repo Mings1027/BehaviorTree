@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using BehaviorTreeTool.Scripts.TreeUtil;
 using UnityEditor;
 using UnityEngine;
+using Tree;
 
 namespace BehaviorTreeTool.Editor
 {
@@ -21,22 +19,18 @@ namespace BehaviorTreeTool.Editor
 
         private bool[] _foldouts;
         private const string FoldoutKeyPrefix = "SharedDataEditor_Foldout_";
-        private readonly Dictionary<string, bool> _foldoutStates = new();
 
         private void OnEnable()
         {
-            if (target is SharedData sharedData)
+            if (target is SharedData sharedData && sharedData.Variables != null)
             {
-                if (sharedData.Variables != null)
-                {
-                    _variablesProperty = serializedObject.FindProperty("variables");
-                    LoadTextures();
-                    LoadFoldoutStates();
-                }
+                _variablesProperty = serializedObject.FindProperty("variables");
+                LoadTextures();
+                LoadFoldoutStates();
             }
         }
 
-        public override void OnInspectorGUI()
+        public void DrawSharedDataTab()
         {
             serializedObject.Update();
 
@@ -77,6 +71,7 @@ namespace BehaviorTreeTool.Editor
             {
                 AddVariable();
             }
+
             EditorGUILayout.EndHorizontal();
         }
 
@@ -88,11 +83,13 @@ namespace BehaviorTreeTool.Editor
                 EditorUtility.DisplayDialog("Invalid Variable Name", "Variable name cannot be empty.", "OK");
                 return;
             }
+
             if (IsVariableNameDuplicate())
             {
                 EditorUtility.DisplayDialog("Duplicate Variable Name", "Variable name already exists.", "OK");
                 return;
             }
+
             var newVariable = TreeUtility.CreateSharedVariable(_variableName, _variableType);
 
             if (newVariable != null)
@@ -121,13 +118,9 @@ namespace BehaviorTreeTool.Editor
             var style = new GUIStyle(GUI.skin.label)
             {
                 fontSize = 14,
-                fontStyle = FontStyle.Bold,
-                wordWrap = true,
-                alignment = TextAnchor.MiddleCenter,
-                normal = { textColor = new Color(1.0f, 0.5f, 0f) }
             };
 
-            GUILayout.Label("No variables available.\nAdd a new variable to get started.", style);
+            GUILayout.Label("No Shared Variables.", style);
             EditorGUILayout.EndVertical();
         }
 
@@ -140,6 +133,7 @@ namespace BehaviorTreeTool.Editor
                 DrawVariable(variableProperty, i);
                 TreeUtility.DrawHorizontalLine(Color.gray);
             }
+
             EditorGUILayout.EndScrollView();
         }
 
@@ -178,7 +172,7 @@ namespace BehaviorTreeTool.Editor
             if (GUILayout.Button(new GUIContent(_removeTexture), GUILayout.Width(21), GUILayout.Height(21)))
             {
                 if (EditorUtility.DisplayDialog("Delete Variable",
-                        $"Are you sure you want to delete the variable '{variableNameProperty}'?", "Yes", "No"))
+                        $"Are you sure you want to delete the variable '{variableName}'?", "Yes", "No"))
                 {
                     RemoveVariable(index);
                     return;
@@ -201,13 +195,15 @@ namespace BehaviorTreeTool.Editor
                 EditorGUILayout.PropertyField(variableProperty.FindPropertyRelative("variableType"), GUIContent.none);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    var newVariable = TreeUtility.CreateSharedVariable(variableNameProperty.stringValue, (SharedVariableType)variableTypeProperty.enumValueIndex);
+                    var newVariable = TreeUtility.CreateSharedVariable(variableNameProperty.stringValue,
+                        (SharedVariableType)variableTypeProperty.enumValueIndex);
                     if (newVariable != null)
                     {
                         variableProperty.managedReferenceValue = newVariable;
                         serializedObject.ApplyModifiedProperties();
                     }
                 }
+
                 EditorGUILayout.EndHorizontal();
 
                 DrawSharedVariableField(variableProperty);

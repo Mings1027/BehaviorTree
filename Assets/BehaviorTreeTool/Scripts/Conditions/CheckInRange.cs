@@ -1,7 +1,6 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
 
-namespace BehaviorTreeTool.Scripts.Conditions
+namespace Tree
 {
     public class CheckInRange : ConditionNode
     {
@@ -41,6 +40,7 @@ namespace BehaviorTreeTool.Scripts.Conditions
 #if UNITY_EDITOR
         public override void OnDrawGizmos()
         {
+            if (nodeTransform == null) return;
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(nodeTransform.position, checkRange.Value);
         }

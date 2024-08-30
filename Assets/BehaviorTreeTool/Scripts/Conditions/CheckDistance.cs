@@ -1,7 +1,6 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine.AI;
 
-namespace BehaviorTreeTool.Scripts.Conditions
+namespace Tree
 {
     public class CheckDistance : ConditionNode
     {

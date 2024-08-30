@@ -1,7 +1,6 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
 
-namespace BehaviorTreeTool.Scripts.Decorators
+namespace Tree
 {
     public class Repeat : DecoratorNode
     {

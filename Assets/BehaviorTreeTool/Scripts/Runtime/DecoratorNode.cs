@@ -1,18 +1,18 @@
 using UnityEngine;
 
-namespace BehaviorTreeTool.Scripts.Runtime
+namespace Tree
 {
-    public abstract class DecoratorNode : Node
+    public abstract class DecoratorNode : BaseNode
     {
-        public Node Child
+        public BaseNode Child
         {
             get => child;
             set => child = value;
         }
 
-        [HideInInspector, SerializeField] protected Node child;
+        [HideInInspector, SerializeField] protected BaseNode child;
 
-        public override Node Clone()
+        public override BaseNode Clone()
         {
             var node = Instantiate(this);
             node.child = child.Clone();

@@ -1,32 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SharedData : ScriptableObject
+namespace Tree
 {
-    [SerializeReference]
-    private List<SharedVariableBase> variables;
-
-    public List<SharedVariableBase> Variables
+    public class SharedData : ScriptableObject
     {
-        get => variables;
-        private set => variables = value;
-    }
+        [SerializeReference] private List<SharedVariableBase> variables;
+        public List<SharedVariableBase> Variables => variables;
 
-    private void OnEnable()
-    {
-        variables ??= new List<SharedVariableBase>();
-    }
-
-    public SharedData Clone()
-    {
-        var clone = Instantiate(this);
-        clone.Variables = new List<SharedVariableBase>();
-        for (int i = 0; i < variables.Count; i++)
+        private void OnEnable()
         {
-            SharedVariableBase variable = variables[i];
-            clone.Variables.Add(variable.Clone());
+            variables ??= new List<SharedVariableBase>();
         }
-
-        return clone;
     }
 }

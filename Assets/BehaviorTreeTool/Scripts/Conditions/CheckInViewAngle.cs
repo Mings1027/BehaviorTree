@@ -1,10 +1,9 @@
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
 
-namespace BehaviorTreeTool.Scripts.Conditions
+namespace Tree
 {
     public class CheckInViewAngle : ConditionNode
     {

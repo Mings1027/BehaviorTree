@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviorTreeTool.Scripts.Runtime
+namespace Tree
 {
-    public abstract class CompositeNode : Node
+    public abstract class CompositeNode : BaseNode
     {
-        public List<Node> Children => children;
-        [HideInInspector, SerializeField] protected List<Node> children;
+        public List<BaseNode> Children => children;
+        [HideInInspector, SerializeField] protected List<BaseNode> children;
 
         private void OnEnable()
         {
-            children ??= new List<Node>();
+            children ??= new List<BaseNode>();
         }
 
-        public override Node Clone()
+        public override BaseNode Clone()
         {
             var node = Instantiate(this);
             node.children = children.ConvertAll(c => c.Clone());

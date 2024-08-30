@@ -132,17 +132,24 @@
 
 .running #node-state {
     background-color: rgb(255, 228, 0);
-    transition-property: background-color, ignored;
-    transition-duration: 0.5s, 0s;
+    transition-property: background-color, background-color;
+    transition-duration: 0.5s, 0.2s;
+    transition-timing-function: linear, ease;
+    transition-delay: 0s, 0.5s;
 }
 
 .failure #node-state {
     background-color: rgba(255, 0, 0, 0.95);
+    transition-property: background-color, background-color;
+    transition-duration: 0.5s, 0.2s;
+    transition-timing-function: linear, ease;
+    transition-delay: 0s, 0.5s;
 }
 
 .success #node-state {
     background-color: rgba(0, 186, 0, 0.96);
-    transition-property: background-color;
-    transition-duration: 0.5s;
-    transition-timing-function: linear;
+    transition-property: background-color, background-color;
+    transition-duration: 0.5s, 0.2s;
+    transition-timing-function: linear, ease;
+    transition-delay: 0s, 0.5s;
 }

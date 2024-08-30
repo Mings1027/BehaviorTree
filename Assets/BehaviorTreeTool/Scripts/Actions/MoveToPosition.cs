@@ -1,6 +1,4 @@
-using BehaviorTreeTool.Scripts.Runtime;
-
-namespace BehaviorTreeTool.Scripts.Actions
+namespace Tree
 {
     public class MoveToPosition : ActionNode
     {

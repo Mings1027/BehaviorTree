@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using BehaviorTreeTool.Scripts.Runtime;
 
-namespace BehaviorTreeTool.Scripts.Composites
+namespace Tree
 {
     public class Parallel : CompositeNode
     {

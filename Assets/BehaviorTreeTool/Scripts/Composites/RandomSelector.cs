@@ -1,7 +1,6 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
 
-namespace BehaviorTreeTool.Scripts.Composites
+namespace Tree
 {
     public class RandomSelector : CompositeNode
     {

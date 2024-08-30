@@ -1,6 +1,4 @@
-using BehaviorTreeTool.Scripts.Runtime;
-
-namespace BehaviorTreeTool.Scripts.Decorators
+namespace Tree
 {
     public class Failure : DecoratorNode
     {

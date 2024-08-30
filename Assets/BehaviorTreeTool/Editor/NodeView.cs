@@ -1,21 +1,21 @@
 using System;
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Tree;
 
 namespace BehaviorTreeTool.Editor
 {
-    public class NodeView : UnityEditor.Experimental.GraphView.Node
+    public class NodeView : Node
     {
-        public Action<NodeView> OnNodeSelected { get; set; }
-        public Node Node { get; private set; }
+        public Action<NodeView> OnNodeSelectAction { get; set; }
+        public BaseNode Node { get; private set; }
         public Port Input { get; private set; }
         public Port Output { get; private set; }
 
-        public NodeView(Node node) : base(
+        public NodeView(BaseNode node) : base(
             AssetDatabase.GetAssetPath(BehaviorTreeSettings.GetOrCreateSettings().NodeXml))
         {
             Initialize();
@@ -24,7 +24,6 @@ namespace BehaviorTreeTool.Editor
 
         private void Initialize()
         {
-            // 이 메서드는 포트와 스타일을 초기화합니다.
             ClearPorts();
             RemoveFromClassList("condition");
             RemoveFromClassList("action");
@@ -33,7 +32,7 @@ namespace BehaviorTreeTool.Editor
             RemoveFromClassList("root");
         }
 
-        public void SetNode(Node node)
+        public void SetNode(BaseNode node)
         {
             Node = node;
             Node.name = node.GetType().Name;
@@ -120,17 +119,14 @@ namespace BehaviorTreeTool.Editor
 
         private void CreateOutputPorts()
         {
-            // CompositeNode에만 Multi Output 포트를 추가합니다.
             if (Node is CompositeNode)
             {
                 Output = new NodePort(Direction.Output, Port.Capacity.Multi);
             }
-            // DecoratorNode와 RootNode에만 Single Output 포트를 추가합니다.
             else if (Node is DecoratorNode or RootNode)
             {
                 Output = new NodePort(Direction.Output, Port.Capacity.Single);
             }
-            // ConditionNode에는 Output 포트를 추가하지 않습니다.
             else if (Node is ConditionNode or ActionNode)
             {
                 Output = null;
@@ -156,7 +152,7 @@ namespace BehaviorTreeTool.Editor
         public override void OnSelected()
         {
             base.OnSelected();
-            OnNodeSelected?.Invoke(this);
+            OnNodeSelectAction?.Invoke(this);
         }
 
         public void SortChildren()
@@ -167,7 +163,7 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        private int SortByHorizontalPosition(Node left, Node right)
+        private int SortByHorizontalPosition(BaseNode left, BaseNode right)
         {
             return left.position.x < right.position.x ? -1 : 1;
         }
@@ -182,13 +178,13 @@ namespace BehaviorTreeTool.Editor
             {
                 switch (Node.NodeTaskState)
                 {
-                    case Node.TaskState.Running:
+                    case TaskState.Running:
                         if (Node.TaskStarted) AddToClassList("running");
                         break;
-                    case Node.TaskState.Failure:
+                    case TaskState.Failure:
                         AddToClassList("failure");
                         break;
-                    case Node.TaskState.Success:
+                    case TaskState.Success:
                         AddToClassList("success");
                         break;
                 }

@@ -1,6 +1,4 @@
-using BehaviorTreeTool.Scripts.Runtime;
-
-namespace BehaviorTreeTool.Scripts.Composites
+namespace Tree
 {
     public class Selector : CompositeNode
     {

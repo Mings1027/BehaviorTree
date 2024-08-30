@@ -1,7 +1,6 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
 
-namespace BehaviorTreeTool.Scripts.Actions
+namespace Tree
 {
     public class LookAtTarget : ActionNode
     {
@@ -25,7 +24,7 @@ namespace BehaviorTreeTool.Scripts.Actions
             }
 
             // 현재 회전과 목표 회전 사이의 각도 차이 계산
-            float angle = Vector3.Angle(nodeTransform.forward, direction);
+            var angle = Vector3.Angle(new Vector3(nodeTransform.forward.x, 0, nodeTransform.forward.z), lookDirection);
             if (angle > rotationThreshold)
             {
                 return TaskState.Running;

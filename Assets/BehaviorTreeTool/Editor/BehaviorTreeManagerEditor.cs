@@ -1,47 +1,51 @@
 using UnityEngine;
 using UnityEditor;
+using Tree;
 
-[CustomEditor(typeof(BehaviorTreeManager))]
-public class BehaviorTreeManagerEditor : Editor
+namespace BehaviorTreeTool.Editor
 {
-    private BehaviorTreeManager _manager;
-
-    private void OnEnable()
+    [CustomEditor(typeof(BehaviorTreeManager))]
+    public class BehaviorTreeManagerEditor : UnityEditor.Editor
     {
-        _manager = (BehaviorTreeManager)target;
-    }
+        private BehaviorTreeManager _manager;
 
-    public override void OnInspectorGUI()
-    {
-        EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Behavior Trees", EditorStyles.boldLabel);
-
-        if (!EditorApplication.isPlaying)
+        private void OnEnable()
         {
-            EditorGUILayout.LabelField("Please enter Play Mode.");
-            return;
+            _manager = (BehaviorTreeManager)target;
         }
 
-        bool enable = !_manager.BehaviorTrees[0]?.Tree?.RootNode?.drawGizmos ?? false;
-        var buttonText = enable ? "Enable Draw Gizmos" : "Disable Draw Gizmos";
-
-        if (GUILayout.Button(buttonText))
+        public override void OnInspectorGUI()
         {
-            _manager.ToggleDrawGizmos(enable);
-        }
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Behavior Trees", EditorStyles.boldLabel);
 
-        EditorGUILayout.Space();
-
-        if (_manager.BehaviorTrees != null && _manager.BehaviorTrees.Count > 0)
-        {
-            for (int i = 0; i < _manager.BehaviorTrees.Count; i++)
+            if (!EditorApplication.isPlaying)
             {
-                EditorGUILayout.ObjectField(_manager.BehaviorTrees[i], typeof(BehaviorTreeRunner), true);
+                EditorGUILayout.LabelField("Please enter Play Mode.");
+                return;
             }
-        }
-        else
-        {
-            EditorGUILayout.LabelField("No Behavior Trees found.");
+
+            var enable = !_manager.BehaviorTrees[0]?.Tree?.RootNode?.drawGizmos ?? false;
+            var buttonText = enable ? "Enable Draw Gizmos" : "Disable Draw Gizmos";
+
+            if (GUILayout.Button(buttonText))
+            {
+                _manager.ToggleDrawGizmos(enable);
+            }
+
+            EditorGUILayout.Space();
+
+            if (_manager.BehaviorTrees != null && _manager.BehaviorTrees.Count > 0)
+            {
+                for (int i = 0; i < _manager.BehaviorTrees.Count; i++)
+                {
+                    EditorGUILayout.ObjectField(_manager.BehaviorTrees[i], typeof(BehaviorTreeRunner), true);
+                }
+            }
+            else
+            {
+                EditorGUILayout.LabelField("No Behavior Trees found.");
+            }
         }
     }
 }

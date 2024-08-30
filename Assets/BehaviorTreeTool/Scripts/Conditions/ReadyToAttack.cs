@@ -1,21 +1,20 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace BehaviorTreeTool.Scripts.Conditions
+namespace Tree
 {
     public class ReadyToAttack : ConditionNode
     {
         public SharedCollider target;
 
-        private NavMeshAgent agent;
+        private NavMeshAgent _agent;
 
         [SerializeField] private float attackRange;
 
         protected override void OnAwake()
         {
-            agent = nodeTransform.GetComponent<NavMeshAgent>();
-            agent.stoppingDistance = attackRange;
+            _agent = nodeTransform.GetComponent<NavMeshAgent>();
+            _agent.stoppingDistance = attackRange;
         }
 
         protected override TaskState OnUpdate()

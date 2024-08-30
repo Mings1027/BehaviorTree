@@ -1,24 +1,29 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BehaviorTreeTool.Scripts.Runtime;
+using Cysharp.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Tree;
 
 namespace BehaviorTreeTool.Editor
 {
     public class BehaviorTreeView : GraphView
     {
-        public new class UxmlFactory : UxmlFactory<BehaviorTreeView, UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<BehaviorTreeView, UxmlTraits>
+        {
+        }
+
+        public Action<NodeView> OnNodeSelected { get; set; }
+        public static bool IsNodeSelected { get; set; }
 
         private readonly List<NodeView> _nodeViewPool = new();
         private BehaviorTree _tree;
         private readonly BehaviorTreeSettings _settings;
         private Vector2 _nodePosition;
 
-        public Action<NodeView> OnNodeSelected { get; set; }
         private TaskSearchWindow _taskSearchWindow;
         private Vector2 _lastMousePosition;
 
@@ -59,12 +64,45 @@ namespace BehaviorTreeTool.Editor
             InitGraphView();
             InitializeStyleSheets();
             Undo.undoRedoPerformed += OnUndoRedo;
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+        }
+
+        private void OnPlayModeStateChanged(PlayModeStateChange state)
+        {
+            switch (state)
+            {
+                case PlayModeStateChange.EnteredPlayMode:
+                    break;
+                case PlayModeStateChange.ExitingPlayMode:
+                    break;
+                case PlayModeStateChange.EnteredEditMode:
+                    break;
+                case PlayModeStateChange.ExitingEditMode:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
+
+            OpenTreeDelay().Forget();
+        }
+
+        private async UniTaskVoid OpenTreeDelay()
+        {
+            await UniTask.Yield();
+            if (Selection.activeGameObject != null &&
+                Selection.activeGameObject.TryGetComponent(out BehaviorTreeRunner runner))
+            {
+                BehaviorTreeEditor.OpenWithTree(runner.Tree);
+            }
+
+            PopulateView();
         }
 
         private void InitGraphView()
         {
             Insert(0, new GridBackground());
-            AddMainipulators();
+            AddManipulators();
             RegisterEventCallbacks();
         }
 
@@ -73,13 +111,13 @@ namespace BehaviorTreeTool.Editor
             styleSheets.Add(_settings.BehaviorTreeStyle);
         }
 
-        private void AddMainipulators()
+        private void AddManipulators()
         {
             this.AddManipulator(new ContentZoomer());
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new DoubleClickSelection());
             this.AddManipulator(new SelectionDragger());
-            this.AddManipulator(new RectangleSelector());
+            // this.AddManipulator(new RectangleSelector());
         }
 
         private void RegisterEventCallbacks()
@@ -88,7 +126,7 @@ namespace BehaviorTreeTool.Editor
             RegisterCallback<MouseMoveEvent>(OnMouseMove);
         }
 
-        public NodeView FindNodeView(Node node)
+        public NodeView FindNodeView(BaseNode node)
         {
             return GetNodeByGuid(node.guid) as NodeView;
         }
@@ -102,6 +140,7 @@ namespace BehaviorTreeTool.Editor
         private void OnUndoRedo()
         {
             RefreshView();
+            AssetDatabase.SaveAssets();
         }
 
         private void RefreshView()
@@ -110,18 +149,17 @@ namespace BehaviorTreeTool.Editor
 
             graphViewChanged -= OnGraphViewChanged;
             ClearGraphView();
-            graphViewChanged += OnGraphViewChanged;
-
             RecreateNodeViews();
             RecreateEdges();
+            graphViewChanged += OnGraphViewChanged;
         }
 
         private void ClearGraphView()
         {
-            List<GraphElement> list = graphElements.ToList();
-            for (int i = 0; i < list.Count; i++)
+            var list = graphElements.ToList();
+            for (var i = 0; i < list.Count; i++)
             {
-                GraphElement element = list[i];
+                var element = list[i];
                 if (element is NodeView nodeView)
                 {
                     nodeView.Hide();
@@ -138,31 +176,34 @@ namespace BehaviorTreeTool.Editor
             for (var i = 0; i < _tree.Nodes.Count; i++)
             {
                 var node = _tree.Nodes[i];
-                if (node != null) CreateNodeView(node, i);
+                if (node) CreateNodeView(node, i);
             }
         }
 
         private void RecreateEdges()
         {
-            for (int i = 0; i < _tree.Nodes.Count; i++)
+            for (var i = 0; i < _tree.Nodes.Count; i++)
             {
-                Node node = _tree.Nodes[i];
+                var node = _tree.Nodes[i];
                 var children = BehaviorTree.GetChildren(node);
-                for (int i1 = 0; i1 < children.Count; i1++)
+                for (var i1 = 0; i1 < children.Count; i1++)
                 {
-                    Node child = children[i1];
+                    var child = children[i1];
                     var parentView = FindNodeView(node);
                     var childView = FindNodeView(child);
 
-                    var edge = parentView.Output.ConnectTo(childView.Input);
-                    AddElement(edge);
+                    if (parentView != null && childView != null)
+                    {
+                        var edge = parentView.Output.ConnectTo(childView.Input);
+                        AddElement(edge);
+                    }
                 }
             }
         }
 
         internal void PopulateView()
         {
-            _tree = BehaviorTreeEditor.tree;
+            _tree = BehaviorTreeEditor.Tree;
             RefreshView();
         }
 
@@ -171,7 +212,7 @@ namespace BehaviorTreeTool.Editor
             HandleElementsToRemove(graphViewChange.elementsToRemove);
             HandleEdgesToCreate(graphViewChange.edgesToCreate);
 
-            foreach (NodeView view in nodes.OfType<NodeView>())
+            foreach (var view in nodes.OfType<NodeView>())
             {
                 view.SortChildren();
                 view.UpdateState();
@@ -186,9 +227,9 @@ namespace BehaviorTreeTool.Editor
         {
             if (elementsToRemove == null) return;
 
-            for (int i = 0; i < elementsToRemove.Count; i++)
+            for (var i = 0; i < elementsToRemove.Count; i++)
             {
-                GraphElement element = elementsToRemove[i];
+                var element = elementsToRemove[i];
                 if (element is NodeView nodeView)
                 {
                     HandleNodeRemoval(nodeView);
@@ -207,7 +248,7 @@ namespace BehaviorTreeTool.Editor
             _tree.DeleteNode(nodeView.Node);
 
             foreach (var connectedEdge in edges.Where(edge =>
-                edge.output.node == nodeView || edge.input.node == nodeView).ToList())
+                         edge.output.node == nodeView || edge.input.node == nodeView).ToList())
             {
                 connectedEdge.output.Disconnect(connectedEdge);
                 connectedEdge.input.Disconnect(connectedEdge);
@@ -228,9 +269,9 @@ namespace BehaviorTreeTool.Editor
         {
             if (edgesToCreate == null) return;
 
-            for (int i = 0; i < edgesToCreate.Count; i++)
+            for (var i = 0; i < edgesToCreate.Count; i++)
             {
-                Edge edge = edgesToCreate[i];
+                var edge = edgesToCreate[i];
                 if (edge.output.node is NodeView parentView && edge.input.node is NodeView childView)
                 {
                     Undo.RegisterCompleteObjectUndo(_tree, "Add Edge");
@@ -301,9 +342,9 @@ namespace BehaviorTreeTool.Editor
             string menuPath)
         {
             var types = TypeCache.GetTypesDerivedFrom(baseType);
-            for (int i = 0; i < types.Count; i++)
+            for (var i = 0; i < types.Count; i++)
             {
-                Type type = types[i];
+                var type = types[i];
                 evt.menu.AppendAction($"{menuPath}/{type.Name}", _ => CreateNode(type, nodePosition));
             }
         }
@@ -320,7 +361,6 @@ namespace BehaviorTreeTool.Editor
             {
                 var duplicateNode = _tree.CreateNode(selectedNode.Node.GetType());
                 duplicateNode.position = selectedNode.Node.position + new Vector2(20, 20);
-                duplicateNode.SharedData = selectedNode.Node.SharedData;
 
                 CreateNodeView(duplicateNode, _tree.Nodes.IndexOf(duplicateNode));
                 EditorUtility.SetDirty(_tree);
@@ -337,9 +377,9 @@ namespace BehaviorTreeTool.Editor
                 var connectedEdges = edges.Where(edge =>
                     edge.output.node == selectedNode || edge.input.node == selectedNode).ToList();
 
-                for (int i = 0; i < connectedEdges.Count; i++)
+                for (var i = 0; i < connectedEdges.Count; i++)
                 {
-                    Edge edge = connectedEdges[i];
+                    var edge = connectedEdges[i];
                     var parentNode = (NodeView)edge.output.node;
                     var childNode = (NodeView)edge.input.node;
                     Undo.RecordObject(parentNode.Node, "Delete Edge");
@@ -349,9 +389,9 @@ namespace BehaviorTreeTool.Editor
                 _tree.DeleteNode(selectedNode.Node);
                 RemoveElement(selectedNode);
 
-                for (int i = 0; i < connectedEdges.Count; i++)
+                for (var i = 0; i < connectedEdges.Count; i++)
                 {
-                    Edge connectedEdge = connectedEdges[i];
+                    var connectedEdge = connectedEdges[i];
                     connectedEdge.output.Disconnect(connectedEdge);
                     connectedEdge.input.Disconnect(connectedEdge);
                     RemoveElement(connectedEdge);
@@ -399,7 +439,7 @@ namespace BehaviorTreeTool.Editor
             return contentViewContainer.WorldToLocal(contentViewContainer.parent.worldBound.center);
         }
 
-        private NodeView GetOrCreateNodeView(Node node, int index)
+        private NodeView GetOrCreateNodeView(BaseNode node, int index)
         {
             NodeView nodeView;
 
@@ -412,7 +452,7 @@ namespace BehaviorTreeTool.Editor
             {
                 nodeView = new NodeView(node)
                 {
-                    OnNodeSelected = OnNodeSelected
+                    OnNodeSelectAction = OnNodeSelected
                 };
                 _nodeViewPool.Add(nodeView);
             }
@@ -420,34 +460,22 @@ namespace BehaviorTreeTool.Editor
             return nodeView;
         }
 
-        private void CreateNodeView(Node node, int index)
+        private void CreateNodeView(BaseNode node, int index)
         {
             var nodeView = GetOrCreateNodeView(node, index);
-            AddElement(nodeView);
+            if (!Contains(nodeView))
+            {
+                AddElement(nodeView);
+            }
+
+            nodeView.style.display = DisplayStyle.Flex;
         }
 
         public void UpdateNodeStates()
         {
-            foreach (NodeView view in nodes.OfType<NodeView>())
+            foreach (var view in nodes.OfType<NodeView>())
             {
                 view.UpdateState();
-            }
-        }
-
-        public void SaveTree()
-        {
-            if (_tree != null)
-            {
-                EditorUtility.SetDirty(_tree);
-                AssetDatabase.SaveAssets();
-            }
-        }
-
-        public void LoadTree()
-        {
-            if (_tree != null)
-            {
-                PopulateView();
             }
         }
 
@@ -456,6 +484,15 @@ namespace BehaviorTreeTool.Editor
             if (evt.keyCode == KeyCode.Space)
             {
                 ShowTasksSearchWindow();
+            }
+            else if (evt.keyCode == KeyCode.F && selection.OfType<NodeView>().Any() && !IsNodeSelected)
+            {
+                FrameSelection(selection.OfType<NodeView>().First());
+            }
+            else if (evt.keyCode == KeyCode.Escape)
+            {
+                ClearSelection();
+                IsNodeSelected = false;
             }
         }
 
@@ -476,6 +513,12 @@ namespace BehaviorTreeTool.Editor
             _taskSearchWindow.SetPosition(localMousePosition);
             var screenMousePosition = GUIUtility.GUIToScreenPoint(_lastMousePosition);
             SearchWindow.Open(new SearchWindowContext(screenMousePosition), _taskSearchWindow);
+        }
+
+        private void FrameSelection(NodeView nodeView)
+        {
+            var position = nodeView.GetPosition();
+            UpdateViewTransform(position.position, _nodePosition);
         }
     }
 
@@ -513,12 +556,12 @@ namespace BehaviorTreeTool.Editor
             return tree;
         }
 
-        private void AddNodeEntries<T>(List<SearchTreeEntry> tree, string groupName, int level) where T : Node
+        private void AddNodeEntries<T>(List<SearchTreeEntry> tree, string groupName, int level) where T : BaseNode
         {
             var nodeTypes = TypeCache.GetTypesDerivedFrom<T>();
-            for (int i = 0; i < nodeTypes.Count; i++)
+            for (var i = 0; i < nodeTypes.Count; i++)
             {
-                Type type = nodeTypes[i];
+                var type = nodeTypes[i];
                 var entry = new SearchTreeEntry(new GUIContent(type.Name))
                 {
                     level = level,

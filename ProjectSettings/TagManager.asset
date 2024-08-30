@@ -8,11 +8,11 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Red
+  - Monster
   - Water
   - UI
-  - Blue
-  - Green
+  - Unit
+  - Scene Monster
   - 
   - 
   - 

@@ -1,7 +1,6 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
 
-namespace BehaviorTreeTool.Scripts.Actions
+namespace Tree
 {
     public class RandomFailure : ActionNode
     {

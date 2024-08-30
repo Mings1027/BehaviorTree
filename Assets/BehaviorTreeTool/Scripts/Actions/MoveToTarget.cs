@@ -1,7 +1,6 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine.AI;
 
-namespace BehaviorTreeTool.Scripts.Actions
+namespace Tree
 {
     public class MoveToTarget : ActionNode
     {

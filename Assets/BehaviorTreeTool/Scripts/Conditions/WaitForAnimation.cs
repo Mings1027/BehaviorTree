@@ -1,6 +1,6 @@
-using BehaviorTreeTool.Scripts.Runtime;
 using UnityEngine;
-namespace BehaviorTreeTool.Scripts.Conditions
+
+namespace Tree
 {
     public class WaitForAnimation : ConditionNode
     {

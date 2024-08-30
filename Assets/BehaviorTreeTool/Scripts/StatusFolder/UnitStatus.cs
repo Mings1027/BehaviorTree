@@ -1,13 +1,16 @@
 using UnityEngine;
 
-[CreateAssetMenu]
-public class UnitStatus : ScriptableObject
+namespace Tree
 {
-    public int Health
+    [CreateAssetMenu]
+    public class UnitStatus : ScriptableObject
     {
-        get => health;
-        set => health = value;
-    }
+        public int Health
+        {
+            get => health;
+            set => health = value;
+        }
 
-    [SerializeField] private int health;
+        [SerializeField] private int health;
+    }
 }
