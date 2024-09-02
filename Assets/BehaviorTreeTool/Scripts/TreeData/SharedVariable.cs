@@ -23,9 +23,10 @@ namespace Tree
         }
 
         [SerializeField] private SharedVariableType variableType;
-
-        public abstract void SetValue(object o);
 #endif
+        public abstract void SetValue(object o);
+        public abstract object GetValue();
+
         public virtual SharedVariableBase Clone()
         {
             var clone = (SharedVariableBase)MemberwiseClone();
@@ -43,17 +44,19 @@ namespace Tree
             get => value;
             set => this.value = value;
         }
-#if UNITY_EDITOR
+
+        public override object GetValue() => value;
+
         public override void SetValue(object o)
         {
             Value = o switch
             {
                 T typedValue => typedValue,
                 null => default,
-                _ => value
+                _ => throw new ArgumentException(
+                    $"Cannot assign a value of type '{o.GetType()}' to the variable '{VariableName}'. Expected type is '{typeof(T)}'.")
             };
         }
-#endif
     }
 
     // [Serializable]

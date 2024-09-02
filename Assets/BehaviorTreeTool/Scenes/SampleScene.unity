@@ -703,6 +703,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawGizmos: 1
   enableVariables: 0
+  runtimeVariables: []
   behaviorTree: {fileID: 11400000, guid: b0e58e202751a490e8728196b14ab3db, type: 2}
   variables: []
   references:
@@ -822,7 +823,7 @@ Transform:
   m_GameObject: {fileID: 690580546}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.8, y: 0, z: -10.64}
+  m_LocalPosition: {x: 3.871, y: 0, z: -9.345}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -893,6 +894,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa8d75748e249c9889c13396ca7ba07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableAllTreeGizmos: 0
   behaviorTrees: []
 --- !u!4 &796108467
 Transform:
@@ -983,11 +985,80 @@ Transform:
   m_GameObject: {fileID: 866118226}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.34, y: 0, z: -8.93}
+  m_LocalPosition: {x: 3.65, y: 0, z: -8.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 769882838}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &927759427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 927759429}
+  - component: {fileID: 927759428}
+  m_Layer: 0
+  m_Name: Global Variables-test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &927759428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927759427}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4f8bf4354d34a0492e15425e6a359ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  variables:
+  - rid: 8748967977516007588
+  - rid: 8748967977516007589
+  - rid: 8748967977516007590
+  references:
+    version: 2
+    RefIds:
+    - rid: 8748967977516007588
+      type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: Global Range
+        variableType: 6
+        value: 5.5
+    - rid: 8748967977516007589
+      type: {class: SharedBool, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: IsPlaying
+        variableType: 2
+        value: 1
+    - rid: 8748967977516007590
+      type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: Global Target Col
+        variableType: 3
+        value: {fileID: 0}
+--- !u!4 &927759429
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927759427}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1449497712
 GameObject:
@@ -1191,6 +1262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawGizmos: 0
   enableVariables: 1
+  runtimeVariables: []
   behaviorTree: {fileID: 11400000, guid: 08bcb8b89c66443dfa7d54dfa8c262c3, type: 2}
   variables:
   - rid: 7860338831196946574
@@ -1382,6 +1454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawGizmos: 0
   enableVariables: 1
+  runtimeVariables: []
   behaviorTree: {fileID: 11400000, guid: 08bcb8b89c66443dfa7d54dfa8c262c3, type: 2}
   variables:
   - rid: 7860338831196946533
@@ -1603,34 +1676,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   drawGizmos: 0
   enableVariables: 1
+  runtimeVariables: []
   behaviorTree: {fileID: 11400000, guid: 08bcb8b89c66443dfa7d54dfa8c262c3, type: 2}
   variables:
-  - rid: 7860338831196946536
-  - rid: 7860338831196946537
-  - rid: 7860338831196946538
+  - rid: 8748967977516007533
+  - rid: 8748967977516007534
+  - rid: 8748967977516007535
   references:
     version: 2
     RefIds:
-    - rid: 7860338831196946536
+    - rid: 8748967977516007533
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 7860338831196946537
+    - rid: 8748967977516007534
       type: {class: SharedTransformArray, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
         value:
         - {fileID: 866118227}
-        - {fileID: 1605107213}
-    - rid: 7860338831196946538
+        - {fileID: 73092628}
+    - rid: 8748967977516007535
       type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
-        value: 10
+        value: 7
 --- !u!114 &2104148793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1856,3 +1930,4 @@ SceneRoots:
   - {fileID: 1846325814}
   - {fileID: 1752430370}
   - {fileID: 667737250}
+  - {fileID: 927759429}

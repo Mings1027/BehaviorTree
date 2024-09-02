@@ -27,8 +27,8 @@ namespace Tree
             var assembly = baseType.Assembly;
 
             var sharedVariableTypes = assembly.GetTypes()
-                .Where(t => t.IsSubclassOf(baseType) && !t.IsAbstract)
-                .ToList();
+                                              .Where(t => t.IsSubclassOf(baseType) && !t.IsAbstract)
+                                              .ToList();
 
             for (var i = 0; i < sharedVariableTypes.Count; i++)
             {
@@ -183,7 +183,7 @@ namespace Tree
             return value;
         }
 
-        public static Array DrawArrayField(Array array, string label, Type elementType)
+        private static Array DrawArrayField(Array array, string label, Type elementType)
         {
             EditorGUILayout.BeginHorizontal();
 
@@ -227,7 +227,7 @@ namespace Tree
             return array;
         }
 
-        public static IList DrawListField(IList list, string label, Type elementType)
+        private static IList DrawListField(IList list, string label, Type elementType)
         {
             EditorGUILayout.BeginHorizontal();
 

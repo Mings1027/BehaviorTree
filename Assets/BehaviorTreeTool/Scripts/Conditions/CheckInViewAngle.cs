@@ -2,21 +2,22 @@
 using UnityEditor;
 #endif
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Tree
 {
     public class CheckInViewAngle : ConditionNode
     {
-        public SharedCollider target;
+        public SharedCollider checkTarget;
         public SharedInt checkRange;
 
         [SerializeField] private int viewAngle;
 
         protected override TaskState OnUpdate()
         {
-            if (!target.Value) return TaskState.Failure;
+            if (!checkTarget.Value) return TaskState.Failure;
 
-            var directionToTarget = target.Value.transform.position - nodeTransform.position;
+            var directionToTarget = checkTarget.Value.transform.position - nodeTransform.position;
             var angle = Vector3.Angle(nodeTransform.forward, directionToTarget);
 
             // 시야각 내에 있으면 성공
@@ -26,7 +27,7 @@ namespace Tree
             }
 
             // 시야각 밖에 있어도 범위 내에 있으면 성공
-            var distanceToTarget = Vector3.SqrMagnitude(nodeTransform.position - target.Value.transform.position);
+            var distanceToTarget = Vector3.SqrMagnitude(nodeTransform.position - checkTarget.Value.transform.position);
             if (distanceToTarget <= checkRange.Value * checkRange.Value)
             {
                 return TaskState.Success;
@@ -42,7 +43,7 @@ namespace Tree
             if (nodeTransform == null) return;
 
             // 시야각을 그리기 위한 Handles 설정
-            Handles.color = target.Value ? new Color(0, 1, 0, 0.2f) : new Color(1, 1, 0, 0.2f); // 노란색 반투명
+            Handles.color = checkTarget.Value ? new Color(0, 1, 0, 0.2f) : new Color(1, 1, 0, 0.2f); // 노란색 반투명
 
             // 원호를 채워진 형태로 그리기
             Vector3 forward = nodeTransform.forward * checkRange.Value;

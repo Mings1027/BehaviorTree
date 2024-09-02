@@ -1,15 +1,22 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace Tree
 {
-    public class BehaviorTreeManager : MonoBehaviour
+    public class BehaviorManager : MonoBehaviour
     {
-        private static BehaviorTreeManager _instance;
-        [SerializeField] private List<BehaviorTreeRunner> behaviorTrees;
+        private static BehaviorManager _instance;
+
 #if UNITY_EDITOR
-        public List<BehaviorTreeRunner> BehaviorTrees => behaviorTrees;
+        [SerializeField] private bool enableAllTreeGizmos;
+#endif
+        [SerializeField] private List<BehaviorTreeRunner> behaviorTrees;
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            ToggleDrawGizmos(enableAllTreeGizmos);
+        }
 #endif
         private void Awake()
         {
@@ -22,6 +29,7 @@ namespace Tree
             _instance = this;
             behaviorTrees = new List<BehaviorTreeRunner>();
         }
+
 
         private void Update()
         {
@@ -59,7 +67,9 @@ namespace Tree
         }
 
 #if UNITY_EDITOR
-        public void ToggleDrawGizmos(bool enable)
+
+
+        private void ToggleDrawGizmos(bool enable)
         {
             if (behaviorTrees == null || behaviorTrees.Count == 0) return;
             for (int i = 0; i < behaviorTrees.Count; i++)

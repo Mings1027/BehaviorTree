@@ -73,6 +73,12 @@ namespace BehaviorTreeTool.Editor
             }
 
             EditorGUILayout.EndHorizontal();
+
+            if (GUILayout.Button("Global Variable"))
+            {
+                GlobalVariablesWindow.AddVariable(_variableName, _variableType);
+                _variableName = string.Empty;
+            }
         }
 
         private void AddVariable()
@@ -105,6 +111,7 @@ namespace BehaviorTreeTool.Editor
 
             _variableName = string.Empty;
         }
+
 
         private bool IsVariableNameDuplicate()
         {
@@ -195,7 +202,7 @@ namespace BehaviorTreeTool.Editor
                 EditorGUILayout.PropertyField(variableProperty.FindPropertyRelative("variableType"), GUIContent.none);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    var newVariable = TreeUtility.CreateSharedVariable(variableNameProperty.stringValue,
+                    var newVariable = TreeUtility.CreateSharedVariable(variableName,
                         (SharedVariableType)variableTypeProperty.enumValueIndex);
                     if (newVariable != null)
                     {

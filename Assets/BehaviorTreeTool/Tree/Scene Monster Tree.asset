@@ -13,30 +13,30 @@ MonoBehaviour:
   m_Name: SharedData
   m_EditorClassIdentifier: 
   variables:
-  - rid: 8703869811811680262
-  - rid: 8703869811811680281
-  - rid: 7860338831196946519
+  - rid: 8748967998770643090
+  - rid: 8748967998770643091
+  - rid: 8748967998770643092
   references:
     version: 2
     RefIds:
-    - rid: 7860338831196946519
-      type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
-      data:
-        variableName: Check Range
-        variableType: 9
-        value: 10
-    - rid: 8703869811811680262
+    - rid: 8748967998770643090
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 8703869811811680281
+    - rid: 8748967998770643091
       type: {class: SharedTransformArray, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
         value: []
+    - rid: 8748967998770643092
+      type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: Check Range
+        variableType: 9
+        value: 7
 --- !u!114 &-5938471010181334804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,7 +74,7 @@ MonoBehaviour:
   guid: f7a7c399c71f14012b8554c4cefa121d
   description: 
   drawGizmos: 0
-  target:
+  enemy:
     variableName: Target
     variableType: 3
     value: {fileID: 0}
@@ -263,7 +263,7 @@ MonoBehaviour:
   guid: d63bc5b7e63d141bb8b8835f23cbfb92
   description: 
   drawGizmos: 0
-  target:
+  checkTarget:
     variableName: Target
     variableType: 3
     value: {fileID: 0}
@@ -360,7 +360,7 @@ MonoBehaviour:
   guid: de3402e0a74ac4a17aee30ebe2352ad6
   description: 
   drawGizmos: 0
-  target:
+  enemy:
     variableName: Target
     variableType: 3
     value: {fileID: 0}

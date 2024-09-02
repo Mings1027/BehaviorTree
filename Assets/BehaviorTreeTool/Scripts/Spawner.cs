@@ -24,6 +24,7 @@ namespace Tree
                     Instantiate(monster, hit.position, Quaternion.identity);
                 }
             }
+
             for (var i = 0; i < unitCount; i++)
             {
                 var ranPos = Random.insideUnitSphere * spawnRange;

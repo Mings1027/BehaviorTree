@@ -13,6 +13,7 @@ namespace BehaviorTreeTool.Editor
         private SerializedProperty _behaviorTreeProperty;
         private SerializedProperty _variablesProperty;
         private SerializedProperty _drawGizmosProperty;
+        private SerializedProperty _runtimeVariablesProperty;
 
         private readonly Dictionary<string, bool> _foldoutStates = new();
 
@@ -22,6 +23,7 @@ namespace BehaviorTreeTool.Editor
             _behaviorTreeProperty = serializedObject.FindProperty("behaviorTree");
             _variablesProperty = serializedObject.FindProperty("variables");
             _drawGizmosProperty = serializedObject.FindProperty("drawGizmos");
+            _runtimeVariablesProperty = serializedObject.FindProperty("runtimeVariables");
         }
 
         public override void OnInspectorGUI()
@@ -30,9 +32,10 @@ namespace BehaviorTreeTool.Editor
 
             var treeRunner = (BehaviorTreeRunner)target;
 
-            DrawGizmosField(treeRunner);
             DrawBehaviorTreeField(treeRunner);
+            DrawGizmosField(treeRunner);
             DrawEnableVariablesField(treeRunner);
+            DrawRuntimeVariables();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -64,12 +67,12 @@ namespace BehaviorTreeTool.Editor
             {
                 treeRunner.Tree = currentBehaviorTree;
                 serializedObject.ApplyModifiedProperties();  // 변경 사항을 즉시 반영합니다.
-                treeRunner.UpdateVariables();
             }
         }
 
         private void DrawEnableVariablesField(BehaviorTreeRunner treeRunner)
         {
+            if (Application.isPlaying) return;
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(_enableVariablesProperty);
             if (EditorGUI.EndChangeCheck())
@@ -132,5 +135,10 @@ namespace BehaviorTreeTool.Editor
             TreeUtility.DrawHorizontalLine(Color.gray);
         }
 
+        private void DrawRuntimeVariables()
+        {
+            if (!Application.isPlaying) return;
+            EditorGUILayout.PropertyField(_runtimeVariablesProperty);
+        }
     }
 }

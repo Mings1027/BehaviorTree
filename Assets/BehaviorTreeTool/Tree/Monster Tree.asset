@@ -67,7 +67,7 @@ MonoBehaviour:
   guid: f7a7c399c71f14012b8554c4cefa121d
   description: 
   drawGizmos: 1
-  target:
+  enemy:
     variableName: Target
     variableType: 3
     value: {fileID: 0}
@@ -236,7 +236,7 @@ MonoBehaviour:
   guid: d63bc5b7e63d141bb8b8835f23cbfb92
   description: 
   drawGizmos: 0
-  target:
+  checkTarget:
     variableName: Target
     variableType: 3
     value: {fileID: 0}
@@ -350,7 +350,7 @@ MonoBehaviour:
   guid: de3402e0a74ac4a17aee30ebe2352ad6
   description: 
   drawGizmos: 1
-  target:
+  enemy:
     variableName: Target
     variableType: 3
     value: {fileID: 0}

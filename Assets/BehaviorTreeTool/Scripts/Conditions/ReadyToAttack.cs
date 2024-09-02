@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace Tree
 {
     public class ReadyToAttack : ConditionNode
     {
-        public SharedCollider target;
+        public SharedCollider enemy;
 
         private NavMeshAgent _agent;
 
@@ -19,9 +20,9 @@ namespace Tree
 
         protected override TaskState OnUpdate()
         {
-            if (target.Value && target.Value.enabled)
+            if (enemy.Value && enemy.Value.enabled)
             {
-                var distance = Vector3.Distance(target.Value.transform.position, nodeTransform.position);
+                var distance = Vector3.Distance(enemy.Value.transform.position, nodeTransform.position);
 
                 if (distance <= attackRange)
                 {

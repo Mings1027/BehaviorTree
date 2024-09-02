@@ -74,6 +74,24 @@ namespace Tree
             return tree;
         }
 
+        public SharedVariableBase GetVariable(string variableName)
+        {
+            var variables = sharedData.Variables;
+            for (var i = 0; i < variables.Count; i++)
+            {
+                if (variables[i].VariableName == variableName)
+                    return variables[i];
+            }
+
+            return null;
+        }
+
+        public void SetVariable(string variableName, object value)
+        {
+            var variable = GetVariable(variableName);
+            variable.SetValue(value);
+        }
+
 #if UNITY_EDITOR
 
         public void SetRootNode(RootNode root)

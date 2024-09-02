@@ -171,13 +171,13 @@ MonoBehaviour:
       data:
         variableName: Random Point
         variableType: 20
-        value: {x: -32.085358, y: 0, z: -0.55472755}
+        value: {x: -20.760185, y: 0, z: 9.519916}
     - rid: 8703869811811680356
       type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Remaining Distance
         variableType: 6
-        value: 0.9639374
+        value: 12.26661
     - rid: 8703869811811680357
       type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
       data:
