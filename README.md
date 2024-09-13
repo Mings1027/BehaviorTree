@@ -58,11 +58,13 @@ Runner 컴포넌트에 'Enable Variables' 토글을 활성화 시 플레이전�
 ![스크린샷 2024-09-13 오후 3 43 42](https://github.com/user-attachments/assets/e567edfe-6db1-4517-924c-dd488f5d3df2)
 
 런타임이 되면 BehaviorTreeRunner 컴포넌트에 에디터타임에서는 보이지 않던 'Runtime Variables' 리스트가 보입니다.  
-이 리스트는 런타임 도중 값을 확인하기 쉽게 해주며 'Enable Variables'와는 무관합니다. 공유 변수가 하나라도 있는 모든 Runner 컴포넌트에 공통적으로 나타납니다.
+이 리스트는 런타임 도중 값을 확인하기 쉽게 해주며 'Enable Variables'와는 무관합니다. 공유 변수가 하나라도 있는 모든 Runner 컴포넌트에 공통적으로 나타납니다.  
+![스크린샷 2024-09-13 오후 3 45 41](https://github.com/user-attachments/assets/614c3757-408b-4487-9ece-769fd488d3e1)
 
 4. Global Variable  
 씬마다 하나씩 존재하는 리스트입니다.  
 씬에 존재하는 모든 객체가 접근할 수 있습니다.  
+변수 생성 방법은 공유 변수 생성과 같습니다.  
 상단메뉴에서 GlobalVariables Editor를 열 수 있습니다.
 
 ![스크린샷 2024-09-13 오후 3 01 03](https://github.com/user-attachments/assets/609d6fd9-5ef0-4c3b-a427-564d80f9b0e2)
