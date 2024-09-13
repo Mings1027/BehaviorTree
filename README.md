@@ -14,7 +14,7 @@ Behavior Tree Editor 창을 여는 세가지 방법
 ![스크린샷 2024-09-13 오후 2 31 25](https://github.com/user-attachments/assets/032df0c9-17f9-4f20-8c2c-b6311f421623)
 
 Behavior Tree Editor 사용방법
-1. 노드 생성
+1. 노드 생성  
 1-1. Editor의 Task 탭에서 원하는 노드를 선택하면 해당 노드가 생성됩니다.  
 1-2. Editor가 활성화된 상태에서 Space Bar를 누르면 검색창이 마우스 위치에 보여집니다. 원하는 노드를 검색 후 생성할 수 있습니다.  
 1-3. RootNode는 자동생성입니다.  
@@ -22,19 +22,20 @@ Behavior Tree Editor 사용방법
 
 ![스크린샷 2024-09-13 오후 2 37 11](https://github.com/user-attachments/assets/a7fed9d9-b791-4721-b41e-5889b0a196ad)
 
-2. 공유 변수 생성 (생략 가능)
+2. 공유 변수 생성 (생략 가능)  
 2-1. Editor의 Variables 탭에서 노드 간에 공유할 값을 생성할 수 있습니다.  
 2-2. Name과 Type을 설정하고 Add 버튼으로 추가합니다.  
 아래 사진은 Collider변수와 Int변수가 공유변수로 생성되있는 상황입니다.
 
 ![스크린샷 2024-09-13 오후 2 40 53](https://github.com/user-attachments/assets/23979b8e-1959-4ce8-8832-b417f8b50732)
 
-2-3. 공유변수를 생성했다면 Inspector 탭에서 공유변수를 사용할 노드를 선택합니다.
+2-3. 공유변수를 생성했다면 Inspector 탭에서 공유변수를 사용할 노드를 선택합니다.  
 현재 ReadyToAttack 노드가 선택되있고 해당 노드에는 SharedCollider 타입변수 'enemy'가 선언되어 있습니다.  
 위에서 만든 공유변수 중 해당 노드에서 사용할 공유변수의 이름을 선택해줍니다.  
 아래 사진은 ReadyToAttack 노드에서 'Target' 이라는 이름을 선택한 사진입니다.
 
 ![스크린샷 2024-09-13 오후 2 45 53](https://github.com/user-attachments/assets/aa7078ca-52de-4a30-9cae-539fed64d039)
+
 아래 사진은 Attack 노드에서 'Target' 이라는 이름을 선택한 사진입니다.
 
 ![스크린샷 2024-09-13 오후 2 46 21](https://github.com/user-attachments/assets/7c54e7a1-2e38-4558-980c-8a9e3d71a53a)
@@ -44,10 +45,11 @@ Behavior Tree Editor 사용방법
 ![스크린샷 2024-09-13 오후 2 49 26](https://github.com/user-attachments/assets/b5f9cb46-041a-4ed9-a201-bec370ebd006)
 ![스크린샷 2024-09-13 오후 2 49 43](https://github.com/user-attachments/assets/8fe3309d-b6b1-49c2-ae56-7f0abc22a132)
 
-3. BehaviorTreeRunner
+3. BehaviorTreeRunner  
 트리를 사용하는 모든 객체는 해당 컴포넌트를 하나씩 가집니다.
 
 ![스크린샷 2024-09-13 오후 2 52 28](https://github.com/user-attachments/assets/27c73cac-8980-4d8d-83bc-4f1398937714)
+
 Runner 컴포넌트에 'Enable Variables' 토글을 활성화 시 플레이전에 공유값으로 사용할 객체를 할당할 수 있습니다.  
 이는 선택사항이며 공유변수 객체가 플레이전에 씬에 존재해야하는 경우 사용하는 옵션입니다.  
 
@@ -55,7 +57,7 @@ Runner 컴포넌트에 'Enable Variables' 토글을 활성화 시 플레이전�
 
 ![스크린샷 2024-09-13 오후 2 54 54](https://github.com/user-attachments/assets/0bb17cb4-6370-4dc3-a193-ac7d514706c7)
 
-4. Global Variable
+4. Global Variable  
 씬마다 하나씩 존재하는 리스트입니다.  
 씬에 존재하는 모든 객체가 접근할 수 있습니다.  
 상단메뉴에서 GlobalVariables Editor를 열 수 있습니다.
