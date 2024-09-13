@@ -25,13 +25,13 @@ Behavior Tree Editor 사용방법
 2. 공유 변수 생성 (이 기능은 노드 간에 값을 공유할 때 사용합니다. 노드 간에 값을 공유할 필요가 없는 경우 3번으로 넘어갑니다.)  
 2-1. Editor의 Variables 탭에서 노드 간에 공유할 값을 생성할 수 있습니다.  
 2-2. Name과 Type을 설정하고 Add 버튼으로 추가합니다.  
-아래 사진은 Collider변수와 Int변수가 공유변수로 생성되어 있습니다.
+아래 사진은 Collider변수와 Int변수가 공유 변수로 생성되어 있습니다.
 
 ![스크린샷 2024-09-13 오후 2 40 53](https://github.com/user-attachments/assets/23979b8e-1959-4ce8-8832-b417f8b50732)
 
-2-3. 공유변수를 생성했다면 Inspector 탭에서 공유변수를 사용할 노드를 선택합니다.  
+2-3. 공유 변수를 생성했다면 Inspector 탭에서 공유 변수를 사용할 노드를 선택합니다.  
 현재 ReadyToAttack 노드가 선택돼있고 해당 노드에는 SharedCollider 타입변수 'enemy'가 선언되어 있습니다.  
-위에서 만든 공유변수 중 해당 노드에서 사용할 공유변수의 이름을 선택해줍니다.  
+위에서 만든 공유 변수 중 해당 노드에서 사용할 공유 변수의 이름을 선택해줍니다.  
 아래 사진은 ReadyToAttack 노드가 선택돼있고 이 노드에 선언된 SharedCollider 타입변수 'enemy'가 사용할 이름으로 'Target'을 선택한 사진입니다.  
 ![스크린샷 2024-09-13 오후 3 24 40](https://github.com/user-attachments/assets/06231e80-62e9-46d5-bb51-4e523d6893a3)
 ![스크린샷 2024-09-13 오후 2 45 53](https://github.com/user-attachments/assets/aa7078ca-52de-4a30-9cae-539fed64d039)
@@ -52,11 +52,13 @@ ReadyToAttack 노드와 Attack 노드에 Collider 타입의 Unit(Clone)이 할�
 
 3-1. 공유 변수를 사용하는 경우  
 Runner 컴포넌트에 'Enable Variables' 토글을 활성화 시 플레이전에 공유값으로 사용할 객체를 할당할 수 있습니다.  
-공유 변수를 사용하더라도 공유변수가 씬에 미리 존재하지 않거나 런타임 도중에 할당해도 되는 경우 이 토글을 사용하지 않아도 됩니다.  
-아래사진은 Unit Tree에는 공유 변수가 존재하지만 해당 공유 변수는 런타임 도중 할당되는 값이므로 'Enable Variables'가 비활성화 되있는 모습입니다.
+공유 변수를 사용하더라도 공유 변수가 씬에 미리 존재하지 않거나 런타임 도중에 할당해도 되는 경우 이 토글을 사용하지 않아도 됩니다.  
+아래사진은 Unit Tree를 사용하는 객체의 인스펙터이며, 해당 트리에는 공유 변수가 존재하지만 런타임 도중 할당되는 값이므로 'Enable Variables'가 비활성화 되어 있습니다.  
 ![스크린샷 2024-09-13 오후 2 54 54](https://github.com/user-attachments/assets/0bb17cb4-6370-4dc3-a193-ac7d514706c7)  
+![스크린샷 2024-09-13 오후 3 43 42](https://github.com/user-attachments/assets/e567edfe-6db1-4517-924c-dd488f5d3df2)
+
 런타임이 되면 BehaviorTreeRunner 컴포넌트에 에디터타임에서는 보이지 않던 'Runtime Variables' 리스트가 보입니다.  
-이 리스트는 런타임 도중 값을 확인하기 쉽게 해주며 'Enable Variables'와는 무관합니다. 공유변수가 하나라도 있는 모든 Runner 컴포넌트에 공통적으로 나타납니다.
+이 리스트는 런타임 도중 값을 확인하기 쉽게 해주며 'Enable Variables'와는 무관합니다. 공유 변수가 하나라도 있는 모든 Runner 컴포넌트에 공통적으로 나타납니다.
 
 4. Global Variable  
 씬마다 하나씩 존재하는 리스트입니다.  
