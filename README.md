@@ -30,10 +30,10 @@ Behavior Tree Editor 사용방법
 ![스크린샷 2024-09-13 오후 2 40 53](https://github.com/user-attachments/assets/23979b8e-1959-4ce8-8832-b417f8b50732)
 
 2-3. 공유변수를 생성했다면 Inspector 탭에서 공유변수를 사용할 노드를 선택합니다.  
-현재 ReadyToAttack 노드가 선택되있고 해당 노드에는 SharedCollider 타입변수 'enemy'가 선언되어 있습니다.  
+현재 ReadyToAttack 노드가 선택돼있고 해당 노드에는 SharedCollider 타입변수 'enemy'가 선언되어 있습니다.  
 위에서 만든 공유변수 중 해당 노드에서 사용할 공유변수의 이름을 선택해줍니다.  
-아래 사진은 ReadyToAttack 노드에서 'Target' 이라는 이름을 선택한 사진입니다.
-
+아래 사진은 ReadyToAttack 노드가 선택돼있고 이 노드에 선언된 SharedCollider 타입변수 'enemy'가 사용할 이름으로 'Target'을 선택한 사진입니다.  
+![스크린샷 2024-09-13 오후 3 24 40](https://github.com/user-attachments/assets/06231e80-62e9-46d5-bb51-4e523d6893a3)
 ![스크린샷 2024-09-13 오후 2 45 53](https://github.com/user-attachments/assets/aa7078ca-52de-4a30-9cae-539fed64d039)
 
 아래 사진은 Attack 노드에서 'Target' 이라는 이름을 선택한 사진입니다.
