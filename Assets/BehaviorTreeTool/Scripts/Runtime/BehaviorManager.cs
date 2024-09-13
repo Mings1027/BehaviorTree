@@ -1,12 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Tree
 {
-    public class BehaviorManager : MonoBehaviour
+    public class BehaviorManager : MonoSingleton<BehaviorManager>
     {
-        private static BehaviorManager _instance;
-
 #if UNITY_EDITOR
         [SerializeField] private bool enableAllTreeGizmos;
 #endif
@@ -18,37 +17,50 @@ namespace Tree
             ToggleDrawGizmos(enableAllTreeGizmos);
         }
 #endif
-        private void Awake()
-        {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
 
-            _instance = this;
+        protected override void Awake()
+        {
+            base.Awake();
             behaviorTrees = new List<BehaviorTreeRunner>();
         }
 
+        private void Start()
+        {
+            GlobalVariables.SetVariable("IsPlaying", true);
+        }
 
         private void Update()
         {
-            for (int i = 0; i < behaviorTrees.Count; i++)
+            for (var i = behaviorTrees.Count - 1; i >= 0; i--)
             {
-                behaviorTrees[i].TreeUpdate();
+                if (!behaviorTrees[i].gameObject.activeSelf || !behaviorTrees[i].enabled)
+                {
+                    RemoveTree(behaviorTrees[i]);
+                    continue;
+                }
+
+                if (behaviorTrees[i])
+                {
+                    behaviorTrees[i].TreeUpdate();
+                }
             }
+        }
+
+        private void OnDisable()
+        {
+            GlobalVariables.SetVariable("IsPlaying", false);
         }
 
         public static void AddTree(BehaviorTreeRunner behaviorTree)
         {
-            if (_instance.behaviorTrees.Contains(behaviorTree)) return;
-            _instance.behaviorTrees.Add(behaviorTree);
+            if (Instance.behaviorTrees.Contains(behaviorTree)) return;
+            Instance.behaviorTrees.Add(behaviorTree);
         }
 
-        public static void RemoveTree(BehaviorTreeRunner behaviorTree)
+        private static void RemoveTree(BehaviorTreeRunner behaviorTree)
         {
-            if (_instance.behaviorTrees.Contains(behaviorTree))
-                _instance.behaviorTrees.Remove(behaviorTree);
+            if (Instance.behaviorTrees.Contains(behaviorTree))
+                Instance.behaviorTrees.Remove(behaviorTree);
         }
 
         public static SharedVariableBase GetSharedVariable(List<SharedVariableBase> variables, string variableName)

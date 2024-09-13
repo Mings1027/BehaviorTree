@@ -165,7 +165,7 @@ namespace BehaviorTreeTool.Editor
         {
             if (selectedIndex == 0)
             {
-                variable.VariableName = string.Empty;
+                variable.SetVariableName(string.Empty);
                 variable.SetValue(null);
             }
             else
@@ -176,8 +176,8 @@ namespace BehaviorTreeTool.Editor
                 {
                     if (variables[i].VariableName == selectedVariableName)
                     {
-                        variable.VariableName = variables[i].VariableName;
-                        variable.VariableType = variables[i].VariableType;
+                        variable.SetVariableName(variables[i].VariableName);
+                        variable.SetVariableType(variables[i].VariableType);
                         break;
                     }
                 }

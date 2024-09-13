@@ -60,13 +60,14 @@ namespace BehaviorTreeTool.Editor
                 // Open behavior tree logic
                 BehaviorTreeEditor.OpenWithTree(treeRunner.Tree);
             }
+
             EditorGUILayout.EndHorizontal();
 
             var currentBehaviorTree = (BehaviorTree)_behaviorTreeProperty.objectReferenceValue;
             if (currentBehaviorTree != treeRunner.Tree)
             {
                 treeRunner.Tree = currentBehaviorTree;
-                serializedObject.ApplyModifiedProperties();  // 변경 사항을 즉시 반영합니다.
+                serializedObject.ApplyModifiedProperties(); // 변경 사항을 즉시 반영합니다.
             }
         }
 
@@ -97,7 +98,9 @@ namespace BehaviorTreeTool.Editor
 
             if (isFolded)
             {
-                if (treeRunner.GetType().GetField("variables", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(treeRunner) is not List<SharedVariableBase> variables || variables.Count == 0)
+                if (treeRunner.GetType().GetField("variables",
+                                  System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                              ?.GetValue(treeRunner) is not List<SharedVariableBase> variables || variables.Count == 0)
                 {
                     EditorGUI.indentLevel++;
                     EditorGUILayout.LabelField("There are no variables");
@@ -125,7 +128,8 @@ namespace BehaviorTreeTool.Editor
                 EditorGUI.indentLevel++;
             }
 
-            TreeUtility.DrawSharedVariableValueField((SharedVariableBase)variableProperty.managedReferenceValue, variableName);
+            TreeUtility.DrawSharedVariableValueField((SharedVariableBase)variableProperty.managedReferenceValue,
+                variableName);
 
             if (isArrayOrList)
             {

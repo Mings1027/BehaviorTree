@@ -442,7 +442,6 @@ namespace BehaviorTreeTool.Editor
         private NodeView GetOrCreateNodeView(BaseNode node, int index)
         {
             NodeView nodeView;
-
             if (index < _nodeViewPool.Count)
             {
                 nodeView = _nodeViewPool[index];

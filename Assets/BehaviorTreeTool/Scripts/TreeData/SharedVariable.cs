@@ -8,21 +8,17 @@ namespace Tree
     [Serializable]
     public abstract class SharedVariableBase
     {
-        public string VariableName
-        {
-            get => variableName;
-            set => variableName = value;
-        }
-
+        public string VariableName => variableName;
         [SerializeField] protected string variableName;
-#if UNITY_EDITOR
-        public SharedVariableType VariableType
-        {
-            get => variableType;
-            set => variableType = value;
-        }
+        
+        public void SetVariableName(string name) => variableName = name;
 
+        public SharedVariableType VariableType => variableType;
         [SerializeField] private SharedVariableType variableType;
+
+#if UNITY_EDITOR
+
+        public void SetVariableType(SharedVariableType type) => variableType = type;
 #endif
         public abstract void SetValue(object o);
         public abstract object GetValue();

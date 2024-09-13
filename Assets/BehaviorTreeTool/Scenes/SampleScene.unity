@@ -336,7 +336,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 20.78461
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -351,7 +351,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 60.000004
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -377,8 +377,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.31295425, y: 0.00626563, z: -0.002064308, w: -0.94974536}
+  m_LocalPosition: {x: -7.399948, y: 18.785604, z: -29.899889}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -894,6 +894,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fa8d75748e249c9889c13396ca7ba07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableDontDestroyOnLoad: 0
   enableAllTreeGizmos: 0
   behaviorTrees: []
 --- !u!4 &796108467
@@ -1020,31 +1021,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4f8bf4354d34a0492e15425e6a359ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enableDontDestroyOnLoad: 0
   variables:
-  - rid: 8748967977516007588
-  - rid: 8748967977516007589
-  - rid: 8748967977516007590
+  - rid: 8748968226209136754
+  - rid: 8748968248265408614
   references:
     version: 2
     RefIds:
-    - rid: 8748967977516007588
-      type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
-      data:
-        variableName: Global Range
-        variableType: 6
-        value: 5.5
-    - rid: 8748967977516007589
+    - rid: 8748968226209136754
       type: {class: SharedBool, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: IsPlaying
         variableType: 2
-        value: 1
-    - rid: 8748967977516007590
-      type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
+        value: 0
+    - rid: 8748968248265408614
+      type: {class: SharedTransform, ns: Tree, asm: Assembly-CSharp}
       data:
-        variableName: Global Target Col
-        variableType: 3
-        value: {fileID: 0}
+        variableName: Global Target
+        variableType: 16
+        value: {fileID: 1435856725}
 --- !u!4 &927759429
 Transform:
   m_ObjectHideFlags: 0
@@ -1052,6 +1047,189 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 927759427}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1229847135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1229847141}
+  - component: {fileID: 1229847140}
+  - component: {fileID: 1229847139}
+  - component: {fileID: 1229847138}
+  - component: {fileID: 1229847137}
+  - component: {fileID: 1229847136}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1229847136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229847135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 042d4035eb314f46b406b57d9ed16a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawGizmos: 0
+  enableVariables: 0
+  runtimeVariables: []
+  behaviorTree: {fileID: 11400000, guid: 846f68ebf69d24f96ad6b4e522789198, type: 2}
+  variables: []
+  references:
+    version: 2
+    RefIds: []
+--- !u!195 &1229847137
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229847135}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!65 &1229847138
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229847135}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1229847139
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229847135}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1229847140
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229847135}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1229847141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229847135}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -12.79, y: 0, z: -11.11}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1435856724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1435856725}
+  m_Layer: 0
+  m_Name: Global Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1435856725
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1435856724}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -1265,33 +1443,32 @@ MonoBehaviour:
   runtimeVariables: []
   behaviorTree: {fileID: 11400000, guid: 08bcb8b89c66443dfa7d54dfa8c262c3, type: 2}
   variables:
-  - rid: 7860338831196946574
-  - rid: 7860338831196946575
-  - rid: 7860338831196946576
+  - rid: 8748968226209136750
+  - rid: 8748968226209136751
+  - rid: 8748968226209136752
   references:
     version: 2
     RefIds:
-    - rid: 7860338831196946574
+    - rid: 8748968226209136750
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 7860338831196946575
+    - rid: 8748968226209136751
       type: {class: SharedTransformArray, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
         value:
-        - {fileID: 690580547}
-        - {fileID: 866118227}
         - {fileID: 1605107213}
-    - rid: 7860338831196946576
+        - {fileID: 73092628}
+    - rid: 8748968226209136752
       type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
-        value: 2
+        value: 7
 --- !u!114 &1752430365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1457,19 +1634,19 @@ MonoBehaviour:
   runtimeVariables: []
   behaviorTree: {fileID: 11400000, guid: 08bcb8b89c66443dfa7d54dfa8c262c3, type: 2}
   variables:
-  - rid: 7860338831196946533
-  - rid: 7860338831196946534
-  - rid: 7860338831196946535
+  - rid: 8748968226209136744
+  - rid: 8748968226209136745
+  - rid: 8748968226209136746
   references:
     version: 2
     RefIds:
-    - rid: 7860338831196946533
+    - rid: 8748968226209136744
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 7860338831196946534
+    - rid: 8748968226209136745
       type: {class: SharedTransformArray, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Way Points
@@ -1477,12 +1654,13 @@ MonoBehaviour:
         value:
         - {fileID: 690580547}
         - {fileID: 2000954063}
-    - rid: 7860338831196946535
+        - {fileID: 866118227}
+    - rid: 8748968226209136746
       type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
-        value: 10
+        value: 7
 --- !u!114 &1846325809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1679,27 +1857,27 @@ MonoBehaviour:
   runtimeVariables: []
   behaviorTree: {fileID: 11400000, guid: 08bcb8b89c66443dfa7d54dfa8c262c3, type: 2}
   variables:
-  - rid: 8748967977516007533
-  - rid: 8748967977516007534
-  - rid: 8748967977516007535
+  - rid: 8748968226209136747
+  - rid: 8748968226209136748
+  - rid: 8748968226209136749
   references:
     version: 2
     RefIds:
-    - rid: 8748967977516007533
+    - rid: 8748968226209136747
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 8748967977516007534
+    - rid: 8748968226209136748
       type: {class: SharedTransformArray, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: 17
         value:
         - {fileID: 866118227}
-        - {fileID: 73092628}
-    - rid: 8748967977516007535
+        - {fileID: 1605107213}
+    - rid: 8748968226209136749
       type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Check Range
@@ -1931,3 +2109,5 @@ SceneRoots:
   - {fileID: 1752430370}
   - {fileID: 667737250}
   - {fileID: 927759429}
+  - {fileID: 1435856725}
+  - {fileID: 1229847141}

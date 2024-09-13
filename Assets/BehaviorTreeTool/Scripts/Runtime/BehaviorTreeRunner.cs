@@ -60,11 +60,6 @@ namespace Tree
             InitializeTree();
         }
 
-        private void OnDisable()
-        {
-            BehaviorManager.RemoveTree(this);
-        }
-
         private void InitializeTree()
         {
             runtimeVariables = new List<SharedVariableBase>();

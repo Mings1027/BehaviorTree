@@ -221,7 +221,7 @@ namespace Tree
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Name", GUILayout.Width(50));
-            variable.VariableName = EditorGUILayout.TextField(variable.VariableName);
+            variable.SetVariableName(EditorGUILayout.TextField(variable.VariableName));
             EditorGUILayout.EndHorizontal();
 
             var currentVariableType = variable.VariableType;

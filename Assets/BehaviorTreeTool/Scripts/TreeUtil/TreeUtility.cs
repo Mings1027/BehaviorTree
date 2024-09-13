@@ -14,7 +14,6 @@ namespace Tree
         private static readonly Dictionary<string, bool> listFoldouts = new();
 
         private static readonly Dictionary<SharedVariableType, Type> VariableTypeMap = new();
-        private static readonly Dictionary<Type, SharedVariableType> TypeToEnumMap = new();
 
         static TreeUtility()
         {
@@ -37,7 +36,6 @@ namespace Tree
                 if (Enum.TryParse(enumName, out SharedVariableType variableType))
                 {
                     VariableTypeMap[variableType] = type;
-                    TypeToEnumMap[type] = variableType;
                 }
             }
         }
@@ -47,9 +45,9 @@ namespace Tree
             if (VariableTypeMap.TryGetValue(variableType, out var type))
             {
                 var instance = (SharedVariableBase)Activator.CreateInstance(type);
-                instance.VariableName = variableName;
+                instance.SetVariableName(variableName);
 #if UNITY_EDITOR
-                instance.VariableType = variableType;
+                instance.SetVariableType(variableType);
 #endif
                 return instance;
             }
