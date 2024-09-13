@@ -40,8 +40,8 @@ Behavior Tree Editor 사용방법
 
 ![스크린샷 2024-09-13 오후 2 46 21](https://github.com/user-attachments/assets/7c54e7a1-2e38-4558-980c-8a9e3d71a53a)
 
-런타임 도중 값이 잘 공유되고 있는지 확인할 수 있습니다.
-
+런타임 도중 값이 잘 공유되고 있는지 확인합니다.
+ReadyToAttack 노드와 Attack 노드에 Collider 타입의 Unit(Clone)이 할당된 것을 확인할 수 있습니다.  
 ![스크린샷 2024-09-13 오후 2 49 26](https://github.com/user-attachments/assets/b5f9cb46-041a-4ed9-a201-bec370ebd006)
 ![스크린샷 2024-09-13 오후 2 49 43](https://github.com/user-attachments/assets/8fe3309d-b6b1-49c2-ae56-7f0abc22a132)
 
@@ -52,9 +52,11 @@ Behavior Tree Editor 사용방법
 
 3-1. 공유 변수를 사용하는 경우  
 Runner 컴포넌트에 'Enable Variables' 토글을 활성화 시 플레이전에 공유값으로 사용할 객체를 할당할 수 있습니다.  
-공유 변수를 사용하더라도 공유변수가 씬에 미리 존재하지 않거나 런타임 도중에 할당해도 되는 경우 이 토글을 사용하지 않아도 됩니다.
-
-![스크린샷 2024-09-13 오후 2 54 54](https://github.com/user-attachments/assets/0bb17cb4-6370-4dc3-a193-ac7d514706c7)
+공유 변수를 사용하더라도 공유변수가 씬에 미리 존재하지 않거나 런타임 도중에 할당해도 되는 경우 이 토글을 사용하지 않아도 됩니다.  
+아래사진은 Unit Tree에는 공유 변수가 존재하지만 해당 공유 변수는 런타임 도중 할당되는 값이므로 'Enable Variables'가 비활성화 되있는 모습입니다.
+![스크린샷 2024-09-13 오후 2 54 54](https://github.com/user-attachments/assets/0bb17cb4-6370-4dc3-a193-ac7d514706c7)  
+런타임이 되면 BehaviorTreeRunner 컴포넌트에 에디터타임에서는 보이지 않던 'Runtime Variables' 리스트가 보입니다.  
+이 리스트는 런타임 도중 값을 확인하기 쉽게 해주며 'Enable Variables'와는 무관합니다. 공유변수가 하나라도 있는 모든 Runner 컴포넌트에 공통적으로 나타납니다.
 
 4. Global Variable  
 씬마다 하나씩 존재하는 리스트입니다.  
