@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -62,24 +61,8 @@ namespace Tree
             if (Instance.behaviorTrees.Contains(behaviorTree))
                 Instance.behaviorTrees.Remove(behaviorTree);
         }
-
-        public static SharedVariableBase GetSharedVariable(List<SharedVariableBase> variables, string variableName)
-        {
-            if (variables == null || variables.Count == 0) return null;
-            for (var i = 0; i < variables.Count; i++)
-            {
-                var sharedVariable = variables[i];
-                if (sharedVariable.VariableName == variableName)
-                {
-                    return sharedVariable;
-                }
-            }
-
-            return null;
-        }
-
+        
 #if UNITY_EDITOR
-
 
         private void ToggleDrawGizmos(bool enable)
         {

@@ -22,7 +22,7 @@ namespace Tree
         {
             if (enemy.Value && enemy.Value.enabled)
             {
-                var distance = Vector3.Distance(enemy.Value.transform.position, nodeTransform.position);
+                var distance = Vector3.Distance(nodeTransform.position, enemy.Value.transform.position);
 
                 if (distance <= attackRange)
                 {
@@ -31,6 +31,13 @@ namespace Tree
             }
 
             return TaskState.Failure;
+        }
+
+        public override void OnDrawGizmos()
+        {
+            if (nodeTransform == null) return;
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(nodeTransform.position, attackRange);
         }
     }
 }

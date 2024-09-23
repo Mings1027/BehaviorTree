@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 22117403295219477}
   - component: {fileID: 240731363599162139}
   - component: {fileID: 2429861162706461103}
-  - component: {fileID: 4228974962760635740}
+  - component: {fileID: 7219539262702704228}
   - component: {fileID: 6471559284782711345}
   - component: {fileID: -7765095634259207210}
   - component: {fileID: -8520093073018490319}
@@ -177,8 +177,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4228974962760635740
-BoxCollider:
+--- !u!135 &7219539262702704228
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -196,7 +196,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &6471559284782711345
 NavMeshAgent:
@@ -247,9 +247,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drawGizmos: 0
-  enableVariables: 0
+  copyFromSharedData: 0
+  runtimeVariables: []
   behaviorTree: {fileID: 11400000, guid: 4323ec827cde646d3bc203c9bddd4caa, type: 2}
   variables: []
+  <testVariables>k__BackingField:
+  - rid: 8748968474908295717
+  - rid: 8748968474908295718
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8748968474908295717
+      type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: Target Collider
+        variableType: 3
+        value: {fileID: 0}
+    - rid: 8748968474908295718
+      type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: Check Range
+        variableType: 9
+        value: 6

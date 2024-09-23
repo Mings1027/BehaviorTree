@@ -13,23 +13,23 @@ MonoBehaviour:
   m_Name: SharedData
   m_EditorClassIdentifier: 
   variables:
-  - rid: 8703869811811680262
-  - rid: 8703869811811680263
+  - rid: 8748968384495616129
+  - rid: 8748968384495616130
   references:
     version: 2
     RefIds:
-    - rid: 8703869811811680262
+    - rid: 8748968384495616129
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: 3
         value: {fileID: 0}
-    - rid: 8703869811811680263
+    - rid: 8748968384495616130
       type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: 9
-        value: 100
+        value: 5
 --- !u!114 &-5938471010181334804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,7 +95,7 @@ MonoBehaviour:
   checkRange:
     variableName: Check Range
     variableType: 9
-    value: 0
+    value: 5
   targetLayer:
     serializedVersion: 2
     m_Bits: 136
@@ -243,7 +243,7 @@ MonoBehaviour:
   checkRange:
     variableName: Check Range
     variableType: 9
-    value: 0
+    value: 5
   viewAngle: 70
 --- !u!114 &11400000
 MonoBehaviour:

@@ -20,7 +20,7 @@ namespace Tree
         private SharedVariableType _variableType;
         private Vector2 _scrollPosition;
         private GlobalVariables _globalVariableComponent;
-        public List<SharedVariableBase> globalData = new();
+        private List<SharedVariableBase> _globalData = new();
 
         [SerializeField, HideInInspector] private GameObject globalObject;
 
@@ -56,11 +56,11 @@ namespace Tree
                 _globalVariableComponent = globalObject.GetComponent<GlobalVariables>();
                 if (_globalVariableComponent.Variables.Count > 0)
                 {
-                    globalData = _globalVariableComponent.Variables;
+                    _globalData = _globalVariableComponent.Variables;
                 }
                 else
                 {
-                    globalData.Clear();
+                    _globalData.Clear();
                 }
             }
             else
@@ -124,8 +124,8 @@ namespace Tree
         {
             globalObject = new GameObject("Global Variables");
             _globalVariableComponent = globalObject.AddComponent<GlobalVariables>();
-            globalData = new List<SharedVariableBase>();
-            _globalVariableComponent.Variables = globalData;
+            _globalData = new List<SharedVariableBase>();
+            _globalVariableComponent.Variables = _globalData;
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }
 
@@ -152,9 +152,9 @@ namespace Tree
         {
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
 
-            for (int i = 0; i < globalData.Count; i++)
+            for (int i = 0; i < _globalData.Count; i++)
             {
-                DrawVariable(globalData[i], i);
+                DrawVariable(_globalData[i], i);
                 TreeUtility.DrawHorizontalLine(Color.gray);
             }
 
@@ -163,7 +163,7 @@ namespace Tree
                 if (EditorUtility.DisplayDialog("Remove All Global Variables",
                         "Are you sure you want to remove all variables?", "Yes", "No"))
                 {
-                    globalData.Clear();
+                    _globalData.Clear();
                     EditorUtility.SetDirty(globalObject);
                 }
             }
@@ -198,7 +198,7 @@ namespace Tree
             // Move Down Button
             if (GUILayout.Button(new GUIContent(_downArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
             {
-                if (index < globalData.Count - 1) // Ensure it's not the last item
+                if (index < _globalData.Count - 1) // Ensure it's not the last item
                 {
                     MoveVariable(index, index + 1);
                 }
@@ -210,7 +210,7 @@ namespace Tree
                 if (EditorUtility.DisplayDialog("Delete Variable",
                         $"Are you sure you want to delete the variable '{variable.VariableName}'?", "Yes", "No"))
                 {
-                    globalData.RemoveAt(index);
+                    _globalData.RemoveAt(index);
                     Repaint();
                 }
 
@@ -237,7 +237,7 @@ namespace Tree
                 if (newVariable != null)
                 {
                     newVariable.SetValue(variable.GetValue());
-                    globalData[index] = newVariable;
+                    _globalData[index] = newVariable;
                     variable = newVariable;
                 }
             }
@@ -250,14 +250,14 @@ namespace Tree
 
         private void MoveVariable(int oldIndex, int newIndex)
         {
-            if (oldIndex == newIndex || oldIndex < 0 || oldIndex >= globalData.Count ||
-                newIndex < 0 || newIndex >= globalData.Count)
+            if (oldIndex == newIndex || oldIndex < 0 || oldIndex >= _globalData.Count ||
+                newIndex < 0 || newIndex >= _globalData.Count)
             {
                 return; // No valid movement
             }
 
-            (globalData[oldIndex], globalData[newIndex]) =
-                (globalData[newIndex], globalData[oldIndex]);
+            (_globalData[oldIndex], _globalData[newIndex]) =
+                (_globalData[newIndex], _globalData[oldIndex]);
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }
 
@@ -291,7 +291,7 @@ namespace Tree
             {
                 if (globalObject != null)
                 {
-                    if (globalData != null)
+                    if (_globalData != null)
                     {
                         _globalVariableComponent.Variables.Add(newVariable);
                     }

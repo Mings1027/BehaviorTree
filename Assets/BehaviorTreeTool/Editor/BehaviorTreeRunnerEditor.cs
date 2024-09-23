@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
+using System.Reflection;
 using Tree;
 
 namespace BehaviorTreeTool.Editor
@@ -9,21 +10,17 @@ namespace BehaviorTreeTool.Editor
     [CustomEditor(typeof(BehaviorTreeRunner))]
     public class BehaviorTreeRunnerEditor : UnityEditor.Editor
     {
-        private SerializedProperty _enableVariablesProperty;
         private SerializedProperty _behaviorTreeProperty;
         private SerializedProperty _variablesProperty;
         private SerializedProperty _drawGizmosProperty;
-        private SerializedProperty _runtimeVariablesProperty;
 
         private readonly Dictionary<string, bool> _foldoutStates = new();
 
         private void OnEnable()
         {
-            _enableVariablesProperty = serializedObject.FindProperty("enableVariables");
             _behaviorTreeProperty = serializedObject.FindProperty("behaviorTree");
             _variablesProperty = serializedObject.FindProperty("variables");
             _drawGizmosProperty = serializedObject.FindProperty("drawGizmos");
-            _runtimeVariablesProperty = serializedObject.FindProperty("runtimeVariables");
         }
 
         public override void OnInspectorGUI()
@@ -34,21 +31,11 @@ namespace BehaviorTreeTool.Editor
 
             DrawBehaviorTreeField(treeRunner);
             DrawGizmosField(treeRunner);
-            DrawEnableVariablesField(treeRunner);
-            DrawRuntimeVariables();
+            DrawVariablesField(treeRunner);
+            // DrawRuntimeVariables();
+            DrawSharedVariables();
 
             serializedObject.ApplyModifiedProperties();
-        }
-
-        private void DrawGizmosField(BehaviorTreeRunner treeRunner)
-        {
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(_drawGizmosProperty, new GUIContent("Draw Gizmos"));
-            if (EditorGUI.EndChangeCheck())
-            {
-                serializedObject.ApplyModifiedProperties();
-                treeRunner.DrawGizmos = _drawGizmosProperty.boolValue;
-            }
         }
 
         private void DrawBehaviorTreeField(BehaviorTreeRunner treeRunner)
@@ -71,18 +58,29 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        private void DrawEnableVariablesField(BehaviorTreeRunner treeRunner)
+        private void DrawGizmosField(BehaviorTreeRunner treeRunner)
         {
-            if (Application.isPlaying) return;
             EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(_enableVariablesProperty);
+            EditorGUILayout.PropertyField(_drawGizmosProperty, new GUIContent("Draw Gizmos"));
             if (EditorGUI.EndChangeCheck())
             {
                 serializedObject.ApplyModifiedProperties();
-                treeRunner.EnableVariables = _enableVariablesProperty.boolValue;
+                treeRunner.DrawGizmos = _drawGizmosProperty.boolValue;
+            }
+        }
+
+        private void DrawVariablesField(BehaviorTreeRunner treeRunner)
+        {
+            if (Application.isPlaying) return;
+            var buttonLabel = treeRunner.CopyFromSharedData ? "Clear Variables" : "Copy Variables From Shared Data";
+
+            if (GUILayout.Button(buttonLabel))
+            {
+                treeRunner.CopyFromSharedData = !treeRunner.CopyFromSharedData;
+                serializedObject.ApplyModifiedProperties();
             }
 
-            if (treeRunner.EnableVariables)
+            if (treeRunner.CopyFromSharedData)
             {
                 DrawVariables(treeRunner);
             }
@@ -98,8 +96,7 @@ namespace BehaviorTreeTool.Editor
 
             if (isFolded)
             {
-                if (treeRunner.GetType().GetField("variables",
-                                  System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                if (treeRunner.GetType().GetField("variables", BindingFlags.NonPublic | BindingFlags.Instance)
                               ?.GetValue(treeRunner) is not List<SharedVariableBase> variables || variables.Count == 0)
                 {
                     EditorGUI.indentLevel++;
@@ -139,10 +136,10 @@ namespace BehaviorTreeTool.Editor
             TreeUtility.DrawHorizontalLine(Color.gray);
         }
 
-        private void DrawRuntimeVariables()
+        private void DrawSharedVariables()
         {
             if (!Application.isPlaying) return;
-            EditorGUILayout.PropertyField(_runtimeVariablesProperty);
+            EditorGUILayout.PropertyField(_variablesProperty);
         }
     }
 }

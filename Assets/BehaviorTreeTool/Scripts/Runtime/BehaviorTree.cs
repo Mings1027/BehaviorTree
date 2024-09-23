@@ -70,6 +70,10 @@ namespace Tree
                 tree.nodes.Add(n);
                 n.SetTransform(transform);
             });
+            if (sharedData != null)
+            {
+                tree.sharedData = tree.sharedData.Clone();
+            }
 
             return tree;
         }

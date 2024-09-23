@@ -160,25 +160,25 @@ MonoBehaviour:
   m_Name: SharedData
   m_EditorClassIdentifier: 
   variables:
-  - rid: 8703869811811680288
-  - rid: 8703869811811680356
-  - rid: 8703869811811680357
+  - rid: 8748968384495616134
+  - rid: 8748968384495616135
+  - rid: 8748968384495616136
   references:
     version: 2
     RefIds:
-    - rid: 8703869811811680288
+    - rid: 8748968384495616134
       type: {class: SharedVector3, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Random Point
         variableType: 20
-        value: {x: -20.760185, y: 0, z: 9.519916}
-    - rid: 8703869811811680356
+        value: {x: -29.991632, y: 0, z: 0.110048294}
+    - rid: 8748968384495616135
       type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Remaining Distance
         variableType: 6
-        value: 12.26661
-    - rid: 8703869811811680357
+        value: 4.071374
+    - rid: 8748968384495616136
       type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Close Distance

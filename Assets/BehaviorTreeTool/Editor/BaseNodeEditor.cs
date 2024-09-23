@@ -158,6 +158,7 @@ namespace BehaviorTreeTool.Editor
             }
 
             EditorGUILayout.EndVertical();
+            so.ApplyModifiedProperties();
         }
 
         private static void UpdateVariableSelection(SharedVariableBase variable,
@@ -215,6 +216,8 @@ namespace BehaviorTreeTool.Editor
                     EditorGUILayout.PropertyField(property, new GUIContent(displayName), true);
                 }
             }
+
+            serializedObject.ApplyModifiedProperties();
         }
 
         #endregion

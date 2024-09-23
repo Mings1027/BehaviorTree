@@ -41,7 +41,7 @@ namespace Tree
         public override void OnDrawGizmos()
         {
             if (nodeTransform == null) return;
-            Gizmos.color = Color.red;
+            Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(nodeTransform.position, checkRange.Value);
         }
 #endif

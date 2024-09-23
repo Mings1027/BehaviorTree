@@ -27,7 +27,6 @@ namespace Tree
         public virtual BaseNode Clone()
         {
             var clone = Instantiate(this);
-            clone.nodeTransform = nodeTransform;
             return clone;
         }
 

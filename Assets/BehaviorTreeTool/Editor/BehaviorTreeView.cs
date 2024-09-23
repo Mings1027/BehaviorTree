@@ -7,14 +7,13 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Tree;
+using Object = UnityEngine.Object;
 
 namespace BehaviorTreeTool.Editor
 {
     public class BehaviorTreeView : GraphView
     {
-        public new class UxmlFactory : UxmlFactory<BehaviorTreeView, UxmlTraits>
-        {
-        }
+        public new class UxmlFactory : UxmlFactory<BehaviorTreeView, UxmlTraits> { }
 
         public Action<NodeView> OnNodeSelected { get; set; }
         public static bool IsNodeSelected { get; set; }
@@ -299,19 +298,17 @@ namespace BehaviorTreeTool.Editor
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            AddScriptCreationMenuItems(evt);
-            AddNodeCreationMenuItems(evt, GetMousePosition(evt));
-
             var clickedElement = GetElementAtMousePosition(evt.localMousePosition);
             if (clickedElement is NodeView)
             {
                 evt.menu.AppendAction("Duplicate", _ => DuplicateSelectedNodes());
-                evt.menu.AppendAction("Delete", _ => DeleteSelectedNodes(), DropdownMenuAction.AlwaysEnabled);
+                evt.menu.AppendAction("Delete", _ => DeleteSelectedNodes());
+                evt.menu.AppendAction("Open In IDE", _ => OpenBaseNode());
             }
             else
             {
-                evt.menu.AppendAction("Duplicate", null, DropdownMenuAction.Status.Disabled);
-                evt.menu.AppendAction("Delete", null, DropdownMenuAction.Status.Disabled);
+                AddScriptCreationMenuItems(evt);
+                AddNodeCreationMenuItems(evt, GetMousePosition(evt));
             }
         }
 
@@ -339,7 +336,7 @@ namespace BehaviorTreeTool.Editor
         }
 
         private void AddNodeCreationMenuItems(ContextualMenuPopulateEvent evt, Vector2 nodePosition, Type baseType,
-            string menuPath)
+                                              string menuPath)
         {
             var types = TypeCache.GetTypesDerivedFrom(baseType);
             for (var i = 0; i < types.Count; i++)
@@ -402,12 +399,33 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
+        private void OpenBaseNode()
+        {
+            if (selection.FirstOrDefault() is NodeView selectedNode)
+            {
+                if (selectedNode.Node != null)
+                {
+                    var script = MonoScript.FromScriptableObject(selectedNode.Node);
+                    if (script != null)
+                    {
+                        AssetDatabase.OpenAsset(script);
+                    }
+                    // var assetPath = AssetDatabase.GetAssetPath(script);
+                    // if (!string.IsNullOrEmpty(assetPath))
+                    // {
+                    //     var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
+                    //     AssetDatabase.OpenAsset(asset);
+                    // }
+                }
+            }
+        }
+
         private static void SelectFolder(string path)
         {
             if (path.EndsWith("/"))
                 path = path.Substring(0, path.Length - 1);
 
-            var obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+            var obj = AssetDatabase.LoadAssetAtPath<Object>(path);
             Selection.activeObject = obj;
             EditorGUIUtility.PingObject(obj);
         }

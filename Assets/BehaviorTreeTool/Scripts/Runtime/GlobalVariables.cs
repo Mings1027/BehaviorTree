@@ -17,22 +17,6 @@ namespace Tree
 
         [SerializeReference, HideInInspector] private List<SharedVariableBase> variables = new();
 
-        protected override void Awake()
-        {
-            base.Awake();
-            InitTable();
-        }
-
-        private static void InitTable()
-        {
-            VariableTable.Clear();
-            var variableList = Instance.variables;
-            for (int i = 0; i < variableList.Count; i++)
-            {
-                VariableTable[variableList[i].VariableName] = variableList[i];
-            }
-        }
-
         public static SharedVariableBase GetVariable(string variableName)
         {
             if (VariableTable.TryGetValue(variableName, out var variable))
@@ -63,6 +47,22 @@ namespace Tree
             {
                 throw new ArgumentException(
                     $"The variable with the name '{variableName}' does not exist in the global variables list.");
+            }
+        }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            InitTable();
+        }
+
+        private static void InitTable()
+        {
+            VariableTable.Clear();
+            var variableList = Instance.variables;
+            for (int i = 0; i < variableList.Count; i++)
+            {
+                VariableTable[variableList[i].VariableName] = variableList[i];
             }
         }
     }

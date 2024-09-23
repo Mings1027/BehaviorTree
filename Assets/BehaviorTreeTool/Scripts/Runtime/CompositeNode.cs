@@ -16,7 +16,12 @@ namespace Tree
         public override BaseNode Clone()
         {
             var node = Instantiate(this);
-            node.children = children.ConvertAll(c => c.Clone());
+            node.children = new List<BaseNode>();
+            for (int i = 0; i < children.Count; i++)
+            {
+                node.children.Add(children[i].Clone());
+            }
+
             return node;
         }
     }

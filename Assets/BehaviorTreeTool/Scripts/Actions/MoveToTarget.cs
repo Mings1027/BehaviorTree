@@ -6,18 +6,18 @@ namespace Tree
     {
         public SharedCollider target;
 
-        private NavMeshAgent agent;
+        private NavMeshAgent _agent;
 
         protected override void OnAwake()
         {
-            agent = nodeTransform.GetComponent<NavMeshAgent>();
+            _agent = nodeTransform.GetComponent<NavMeshAgent>();
         }
 
         protected override void OnStart()
         {
             if (target.Value)
             {
-                agent.destination = target.Value.transform.position;
+                _agent.destination = target.Value.transform.position;
             }
         }
 
@@ -25,7 +25,7 @@ namespace Tree
         {
             if (target.Value)
             {
-                agent.destination = target.Value.transform.position;
+                _agent.destination = target.Value.transform.position;
                 return TaskState.Success;
             }
 

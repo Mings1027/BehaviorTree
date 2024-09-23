@@ -13,7 +13,7 @@ namespace Tree
         }
 
         protected override void OnStart()
-        {
+        {   
             var target = GlobalVariables.GetVariable<Transform>("Global Target");
             agent.destination = target.Value.position;
         }

@@ -102,7 +102,7 @@ MonoBehaviour:
   checkRange:
     variableName: Check Range
     variableType: 9
-    value: 0
+    value: 7
   targetLayer:
     serializedVersion: 2
     m_Bits: 72
@@ -246,7 +246,9 @@ MonoBehaviour:
   wayPoints:
     variableName: Way Points
     variableType: 17
-    value: []
+    value:
+    - {fileID: 0}
+    - {fileID: 0}
 --- !u!114 &-441518734293715152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,7 +272,7 @@ MonoBehaviour:
   checkRange:
     variableName: Check Range
     variableType: 9
-    value: 0
+    value: 7
   viewAngle: 30
 --- !u!114 &11400000
 MonoBehaviour:

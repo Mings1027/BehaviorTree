@@ -20,12 +20,12 @@ namespace Tree
             }
         }
 
-        public bool EnableVariables
+        public bool CopyFromSharedData
         {
-            get => enableVariables;
+            get => _copyFromSharedData;
             set
             {
-                enableVariables = value;
+                _copyFromSharedData = value;
                 UpdateVariables();
             }
         }
@@ -42,27 +42,25 @@ namespace Tree
 
         [SerializeField] private bool drawGizmos;
 #endif
-        [Tooltip("Enable if reference type variables need assignment before play.")] [SerializeField]
-        private bool enableVariables;
-
-        [SerializeReference] private List<SharedVariableBase> runtimeVariables;
+        private bool _copyFromSharedData;
 
         [SerializeField] protected BehaviorTree behaviorTree;
         [SerializeReference] private List<SharedVariableBase> variables = new();
+
 
         private void OnEnable()
         {
             BehaviorManager.AddTree(this);
         }
 
-        private void Start()
+        private void Awake()
         {
             InitializeTree();
         }
 
         private void InitializeTree()
         {
-            runtimeVariables = new List<SharedVariableBase>();
+            // runtimeVariables = new List<SharedVariableBase>();
             behaviorTree = behaviorTree.Clone(transform);
             AssignSharedVariables();
             BehaviorTree.Traverse(behaviorTree.RootNode, n => n.Init());
@@ -76,14 +74,13 @@ namespace Tree
         private void UpdateVariables()
         {
             var sharedDataVariables = behaviorTree.SharedData.Variables;
-            if (!enableVariables)
+            if (!_copyFromSharedData)
             {
                 variables.Clear();
                 return;
             }
 
-            if (behaviorTree == null || sharedDataVariables == null ||
-                sharedDataVariables.Count == 0)
+            if (behaviorTree == null || sharedDataVariables == null || sharedDataVariables.Count == 0)
             {
                 variables.Clear();
                 Debug.LogWarning("Behavior tree is null or Shared data has no variables");
@@ -105,7 +102,7 @@ namespace Tree
         private void AssignSharedVariables()
         {
             var nodeList = behaviorTree.Nodes; // 트리의 모든 노드가 담긴 노드 리스트
-            var sharedVariableList = enableVariables ? variables : behaviorTree.SharedData.Variables;
+            var sharedVariableList = _copyFromSharedData ? variables : behaviorTree.SharedData.Variables;
 
             for (var i = 0; i < nodeList.Count; i++)
             {
@@ -122,23 +119,37 @@ namespace Tree
                     var variable = (SharedVariableBase)field.GetValue(node);
 
                     // sharedVariableList에서 variable.VariableName인 변수를 찾아 리턴시킵니다.
-                    var sharedVariable =
-                        BehaviorManager.GetSharedVariable(sharedVariableList, variable.VariableName);
+                    var sharedVariable = GetSharedVariable(sharedVariableList, variable.VariableName);
 
-                    // 찾은 변수를 node에 public Shared변수에 할당합니다.
+                    // 찾은 변수를 node의 public Shared변수에 할당합니다.
                     field.SetValue(node, sharedVariable);
                 }
             }
 
-            runtimeVariables = sharedVariableList;
+            variables = sharedVariableList;
+        }
+
+        private static SharedVariableBase GetSharedVariable(List<SharedVariableBase> variables, string variableName)
+        {
+            if (variables == null || variables.Count == 0) return null;
+            for (var i = 0; i < variables.Count; i++)
+            {
+                var sharedVariable = variables[i];
+                if (sharedVariable.VariableName == variableName)
+                {
+                    return sharedVariable;
+                }
+            }
+
+            return null;
         }
 
         public SharedVariableBase GetVariable(string variableName)
         {
-            for (int i = 0; i < runtimeVariables.Count; i++)
+            for (int i = 0; i < variables.Count; i++)
             {
-                if (runtimeVariables[i].VariableName == variableName)
-                    return runtimeVariables[i];
+                if (variables[i].VariableName == variableName)
+                    return variables[i];
             }
 
             return null;
