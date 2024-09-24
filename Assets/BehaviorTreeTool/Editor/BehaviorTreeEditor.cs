@@ -48,11 +48,6 @@ namespace BehaviorTreeTool.Editor
             return false;
         }
 
-        // private void OnDisable()
-        // {
-        //     SelectTree(tree);
-        // }
-
         public void CreateGUI()
         {
             _settings = BehaviorTreeSettings.GetOrCreateSettings();
@@ -153,7 +148,7 @@ namespace BehaviorTreeTool.Editor
             }
 
             Tree = newTree;
-            TreeInit();
+            // TreeInit();
 
             TreeView.PopulateView();
 
@@ -177,19 +172,26 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        private void TreeInit()
-        {
-            if (Tree.RootNode != null) return;
-            var rootNode = Tree.CreateNode(typeof(RootNode)) as RootNode;
-            var sharedData = CreateInstance<SharedData>();
-            if (rootNode != null)
-            {
-                AssetDatabase.AddObjectToAsset(sharedData, Tree);
-                Tree.SharedData = sharedData;
-                Tree.SharedData.name = "SharedData";
-                Tree.SetRootNode(rootNode);
-            }
-        }
+        // private void TreeInit()
+        // {
+        //     if (Tree.RootNode != null) return;
+        //
+        //     var rootNode = Tree.CreateNode(typeof(RootNode)) as RootNode;
+        //     var sharedData = CreateInstance<SharedData>();
+        //     
+        //     if (rootNode != null && sharedData != null)
+        //     {
+        //         AssetDatabase.AddObjectToAsset(sharedData, Tree);
+        //         Tree.SharedData = sharedData;
+        //         Tree.SharedData.name = "SharedData";
+        //
+        //         Tree.SetRootNode(rootNode);
+        //         AssetDatabase.AddObjectToAsset(rootNode, Tree);
+        //
+        //         EditorUtility.SetDirty(Tree);
+        //         AssetDatabase.SaveAssets();
+        //     }
+        // }
 
         private void OnNodeSelectionChanged(NodeView nodeView)
         {

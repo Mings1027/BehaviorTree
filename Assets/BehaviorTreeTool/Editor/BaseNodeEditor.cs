@@ -61,11 +61,12 @@ namespace BehaviorTreeTool.Editor
         private void DrawSharedVariableFields(BaseNode node)
         {
             var fields = node.GetType()
-                .GetFields(BindingFlags.Public | BindingFlags.Instance)
-                .Where(field => typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
-                .Select(field =>
-                    new KeyValuePair<string, SharedVariableBase>(field.Name, (SharedVariableBase)field.GetValue(node)))
-                .ToList();
+                             .GetFields(BindingFlags.Public | BindingFlags.Instance)
+                             .Where(field => typeof(SharedVariableBase).IsAssignableFrom(field.FieldType))
+                             .Select(field =>
+                                 new KeyValuePair<string, SharedVariableBase>(field.Name,
+                                     (SharedVariableBase)field.GetValue(node)))
+                             .ToList();
 
             var boldLabelStyle = new GUIStyle(EditorStyles.boldLabel) { fontSize = 15 };
             EditorGUILayout.LabelField("Shared Variables", boldLabelStyle);
@@ -94,7 +95,7 @@ namespace BehaviorTreeTool.Editor
         }
 
         private void DrawSharedVariableField(BaseNode node, KeyValuePair<string, SharedVariableBase> kvp,
-            float labelWidth)
+                                             float labelWidth)
         {
             var style = new GUIStyle(GUI.skin.box)
             {
@@ -108,9 +109,9 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.BeginHorizontal();
 
             var variableNames = BehaviorTreeEditor.Tree.SharedData.Variables
-                .Where(v => v.GetType() == kvp.Value.GetType())
-                .Select(v => v.VariableName)
-                .ToList();
+                                                  .Where(v => v.GetType() == kvp.Value.GetType())
+                                                  .Select(v => v.VariableName)
+                                                  .ToList();
 
             variableNames.Insert(0, "(None)");
 
@@ -162,11 +163,11 @@ namespace BehaviorTreeTool.Editor
         }
 
         private static void UpdateVariableSelection(SharedVariableBase variable,
-            IReadOnlyList<string> variableNames, int selectedIndex)
+                                                    IReadOnlyList<string> variableNames, int selectedIndex)
         {
             if (selectedIndex == 0)
             {
-                variable.SetVariableName(string.Empty);
+                variable.VariableName = string.Empty;
                 variable.SetValue(null);
             }
             else
@@ -177,8 +178,8 @@ namespace BehaviorTreeTool.Editor
                 {
                     if (variables[i].VariableName == selectedVariableName)
                     {
-                        variable.SetVariableName(variables[i].VariableName);
-                        variable.SetVariableType(variables[i].VariableType);
+                        variable.VariableName = variables[i].VariableName;
+                        variable.VariableType = variables[i].VariableType;
                         break;
                     }
                 }
@@ -191,7 +192,7 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.LabelField("Node Variables", boldLabelStyle);
 
             var array = node.GetType()
-                .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                            .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
             // Check if the OnDrawGizmos method is overridden
             var hasDrawGizmosOverride =

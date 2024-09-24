@@ -45,10 +45,8 @@ namespace Tree
             if (VariableTypeMap.TryGetValue(variableType, out var type))
             {
                 var instance = (SharedVariableBase)Activator.CreateInstance(type);
-                instance.SetVariableName(variableName);
-#if UNITY_EDITOR
-                instance.SetVariableType(variableType);
-#endif
+                instance.VariableName = variableName;
+                instance.VariableType = variableType;
                 return instance;
             }
 

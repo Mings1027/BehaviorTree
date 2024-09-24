@@ -146,6 +146,15 @@ namespace BehaviorTreeTool.Editor
         {
             if (_tree == null) return;
 
+            if (_tree.RootNode == null)
+            {
+                _tree.SetRootNode(_tree.CreateNode(typeof(RootNode)) as RootNode);
+                _tree.SharedData = ScriptableObject.CreateInstance<SharedData>();
+                _tree.SharedData.name = "SharedData";
+                EditorUtility.SetDirty(_tree);
+                AssetDatabase.SaveAssets();
+            }
+
             graphViewChanged -= OnGraphViewChanged;
             ClearGraphView();
             RecreateNodeViews();

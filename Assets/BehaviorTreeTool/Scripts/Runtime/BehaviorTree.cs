@@ -121,10 +121,10 @@ namespace Tree
                 if (!Application.isPlaying)
                 {
                     AssetDatabase.AddObjectToAsset(node, this);
-                    Undo.RegisterCreatedObjectUndo(node, "Behavior Tree (CreateNode)");
                 }
 
-                EditorUtility.SetDirty(this);
+                Undo.RegisterCreatedObjectUndo(node, "Behavior Tree (CreateNode)");
+
                 AssetDatabase.SaveAssets();
                 return node;
             }

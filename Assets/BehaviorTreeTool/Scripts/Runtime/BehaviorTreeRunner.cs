@@ -60,7 +60,6 @@ namespace Tree
 
         private void InitializeTree()
         {
-            // runtimeVariables = new List<SharedVariableBase>();
             behaviorTree = behaviorTree.Clone(transform);
             AssignSharedVariables();
             BehaviorTree.Traverse(behaviorTree.RootNode, n => n.Init());
