@@ -5,12 +5,10 @@ namespace Tree
     [CreateAssetMenu]
     public class UnitStatus : ScriptableObject
     {
-        public int Health
-        {
-            get => health;
-            set => health = value;
-        }
+        public int Health => health;
 
         [SerializeField] private int health;
+        
+        public Color damageColor;
     }
 }

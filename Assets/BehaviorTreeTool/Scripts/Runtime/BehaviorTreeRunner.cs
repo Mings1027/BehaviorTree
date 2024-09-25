@@ -13,21 +13,7 @@ namespace Tree
         public BehaviorTree Tree
         {
             get => behaviorTree;
-            set
-            {
-                behaviorTree = value;
-                UpdateVariables();
-            }
-        }
-
-        public bool CopyFromSharedData
-        {
-            get => _copyFromSharedData;
-            set
-            {
-                _copyFromSharedData = value;
-                UpdateVariables();
-            }
+            set => behaviorTree = value;
         }
 
         public bool DrawGizmos
@@ -42,10 +28,9 @@ namespace Tree
 
         [SerializeField] private bool drawGizmos;
 #endif
-        private bool _copyFromSharedData;
-
         [SerializeField] protected BehaviorTree behaviorTree;
         [SerializeReference] private List<SharedVariableBase> variables = new();
+        // [SerializeReference] private List<SharedVariableBase> runtimeVariables = new();
 
 
         private void OnEnable()
@@ -70,30 +55,6 @@ namespace Tree
             behaviorTree.TreeUpdate();
         }
 
-        private void UpdateVariables()
-        {
-            var sharedDataVariables = behaviorTree.SharedData.Variables;
-            if (!_copyFromSharedData)
-            {
-                variables.Clear();
-                return;
-            }
-
-            if (behaviorTree == null || sharedDataVariables == null || sharedDataVariables.Count == 0)
-            {
-                variables.Clear();
-                Debug.LogWarning("Behavior tree is null or Shared data has no variables");
-                return;
-            }
-
-            // Ensure the variables list is initialized.
-            variables.Clear();
-            for (var i = 0; i < sharedDataVariables.Count; i++)
-            {
-                var variable = sharedDataVariables[i];
-                variables.Add(variable.Clone());
-            }
-        }
 
         /// <summary>
         /// Assign shared variables to nodes in the tree.
@@ -101,7 +62,6 @@ namespace Tree
         private void AssignSharedVariables()
         {
             var nodeList = behaviorTree.Nodes; // 트리의 모든 노드가 담긴 노드 리스트
-            var sharedVariableList = _copyFromSharedData ? variables : behaviorTree.SharedData.Variables;
 
             for (var i = 0; i < nodeList.Count; i++)
             {
@@ -118,14 +78,12 @@ namespace Tree
                     var variable = (SharedVariableBase)field.GetValue(node);
 
                     // sharedVariableList에서 variable.VariableName인 변수를 찾아 리턴시킵니다.
-                    var sharedVariable = GetSharedVariable(sharedVariableList, variable.VariableName);
+                    var sharedVariable = GetSharedVariable(variables, variable.VariableName);
 
                     // 찾은 변수를 node의 public Shared변수에 할당합니다.
                     field.SetValue(node, sharedVariable);
                 }
             }
-
-            variables = sharedVariableList;
         }
 
         private static SharedVariableBase GetSharedVariable(List<SharedVariableBase> variables, string variableName)
@@ -165,6 +123,26 @@ namespace Tree
             }
         }
 #if UNITY_EDITOR
+
+        public void UpdateVariables()
+        {
+            var sharedDataVariables = behaviorTree.SharedData.Variables;
+
+            if (behaviorTree == null || sharedDataVariables == null || sharedDataVariables.Count == 0)
+            {
+                variables.Clear();
+                Debug.LogWarning("Behavior tree is null or Shared data has no variables");
+                return;
+            }
+
+            // Ensure the variables list is initialized.
+            variables.Clear();
+            for (var i = 0; i < sharedDataVariables.Count; i++)
+            {
+                var variable = sharedDataVariables[i];
+                variables.Add(variable.Clone());
+            }
+        }
 
         private void SetDrawGizmosForAllNodes(bool value)
         {

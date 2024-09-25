@@ -2,6 +2,7 @@ using UnityEngine.AI;
 
 namespace Tree
 {
+    [NodeCategory("NavMeshAgent")]
     public class MoveToTarget : ActionNode
     {
         public SharedCollider target;

@@ -13,22 +13,22 @@ MonoBehaviour:
   m_Name: SharedData
   m_EditorClassIdentifier: 
   variables:
-  - rid: 8748968384495616129
-  - rid: 8748968384495616130
+  - rid: 8748968528195354879
+  - rid: 8748968528195354881
   references:
     version: 2
     RefIds:
-    - rid: 8748968384495616129
+    - rid: 8748968528195354879
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Target
-        variableType: 3
+        variableType: Collider
         value: {fileID: 0}
-    - rid: 8748968384495616130
+    - rid: 8748968528195354881
       type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Check Range
-        variableType: 9
+        variableType: Int
         value: 5
 --- !u!114 &-5938471010181334804
 MonoBehaviour:
@@ -48,7 +48,7 @@ MonoBehaviour:
   drawGizmos: 0
   target:
     variableName: Target
-    variableType: 3
+    variableType: Collider
     value: {fileID: 0}
   attackDamage: 10
 --- !u!114 &-4643154024544199828
@@ -69,7 +69,7 @@ MonoBehaviour:
   drawGizmos: 0
   enemy:
     variableName: Target
-    variableType: 3
+    variableType: Collider
     value: {fileID: 0}
   attackRange: 1.5
 --- !u!114 &-4626593501337908343
@@ -90,11 +90,11 @@ MonoBehaviour:
   drawGizmos: 0
   target:
     variableName: Target
-    variableType: 3
+    variableType: Collider
     value: {fileID: 0}
   checkRange:
     variableName: Check Range
-    variableType: 9
+    variableType: Int
     value: 5
   targetLayer:
     serializedVersion: 2
@@ -139,7 +139,7 @@ MonoBehaviour:
   drawGizmos: 0
   target:
     variableName: Target
-    variableType: 3
+    variableType: Collider
     value: {fileID: 0}
   rotationSpeed: 7
   rotationThreshold: 10
@@ -161,7 +161,7 @@ MonoBehaviour:
   drawGizmos: 0
   target:
     variableName: Target
-    variableType: 3
+    variableType: Collider
     value: {fileID: 0}
 --- !u!114 &-3019494908897726873
 MonoBehaviour:
@@ -238,11 +238,11 @@ MonoBehaviour:
   drawGizmos: 0
   checkTarget:
     variableName: Target
-    variableType: 3
+    variableType: Collider
     value: {fileID: 0}
   checkRange:
     variableName: Check Range
-    variableType: 9
+    variableType: Int
     value: 5
   viewAngle: 70
 --- !u!114 &11400000
@@ -352,7 +352,7 @@ MonoBehaviour:
   drawGizmos: 0
   enemy:
     variableName: Target
-    variableType: 3
+    variableType: Collider
     value: {fileID: 0}
   attackRange: 1.5
 --- !u!114 &5325898568121394975

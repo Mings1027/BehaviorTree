@@ -14,7 +14,7 @@ namespace Tree
             set => sharedData = value;
         }
 
-        [SerializeField, HideInInspector] private SharedData sharedData;
+        [SerializeField] private SharedData sharedData;
 
         public BaseNode RootNode => rootNode;
         [SerializeField] private BaseNode rootNode;
@@ -130,6 +130,22 @@ namespace Tree
             }
 
             throw new InvalidOperationException();
+        }
+
+        public void CreateSharedData()
+        {
+            var data = CreateInstance<SharedData>();
+            if (data != null)
+            {
+                data.name = "Shared Data";
+                if (!Application.isPlaying)
+                {
+                    AssetDatabase.AddObjectToAsset(data, this);
+                }
+
+                sharedData = data;
+                AssetDatabase.SaveAssets();
+            }
         }
 
         public void DeleteNode(BaseNode node)

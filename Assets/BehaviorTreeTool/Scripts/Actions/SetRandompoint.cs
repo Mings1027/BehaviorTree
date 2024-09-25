@@ -3,17 +3,17 @@ using Tree;
 
 namespace Tree
 {
-    public class SetRandompoint : ActionNode
+    public class SetRandomPoint : ActionNode
     {
         public SharedVector3 curRandomPoint;
 
-        private Vector3 centerPosition;
+        private Vector3 _centerPosition;
 
         [SerializeField] private float radius;
 
         protected override void OnAwake()
         {
-            centerPosition = nodeTransform.position;
+            _centerPosition = nodeTransform.position;
         }
 
         protected override void OnStart()
@@ -28,7 +28,7 @@ namespace Tree
 
         private void SetRandompointInRange()
         {
-            var randomPoint = centerPosition +
+            var randomPoint = _centerPosition +
                               new Vector3(Random.Range(-radius, radius), 0, Random.Range(-radius, radius));
             curRandomPoint.Value = randomPoint;
         }

@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using Tree;
@@ -15,17 +17,20 @@ namespace BehaviorTreeTool.Editor
         private Vector2 _variablesScrollPos;
         private SerializedProperty _variablesProperty;
         private string _variableName;
-        private SharedVariableType _variableType;
+        private Type _selectedVariableType;
+        private List<Type> _sharedVariableTypes;
+        // private SharedVariableType _variableType;
 
         private bool[] _foldouts;
         private const string FoldoutKeyPrefix = "SharedDataEditor_Foldout_";
 
         private void OnEnable()
         {
-            if (target is SharedData sharedData && sharedData.Variables != null)
+            if (target is SharedData { Variables: not null } sharedData)
             {
                 _variablesProperty = serializedObject.FindProperty("variables");
                 LoadTextures();
+                LoadSharedVariableTypes();
                 LoadFoldoutStates();
             }
         }
@@ -56,6 +61,16 @@ namespace BehaviorTreeTool.Editor
             _removeTexture = TreeUtility.LoadTexture("Assets/BehaviorTreeTool/Sprites/Remove.png");
         }
 
+        private void LoadSharedVariableTypes()
+        {
+            _sharedVariableTypes = Assembly.GetAssembly(typeof(SharedVariableBase))
+                                           .GetTypes()
+                                           .Where(t => t.IsSubclassOf(typeof(SharedVariableBase))
+                                                       && !t.IsAbstract
+                                                       && !t.IsGenericType)
+                                           .ToList();
+        }
+
         private void DrawVariableInputField()
         {
             EditorGUILayout.BeginHorizontal();
@@ -65,7 +80,13 @@ namespace BehaviorTreeTool.Editor
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Type", GUILayout.Width(70));
-            _variableType = (SharedVariableType)EditorGUILayout.EnumPopup(_variableType);
+            var typeNames = _sharedVariableTypes.Select(type => type.Name.Replace("Shared", "")).ToArray();
+            var selectedIndex =
+                Mathf.Max(0, Array.IndexOf(typeNames, _selectedVariableType?.Name.Replace("Shared", "")));
+            selectedIndex = EditorGUILayout.Popup(selectedIndex, typeNames);
+
+            _selectedVariableType = _sharedVariableTypes[selectedIndex];
+            // _variableType = (SharedVariableType)EditorGUILayout.EnumPopup(_variableType);
 
             if (GUILayout.Button("Add", GUILayout.Width(60)))
             {
@@ -76,7 +97,7 @@ namespace BehaviorTreeTool.Editor
 
             if (GUILayout.Button("Global Variable"))
             {
-                GlobalVariablesWindow.AddVariable(_variableName, _variableType);
+                GlobalVariablesWindow.AddVariable(_variableName, _selectedVariableType);
                 _variableName = string.Empty;
             }
         }
@@ -96,7 +117,7 @@ namespace BehaviorTreeTool.Editor
                 return;
             }
 
-            var newVariable = TreeUtility.CreateSharedVariable(_variableName, _variableType);
+            var newVariable = TreeUtility.CreateSharedVariable(_variableName, _selectedVariableType);
 
             if (newVariable != null)
             {
@@ -147,7 +168,7 @@ namespace BehaviorTreeTool.Editor
         private void DrawVariable(SerializedProperty variableProperty, int index)
         {
             var variableNameProperty = variableProperty.FindPropertyRelative("variableName");
-            var variableTypeProperty = variableProperty.FindPropertyRelative("variableType");
+            // var variableTypeProperty = variableProperty.FindPropertyRelative("variableType");
 
             var variableName = variableNameProperty.stringValue;
 
@@ -198,21 +219,39 @@ namespace BehaviorTreeTool.Editor
 
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("Type", GUILayout.Width(70));
+
+                // Get the current variable type
+                var currentVariableType = variableProperty.managedReferenceValue?.GetType();
+                int currentIndex = _sharedVariableTypes.FindIndex(t => t == currentVariableType);
+                if (currentIndex == -1) currentIndex = 0; // Default to the first index if not found
+
+                // Display options without "Shared" prefix
+                var displayedOptions = _sharedVariableTypes
+                                       .Select(t => t.Name.Replace("Shared", ""))
+                                       .ToArray();
+
+                // Popup to select variable type
                 EditorGUI.BeginChangeCheck();
-                EditorGUILayout.PropertyField(variableProperty.FindPropertyRelative("variableType"), GUIContent.none);
+                int selectedIndex = EditorGUILayout.Popup(currentIndex, displayedOptions);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    var newVariable = TreeUtility.CreateSharedVariable(variableName,
-                        (SharedVariableType)variableTypeProperty.enumValueIndex);
-                    if (newVariable != null)
+                    if (selectedIndex != currentIndex)
                     {
-                        variableProperty.managedReferenceValue = newVariable;
-                        serializedObject.ApplyModifiedProperties();
+                        // Create a new variable of the selected type
+                        var variableType = _sharedVariableTypes[selectedIndex];
+                        var newVariable = TreeUtility.CreateSharedVariable(variableName, variableType);
+
+                        if (newVariable != null)
+                        {
+                            variableProperty.managedReferenceValue = newVariable; // Update the serialized property
+                            serializedObject.ApplyModifiedProperties();
+                        }
                     }
                 }
 
                 EditorGUILayout.EndHorizontal();
 
+                // Draw the value field for the variable
                 DrawSharedVariableField(variableProperty);
                 EditorGUI.indentLevel--;
             }

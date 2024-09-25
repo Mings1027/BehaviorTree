@@ -8,9 +8,7 @@ using UnityEngine;
 
 namespace Tree
 {
-    public class BehaviorTreeTab : ScriptableObject
-    {
-    }
+    public class BehaviorTreeTab : ScriptableObject { }
 }
 
 namespace BehaviorTreeTool.Editor
@@ -23,6 +21,7 @@ namespace BehaviorTreeTool.Editor
 
         public static BaseNodeEditor SelectedNodeEditor;
         public static SharedDataEditor SelectedSharedDataEditor;
+        private const string Uncategorized = "Uncategorized";
         private int _selectedTab;
         private readonly string[] _tabTitles = { "Tasks", "Variables", "Inspector" };
 
@@ -76,10 +75,13 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.EndScrollView();
         }
 
+        private Dictionary<string, bool> _categoryFoldouts = new();
+
         private void DrawNodeTypeButtons<T>() where T : BaseNode
         {
             var nodeTypes = TypeCache.GetTypesDerivedFrom<T>()
-                .Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase));
+                                     .Where(t => t.Name.Contains(_searchQuery, StringComparison.OrdinalIgnoreCase))
+                                     .ToArray();
 
             var title = typeof(T).Name.Replace("Node", "") + " Nodes";
             var foldout = EditorPrefs.GetBool($"{title}Foldout", true);
@@ -95,11 +97,70 @@ namespace BehaviorTreeTool.Editor
             if (foldout)
             {
                 EditorGUI.indentLevel++;
-                foreach (var type in nodeTypes)
+
+                // Group nodes by their category, separating categorized from uncategorized
+                var categorizedNodes = nodeTypes
+                                       .Where(type => type.GetCustomAttribute<NodeCategoryAttribute>() != null)
+                                       .GroupBy(type => type.GetCustomAttribute<NodeCategoryAttribute>().Category)
+                                       .OrderBy(group => group.Key) // Sort categories alphabetically
+                                       .ToList();
+
+                // List categorized nodes
+                foreach (var category in categorizedNodes)
                 {
-                    if (GUILayout.Button(type.Name))
+                    var categoryName = category.Key;
+                    if (!_categoryFoldouts.ContainsKey(categoryName))
                     {
-                        CreateNode(type);
+                        _categoryFoldouts[categoryName] = true;
+                    }
+
+                    _categoryFoldouts[categoryName] = EditorGUILayout.Foldout(_categoryFoldouts[categoryName],
+                        categoryName, true, folderTitleStyle);
+
+                    if (_categoryFoldouts[categoryName])
+                    {
+                        EditorGUI.indentLevel++;
+
+                        foreach (var item in category)
+                        {
+                            if (GUILayout.Button(item.Name))
+                            {
+                                CreateNode(item);
+                            }
+                        }
+
+                        EditorGUI.indentLevel--;
+                    }
+                }
+
+                // Now list uncategorized nodes
+                var uncategorizedNodes = nodeTypes
+                                         .Where(type => type.GetCustomAttribute<NodeCategoryAttribute>() == null)
+                                         .ToArray();
+
+                if (uncategorizedNodes.Length > 0)
+                {
+                    var uncategorizedKey = $"{typeof(T).Name}_Uncategorized";
+                    if (!_categoryFoldouts.ContainsKey(uncategorizedKey))
+                    {
+                        _categoryFoldouts[uncategorizedKey] = true;
+                    }
+
+                    _categoryFoldouts[uncategorizedKey] = EditorGUILayout.Foldout(_categoryFoldouts[uncategorizedKey],
+                        Uncategorized, true, folderTitleStyle);
+                    if (_categoryFoldouts[uncategorizedKey])
+                    {
+                        EditorGUI.indentLevel++;
+
+                        foreach (var item in uncategorizedNodes)
+                        {
+                            if (GUILayout.Button(item.Name))
+                            {
+                                CreateNode(item);
+                            }
+                        }
+
+                        EditorGUI.indentLevel--;
                     }
                 }
 
@@ -150,8 +211,10 @@ namespace BehaviorTreeTool.Editor
             {
                 var nodeType = node.GetType();
                 var sharedVariableFields = nodeType
-                    .GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                    .Where(field => typeof(SharedVariableBase).IsAssignableFrom(field.FieldType));
+                                           .GetFields(BindingFlags.Public | BindingFlags.NonPublic |
+                                                      BindingFlags.Instance)
+                                           .Where(field =>
+                                               typeof(SharedVariableBase).IsAssignableFrom(field.FieldType));
 
                 foreach (var field in sharedVariableFields)
                 {

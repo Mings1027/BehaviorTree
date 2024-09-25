@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Monster Status
   m_EditorClassIdentifier: 
   health: 1000
+  damageColor: {r: 1, g: 1, b: 1, a: 0}

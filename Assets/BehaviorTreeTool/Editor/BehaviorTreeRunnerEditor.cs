@@ -3,6 +3,8 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Reflection;
 using Tree;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 namespace BehaviorTreeTool.Editor
 {
@@ -31,9 +33,12 @@ namespace BehaviorTreeTool.Editor
 
             DrawBehaviorTreeField(treeRunner);
             DrawGizmosField(treeRunner);
-            DrawVariablesField(treeRunner);
-            // DrawRuntimeVariables();
-            DrawSharedVariables();
+            if (GUILayout.Button("Initialize"))
+            {
+                treeRunner.UpdateVariables();
+            }
+
+            DrawVariables(treeRunner);
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -53,6 +58,7 @@ namespace BehaviorTreeTool.Editor
             var currentBehaviorTree = (BehaviorTree)_behaviorTreeProperty.objectReferenceValue;
             if (currentBehaviorTree != treeRunner.Tree)
             {
+                Debug.Log("fff");
                 treeRunner.Tree = currentBehaviorTree;
                 serializedObject.ApplyModifiedProperties(); // 변경 사항을 즉시 반영합니다.
             }
@@ -69,23 +75,6 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        private void DrawVariablesField(BehaviorTreeRunner treeRunner)
-        {
-            if (Application.isPlaying) return;
-            var buttonLabel = treeRunner.CopyFromSharedData ? "Clear Variables" : "Copy Variables From Shared Data";
-
-            if (GUILayout.Button(buttonLabel))
-            {
-                treeRunner.CopyFromSharedData = !treeRunner.CopyFromSharedData;
-                serializedObject.ApplyModifiedProperties();
-            }
-
-            if (treeRunner.CopyFromSharedData)
-            {
-                DrawVariables(treeRunner);
-            }
-        }
-
         private void DrawVariables(BehaviorTreeRunner treeRunner)
         {
             var treeKey = treeRunner.GetInstanceID().ToString();
@@ -96,14 +85,14 @@ namespace BehaviorTreeTool.Editor
 
             if (isFolded)
             {
-                if (treeRunner.GetType().GetField("variables", BindingFlags.NonPublic | BindingFlags.Instance)
-                              ?.GetValue(treeRunner) is not List<SharedVariableBase> variables || variables.Count == 0)
-                {
-                    EditorGUI.indentLevel++;
-                    EditorGUILayout.LabelField("There are no variables");
-                    EditorGUI.indentLevel--;
-                    return;
-                }
+                // if (treeRunner.GetType().GetField("variables", BindingFlags.NonPublic | BindingFlags.Instance)
+                //               ?.GetValue(treeRunner) is not List<SharedVariableBase> variables || variables.Count == 0)
+                // {
+                //     EditorGUI.indentLevel++;
+                //     EditorGUILayout.LabelField("There are no variables");
+                //     EditorGUI.indentLevel--;
+                //     return;
+                // }
 
                 for (var i = 0; i < _variablesProperty.arraySize; i++)
                 {
@@ -120,6 +109,7 @@ namespace BehaviorTreeTool.Editor
 
             bool isArrayOrList = valueProperty.isArray;
 
+            EditorGUI.BeginChangeCheck();
             if (isArrayOrList)
             {
                 EditorGUI.indentLevel++;
@@ -128,18 +118,20 @@ namespace BehaviorTreeTool.Editor
             TreeUtility.DrawSharedVariableValueField((SharedVariableBase)variableProperty.managedReferenceValue,
                 variableName);
 
+            if (EditorGUI.EndChangeCheck())
+            {
+                if (!Application.isPlaying)
+                {
+                    EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+                }
+            }
+
             if (isArrayOrList)
             {
                 EditorGUI.indentLevel--;
             }
 
             TreeUtility.DrawHorizontalLine(Color.gray);
-        }
-
-        private void DrawSharedVariables()
-        {
-            if (!Application.isPlaying) return;
-            EditorGUILayout.PropertyField(_variablesProperty);
         }
     }
 }

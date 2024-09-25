@@ -5,43 +5,42 @@ namespace Tree
 {
     public class Health : MonoBehaviour, IDamageable
     {
-        private Collider col;
-        private Renderer objectRenderer;
-        private Color originColor;
-        private int curHealth;
+        private Collider _col;
+        private Renderer _objectRenderer;
+        private Color _originColor;
+        private int _curHealth;
 
         [SerializeField] private UnitStatus unitStatus;
-        [SerializeField] private Color damageColor;
 
         private void Awake()
         {
-            col = GetComponent<Collider>();
-            objectRenderer = GetComponent<Renderer>();
-            originColor = objectRenderer.material.color;
+            _col = GetComponent<Collider>();
+            _objectRenderer = GetComponent<Renderer>();
+            _originColor = _objectRenderer.material.color;
         }
 
         private void OnEnable()
         {
-            col.enabled = true;
-            curHealth = unitStatus.Health;
+            _col.enabled = true;
+            _curHealth = unitStatus.Health;
         }
 
         public void Damage(int amount)
         {
-            curHealth -= amount;
+            _curHealth -= amount;
             ChangeColor().Forget();
-            if (curHealth <= 0)
+            if (_curHealth <= 0)
             {
-                col.enabled = false;
+                _col.enabled = false;
                 gameObject.SetActive(false);
             }
         }
 
         private async UniTaskVoid ChangeColor()
         {
-            objectRenderer.material.color = damageColor;
-            await UniTask.Delay(100, cancellationToken: this.GetCancellationTokenOnDestroy());
-            objectRenderer.material.color = originColor;
+            _objectRenderer.material.color = unitStatus.damageColor;
+            await UniTask.Delay(100, cancellationToken: destroyCancellationToken);
+            _objectRenderer.material.color = _originColor;
         }
     }
 }

@@ -37,16 +37,16 @@ MonoBehaviour:
   drawGizmos: 1
   curRandomPoint:
     variableName: Random Point
-    variableType: 20
+    variableType: Vector3
     value: {x: 0, y: 0, z: 0}
   remainingDistance:
     variableName: Remaining Distance
-    variableType: 6
+    variableType: Float
     value: 0
   closeDistance:
     variableName: Close Distance
-    variableType: 6
-    value: 0
+    variableType: Float
+    value: 1
 --- !u!114 &-5621137543870786286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3115d8981699046e0997dd25d7b70a16, type: 3}
-  m_Name: SetRandompoint
+  m_Name: SetRandomPoint
   m_EditorClassIdentifier: 
   position: {x: -269, y: 477}
   guid: 06df9a3c5c478491b88bdf1e8623967e
@@ -101,7 +101,7 @@ MonoBehaviour:
   drawGizmos: 0
   curRandomPoint:
     variableName: Random Point
-    variableType: 20
+    variableType: Vector3
     value: {x: 0, y: 0, z: 0}
   radius: 10
 --- !u!114 &-1507918457791385362
@@ -160,29 +160,29 @@ MonoBehaviour:
   m_Name: SharedData
   m_EditorClassIdentifier: 
   variables:
-  - rid: 8748968384495616134
-  - rid: 8748968384495616135
-  - rid: 8748968384495616136
+  - rid: 8748968528195354873
+  - rid: 8748968528195354875
+  - rid: 8748968528195354877
   references:
     version: 2
     RefIds:
-    - rid: 8748968384495616134
+    - rid: 8748968528195354873
       type: {class: SharedVector3, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Random Point
-        variableType: 20
-        value: {x: -29.991632, y: 0, z: 0.110048294}
-    - rid: 8748968384495616135
+        variableType: Vector3
+        value: {x: 0, y: 0, z: 0}
+    - rid: 8748968528195354875
       type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Remaining Distance
-        variableType: 6
-        value: 4.071374
-    - rid: 8748968384495616136
+        variableType: Float
+        value: 0
+    - rid: 8748968528195354877
       type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Close Distance
-        variableType: 6
+        variableType: Float
         value: 1
 --- !u!114 &1173458505270367916
 MonoBehaviour:
@@ -202,16 +202,16 @@ MonoBehaviour:
   drawGizmos: 0
   curRandomPoint:
     variableName: Random Point
-    variableType: 20
+    variableType: Vector3
     value: {x: 0, y: 0, z: 0}
   remainingDistance:
     variableName: Remaining Distance
-    variableType: 6
+    variableType: Float
     value: 0
   closeDistance:
     variableName: Close Distance
-    variableType: 6
-    value: 0
+    variableType: Float
+    value: 1
   moveSpeed: 3
   rotationSpeed: 200
   rotationThreshold: 2

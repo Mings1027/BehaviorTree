@@ -150,7 +150,7 @@ namespace BehaviorTreeTool.Editor
 
             if (foldout)
             {
-                if (currentIndex != 0 && Application.isPlaying)
+                if (currentIndex != 0 /*&& Application.isPlaying*/)
                 {
                     EditorGUI.indentLevel++;
                     TreeUtility.DrawSharedVariableValueField(kvp.Value, "Value");

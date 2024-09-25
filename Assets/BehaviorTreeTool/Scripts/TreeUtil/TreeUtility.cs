@@ -13,7 +13,7 @@ namespace Tree
         private static readonly Dictionary<string, bool> arrayFoldouts = new();
         private static readonly Dictionary<string, bool> listFoldouts = new();
 
-        private static readonly Dictionary<SharedVariableType, Type> VariableTypeMap = new();
+        private static readonly List<Type> VariableTypes = new();
 
         static TreeUtility()
         {
@@ -25,28 +25,18 @@ namespace Tree
             var baseType = typeof(SharedVariableBase);
             var assembly = baseType.Assembly;
 
-            var sharedVariableTypes = assembly.GetTypes()
-                                              .Where(t => t.IsSubclassOf(baseType) && !t.IsAbstract)
-                                              .ToList();
-
-            for (var i = 0; i < sharedVariableTypes.Count; i++)
-            {
-                var type = sharedVariableTypes[i];
-                var enumName = type.Name.Replace("Shared", "");
-                if (Enum.TryParse(enumName, out SharedVariableType variableType))
-                {
-                    VariableTypeMap[variableType] = type;
-                }
-            }
+            VariableTypes.AddRange(assembly.GetTypes()
+                                           .Where(t => t.IsSubclassOf(baseType) && !t.IsAbstract && !t.IsGenericType)
+                                           .ToList());
         }
 
-        public static SharedVariableBase CreateSharedVariable(string variableName, SharedVariableType variableType)
+        public static SharedVariableBase CreateSharedVariable(string variableName, Type variableType)
         {
-            if (VariableTypeMap.TryGetValue(variableType, out var type))
+            if (VariableTypes.Contains(variableType))
             {
-                var instance = (SharedVariableBase)Activator.CreateInstance(type);
+                var instance = (SharedVariableBase)Activator.CreateInstance(variableType);
                 instance.VariableName = variableName;
-                instance.VariableType = variableType;
+                instance.VariableType = variableType.Name.Replace("Shared", "");
                 return instance;
             }
 

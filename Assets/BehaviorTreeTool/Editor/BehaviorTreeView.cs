@@ -149,8 +149,13 @@ namespace BehaviorTreeTool.Editor
             if (_tree.RootNode == null)
             {
                 _tree.SetRootNode(_tree.CreateNode(typeof(RootNode)) as RootNode);
-                _tree.SharedData = ScriptableObject.CreateInstance<SharedData>();
-                _tree.SharedData.name = "SharedData";
+                EditorUtility.SetDirty(_tree);
+                AssetDatabase.SaveAssets();
+            }
+
+            if (_tree.SharedData == null)
+            {
+                _tree.CreateSharedData();
                 EditorUtility.SetDirty(_tree);
                 AssetDatabase.SaveAssets();
             }

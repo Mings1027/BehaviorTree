@@ -16,13 +16,13 @@ namespace Tree
 
         [SerializeField] protected string variableName;
 
-        public SharedVariableType VariableType
+        public string VariableType
         {
             get => variableType;
             set => variableType = value;
         }
 
-        [SerializeField] private SharedVariableType variableType;
+        [SerializeField] private string variableType;
 
         public abstract void SetValue(object o);
         public abstract object GetValue();

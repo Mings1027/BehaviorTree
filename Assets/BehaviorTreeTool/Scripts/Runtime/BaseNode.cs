@@ -2,6 +2,13 @@ using UnityEngine;
 
 namespace Tree
 {
+    public enum TaskState
+    {
+        Running,
+        Failure,
+        Success
+    }
+
     public abstract class BaseNode : ScriptableObject
     {
 #if UNITY_EDITOR
@@ -47,19 +54,13 @@ namespace Tree
             OnAwake();
         }
 
-        protected virtual void OnAwake()
-        {
-        }
+        protected virtual void OnAwake() { }
 
-        protected virtual void OnStart()
-        {
-        }
+        protected virtual void OnStart() { }
 
         protected virtual TaskState OnUpdate() => TaskState.Running;
 
-        protected virtual void OnEnd()
-        {
-        }
+        protected virtual void OnEnd() { }
 
         public TaskState Update()
         {
@@ -84,9 +85,7 @@ namespace Tree
 
 
 #if UNITY_EDITOR
-        public virtual void OnDrawGizmos()
-        {
-        }
+        public virtual void OnDrawGizmos() { }
 
 #endif
     }

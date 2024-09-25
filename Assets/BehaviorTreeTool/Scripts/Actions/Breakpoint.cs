@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Tree
 {
+    [NodeCategory("Debug")]
     public class Breakpoint : ActionNode
     {
         protected override void OnStart()

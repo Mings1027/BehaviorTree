@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Tree
 {
+    [NodeCategory("Animation")]
     public class PlayAnimation : ActionNode
     {
         private Animator _animator;

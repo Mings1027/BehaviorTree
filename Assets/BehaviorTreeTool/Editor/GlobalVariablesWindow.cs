@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -17,7 +19,11 @@ namespace Tree
         private Texture2D _removeTexture;
 
         private static string _variableName;
-        private SharedVariableType _variableType;
+        private Type _selectedVariableType;
+
+        private List<Type> _sharedVariableTypes;
+
+        // private SharedVariableType _variableType;
         private Vector2 _scrollPosition;
         private GlobalVariables _globalVariableComponent;
         private List<SharedVariableBase> _globalData = new();
@@ -38,6 +44,7 @@ namespace Tree
         {
             if (_instance == null) ShowWindow();
             LoadTextures();
+            LoadSharedVariableTypes();
         }
 
         private void OnGUI()
@@ -110,6 +117,17 @@ namespace Tree
             _removeTexture = TreeUtility.LoadTexture("Assets/BehaviorTreeTool/Sprites/Remove.png");
         }
 
+        private void LoadSharedVariableTypes()
+        {
+            _sharedVariableTypes = Assembly.GetAssembly(typeof(SharedVariableBase))
+                                           .GetTypes()
+                                           .Where(t => t.IsSubclassOf(typeof(SharedVariableBase))
+                                                       && !t.IsAbstract
+                                                       && !t.IsGenericType)
+                                           .ToList();
+        }
+
+
         private void DrawGlobalGUI()
         {
             var globalStyle = new GUIStyle(EditorStyles.boldLabel)
@@ -138,11 +156,18 @@ namespace Tree
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Type", GUILayout.Width(50));
-            _variableType = (SharedVariableType)EditorGUILayout.EnumPopup(_variableType);
+
+            var typeNames = _sharedVariableTypes.Select(type => type.Name.Replace("Shared", "")).ToArray();
+            var selectedIndex =
+                Mathf.Max(0, Array.IndexOf(typeNames, _selectedVariableType?.Name.Replace("Shared", "")));
+            selectedIndex = EditorGUILayout.Popup(selectedIndex, typeNames);
+
+            _selectedVariableType = _sharedVariableTypes[selectedIndex];
+            // _variableType = (SharedVariableType)EditorGUILayout.EnumPopup(_variableType);
 
             if (GUILayout.Button("Add", GUILayout.Width(60)))
             {
-                AddGlobalVariable(_variableName, _variableType);
+                AddGlobalVariable(_variableName, _selectedVariableType);
             }
 
             EditorGUILayout.EndHorizontal();
@@ -224,27 +249,43 @@ namespace Tree
             variable.VariableName = EditorGUILayout.TextField(variable.VariableName);
             EditorGUILayout.EndHorizontal();
 
-            var currentVariableType = variable.VariableType;
+            // var currentVariableType = variable.VariableType;
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Type", GUILayout.Width(50));
-            var newVariableType = (SharedVariableType)EditorGUILayout.EnumPopup(currentVariableType);
-            EditorGUILayout.EndHorizontal();
 
-            if (newVariableType != currentVariableType)
+            // 현재 타입을 기준으로 리스트에서 인덱스를 찾음
+            int currentIndex = _sharedVariableTypes.FindIndex(t => t == variable.GetType());
+            if (currentIndex == -1) currentIndex = 0; // 못찾으면 첫번째로 설정
+
+            // 클래스 이름에서 "Shared" 제거
+            var displayedOptions = _sharedVariableTypes
+                                   .Select(t => t.Name.Replace("Shared", ""))
+                                   .ToArray();
+
+            // Popup 표시
+            EditorGUI.BeginChangeCheck();
+            int selectedIndex = EditorGUILayout.Popup(currentIndex, displayedOptions);
+            if (EditorGUI.EndChangeCheck())
             {
-                var newVariable = TreeUtility.CreateSharedVariable(variable.VariableName, newVariableType);
-                if (newVariable != null)
+                if (selectedIndex != currentIndex)
                 {
-                    newVariable.SetValue(variable.GetValue());
-                    _globalData[index] = newVariable;
-                    variable = newVariable;
+                    // 새로 선택된 타입으로 변수 생성
+                    var variableType = _sharedVariableTypes[selectedIndex];
+                    var newVariable = TreeUtility.CreateSharedVariable(variable.VariableName, variableType);
+
+                    if (newVariable != null)
+                    {
+                        _globalData[index] = newVariable;
+                        variable = newVariable;
+                    }
                 }
             }
 
+            EditorGUILayout.EndHorizontal();
+            
             TreeUtility.DrawSharedVariableValueField(variable, "Value");
-
-
+            
             EditorGUILayout.EndVertical();
         }
 
@@ -261,7 +302,7 @@ namespace Tree
             EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         }
 
-        public static void AddVariable(string variableName, SharedVariableType variableType)
+        public static void AddVariable(string variableName, Type variableType)
         {
             if (_instance == null)
             {
@@ -271,7 +312,7 @@ namespace Tree
             _instance.AddGlobalVariable(variableName, variableType);
         }
 
-        private void AddGlobalVariable(string variableName, SharedVariableType variableType)
+        private void AddGlobalVariable(string variableName, Type variableType)
         {
             variableName = variableName.Trim();
             if (string.IsNullOrEmpty(variableName))

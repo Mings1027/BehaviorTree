@@ -4,6 +4,7 @@ using Random = UnityEngine.Random;
 
 namespace Tree
 {
+    [NodeCategory("NavMeshAgent")]
     public class RandomPosition : ActionNode
     {
         private NavMeshAgent agent;

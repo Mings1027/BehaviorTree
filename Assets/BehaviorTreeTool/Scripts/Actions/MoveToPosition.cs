@@ -3,6 +3,7 @@ using UnityEngine.AI;
 
 namespace Tree
 {
+    [NodeCategory("NavMeshAgent")]
     public class MoveToPosition : ActionNode
     {
         public NavMeshAgent agent;
