@@ -32,7 +32,12 @@ Shared Variables 아래에는 해당 노드에서 선언한 공유변수가 나�
 ![스크린샷 2024-09-27 오전 10 21 48](https://github.com/user-attachments/assets/2ad0d71c-3302-49fc-8db4-18f2c2e050b2)
 ![스크린샷 2024-09-27 오전 10 21 55](https://github.com/user-attachments/assets/7fcc0d9c-2c11-46b3-ba08-bac30d17cf74)
 
-8. To use the behavior tree, attach the "Behavior Tree Runner" component to an object and assign a Tree Asset.  
+8. To use shared values in a node, declare public Shared variables as shown in the image below.  
+노드에서 공유값을 사용하려면 아래 사진과 같이 public Shared변수를 선언합니다.  
+![스크린샷 2024-09-27 오전 10 34 22](https://github.com/user-attachments/assets/6645b679-7ab6-4be2-be5e-3c1b1f0e39a4)
+![스크린샷 2024-09-27 오전 10 34 28](https://github.com/user-attachments/assets/58eabc1f-9e0a-4766-9b41-860d44ef06b8)
+
+9. To use the behavior tree, attach the "Behavior Tree Runner" component to an object and assign a Tree Asset.  
 If any shared values need to be pre-assigned, you can assign them in the Behavior Tree Runner component before use.  
 트리를 사용하기 위해선 객체에 “Behavior Tree Runner” 컴포넌트를 붙이고 Tree Asset을 할당해야 합니다.  
 공유값 중 미리 할당이 필요한 경우 Behavior Tree Runner 컴포넌트에서 할당해두고 사용합니다.  
