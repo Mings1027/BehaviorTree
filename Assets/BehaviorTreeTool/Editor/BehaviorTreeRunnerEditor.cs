@@ -31,13 +31,15 @@ namespace BehaviorTreeTool.Editor
 
             var treeRunner = (BehaviorTreeRunner)target;
 
+            EditorGUI.BeginChangeCheck();
             DrawBehaviorTreeField(treeRunner);
-            DrawGizmosField(treeRunner);
-            if (GUILayout.Button("Initialize"))
+            if (EditorGUI.EndChangeCheck())
             {
-                treeRunner.UpdateVariables();
+                // Update variables when the behavior tree is changed
+                UpdateVariables(treeRunner);
             }
 
+            DrawGizmosField(treeRunner);
             DrawVariables(treeRunner);
 
             serializedObject.ApplyModifiedProperties();
@@ -49,19 +51,9 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.PropertyField(_behaviorTreeProperty, new GUIContent("Behavior Tree"));
             if (GUILayout.Button("Open", GUILayout.Width(50)))
             {
-                // Open behavior tree logic
                 BehaviorTreeEditor.OpenWithTree(treeRunner.Tree);
             }
-
             EditorGUILayout.EndHorizontal();
-
-            var currentBehaviorTree = (BehaviorTree)_behaviorTreeProperty.objectReferenceValue;
-            if (currentBehaviorTree != treeRunner.Tree)
-            {
-                Debug.Log("fff");
-                treeRunner.Tree = currentBehaviorTree;
-                serializedObject.ApplyModifiedProperties(); // 변경 사항을 즉시 반영합니다.
-            }
         }
 
         private void DrawGizmosField(BehaviorTreeRunner treeRunner)
@@ -85,15 +77,6 @@ namespace BehaviorTreeTool.Editor
 
             if (isFolded)
             {
-                // if (treeRunner.GetType().GetField("variables", BindingFlags.NonPublic | BindingFlags.Instance)
-                //               ?.GetValue(treeRunner) is not List<SharedVariableBase> variables || variables.Count == 0)
-                // {
-                //     EditorGUI.indentLevel++;
-                //     EditorGUILayout.LabelField("There are no variables");
-                //     EditorGUI.indentLevel--;
-                //     return;
-                // }
-
                 for (var i = 0; i < _variablesProperty.arraySize; i++)
                 {
                     var variableProperty = _variablesProperty.GetArrayElementAtIndex(i);
@@ -132,6 +115,20 @@ namespace BehaviorTreeTool.Editor
             }
 
             TreeUtility.DrawHorizontalLine(Color.gray);
+        }
+
+        private void UpdateVariables(BehaviorTreeRunner treeRunner)
+        {
+            var currentBehaviorTree = (BehaviorTree)_behaviorTreeProperty.objectReferenceValue;
+            if (currentBehaviorTree != null && currentBehaviorTree.SharedData != null)
+            {
+                Undo.RecordObject(treeRunner, "Update Variables");
+
+                treeRunner.Tree = currentBehaviorTree;
+                treeRunner.UpdateVariables();
+
+                EditorUtility.SetDirty(treeRunner);
+            }
         }
     }
 }

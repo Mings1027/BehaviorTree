@@ -84,7 +84,8 @@ namespace BehaviorTreeTool.Editor
                                      .ToArray();
 
             var title = typeof(T).Name.Replace("Node", "") + " Nodes";
-            var foldout = EditorPrefs.GetBool($"{title}Foldout", true);
+            var nodeTypeFoldoutKey = $"{title}Foldout";
+            var foldout = EditorPrefs.GetBool(nodeTypeFoldoutKey, true);
             var folderTitleStyle = new GUIStyle(EditorStyles.foldout)
             {
                 fontSize = 16,
@@ -92,32 +93,31 @@ namespace BehaviorTreeTool.Editor
             };
 
             foldout = EditorGUILayout.Foldout(foldout, title, true, folderTitleStyle);
-            EditorPrefs.SetBool($"{title}Foldout", foldout);
+            EditorPrefs.SetBool(nodeTypeFoldoutKey, foldout);
 
             if (foldout)
             {
                 EditorGUI.indentLevel++;
 
-                // Group nodes by their category, separating categorized from uncategorized
                 var categorizedNodes = nodeTypes
                                        .Where(type => type.GetCustomAttribute<NodeCategoryAttribute>() != null)
                                        .GroupBy(type => type.GetCustomAttribute<NodeCategoryAttribute>().Category)
-                                       .OrderBy(group => group.Key) // Sort categories alphabetically
+                                       .OrderBy(group => group.Key)
                                        .ToList();
 
-                // List categorized nodes
                 foreach (var category in categorizedNodes)
                 {
                     var categoryName = category.Key;
-                    if (!_categoryFoldouts.ContainsKey(categoryName))
+                    var categoryKey = $"{typeof(T).Name}_{categoryName}";
+                    if (!_categoryFoldouts.ContainsKey(categoryKey))
                     {
-                        _categoryFoldouts[categoryName] = true;
+                        _categoryFoldouts[categoryKey] = true;
                     }
 
-                    _categoryFoldouts[categoryName] = EditorGUILayout.Foldout(_categoryFoldouts[categoryName],
+                    _categoryFoldouts[categoryKey] = EditorGUILayout.Foldout(_categoryFoldouts[categoryKey],
                         categoryName, true, folderTitleStyle);
 
-                    if (_categoryFoldouts[categoryName])
+                    if (_categoryFoldouts[categoryKey])
                     {
                         EditorGUI.indentLevel++;
 
@@ -133,7 +133,6 @@ namespace BehaviorTreeTool.Editor
                     }
                 }
 
-                // Now list uncategorized nodes
                 var uncategorizedNodes = nodeTypes
                                          .Where(type => type.GetCustomAttribute<NodeCategoryAttribute>() == null)
                                          .ToArray();
@@ -167,6 +166,7 @@ namespace BehaviorTreeTool.Editor
                 EditorGUI.indentLevel--;
             }
         }
+
 
         private static void CreateNode(Type type)
         {

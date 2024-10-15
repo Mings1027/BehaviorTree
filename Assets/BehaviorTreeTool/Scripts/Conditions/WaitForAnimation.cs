@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Tree
 {
+    [NodeCategory("Animation")]
     public class WaitForAnimation : ConditionNode
     {
         private Animator _animator;

@@ -4,6 +4,7 @@ using UnityEngine.Serialization;
 
 namespace Tree
 {
+    [NodeCategory("NavMeshAgent")]
     public class ReadyToAttack : ConditionNode
     {
         public SharedCollider enemy;

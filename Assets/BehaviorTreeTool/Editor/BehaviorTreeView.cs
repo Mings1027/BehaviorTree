@@ -116,7 +116,7 @@ namespace BehaviorTreeTool.Editor
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new DoubleClickSelection());
             this.AddManipulator(new SelectionDragger());
-            // this.AddManipulator(new RectangleSelector());
+            this.AddManipulator(new RectangleSelector());
         }
 
         private void RegisterEventCallbacks()

@@ -42,7 +42,8 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -1066,7 +1067,6 @@ MonoBehaviour:
   variables:
   - rid: 8748968528195354761
   - rid: 8748968248265408614
-  - rid: 8748968528195355033
   references:
     version: 2
     RefIds:
@@ -1082,12 +1082,6 @@ MonoBehaviour:
         variableName: IsPlaying
         variableType: SharedBool
         value: 0
-    - rid: 8748968528195355033
-      type: {class: SharedAnimator, ns: Tree, asm: Assembly-CSharp}
-      data:
-        variableName: TestInt
-        variableType: Animator
-        value: {fileID: 0}
 --- !u!4 &927759429
 Transform:
   m_ObjectHideFlags: 0
@@ -1140,27 +1134,27 @@ MonoBehaviour:
   drawGizmos: 0
   behaviorTree: {fileID: 11400000, guid: 08bcb8b89c66443dfa7d54dfa8c262c3, type: 2}
   variables:
-  - rid: 8748968534495461580
-  - rid: 8748968534495461581
-  - rid: 8748968534495461582
+  - rid: 3216428105236480110
+  - rid: 3216428105236480111
+  - rid: 3216428105236480112
   references:
     version: 2
     RefIds:
-    - rid: 8748968534495461580
+    - rid: 3216428105236480110
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: Collider
         value: {fileID: 0}
-    - rid: 8748968534495461581
+    - rid: 3216428105236480111
       type: {class: SharedTransformArray, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: TransformArray
         value:
-        - {fileID: 1605107213}
-        - {fileID: 690580547}
-    - rid: 8748968534495461582
+        - {fileID: 73092628}
+        - {fileID: 2000954063}
+    - rid: 3216428105236480112
       type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Check Range
@@ -1328,27 +1322,27 @@ MonoBehaviour:
   drawGizmos: 0
   behaviorTree: {fileID: 11400000, guid: 08bcb8b89c66443dfa7d54dfa8c262c3, type: 2}
   variables:
-  - rid: 8748968534495461577
-  - rid: 8748968534495461578
-  - rid: 8748968534495461579
+  - rid: 3216428105236480087
+  - rid: 3216428105236480088
+  - rid: 3216428105236480089
   references:
     version: 2
     RefIds:
-    - rid: 8748968534495461577
+    - rid: 3216428105236480087
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Target
         variableType: Collider
         value: {fileID: 0}
-    - rid: 8748968534495461578
+    - rid: 3216428105236480088
       type: {class: SharedTransformArray, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Way Points
         variableType: TransformArray
         value:
-        - {fileID: 73092628}
+        - {fileID: 866118227}
         - {fileID: 2000954063}
-    - rid: 8748968534495461579
+    - rid: 3216428105236480089
       type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Check Range
