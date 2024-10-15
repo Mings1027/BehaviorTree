@@ -21,6 +21,7 @@ namespace Tree
         {
             base.Awake();
             behaviorTrees = new List<BehaviorTreeRunner>();
+            Application.targetFrameRate = 60;
         }
 
         private void Start()

@@ -7,18 +7,18 @@ namespace Tree
     {
         public SharedTransformArray wayPoints;
 
-        private NavMeshAgent agent;
+        private NavMeshAgent _agent;
         private int _wayIndex;
 
         protected override void OnAwake()
         {
-            agent = nodeTransform.GetComponent<NavMeshAgent>();
+            _agent = nodeTransform.GetComponent<NavMeshAgent>();
             _wayIndex = 0;
         }
 
         protected override void OnStart()
         {
-            agent.destination = wayPoints.Value[_wayIndex].position;
+            _agent.destination = wayPoints.Value[_wayIndex].position;
             _wayIndex++;
             if (wayPoints.Value.Length <= _wayIndex)
             {

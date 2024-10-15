@@ -80,13 +80,12 @@ namespace BehaviorTreeTool.Editor
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Type", GUILayout.Width(70));
-            var typeNames = _sharedVariableTypes.Select(type => type.Name.Replace("Shared", "")).ToArray();
+            var typeNames = _sharedVariableTypes.Select(type => type.Name.Replace(TreeUtility.Shared, "")).ToArray();
             var selectedIndex =
-                Mathf.Max(0, Array.IndexOf(typeNames, _selectedVariableType?.Name.Replace("Shared", "")));
+                Mathf.Max(0, Array.IndexOf(typeNames, _selectedVariableType?.Name.Replace(TreeUtility.Shared, "")));
             selectedIndex = EditorGUILayout.Popup(selectedIndex, typeNames);
 
             _selectedVariableType = _sharedVariableTypes[selectedIndex];
-            // _variableType = (SharedVariableType)EditorGUILayout.EnumPopup(_variableType);
 
             if (GUILayout.Button("Add", GUILayout.Width(60)))
             {
@@ -227,7 +226,7 @@ namespace BehaviorTreeTool.Editor
 
                 // Display options without "Shared" prefix
                 var displayedOptions = _sharedVariableTypes
-                                       .Select(t => t.Name.Replace("Shared", ""))
+                                       .Select(t => t.Name.Replace(TreeUtility.Shared, ""))
                                        .ToArray();
 
                 // Popup to select variable type

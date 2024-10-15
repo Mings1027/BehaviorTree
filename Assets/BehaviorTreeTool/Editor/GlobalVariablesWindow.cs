@@ -157,13 +157,12 @@ namespace Tree
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Type", GUILayout.Width(50));
 
-            var typeNames = _sharedVariableTypes.Select(type => type.Name.Replace("Shared", "")).ToArray();
+            var typeNames = _sharedVariableTypes.Select(type => type.Name.Replace(TreeUtility.Shared, "")).ToArray();
             var selectedIndex =
-                Mathf.Max(0, Array.IndexOf(typeNames, _selectedVariableType?.Name.Replace("Shared", "")));
+                Mathf.Max(0, Array.IndexOf(typeNames, _selectedVariableType?.Name.Replace(TreeUtility.Shared, "")));
             selectedIndex = EditorGUILayout.Popup(selectedIndex, typeNames);
 
             _selectedVariableType = _sharedVariableTypes[selectedIndex];
-            // _variableType = (SharedVariableType)EditorGUILayout.EnumPopup(_variableType);
 
             if (GUILayout.Button("Add", GUILayout.Width(60)))
             {
@@ -206,87 +205,95 @@ namespace Tree
                 margin = new RectOffset(4, 4, 2, 2)
             };
 
-            EditorGUILayout.BeginVertical(style);
-            EditorGUILayout.BeginHorizontal();
-
-            GUILayout.FlexibleSpace();
-
-            // Move Up Button
-            if (GUILayout.Button(new GUIContent(_upArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
             {
-                if (index > 0) // Ensure it's not the first item
+                EditorGUILayout.BeginVertical(style);
+
                 {
-                    MoveVariable(index, index - 1);
-                }
-            }
+                    EditorGUILayout.BeginHorizontal();
 
-            // Move Down Button
-            if (GUILayout.Button(new GUIContent(_downArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
-            {
-                if (index < _globalData.Count - 1) // Ensure it's not the last item
-                {
-                    MoveVariable(index, index + 1);
-                }
-            }
+                    GUILayout.FlexibleSpace();
 
-            // Remove Button
-            if (GUILayout.Button(new GUIContent(_removeTexture), GUILayout.Width(21), GUILayout.Height(21)))
-            {
-                if (EditorUtility.DisplayDialog("Delete Variable",
-                        $"Are you sure you want to delete the variable '{variable.VariableName}'?", "Yes", "No"))
-                {
-                    _globalData.RemoveAt(index);
-                    Repaint();
-                }
-
-                EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-            }
-
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Name", GUILayout.Width(50));
-            variable.VariableName = EditorGUILayout.TextField(variable.VariableName);
-            EditorGUILayout.EndHorizontal();
-
-            // var currentVariableType = variable.VariableType;
-
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Type", GUILayout.Width(50));
-
-            // 현재 타입을 기준으로 리스트에서 인덱스를 찾음
-            int currentIndex = _sharedVariableTypes.FindIndex(t => t == variable.GetType());
-            if (currentIndex == -1) currentIndex = 0; // 못찾으면 첫번째로 설정
-
-            // 클래스 이름에서 "Shared" 제거
-            var displayedOptions = _sharedVariableTypes
-                                   .Select(t => t.Name.Replace("Shared", ""))
-                                   .ToArray();
-
-            // Popup 표시
-            EditorGUI.BeginChangeCheck();
-            int selectedIndex = EditorGUILayout.Popup(currentIndex, displayedOptions);
-            if (EditorGUI.EndChangeCheck())
-            {
-                if (selectedIndex != currentIndex)
-                {
-                    // 새로 선택된 타입으로 변수 생성
-                    var variableType = _sharedVariableTypes[selectedIndex];
-                    var newVariable = TreeUtility.CreateSharedVariable(variable.VariableName, variableType);
-
-                    if (newVariable != null)
+                    // Move Up Button
+                    if (GUILayout.Button(new GUIContent(_upArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
                     {
-                        _globalData[index] = newVariable;
-                        variable = newVariable;
+                        if (index > 0) // Ensure it's not the first item
+                        {
+                            MoveVariable(index, index - 1);
+                        }
                     }
-                }
-            }
 
-            EditorGUILayout.EndHorizontal();
-            
-            TreeUtility.DrawSharedVariableValueField(variable, "Value");
-            
-            EditorGUILayout.EndVertical();
+                    // Move Down Button
+                    if (GUILayout.Button(new GUIContent(_downArrowTexture), GUILayout.Width(21), GUILayout.Height(21)))
+                    {
+                        if (index < _globalData.Count - 1) // Ensure it's not the last item
+                        {
+                            MoveVariable(index, index + 1);
+                        }
+                    }
+
+                    // Remove Button
+                    if (GUILayout.Button(new GUIContent(_removeTexture), GUILayout.Width(21), GUILayout.Height(21)))
+                    {
+                        if (EditorUtility.DisplayDialog("Delete Variable",
+                                $"Are you sure you want to delete the variable '{variable.VariableName}'?", "Yes",
+                                "No"))
+                        {
+                            _globalData.RemoveAt(index);
+                            Repaint();
+                        }
+
+                        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+                    }
+
+                    EditorGUILayout.EndHorizontal();
+                }
+
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Name", GUILayout.Width(50));
+                    variable.VariableName = EditorGUILayout.TextField(variable.VariableName);
+                    EditorGUILayout.EndHorizontal();
+                }
+
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField("Type", GUILayout.Width(50));
+
+                    // 현재 타입을 기준으로 리스트에서 인덱스를 찾음
+                    int currentIndex = _sharedVariableTypes.FindIndex(t => t == variable.GetType());
+                    if (currentIndex == -1) currentIndex = 0; // 못찾으면 첫번째로 설정
+
+                    // 클래스 이름에서 "Shared" 제거
+                    var displayedOptions = _sharedVariableTypes
+                                           .Select(t => t.Name.Replace(TreeUtility.Shared, ""))
+                                           .ToArray();
+
+                    // Popup 표시
+                    EditorGUI.BeginChangeCheck();
+                    int selectedIndex = EditorGUILayout.Popup(currentIndex, displayedOptions);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        if (selectedIndex != currentIndex)
+                        {
+                            // 새로 선택된 타입으로 변수 생성
+                            var variableType = _sharedVariableTypes[selectedIndex];
+                            var newVariable = TreeUtility.CreateSharedVariable(variable.VariableName, variableType);
+
+                            if (newVariable != null)
+                            {
+                                _globalData[index] = newVariable;
+                                variable = newVariable;
+                            }
+                        }
+                    }
+
+                    EditorGUILayout.EndHorizontal();
+                }
+
+                TreeUtility.DrawSharedVariableValueField(variable, "Value");
+
+                EditorGUILayout.EndVertical();
+            }
         }
 
         private void MoveVariable(int oldIndex, int newIndex)
@@ -353,8 +360,8 @@ namespace Tree
 
         private static bool IsVariableNameDuplicate(string variableName)
         {
-            return FindFirstObjectByType<GlobalVariables>().Variables
-                                                           .Any(variable => variable.VariableName == variableName);
+            return FindAnyObjectByType<GlobalVariables>().Variables
+                                                         .Any(variable => variable.VariableName == variableName);
         }
     }
 }

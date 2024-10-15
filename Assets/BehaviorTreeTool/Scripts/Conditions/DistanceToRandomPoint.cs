@@ -17,7 +17,7 @@ namespace Tree
         {
             remainingDistance.Value = Vector3.Distance(curRandomPoint.Value, nodeTransform.position);
 
-            if (remainingDistance.Value < closeDistance.Value)
+            if (remainingDistance.Value <= closeDistance.Value)
             {
                 return TaskState.Success;
             }

@@ -36,7 +36,7 @@ MonoBehaviour:
       data:
         variableName: Check Range
         variableType: Int
-        value: 7
+        value: 5
 --- !u!114 &-5938471010181334804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
   m_Name: ReadyToAttack
   m_EditorClassIdentifier: 
-  position: {x: -951.0001, y: 549}
+  position: {x: -951, y: 549}
   guid: f7a7c399c71f14012b8554c4cefa121d
   description: 
   drawGizmos: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   checkRange:
     variableName: Check Range
     variableType: Int
-    value: 7
+    value: 0
   targetLayer:
     serializedVersion: 2
     m_Bits: 72
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
-  position: {x: -651.00006, y: 549}
+  position: {x: -651, y: 549}
   guid: 2b02b2eab361046ef85368e3781389f1
   description: 
   drawGizmos: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79172bfe693b944a49fd85bcda5bff60, type: 3}
   m_Name: LookAtTarget
   m_EditorClassIdentifier: 
-  position: {x: -801.00006, y: 549}
+  position: {x: -801, y: 549}
   guid: 73de46ae8d6f34b518c6e03d6f59f212
   description: 
   drawGizmos: 0
@@ -246,9 +246,7 @@ MonoBehaviour:
   wayPoints:
     variableName: Way Points
     variableType: TransformArray
-    value:
-    - {fileID: 0}
-    - {fileID: 0}
+    value: []
 --- !u!114 &-441518734293715152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +270,7 @@ MonoBehaviour:
   checkRange:
     variableName: Check Range
     variableType: Int
-    value: 7
+    value: 0
   viewAngle: 30
 --- !u!114 &11400000
 MonoBehaviour:

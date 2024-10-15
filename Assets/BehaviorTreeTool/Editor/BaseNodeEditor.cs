@@ -142,7 +142,7 @@ namespace BehaviorTreeTool.Editor
             var selectedIndex = EditorGUILayout.Popup(currentIndex, variableNames.ToArray(), GUILayout.Width(150));
             if (selectedIndex != currentIndex)
             {
-                UpdateVariableSelection(kvp.Value, variableNames, selectedIndex);
+                UpdateVariableSelection(node, kvp.Value, variableNames, selectedIndex);
                 EditorUtility.SetDirty(node);
             }
 
@@ -150,7 +150,7 @@ namespace BehaviorTreeTool.Editor
 
             if (foldout)
             {
-                if (currentIndex != 0 /*&& Application.isPlaying*/)
+                if (currentIndex != 0 && Application.isPlaying)
                 {
                     EditorGUI.indentLevel++;
                     TreeUtility.DrawSharedVariableValueField(kvp.Value, "Value");
@@ -162,7 +162,7 @@ namespace BehaviorTreeTool.Editor
             so.ApplyModifiedProperties();
         }
 
-        private static void UpdateVariableSelection(SharedVariableBase variable,
+        private static void UpdateVariableSelection(BaseNode node, SharedVariableBase variable,
                                                     IReadOnlyList<string> variableNames, int selectedIndex)
         {
             if (selectedIndex == 0)
@@ -204,10 +204,14 @@ namespace BehaviorTreeTool.Editor
             {
                 var field = array[i];
                 if (typeof(SharedVariableBase).IsAssignableFrom(field.FieldType) ||
-                    field.IsDefined(typeof(HideInInspector), false) ||
-                    field.Name == "drawGizmos" && !hasDrawGizmosOverride)
+                    field.IsDefined(typeof(HideInInspector), false))
                 {
                     continue;
+                }
+
+                if (field.Name == "drawGizmos")
+                {
+                    if (!hasDrawGizmosOverride || !Application.isPlaying) continue;
                 }
 
                 var property = serializedObject.FindProperty(field.Name);
@@ -217,6 +221,7 @@ namespace BehaviorTreeTool.Editor
                     EditorGUILayout.PropertyField(property, new GUIContent(displayName), true);
                 }
             }
+
 
             serializedObject.ApplyModifiedProperties();
         }

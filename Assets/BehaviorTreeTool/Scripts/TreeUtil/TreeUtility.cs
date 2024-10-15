@@ -14,6 +14,7 @@ namespace Tree
         private static readonly Dictionary<string, bool> listFoldouts = new();
 
         private static readonly List<Type> VariableTypes = new();
+        public const string Shared = "Shared";
 
         static TreeUtility()
         {
@@ -36,7 +37,7 @@ namespace Tree
             {
                 var instance = (SharedVariableBase)Activator.CreateInstance(variableType);
                 instance.VariableName = variableName;
-                instance.VariableType = variableType.Name.Replace("Shared", "");
+                instance.VariableType = variableType.Name.Replace(Shared, "");
                 return instance;
             }
 

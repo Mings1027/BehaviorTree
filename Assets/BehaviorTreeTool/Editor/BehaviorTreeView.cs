@@ -315,9 +315,9 @@ namespace BehaviorTreeTool.Editor
             var clickedElement = GetElementAtMousePosition(evt.localMousePosition);
             if (clickedElement is NodeView)
             {
+                evt.menu.AppendAction("Open In IDE", _ => OpenBaseNode());
                 evt.menu.AppendAction("Duplicate", _ => DuplicateSelectedNodes());
                 evt.menu.AppendAction("Delete", _ => DeleteSelectedNodes());
-                evt.menu.AppendAction("Open In IDE", _ => OpenBaseNode());
             }
             else
             {
@@ -420,16 +420,16 @@ namespace BehaviorTreeTool.Editor
                 if (selectedNode.Node != null)
                 {
                     var script = MonoScript.FromScriptableObject(selectedNode.Node);
-                    if (script != null)
-                    {
-                        AssetDatabase.OpenAsset(script);
-                    }
-                    // var assetPath = AssetDatabase.GetAssetPath(script);
-                    // if (!string.IsNullOrEmpty(assetPath))
+                    // if (script != null)
                     // {
-                    //     var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
-                    //     AssetDatabase.OpenAsset(asset);
+                    //     AssetDatabase.OpenAsset(script);
                     // }
+                    var assetPath = AssetDatabase.GetAssetPath(script);
+                    if (!string.IsNullOrEmpty(assetPath))
+                    {
+                        var asset = AssetDatabase.LoadAssetAtPath<Object>(assetPath);
+                        AssetDatabase.OpenAsset(asset);
+                    }
                 }
             }
         }

@@ -10,7 +10,6 @@ namespace Tree
 
         [SerializeField] private float moveSpeed;
         [SerializeField] private float rotationSpeed;
-        [SerializeField] private float rotationThreshold;
 
         protected override TaskState OnUpdate()
         {

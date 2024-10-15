@@ -234,7 +234,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1.5
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitStatus: {fileID: 11400000, guid: fceb3a6f8dec14d5eafa3df0bbbb5f83, type: 2}
-  damageColor: {r: 0, g: 0, b: 0, a: 0}
+  damageEffect: {fileID: 11400000, guid: b15309eeb29234750a1accabf70d0a26, type: 2}
 --- !u!114 &488707772160713717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,18 +271,18 @@ MonoBehaviour:
   drawGizmos: 0
   behaviorTree: {fileID: 11400000, guid: 4323ec827cde646d3bc203c9bddd4caa, type: 2}
   variables:
-  - rid: 8748968534495461583
-  - rid: 8748968534495461584
+  - rid: 8748968542188863621
+  - rid: 8748968542188863622
   references:
     version: 2
     RefIds:
-    - rid: 8748968534495461583
+    - rid: 8748968542188863621
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Target Collider
         variableType: Collider
         value: {fileID: 0}
-    - rid: 8748968534495461584
+    - rid: 8748968542188863622
       type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Check Range

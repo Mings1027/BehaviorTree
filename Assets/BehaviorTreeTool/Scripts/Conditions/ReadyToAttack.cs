@@ -34,11 +34,13 @@ namespace Tree
             return TaskState.Failure;
         }
 
+#if UNITY_EDITOR
         public override void OnDrawGizmos()
         {
             if (nodeTransform == null) return;
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(nodeTransform.position, attackRange);
         }
+#endif
     }
 }

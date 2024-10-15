@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,12 +9,7 @@ namespace Tree
     [CreateAssetMenu(menuName = "BehaviorTree/Behavior Tree")]
     public sealed class BehaviorTree : ScriptableObject
     {
-        public SharedData SharedData
-        {
-            get => sharedData;
-            set => sharedData = value;
-        }
-
+        public SharedData SharedData => sharedData;
         [SerializeField] private SharedData sharedData;
 
         public BaseNode RootNode => rootNode;
@@ -97,7 +93,7 @@ namespace Tree
         }
 
 #if UNITY_EDITOR
-
+        
         public void SetRootNode(RootNode root)
         {
             rootNode = root;

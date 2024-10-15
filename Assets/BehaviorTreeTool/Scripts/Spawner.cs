@@ -54,6 +54,28 @@ namespace Tree
         {
             while (_limitCount < 10000)
             {
+                if (!autoSpawn) continue;
+                await UniTask.Delay(TimeSpan.FromSeconds(spawnDelay), cancellationToken: destroyCancellationToken);
+                for (int i = 0; i < monsterCount; i++)
+                {
+                    await UniTask.Delay(100, cancellationToken: destroyCancellationToken);
+                    Instantiate(monster);
+                    _limitCount++;
+                }
+
+                for (int i = 0; i < unitCount; i++)
+                {
+                    await UniTask.Delay(100, cancellationToken: destroyCancellationToken);
+                    Instantiate(unit);
+                    _limitCount++;
+                }
+            }
+        }
+
+        private async UniTask DelayAgentSpawn()
+        {
+            while (_limitCount < 10000)
+            {
                 if (!autoSpawn) return;
                 await UniTask.Delay(TimeSpan.FromSeconds(spawnDelay), cancellationToken: destroyCancellationToken);
                 for (var i = 0; i < monsterCount; i++)

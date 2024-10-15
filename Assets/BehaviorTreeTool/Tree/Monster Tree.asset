@@ -214,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
-  position: {x: 477, y: 537}
+  position: {x: 476, y: 537}
   guid: 3c4a4b54ea5ec4c0292a22c1184b8c72
   description: 
   drawGizmos: 0
@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
   m_Name: Sequencer
   m_EditorClassIdentifier: 
-  position: {x: 477, y: 404}
+  position: {x: 476, y: 404}
   guid: e1f1addf08a9b4e8bbc13322f2e0d028
   description: 
   drawGizmos: 0
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0a055ff4bd9e6642b3f0dff32a86e1d, type: 3}
   m_Name: RandomPosition
   m_EditorClassIdentifier: 
-  position: {x: 627, y: 537}
+  position: {x: 626, y: 537}
   guid: 7eec919d11c564486b337c4808729b0f
   description: 
   drawGizmos: 0
@@ -406,7 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
   m_Name: CheckDistance
   m_EditorClassIdentifier: 
-  position: {x: 327, y: 537}
+  position: {x: 326, y: 537}
   guid: 8d808d8b298c9470a8a06e853618da65
   description: 
   drawGizmos: 0

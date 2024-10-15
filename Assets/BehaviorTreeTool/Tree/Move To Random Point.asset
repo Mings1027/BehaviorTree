@@ -38,11 +38,11 @@ MonoBehaviour:
   curRandomPoint:
     variableName: Random Point
     variableType: Vector3
-    value: {x: 0, y: 0, z: 0}
+    value: {x: -1.7837563, y: 0, z: -6.6271286}
   remainingDistance:
     variableName: Remaining Distance
     variableType: Float
-    value: 0
+    value: 8.247045
   closeDistance:
     variableName: Close Distance
     variableType: Float
@@ -102,7 +102,7 @@ MonoBehaviour:
   curRandomPoint:
     variableName: Random Point
     variableType: Vector3
-    value: {x: 0, y: 0, z: 0}
+    value: {x: -1.7837563, y: 0, z: -6.6271286}
   radius: 10
 --- !u!114 &-1507918457791385362
 MonoBehaviour:
@@ -203,18 +203,17 @@ MonoBehaviour:
   curRandomPoint:
     variableName: Random Point
     variableType: Vector3
-    value: {x: 0, y: 0, z: 0}
+    value: {x: -1.7837563, y: 0, z: -6.6271286}
   remainingDistance:
     variableName: Remaining Distance
     variableType: Float
-    value: 0
+    value: 8.247045
   closeDistance:
     variableName: Close Distance
     variableType: Float
     value: 1
   moveSpeed: 3
   rotationSpeed: 200
-  rotationThreshold: 2
 --- !u!114 &2087198797630896856
 MonoBehaviour:
   m_ObjectHideFlags: 0

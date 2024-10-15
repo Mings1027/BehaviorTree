@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Tree
 {
@@ -28,20 +27,16 @@ namespace Tree
 
         [SerializeField] private bool drawGizmos;
 #endif
+
         [SerializeField] protected BehaviorTree behaviorTree;
         [SerializeReference] private List<SharedVariableBase> variables = new();
-        // [SerializeReference] private List<SharedVariableBase> runtimeVariables = new();
-
 
         private void OnEnable()
         {
             BehaviorManager.AddTree(this);
         }
 
-        private void Awake()
-        {
-            InitializeTree();
-        }
+        private void Awake() => InitializeTree();
 
         private void InitializeTree()
         {
@@ -55,10 +50,6 @@ namespace Tree
             behaviorTree.TreeUpdate();
         }
 
-
-        /// <summary>
-        /// Assign shared variables to nodes in the tree.
-        /// </summary>
         private void AssignSharedVariables()
         {
             var nodeList = behaviorTree.Nodes; // 트리의 모든 노드가 담긴 노드 리스트
@@ -103,7 +94,7 @@ namespace Tree
 
         public SharedVariableBase GetVariable(string variableName)
         {
-            for (int i = 0; i < variables.Count; i++)
+            for (var i = 0; i < variables.Count; i++)
             {
                 if (variables[i].VariableName == variableName)
                     return variables[i];
@@ -124,10 +115,9 @@ namespace Tree
         }
 #if UNITY_EDITOR
 
-        public void UpdateVariables()
+        public void CopyVariables()
         {
             var sharedDataVariables = behaviorTree.SharedData.Variables;
-
             if (behaviorTree == null || sharedDataVariables == null || sharedDataVariables.Count == 0)
             {
                 variables.Clear();

@@ -1,4 +1,7 @@
+using System;
 using Cysharp.Threading.Tasks;
+using DataControl.ObjectKeyControl;
+using PoolObjectControl;
 using UnityEngine;
 
 namespace Tree
@@ -6,17 +9,14 @@ namespace Tree
     public class Health : MonoBehaviour, IDamageable
     {
         private Collider _col;
-        private Renderer _objectRenderer;
-        private Color _originColor;
         private int _curHealth;
 
         [SerializeField] private UnitStatus unitStatus;
+        [SerializeField] private PoolObjectKey damageEffect;
 
         private void Awake()
         {
             _col = GetComponent<Collider>();
-            _objectRenderer = GetComponent<Renderer>();
-            _originColor = _objectRenderer.material.color;
         }
 
         private void OnEnable()
@@ -28,7 +28,7 @@ namespace Tree
         public void Damage(int amount)
         {
             _curHealth -= amount;
-            ChangeColor().Forget();
+            // PlayDamageEffect();
             if (_curHealth <= 0)
             {
                 _col.enabled = false;
@@ -36,11 +36,10 @@ namespace Tree
             }
         }
 
-        private async UniTaskVoid ChangeColor()
+        private void PlayDamageEffect()
         {
-            _objectRenderer.material.color = unitStatus.damageColor;
-            await UniTask.Delay(100, cancellationToken: destroyCancellationToken);
-            _objectRenderer.material.color = _originColor;
+            PoolObjectManager.Get(damageEffect, transform.position, Quaternion.identity);
+            // await UniTask.Delay(1000, cancellationToken: destroyCancellationToken);
         }
     }
 }

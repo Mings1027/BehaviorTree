@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
-using System.Reflection;
 using Tree;
 using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
@@ -31,14 +30,7 @@ namespace BehaviorTreeTool.Editor
 
             var treeRunner = (BehaviorTreeRunner)target;
 
-            EditorGUI.BeginChangeCheck();
             DrawBehaviorTreeField(treeRunner);
-            if (EditorGUI.EndChangeCheck())
-            {
-                // Update variables when the behavior tree is changed
-                UpdateVariables(treeRunner);
-            }
-
             DrawGizmosField(treeRunner);
             DrawVariables(treeRunner);
 
@@ -51,9 +43,19 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.PropertyField(_behaviorTreeProperty, new GUIContent("Behavior Tree"));
             if (GUILayout.Button("Open", GUILayout.Width(50)))
             {
+                // Open behavior tree logic
                 BehaviorTreeEditor.OpenWithTree(treeRunner.Tree);
             }
+
             EditorGUILayout.EndHorizontal();
+
+            var currentBehaviorTree = (BehaviorTree)_behaviorTreeProperty.objectReferenceValue;
+            if (currentBehaviorTree != treeRunner.Tree)
+            {
+                treeRunner.Tree = currentBehaviorTree;
+                serializedObject.ApplyModifiedProperties(); // 변경 사항을 즉시 반영합니다.
+                treeRunner.CopyVariables();
+            }
         }
 
         private void DrawGizmosField(BehaviorTreeRunner treeRunner)
@@ -62,8 +64,8 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.PropertyField(_drawGizmosProperty, new GUIContent("Draw Gizmos"));
             if (EditorGUI.EndChangeCheck())
             {
-                serializedObject.ApplyModifiedProperties();
                 treeRunner.DrawGizmos = _drawGizmosProperty.boolValue;
+                serializedObject.ApplyModifiedProperties();
             }
         }
 
@@ -115,20 +117,6 @@ namespace BehaviorTreeTool.Editor
             }
 
             TreeUtility.DrawHorizontalLine(Color.gray);
-        }
-
-        private void UpdateVariables(BehaviorTreeRunner treeRunner)
-        {
-            var currentBehaviorTree = (BehaviorTree)_behaviorTreeProperty.objectReferenceValue;
-            if (currentBehaviorTree != null && currentBehaviorTree.SharedData != null)
-            {
-                Undo.RecordObject(treeRunner, "Update Variables");
-
-                treeRunner.Tree = currentBehaviorTree;
-                treeRunner.UpdateVariables();
-
-                EditorUtility.SetDirty(treeRunner);
-            }
         }
     }
 }
