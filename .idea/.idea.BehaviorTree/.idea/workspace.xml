@@ -4,45 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd387e32-e2fb-41cc-b076-da98ac494e96" name="Changes" comment="" />
+    <list default="true" id="3c8cb1bc-4164-4822-9c0b-a90ab3caf6d5" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/BehaviourTree/Scripts/Conditions/CoolTime.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a69a2d96a027463b95774fb1dc6ed416827400/dd/0a900aa4/EditorWindow.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="SKIP_HIGHLIGHTING" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="SWEA" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 5
-}</component>
-  <component name="ProjectId" id="2gb0WWspolAxxV1eJfs7hXTzFpP" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 8
+}]]></component>
+  <component name="ProjectId" id="2nTWi3Gv9Svs6uH80DVXEb8zfQL" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/mings/Documents/GitProject/BehaviorTree&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
-    <configuration name="Standalone Player" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$USER_HOME$/Desktop/BehaviorTreeProject/BehaviorTree.app/Contents/MacOS/BehaviorTreeEditor" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/Desktop/BehaviorTreeProject/BehaviorTree.app/Contents/MacOS" />
-      <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <method v="2" />
-    </configuration>
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="/Applications/Unity/Unity Editor/6000.0.14f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../../Unity/Unity Editor/6000.0.22f1/Unity.app/Contents/MacOS/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath $PROJECT_DIR$ -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -50,8 +37,8 @@
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="/Applications/Unity/Unity Editor/6000.0.14f1/Unity.app/Contents/MacOS/Unity" />
-      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath $PROJECT_DIR$ -testResults Logs/results.xml -testPlatform EditMode -debugCodeOptimization" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../../Unity/Unity Editor/6000.0.22f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath $PROJECT_DIR$ -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -81,17 +68,16 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="bd387e32-e2fb-41cc-b076-da98ac494e96" name="Changes" comment="" />
-      <created>1724822789409</created>
+      <changelist id="3c8cb1bc-4164-4822-9c0b-a90ab3caf6d5" name="Changes" comment="" />
+      <created>1728997671196</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1724822789409</updated>
-      <workItem from="1724822790463" duration="753000" />
-      <workItem from="1724985969399" duration="53000" />
+      <updated>1728997671196</updated>
+      <workItem from="1728997674957" duration="2429000" />
     </task>
     <servers />
   </component>
-  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityProjectDiscoverer">
     <option name="hasUnityReference" value="true" />
     <option name="unityProject" value="true" />
@@ -99,7 +85,6 @@
   </component>
   <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
   <component name="VcsManagerConfiguration">
-    <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
 </project>
