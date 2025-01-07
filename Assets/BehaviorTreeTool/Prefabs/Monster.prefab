@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 1149151241635615463}
   - component: {fileID: 3600881185396767050}
   - component: {fileID: 488707772160713717}
+  - component: {fileID: -7517404130866925023}
   m_Layer: 3
   m_Name: Monster
   m_TagString: Untagged
@@ -288,3 +289,15 @@ MonoBehaviour:
         variableName: Check Range
         variableType: Int
         value: 6
+--- !u!114 &-7517404130866925023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5866412507124288889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7747e0325f584222b31ee9eba6c8d06b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

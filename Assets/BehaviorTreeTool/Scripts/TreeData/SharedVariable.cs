@@ -15,7 +15,7 @@ namespace Tree
         }
 
         [SerializeField] protected string variableName;
-
+#if UNITY_EDITOR
         public string VariableType
         {
             get => variableType;
@@ -23,7 +23,7 @@ namespace Tree
         }
 
         [SerializeField] private string variableType;
-
+#endif
         public abstract void SetValue(object o);
         public abstract object GetValue();
 

@@ -4,7 +4,392 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3c8cb1bc-4164-4822-9c0b-a90ab3caf6d5" name="Changes" comment="" />
+    <list default="true" id="3c8cb1bc-4164-4822-9c0b-a90ab3caf6d5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BehaviorTree/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BehaviorTree/.idea/projectSettingsUpdater.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.BehaviorTree/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BehaviorTree/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Monster.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Monster.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Unit.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Unit.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scenes/SampleScene/NavMesh-Plane.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scenes/SampleScene/NavMesh-Plane.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Conditions/CheckInRange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Conditions/CheckInRange.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Runtime/BehaviorManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Runtime/BehaviorManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Spawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Spawner.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/TreeData/SharedVariable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/TreeData/SharedVariable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/TreeUtil/TreeUtility.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/TreeUtil/TreeUtility.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/Monster Tree.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/Monster Tree.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/Scene Monster Tree.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/Scene Monster Tree.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/Unit Tree.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/Unit Tree.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Settings/Mobile_RPAsset.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Settings/Mobile_RPAsset.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/CHANGELOG.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/CHANGELOG.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/AssemblyInfo.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/AssetStoreTools.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/AssetStoreTools.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/AssetStoreToolsWindow.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/AssetStoreToolsWindow.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Exporter.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Exporter/ExportResult.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Exporter/ExportResult.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Exporter/ExporterSettings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Exporter/ExporterSettings.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Exporter/PackageExporter.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Exporter/PackageExporter.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Exporter/PackageExporterDefault.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Exporter/PackageExporterDefault.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Exporter/PackageExporterLegacy.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Exporter/PackageExporterLegacy.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Unity.AssetStoreTools.Editor.asmdef" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Unity.AssetStoreTools.Editor.asmdef.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/AssetStoreUploader.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/AssetStoreUploader.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Icons.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Icons/open-in-browser.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Icons/open-in-browser.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Icons/publisher_portal_black.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Icons/publisher_portal_black.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Icons/publisher_portal_white.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Icons/publisher_portal_white.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/AssetStoreAPI.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/AssetStoreAPI.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Data.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Data/ASAnalytics.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Data/ASAnalytics.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Data/OngoingUpload.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Data/OngoingUpload.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Data/PackageData.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Data/PackageData.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Data/PackageUploadResult.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Data/PackageUploadResult.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Login.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Login/LoginWindow.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Login/LoginWindow.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/AllPackageView.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/AllPackageView.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/PackageGroup.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/PackageGroup.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/PackageView.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/PackageView.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/UploadWindow.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/UploadWindow.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Validation.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Validation/AssetValidationElement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Validation/AssetValidationElement.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Validation/PackageValidationElement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Validation/PackageValidationElement.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Validation/ValidationElement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Validation/ValidationElement.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Workflows.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Workflows/FolderUploadWorkflowView.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Workflows/FolderUploadWorkflowView.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Workflows/HybridPackageUploadWorkflowView.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Workflows/HybridPackageUploadWorkflowView.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Workflows/UnityPackageUploadWorkflowView.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Workflows/UnityPackageUploadWorkflowView.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Workflows/UploadWorkflowView.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/UI Elements/Upload/Workflows/UploadWorkflowView.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Utility.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Utility/AssetStoreCache.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Utility/AssetStoreCache.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Utility/PackageFetcher.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Utility/PackageFetcher.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Utility/PackageViewStorer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Scripts/Utility/PackageViewStorer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Base.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Base/BaseWindow_Dark.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Base/BaseWindow_Dark.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Base/BaseWindow_Light.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Base/BaseWindow_Light.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Base/BaseWindow_Main.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Base/BaseWindow_Main.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Base/BaseWindow_Main.uxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Base/BaseWindow_Main.uxml.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Login.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Login/Login_Dark.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Login/Login_Dark.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Login/Login_Light.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Login/Login_Light.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Login/Login_Main.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Login/Login_Main.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/AllPackages.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/AllPackages/AllPackages_Dark.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/AllPackages/AllPackages_Dark.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/AllPackages/AllPackages_Light.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/AllPackages/AllPackages_Light.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/AllPackages/AllPackages_Main.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/AllPackages/AllPackages_Main.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/UploadWindow_Dark.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/UploadWindow_Dark.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/UploadWindow_Light.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/UploadWindow_Light.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/UploadWindow_Main.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Uploader/Styles/Upload/UploadWindow_Main.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/ASDebug.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/ASDebug.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/ASError.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/ASError.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/ASToolsPreferences.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/ASToolsPreferences.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/ASToolsUpdater.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/ASToolsUpdater.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/FileUtility.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/FileUtility.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/Json.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/Json.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/LegacyToolsRemover.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/LegacyToolsRemover.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/PackageUtility.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/PackageUtility.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/StyleSelector.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/StyleSelector.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/Styles.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/Styles/Updater.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/Styles/Updater/Updater_Dark.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/Styles/Updater/Updater_Dark.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/Styles/Updater/Updater_Light.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/Styles/Updater/Updater_Light.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/Styles/Updater/Updater_Main.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/Styles/Updater/Updater_Main.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/SymlinkUtil.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Utility/SymlinkUtil.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/AssetStoreValidator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/AssetStoreValidator.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/error.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/error.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/error_d.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/error_d.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/success.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/success.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/success_d.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/success_d.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/undefined.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/undefined.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/undefined_d.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/undefined_d.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/warning.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/warning.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/warning_d.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Icons/warning_d.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Categories.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Categories/CategoryEvaluator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Categories/CategoryEvaluator.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Categories/ValidatorCategory.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Categories/ValidatorCategory.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Data.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Data/MessageActions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Data/MessageActions.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Data/TestResult.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Data/TestResult.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Data/ValidationResult.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Data/ValidationResult.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Data/ValidationSettings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Data/ValidationSettings.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Data/ValidationState.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Data/ValidationState.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/PackageValidator.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/PackageValidator.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/AutomatedTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/AutomatedTest.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/ITestScript.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/ITestScript.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/Scriptable Objects.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/Scriptable Objects/AutomatedTestScriptableObject.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/Scriptable Objects/AutomatedTestScriptableObject.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/Scriptable Objects/Editor.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/Scriptable Objects/Editor/ValidationTestScriptableObjectInspector.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/Scriptable Objects/Editor/ValidationTestScriptableObjectInspector.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/Scriptable Objects/ValidationTestScriptableObject.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/Scriptable Objects/ValidationTestScriptableObject.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/ValidationTest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/ValidationTest.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/ValidationTestConfig.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Test Definitions/ValidationTestConfig.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Animation Clips.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Animation Clips.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Audio Clipping.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Audio Clipping.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Colliders.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Colliders.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Compressed Files.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Compressed Files.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Demo Scenes.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Demo Scenes.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Documentation.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Documentation.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Empty Prefabs.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Empty Prefabs.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check File Menu Names.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check File Menu Names.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check LODs.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check LODs.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Line Endings.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Line Endings.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Mesh Prefabs.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Mesh Prefabs.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Missing Components in Assets.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Missing Components in Assets.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Missing Components in Scenes.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Missing Components in Scenes.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Model Import Logs.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Model Import Logs.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Model Orientation.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Model Orientation.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Model Types.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Model Types.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Normal Map Textures.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Normal Map Textures.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Package Size.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Package Size.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Particle Systems.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Particle Systems.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Path Lengths.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Path Lengths.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Prefab Transforms.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Prefab Transforms.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Script Compilation.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Script Compilation.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Shader Compilation.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Shader Compilation.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Texture Dimensions.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Texture Dimensions.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Type Namespaces.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Check Type Namespaces.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove Executable Files.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove Executable Files.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove JPG Files.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove JPG Files.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove JavaScript Files.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove JavaScript Files.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove Lossy Audio Files.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove Lossy Audio Files.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove Mixamo Files.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove Mixamo Files.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove SpeedTree Files.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove SpeedTree Files.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove Video Files.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Remove Video Files.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckAnimationClips.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckAnimationClips.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckAudioClipping.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckAudioClipping.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckColliders.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckColliders.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckCompressedFiles.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckCompressedFiles.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckDemoScenes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckDemoScenes.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckDocumentation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckDocumentation.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckEmptyPrefabs.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckEmptyPrefabs.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckFileMenuNames.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckFileMenuNames.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckLODs.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckLODs.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckLineEndings.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckLineEndings.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckMeshPrefabs.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckMeshPrefabs.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckMissingComponentsinAssets.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckMissingComponentsinAssets.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckMissingComponentsinScenes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckMissingComponentsinScenes.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckModelImportLogs.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckModelImportLogs.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckModelOrientation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckModelOrientation.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckModelTypes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckModelTypes.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckNormalMapTextures.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckNormalMapTextures.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckPackageSize.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckPackageSize.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckParticleSystems.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckParticleSystems.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckPathLengths.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckPathLengths.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckPrefabTransforms.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckPrefabTransforms.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckScriptCompilation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckScriptCompilation.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckShaderCompilation.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckShaderCompilation.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckTextureDimensions.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckTextureDimensions.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckTypeNamespaces.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/CheckTypeNamespaces.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveExecutableFiles.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveExecutableFiles.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveJPGFiles.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveJPGFiles.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveJavaScriptFiles.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveJavaScriptFiles.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveLossyAudioFiles.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveLossyAudioFiles.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveMixamoFiles.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveMixamoFiles.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveSpeedTreeFiles.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveSpeedTreeFiles.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveVideoFiles.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/RemoveVideoFiles.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/AssetUtility.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/AssetUtility.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/FileSignatureUtility.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/FileSignatureUtility.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/MeshUtility.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/MeshUtility.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/ModelUtility.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/ModelUtility.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/SceneUtility.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/SceneUtility.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/ScriptUtility.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Tests/Test Methods/Utility/ScriptUtility.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/UI Elements.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/UI Elements/AutomatedTestElement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/UI Elements/AutomatedTestElement.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/UI Elements/AutomatedTestsGroup.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/UI Elements/AutomatedTestsGroup.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/UI Elements/AutomatedTestsGroupElement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/UI Elements/AutomatedTestsGroupElement.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/UI Elements/PathBoxElement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/UI Elements/PathBoxElement.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/UI Elements/ValidationInfoElement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/UI Elements/ValidationInfoElement.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Utility.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Utility/ValidatorUtility.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Scripts/Utility/ValidatorUtility.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Styles.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Styles/Validator_Dark.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Styles/Validator_Dark.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Styles/Validator_Light.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Styles/Validator_Light.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Styles/Validator_Main.uss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/Editor/Validator/Styles/Validator_Main.uss.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/LICENSE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/LICENSE.md.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/com.unity.asset-store-tools/package.json.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,10 +398,16 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 8
-}]]></component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="2nTWi3Gv9Svs6uH80DVXEb8zfQL" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -24,12 +415,13 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main"
   }
 }]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/../../Unity/Unity Editor/6000.0.22f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../../Unity/UnityEditor/6000.0.23f1/Unity.app/Contents/MacOS/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath $PROJECT_DIR$ -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -37,7 +429,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/../../Unity/Unity Editor/6000.0.22f1/Unity.app/Contents/MacOS/Unity" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../../Unity/UnityEditor/6000.0.23f1/Unity.app/Contents/MacOS/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath $PROJECT_DIR$ -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -49,6 +441,9 @@
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
       <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list />
+      </option>
       <option name="selectedOptions">
         <list />
       </option>
@@ -59,6 +454,9 @@
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
       <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list />
+      </option>
       <option name="selectedOptions">
         <list />
       </option>
@@ -74,6 +472,9 @@
       <option name="presentableId" value="Default" />
       <updated>1728997671196</updated>
       <workItem from="1728997674957" duration="2429000" />
+      <workItem from="1731024592909" duration="1011000" />
+      <workItem from="1733184016090" duration="1000" />
+      <workItem from="1736254843091" duration="4633000" />
     </task>
     <servers />
   </component>

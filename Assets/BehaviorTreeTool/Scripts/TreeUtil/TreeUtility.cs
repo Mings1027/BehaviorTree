@@ -10,8 +10,8 @@ namespace Tree
 {
     public static class TreeUtility
     {
-        private static readonly Dictionary<string, bool> arrayFoldouts = new();
-        private static readonly Dictionary<string, bool> listFoldouts = new();
+        private static readonly Dictionary<string, bool> ArrayFoldouts = new();
+        private static readonly Dictionary<string, bool> ListFoldouts = new();
 
         private static readonly List<Type> VariableTypes = new();
         public const string Shared = "Shared";
@@ -176,15 +176,15 @@ namespace Tree
 
             if (!string.IsNullOrEmpty(label))
             {
-                arrayFoldouts.TryAdd(label, false);
+                ArrayFoldouts.TryAdd(label, false);
 
-                arrayFoldouts[label] = EditorGUILayout.Foldout(arrayFoldouts[label], $"{label}", true);
+                ArrayFoldouts[label] = EditorGUILayout.Foldout(ArrayFoldouts[label], $"{label}", true);
             }
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(1);
 
-            if (label != null && arrayFoldouts.ContainsKey(label) && arrayFoldouts[label])
+            if (label != null && ArrayFoldouts.ContainsKey(label) && ArrayFoldouts[label])
             {
                 EditorGUI.indentLevel++;
 
@@ -220,15 +220,15 @@ namespace Tree
 
             if (!string.IsNullOrEmpty(label))
             {
-                listFoldouts.TryAdd(label, false);
+                ListFoldouts.TryAdd(label, false);
 
-                listFoldouts[label] = EditorGUILayout.Foldout(listFoldouts[label], $"{label}", true);
+                ListFoldouts[label] = EditorGUILayout.Foldout(ListFoldouts[label], $"{label}", true);
             }
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space(1);
 
-            if (label != null && listFoldouts.ContainsKey(label) && listFoldouts[label])
+            if (label != null && ListFoldouts.ContainsKey(label) && ListFoldouts[label])
             {
                 EditorGUI.indentLevel++;
 

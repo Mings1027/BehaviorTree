@@ -8,33 +8,31 @@ namespace Tree
         public SharedInt checkRange;
 
         [SerializeField] private LayerMask targetLayer;
-        [SerializeField] private Collider[] targetColliders;
+
+        private float nextSearchTime;
+        private const float SEARCH_INTERVAL = 0.2f; // 초당 5번만 검색
 
         protected override TaskState OnUpdate()
         {
-            var targetCount = Physics.OverlapSphereNonAlloc(nodeTransform.position, checkRange.Value, targetColliders,
-                targetLayer);
-            if (targetCount > 0)
+            // 일정 간격으로만 검색 수행
+            if (Time.time < nextSearchTime)
+                return target.Value != null ? TaskState.Success : TaskState.Failure;
+
+            nextSearchTime = Time.time + SEARCH_INTERVAL;
+            var closestTarget = GridManager.FindNearestTarget(nodeTransform.position, targetLayer);
+            if (closestTarget == null)
             {
-                var closestDistance = Mathf.Infinity;
-                Collider closestTarget = null;
-
-                for (var i = 0; i < targetCount; i++)
-                {
-                    var distance = Vector3.SqrMagnitude(nodeTransform.position - targetColliders[i].transform.position);
-                    if (distance < closestDistance)
-                    {
-                        closestDistance = distance;
-                        closestTarget = targetColliders[i];
-                    }
-                }
-
-                target.Value = closestTarget;
-                return TaskState.Success;
+                target.Value = null;
+                return TaskState.Failure;
             }
 
-            target.Value = null;
-            return TaskState.Failure;
+            if (closestTarget.TryGetComponent(out Collider collider))
+            {
+                target.Value = collider;
+            }
+
+            return TaskState.Success;
+
         }
 
 #if UNITY_EDITOR

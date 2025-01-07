@@ -99,10 +99,6 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 136
-  targetColliders:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!114 &-4379450829347499337
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -27,6 +27,7 @@ namespace Tree
         private void Start()
         {
             GlobalVariables.SetVariable("IsPlaying", true);
+
         }
 
         private void Update()
