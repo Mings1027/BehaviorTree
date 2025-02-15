@@ -4,12 +4,9 @@ using UnityEngine.UIElements;
 
 namespace BehaviorTreeTool.Editor
 {
-    public class InspectorView : VisualElement
+    [UxmlElement("inspectorView")] // 이름을 소문자로 시작하는 것이 관례입니다
+    public partial class InspectorView : VisualElement
     {
-        public new class UxmlFactory : UxmlFactory<InspectorView, UxmlTraits>
-        {
-        }
-
         private UnityEditor.Editor _editor;
 
         public void ShowTreeEditor(BehaviorTreeTab behaviorTreeTab)

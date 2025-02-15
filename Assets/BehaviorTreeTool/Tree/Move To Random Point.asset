@@ -31,7 +31,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7356c352c8d5047a7ba4198ff2832b25, type: 3}
   m_Name: DistanceToRandomPoint
   m_EditorClassIdentifier: 
-  position: {x: -449, y: 477}
+  position: {x: -447, y: 477}
   guid: 3c265e0c68c1b4f9b942c633d23becdc
   description: 
   drawGizmos: 1
@@ -43,10 +43,10 @@ MonoBehaviour:
     variableName: Remaining Distance
     variableType: Float
     value: 8.247045
-  closeDistance:
-    variableName: Close Distance
+  stoppingDistance:
+    variableName: Stopping Distance
     variableType: Float
-    value: 1
+    value: 0
 --- !u!114 &-5621137543870786286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +181,7 @@ MonoBehaviour:
     - rid: 8748968528195354877
       type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
       data:
-        variableName: Close Distance
+        variableName: Stopping Distance
         variableType: Float
         value: 1
 --- !u!114 &1173458505270367916
@@ -208,10 +208,10 @@ MonoBehaviour:
     variableName: Remaining Distance
     variableType: Float
     value: 8.247045
-  closeDistance:
-    variableName: Close Distance
+  stoppingDistance:
+    variableName: Stopping Distance
     variableType: Float
-    value: 1
+    value: 0
   moveSpeed: 3
   rotationSpeed: 200
 --- !u!114 &2087198797630896856

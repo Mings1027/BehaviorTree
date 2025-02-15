@@ -204,7 +204,7 @@ namespace BehaviorTreeTool.Editor
 
         private void CheckUnassignVariableName()
         {
-            var tree = BehaviorTreeEditor.Tree;
+            var tree = BehaviorTreeEditor.SelectedTree;
 
             if (!tree) return;
 
@@ -269,7 +269,7 @@ namespace BehaviorTreeTool.Editor
 
         private void SelectNodeByName(string nodeName)
         {
-            var tree = BehaviorTreeEditor.Tree;
+            var tree = BehaviorTreeEditor.SelectedTree;
             if (tree == null) return;
 
             var node = tree.Nodes.Find(n => n.name == nodeName);

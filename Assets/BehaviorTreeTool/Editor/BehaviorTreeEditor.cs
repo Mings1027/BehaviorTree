@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -11,13 +12,15 @@ namespace BehaviorTreeTool.Editor
 {
     public class BehaviorTreeEditor : EditorWindow
     {
-        public static BehaviorTree Tree { get; private set; }
+        private static BehaviorTree _tree;
+        public static BehaviorTree SelectedTree => _tree;
+        
         public BehaviorTreeView TreeView { get; private set; }
-
         private static BehaviorTreeTab _behaviorTreeTab;
         private InspectorView _inspectorView;
         private ToolbarMenu _toolbarMenu;
         private BehaviorTreeSettings _settings;
+        private string _lastRuntimeTreeName;
         private string _lastSelectedNodeGuid;
         private Label _treeInfoLabel;
 
@@ -27,6 +30,63 @@ namespace BehaviorTreeTool.Editor
             var wnd = GetWindow<BehaviorTreeEditor>();
             wnd.titleContent = new GUIContent("BehaviorTreeEditor");
             wnd.minSize = new Vector2(1000, 750);
+        }
+
+        private void OnEnable()
+        {
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+        }
+
+        private void OnDisable()
+        {
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
+        }
+
+        private void OnPlayModeStateChanged(PlayModeStateChange state)
+        {
+            switch (state)
+            {
+                case PlayModeStateChange.EnteredPlayMode:
+                    EditorApplication.delayCall += () =>
+                    {
+                        var selectedObject = Selection.activeGameObject;
+                        if (selectedObject != null)
+                        {
+                            if (selectedObject.TryGetComponent<BehaviorTreeRunner>(out var runner))
+                            {
+                                if (runner.Tree != null)
+                                {
+                                    SelectTree(runner.Tree);
+                                }
+                            }
+                        }
+                    };
+                    break;
+
+                case PlayModeStateChange.ExitingPlayMode:
+                    _tree = GetCurrentTree();
+                    _lastRuntimeTreeName = _tree?.name;
+                    break;
+
+                case PlayModeStateChange.EnteredEditMode:
+                    if (!string.IsNullOrEmpty(_lastRuntimeTreeName))
+                    {
+                        // 저장해둔 트리 이름으로 에셋 찾기
+                        var guids = AssetDatabase.FindAssets($"t:{_lastRuntimeTreeName}");
+                        foreach (var guid in guids)
+                        {
+                            var path = AssetDatabase.GUIDToAssetPath(guid);
+                            var tree = AssetDatabase.LoadAssetAtPath<BehaviorTree>(path);
+                            if (tree != null && tree.name == _lastRuntimeTreeName)
+                            {
+                                SelectTree(tree);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+            }
         }
 
         public static void OpenWithTree(BehaviorTree newTree)
@@ -39,9 +99,9 @@ namespace BehaviorTreeTool.Editor
         [OnOpenAsset]
         public static bool OnOpenAsset(int instanceId, int line)
         {
-            if (Selection.activeObject is BehaviorTree)
+            if (Selection.activeObject is BehaviorTree tree)
             {
-                OpenWindow();
+                OpenWithTree(tree);
                 return true;
             }
 
@@ -50,11 +110,17 @@ namespace BehaviorTreeTool.Editor
 
         public void CreateGUI()
         {
+            // Debug.Log("CreateGUI started");
+
             _settings = BehaviorTreeSettings.GetOrCreateSettings();
+            // Debug.Log($"Settings loaded: {_settings != null}");
 
             var root = rootVisualElement;
+            // Debug.Log($"Root element exists: {root != null}");
 
             var visualTree = _settings.BehaviorTreeXml;
+            // Debug.Log($"Visual Tree loaded: {visualTree != null}");
+
             if (visualTree == null)
             {
                 Debug.LogError("BehaviorTreeXml is null. Please check the UXML file path in BehaviorTreeSettings.");
@@ -62,8 +128,11 @@ namespace BehaviorTreeTool.Editor
             }
 
             visualTree.CloneTree(root);
+            // Debug.Log("Tree cloned to root");
 
             var styleSheet = _settings.BehaviorTreeStyle;
+            // Debug.Log($"StyleSheet loaded: {styleSheet != null}");
+
             if (styleSheet == null)
             {
                 Debug.LogError("BehaviorTreeStyle is null. Please check the stylesheet path in BehaviorTreeSettings.");
@@ -73,11 +142,15 @@ namespace BehaviorTreeTool.Editor
             root.styleSheets.Add(styleSheet);
 
             TreeView = root.Q<BehaviorTreeView>("behaviorTreeView");
+            // Debug.Log($"TreeView found: {TreeView != null}");
+
             if (TreeView == null) return;
 
             TreeView.OnNodeSelected = OnNodeSelectionChanged;
 
             _inspectorView = root.Q<InspectorView>();
+            // Debug.Log($"InspectorView found: {_inspectorView != null}");
+
             if (_inspectorView == null)
             {
                 Debug.LogError("InspectorView is null. Please check if InspectorView is defined in the UXML file.");
@@ -92,9 +165,23 @@ namespace BehaviorTreeTool.Editor
 
             _treeInfoLabel = root.Q<Label>("treeInfoLabel");
 
-            Tree = Selection.activeObject as BehaviorTree;
-            if (Tree == null) return;
-            SelectTree(Tree);
+            _tree = Selection.activeObject as BehaviorTree;
+            // Debug.Log($"Active tree found: {_tree != null}");
+
+            if (_tree == null) return;
+            SelectTree(_tree);
+            // Debug.Log("Tree selection completed");
+        }
+
+        private static BehaviorTree GetCurrentTree()
+        {
+            var selectedObject = Selection.activeGameObject;
+            if (selectedObject != null && selectedObject.TryGetComponent(out BehaviorTreeRunner runner))
+            {
+                return runner.Tree;
+            }
+
+            return null;
         }
 
         private void PopulateToolbarMenu()
@@ -147,19 +234,18 @@ namespace BehaviorTreeTool.Editor
                 _inspectorView.ShowTreeEditor(_behaviorTreeTab);
             }
 
-            Tree = newTree;
-            // TreeInit();
+            _tree = newTree;
 
-            TreeView.PopulateView();
+            TreeView.PopulateView(_tree);
 
-            var nodeToSelect = TreeView.FindNodeView(Tree.RootNode);
+            var nodeToSelect = TreeView.FindNodeView(_tree.RootNode);
 
             BehaviorTreeTabEditor.SelectedSharedDataEditor =
-                (SharedDataEditor)UnityEditor.Editor.CreateEditor(Tree.SharedData);
+                (SharedDataEditor)UnityEditor.Editor.CreateEditor(_tree.SharedData);
 
             if (!string.IsNullOrEmpty(_lastSelectedNodeGuid))
             {
-                var lastSelectedNode = Tree.Nodes.Find(n => n.guid == _lastSelectedNodeGuid);
+                var lastSelectedNode = _tree.Nodes.Find(n => n.guid == _lastSelectedNodeGuid);
                 if (lastSelectedNode != null)
                 {
                     nodeToSelect = TreeView.FindNodeView(lastSelectedNode);
@@ -172,33 +258,12 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        // private void TreeInit()
-        // {
-        //     if (Tree.RootNode != null) return;
-        //
-        //     var rootNode = Tree.CreateNode(typeof(RootNode)) as RootNode;
-        //     var sharedData = CreateInstance<SharedData>();
-        //     
-        //     if (rootNode != null && sharedData != null)
-        //     {
-        //         AssetDatabase.AddObjectToAsset(sharedData, Tree);
-        //         Tree.SharedData = sharedData;
-        //         Tree.SharedData.name = "SharedData";
-        //
-        //         Tree.SetRootNode(rootNode);
-        //         AssetDatabase.AddObjectToAsset(rootNode, Tree);
-        //
-        //         EditorUtility.SetDirty(Tree);
-        //         AssetDatabase.SaveAssets();
-        //     }
-        // }
-
         private void OnNodeSelectionChanged(NodeView nodeView)
         {
             BehaviorTreeTabEditor.SelectedNodeEditor = (BaseNodeEditor)UnityEditor.Editor.CreateEditor(nodeView.Node);
 
             _lastSelectedNodeGuid = nodeView.Node.guid;
-            _treeInfoLabel.text = $"Tree: {Tree.name} | Node: {nodeView.Node.name}";
+            _treeInfoLabel.text = $"Tree: {_tree.name} | Node: {nodeView.Node.name}";
         }
 
         private void OnInspectorUpdate()

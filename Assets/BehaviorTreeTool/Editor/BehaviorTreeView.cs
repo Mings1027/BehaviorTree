@@ -11,10 +11,9 @@ using Object = UnityEngine.Object;
 
 namespace BehaviorTreeTool.Editor
 {
-    public class BehaviorTreeView : GraphView
+    [UxmlElement("behaviorTreeView")]
+    public partial class BehaviorTreeView : GraphView
     {
-        public new class UxmlFactory : UxmlFactory<BehaviorTreeView, UxmlTraits> { }
-
         public Action<NodeView> OnNodeSelected { get; set; }
         public static bool IsNodeSelected { get; set; }
 
@@ -63,39 +62,6 @@ namespace BehaviorTreeTool.Editor
             InitGraphView();
             InitializeStyleSheets();
             Undo.undoRedoPerformed += OnUndoRedo;
-            EditorApplication.playModeStateChanged -= OnPlayModeStateChanged;
-            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-        }
-
-        private void OnPlayModeStateChanged(PlayModeStateChange state)
-        {
-            switch (state)
-            {
-                case PlayModeStateChange.EnteredPlayMode:
-                    break;
-                case PlayModeStateChange.ExitingPlayMode:
-                    break;
-                case PlayModeStateChange.EnteredEditMode:
-                    break;
-                case PlayModeStateChange.ExitingEditMode:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
-            }
-
-            OpenTreeDelay().Forget();
-        }
-
-        private async UniTaskVoid OpenTreeDelay()
-        {
-            await UniTask.Yield();
-            if (Selection.activeGameObject != null &&
-                Selection.activeGameObject.TryGetComponent(out BehaviorTreeRunner runner))
-            {
-                BehaviorTreeEditor.OpenWithTree(runner.Tree);
-            }
-
-            PopulateView();
         }
 
         private void InitGraphView()
@@ -214,9 +180,21 @@ namespace BehaviorTreeTool.Editor
             }
         }
 
-        internal void PopulateView()
+        internal void PopulateView(BehaviorTree tree = null)
         {
-            _tree = BehaviorTreeEditor.Tree;
+            if (tree != null)
+            {
+                _tree = tree;
+            }
+            else
+            {
+                var selectedObject = Selection.activeGameObject;
+                if (selectedObject != null && selectedObject.TryGetComponent(out BehaviorTreeRunner runner))
+                {
+                    _tree = runner.Tree;
+                }
+            }
+
             RefreshView();
         }
 

@@ -6,7 +6,7 @@ namespace Tree
     {
         public SharedVector3 curRandomPoint;
         public SharedFloat remainingDistance;
-        public SharedFloat closeDistance;
+        public SharedFloat stoppingDistance;
 
         [SerializeField] private float moveSpeed;
         [SerializeField] private float rotationSpeed;
@@ -14,7 +14,7 @@ namespace Tree
         protected override TaskState OnUpdate()
         {
             remainingDistance.Value = Vector3.Distance(curRandomPoint.Value, objectTransform.position);
-            if (remainingDistance.Value < closeDistance.Value)
+            if (remainingDistance.Value < stoppingDistance.Value)
             {
                 return TaskState.Success;
             }

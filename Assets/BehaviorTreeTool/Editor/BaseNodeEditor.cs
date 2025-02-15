@@ -108,7 +108,7 @@ namespace BehaviorTreeTool.Editor
             EditorGUILayout.BeginVertical(style);
             EditorGUILayout.BeginHorizontal();
 
-            var variableNames = BehaviorTreeEditor.Tree.SharedData.Variables
+            var variableNames = BehaviorTreeEditor.SelectedTree.SharedData.Variables
                                                   .Where(v => v.GetType() == kvp.Value.GetType())
                                                   .Select(v => v.VariableName)
                                                   .ToList();
@@ -142,7 +142,7 @@ namespace BehaviorTreeTool.Editor
             var selectedIndex = EditorGUILayout.Popup(currentIndex, variableNames.ToArray(), GUILayout.Width(150));
             if (selectedIndex != currentIndex)
             {
-                UpdateVariableSelection(node, kvp.Value, variableNames, selectedIndex);
+                UpdateVariableSelection(kvp.Value, variableNames, selectedIndex);
                 EditorUtility.SetDirty(node);
             }
 
@@ -162,7 +162,7 @@ namespace BehaviorTreeTool.Editor
             so.ApplyModifiedProperties();
         }
 
-        private static void UpdateVariableSelection(BaseNode node, SharedVariableBase variable,
+        private static void UpdateVariableSelection(SharedVariableBase variable,
                                                     IReadOnlyList<string> variableNames, int selectedIndex)
         {
             if (selectedIndex == 0)
@@ -173,7 +173,7 @@ namespace BehaviorTreeTool.Editor
             else
             {
                 var selectedVariableName = variableNames[selectedIndex];
-                var variables = BehaviorTreeEditor.Tree.SharedData.Variables;
+                var variables = BehaviorTreeEditor.SelectedTree.SharedData.Variables;
                 for (var i = 0; i < variables.Count; i++)
                 {
                     if (variables[i].VariableName == selectedVariableName)

@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 3600881185396767050}
   - component: {fileID: 488707772160713717}
   - component: {fileID: 174118428831381150}
+  - component: {fileID: 5780864737426218259}
   m_Layer: 3
   m_Name: Monster
   m_TagString: Untagged
@@ -301,7 +302,7 @@ MonoBehaviour:
       data:
         variableName: Attack Range
         variableType: Float
-        value: 0
+        value: 1
 --- !u!114 &174118428831381150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,3 +315,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b710d4d468ab41cc869ccbcad1435c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &5780864737426218259
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5866412507124288889}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -6,7 +6,7 @@ namespace Tree
     {
         public SharedVector3 curRandomPoint;
         public SharedFloat remainingDistance;
-        public SharedFloat closeDistance;
+        public SharedFloat stoppingDistance;
 
         protected override void OnAwake()
         {
@@ -17,7 +17,7 @@ namespace Tree
         {
             remainingDistance.Value = Vector3.Distance(curRandomPoint.Value, objectTransform.position);
 
-            if (remainingDistance.Value <= closeDistance.Value)
+            if (remainingDistance.Value <= stoppingDistance.Value)
             {
                 return TaskState.Success;
             }
