@@ -1,34 +1,32 @@
-using System;
-using Cysharp.Threading.Tasks;
-using DataControl.ObjectKeyControl;
-using PoolObjectControl;
 using UnityEngine;
 
 namespace Tree
 {
+    [RequireComponent(typeof(DamageComponent))]
     public class Health : MonoBehaviour, IDamageable
     {
         private Collider _col;
         private int _curHealth;
+        private int _curMana;
+        private int _curDefense;
 
         [SerializeField] private UnitStatus unitStatus;
-        [SerializeField] private PoolObjectKey damageEffect;
 
         private void Awake()
         {
             _col = GetComponent<Collider>();
+            GetComponent<DamageComponent>().SetUnitStatus(unitStatus);
         }
 
         private void OnEnable()
         {
             _col.enabled = true;
-            _curHealth = unitStatus.Health;
+            _curHealth = unitStatus.MaxHealth;
         }
 
         public void Damage(int amount)
         {
             _curHealth -= amount;
-            // PlayDamageEffect();
             if (_curHealth <= 0)
             {
                 _col.enabled = false;
@@ -36,10 +34,39 @@ namespace Tree
             }
         }
 
-        private void PlayDamageEffect()
+        public void RecoveryHealth(int percent)
         {
-            PoolObjectManager.Get(damageEffect, transform.position, Quaternion.identity);
-            // await UniTask.Delay(1000, cancellationToken: destroyCancellationToken);
+            _curHealth += _curHealth * percent / 100;
+            if (_curHealth > unitStatus.MaxHealth)
+            {
+                _curHealth = unitStatus.MaxHealth;
+            }
+        }
+
+        public void RecoveryMana(int percent)
+        {
+            _curMana += _curMana * percent / 100;
+            if (_curMana > unitStatus.MaxMana)
+            {
+                _curMana = unitStatus.MaxMana;
+            }
+        }
+
+        public void AddDefense(int percent)
+        {
+            if (_curDefense > 0)
+            {
+                _curDefense += _curDefense * percent / 100;
+            }
+            else
+            {
+                _curDefense = unitStatus.MaxDefense;
+            }
+        }
+
+        public void SetDefense(int defense)
+        {
+            _curDefense = defense;
         }
     }
 }

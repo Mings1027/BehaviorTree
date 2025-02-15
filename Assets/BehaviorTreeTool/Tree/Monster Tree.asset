@@ -15,9 +15,23 @@ MonoBehaviour:
   variables:
   - rid: 8748968528195354869
   - rid: 8748968528195354871
+  - rid: 2222975341892730952
+  - rid: 2222975341892730954
   references:
     version: 2
     RefIds:
+    - rid: 2222975341892730952
+      type: {class: SharedNavMeshAgent, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: Agent
+        variableType: NavMeshAgent
+        value: {fileID: 0}
+    - rid: 2222975341892730954
+      type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: Attack Range
+        variableType: Float
+        value: 0
     - rid: 8748968528195354869
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
@@ -42,7 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4295113ac5cd434e9f4bdcef7570a975, type: 3}
   m_Name: Attack
   m_EditorClassIdentifier: 
-  position: {x: -340, y: 537}
+  position: {x: -415, y: 537}
   guid: cbe5b2913e6634db0ab195bfb0972e8d
   description: 
   drawGizmos: 0
@@ -50,7 +64,10 @@ MonoBehaviour:
     variableName: Target Collider
     variableType: Collider
     value: {fileID: 0}
-  attackDamage: 10
+  attackRange:
+    variableName: Attack Range
+    variableType: Float
+    value: 0
 --- !u!114 &-4643154024544199828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
   m_Name: ReadyToAttack
   m_EditorClassIdentifier: 
-  position: {x: -940, y: 537}
+  position: {x: -865, y: 537}
   guid: f7a7c399c71f14012b8554c4cefa121d
   description: 
   drawGizmos: 0
@@ -71,34 +88,14 @@ MonoBehaviour:
     variableName: Target Collider
     variableType: Collider
     value: {fileID: 0}
-  attackRange: 1.5
---- !u!114 &-4626593501337908343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e34f5795f1164020bcf4f71282b72f5, type: 3}
-  m_Name: CheckInRange
-  m_EditorClassIdentifier: 
-  position: {x: -150, y: 537}
-  guid: 47befa778c24d4715bdf7f21e29418a9
-  description: 
-  drawGizmos: 0
-  target:
-    variableName: Target Collider
-    variableType: Collider
+  agent:
+    variableName: Agent
+    variableType: NavMeshAgent
     value: {fileID: 0}
-  checkRange:
-    variableName: Check Range
-    variableType: Int
-    value: 7
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 192
+  attackRange:
+    variableName: Attack Range
+    variableType: Float
+    value: 0
 --- !u!114 &-4379450829347499337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a5134d9de14153468b48928d3e7359a, type: 3}
   m_Name: Wait
   m_EditorClassIdentifier: 
-  position: {x: -640, y: 537}
+  position: {x: -565, y: 537}
   guid: 2b02b2eab361046ef85368e3781389f1
   description: 
   drawGizmos: 0
@@ -129,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79172bfe693b944a49fd85bcda5bff60, type: 3}
   m_Name: LookAtTarget
   m_EditorClassIdentifier: 
-  position: {x: -790, y: 537}
+  position: {x: -715, y: 537}
   guid: 73de46ae8d6f34b518c6e03d6f59f212
   description: 
   drawGizmos: 0
@@ -151,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75afc2c29ac8d4006a178de9f358287e, type: 3}
   m_Name: MoveToTarget
   m_EditorClassIdentifier: 
-  position: {x: 150, y: 537}
+  position: {x: 75, y: 537}
   guid: f00280ee16a604692ade0ac945ac4d1f
   description: 
   drawGizmos: 0
@@ -179,7 +176,6 @@ MonoBehaviour:
   - {fileID: -4643154024544199828}
   - {fileID: -4277138900087515491}
   - {fileID: -4379450829347499337}
-  - {fileID: 4948938332784506900}
   - {fileID: -5938471010181334804}
 --- !u!114 &-1585210243379483429
 MonoBehaviour:
@@ -216,31 +212,6 @@ MonoBehaviour:
   drawGizmos: 0
   duration: 1
   remaining: 0
---- !u!114 &-441518734293715152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b5f6fc4f91e74cba83eac7528cd5efd, type: 3}
-  m_Name: CheckInViewAngle
-  m_EditorClassIdentifier: 
-  position: {x: 0, y: 537}
-  guid: d63bc5b7e63d141bb8b8835f23cbfb92
-  description: "\t"
-  drawGizmos: 0
-  checkTarget:
-    variableName: Target Collider
-    variableType: Collider
-    value: {fileID: 0}
-  checkRange:
-    variableName: Check Range
-    variableType: Int
-    value: 7
-  viewAngle: 50
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,16 +234,14 @@ MonoBehaviour:
   - {fileID: -4643154024544199828}
   - {fileID: -4277138900087515491}
   - {fileID: -4379450829347499337}
-  - {fileID: 4948938332784506900}
   - {fileID: -5938471010181334804}
   - {fileID: 925013232844418433}
-  - {fileID: -4626593501337908343}
-  - {fileID: -441518734293715152}
   - {fileID: -3607952418578410751}
   - {fileID: 36662149948241450}
   - {fileID: -1396433975415582067}
   - {fileID: 6552622061259534834}
   - {fileID: 352238086612073747}
+  - {fileID: 5645991593600807211}
 --- !u!114 &36662149948241450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,30 +296,8 @@ MonoBehaviour:
   description: 
   drawGizmos: 0
   children:
-  - {fileID: -4626593501337908343}
-  - {fileID: -441518734293715152}
+  - {fileID: 5645991593600807211}
   - {fileID: -3607952418578410751}
---- !u!114 &4948938332784506900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
-  m_Name: ReadyToAttack
-  m_EditorClassIdentifier: 
-  position: {x: -490, y: 537}
-  guid: de3402e0a74ac4a17aee30ebe2352ad6
-  description: 
-  drawGizmos: 0
-  enemy:
-    variableName: Target Collider
-    variableType: Collider
-    value: {fileID: 0}
-  attackRange: 1.5
 --- !u!114 &5325898568121394975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +318,31 @@ MonoBehaviour:
   - {fileID: -3019494908897726873}
   - {fileID: 925013232844418433}
   - {fileID: 36662149948241450}
+--- !u!114 &5645991593600807211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e30cab91396047e78b7c8d611bd90b16, type: 3}
+  m_Name: CheckTargetInView
+  m_EditorClassIdentifier: 
+  position: {x: -75, y: 537}
+  guid: 096e03ae1ed224e238e44a70a05faac7
+  description: 
+  drawGizmos: 0
+  target:
+    variableName: Target Collider
+    variableType: Collider
+    value: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 192
+  checkRange: 5
+  viewAngle: 103
 --- !u!114 &5833707036282694546
 MonoBehaviour:
   m_ObjectHideFlags: 0

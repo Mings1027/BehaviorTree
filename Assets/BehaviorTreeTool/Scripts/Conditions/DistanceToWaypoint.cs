@@ -18,7 +18,7 @@ namespace Tree
 
         protected override TaskState OnUpdate()
         {
-            if (Vector3.Distance(curWayPoint.Value, nodeTransform.position) <= remainingDistance)
+            if (Vector3.Distance(curWayPoint.Value, objectTransform.position) <= remainingDistance)
             {
                 curIndex = (curIndex + 1) % waypoints.Length;
                 curWayPoint.Value = waypoints[curIndex];

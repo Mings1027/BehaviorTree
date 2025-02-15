@@ -13,13 +13,13 @@ namespace Tree
 
         protected override void OnAwake()
         {
-            agent = nodeTransform.GetComponent<NavMeshAgent>();
+            agent = objectTransform.GetComponent<NavMeshAgent>();
         }
 
         protected override void OnStart()
         {
             var randomDir = Random.insideUnitSphere * range;
-            randomDir += nodeTransform.position;
+            randomDir += objectTransform.position;
 
             if (NavMesh.SamplePosition(randomDir, out var hit, range, NavMesh.AllAreas))
             {

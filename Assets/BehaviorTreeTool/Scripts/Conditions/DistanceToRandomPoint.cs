@@ -10,12 +10,12 @@ namespace Tree
 
         protected override void OnAwake()
         {
-            curRandomPoint.Value = nodeTransform.position;
+            curRandomPoint.Value = objectTransform.position;
         }
 
         protected override TaskState OnUpdate()
         {
-            remainingDistance.Value = Vector3.Distance(curRandomPoint.Value, nodeTransform.position);
+            remainingDistance.Value = Vector3.Distance(curRandomPoint.Value, objectTransform.position);
 
             if (remainingDistance.Value <= closeDistance.Value)
             {

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Tree
@@ -14,7 +15,8 @@ namespace Tree
 #if UNITY_EDITOR
         [HideInInspector] public Vector2 position;
         [HideInInspector] public string guid;
-        [HideInInspector] [TextArea] public string description;
+        [HideInInspector] [TextArea]
+        public string description;
         public bool TaskStarted => _taskStarted;
 
         public bool drawGizmos;
@@ -22,13 +24,13 @@ namespace Tree
         public TaskState NodeTaskState => _taskState;
         private TaskState _taskState = TaskState.Running;
 
-        protected Transform nodeTransform;
+        protected Transform objectTransform;
 
         private bool _taskStarted;
 
         public void SetTransform(Transform transform)
         {
-            nodeTransform = transform;
+            this.objectTransform = transform;
         }
 
         public virtual BaseNode Clone()
@@ -48,7 +50,6 @@ namespace Tree
         }
 
         #region Behavior Tree Life Cycle
-
         public void Init()
         {
             OnAwake();
@@ -81,8 +82,10 @@ namespace Tree
             return _taskState;
         }
 
+        public virtual void OnTreeEnabled() { } // 트리가 활성화될 때
+        public virtual void OnTreeDisabled() { } // 트리가 비활성화될 때
+        public virtual void OnTreeDestroyed() { } // 트리가 파괴될 때
         #endregion
-
 
 #if UNITY_EDITOR
         public virtual void OnDrawGizmos() { }

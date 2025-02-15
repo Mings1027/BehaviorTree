@@ -12,7 +12,7 @@ namespace Tree
 
         protected override void OnAwake()
         {
-            _animator = nodeTransform.GetComponentInChildren<Animator>();
+            _animator = objectTransform.GetComponentInChildren<Animator>();
             _animationHash = Animator.StringToHash(animationName);
         }
 

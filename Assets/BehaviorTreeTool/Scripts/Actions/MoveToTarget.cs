@@ -11,7 +11,7 @@ namespace Tree
 
         protected override void OnAwake()
         {
-            _agent = nodeTransform.GetComponent<NavMeshAgent>();
+            _agent = objectTransform.GetComponent<NavMeshAgent>();
         }
 
         protected override void OnStart()

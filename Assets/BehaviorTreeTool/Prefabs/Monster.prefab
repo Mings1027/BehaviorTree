@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 1149151241635615463}
   - component: {fileID: 3600881185396767050}
   - component: {fileID: 488707772160713717}
-  - component: {fileID: -7517404130866925023}
+  - component: {fileID: 174118428831381150}
   m_Layer: 3
   m_Name: Monster
   m_TagString: Untagged
@@ -256,7 +256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitStatus: {fileID: 11400000, guid: fceb3a6f8dec14d5eafa3df0bbbb5f83, type: 2}
-  damageEffect: {fileID: 11400000, guid: b15309eeb29234750a1accabf70d0a26, type: 2}
 --- !u!114 &488707772160713717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,24 +271,38 @@ MonoBehaviour:
   drawGizmos: 0
   behaviorTree: {fileID: 11400000, guid: 4323ec827cde646d3bc203c9bddd4caa, type: 2}
   variables:
-  - rid: 8748968542188863621
-  - rid: 8748968542188863622
+  - rid: 2222975341892730971
+  - rid: 2222975341892730972
+  - rid: 2222975341892730973
+  - rid: 2222975341892730974
   references:
     version: 2
     RefIds:
-    - rid: 8748968542188863621
+    - rid: 2222975341892730971
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Target Collider
         variableType: Collider
         value: {fileID: 0}
-    - rid: 8748968542188863622
+    - rid: 2222975341892730972
       type: {class: SharedInt, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Check Range
         variableType: Int
         value: 6
---- !u!114 &-7517404130866925023
+    - rid: 2222975341892730973
+      type: {class: SharedNavMeshAgent, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: Agent
+        variableType: NavMeshAgent
+        value: {fileID: 1149151241635615463}
+    - rid: 2222975341892730974
+      type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: Attack Range
+        variableType: Float
+        value: 0
+--- !u!114 &174118428831381150
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -298,6 +311,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5866412507124288889}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7747e0325f584222b31ee9eba6c8d06b, type: 3}
+  m_Script: {fileID: 11500000, guid: b710d4d468ab41cc869ccbcad1435c7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

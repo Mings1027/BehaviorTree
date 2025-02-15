@@ -8,24 +8,21 @@ namespace Tree
     public class ReadyToAttack : ConditionNode
     {
         public SharedCollider enemy;
-
-        private NavMeshAgent _agent;
-
-        [SerializeField] private float attackRange;
+        public SharedNavMeshAgent agent;
+        public SharedFloat attackRange;
 
         protected override void OnAwake()
         {
-            _agent = nodeTransform.GetComponent<NavMeshAgent>();
-            _agent.stoppingDistance = attackRange;
+            agent.Value.stoppingDistance = attackRange.Value;
         }
 
         protected override TaskState OnUpdate()
         {
             if (enemy.Value && enemy.Value.enabled)
             {
-                var distance = Vector3.Distance(nodeTransform.position, enemy.Value.transform.position);
+                var distance = Vector3.Distance(objectTransform.position, enemy.Value.transform.position);
 
-                if (distance <= attackRange)
+                if (distance <= attackRange.Value)
                 {
                     return TaskState.Success;
                 }
@@ -37,9 +34,9 @@ namespace Tree
 #if UNITY_EDITOR
         public override void OnDrawGizmos()
         {
-            if (nodeTransform == null) return;
+            if (objectTransform == null) return;
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(nodeTransform.position, attackRange);
+            Gizmos.DrawWireSphere(objectTransform.position, attackRange.Value);
         }
 #endif
     }

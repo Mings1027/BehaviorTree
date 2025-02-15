@@ -17,8 +17,8 @@ namespace Tree
         {
             if (!checkTarget.Value) return TaskState.Failure;
 
-            var directionToTarget = checkTarget.Value.transform.position - nodeTransform.position;
-            var angle = Vector3.Angle(nodeTransform.forward, directionToTarget);
+            var directionToTarget = checkTarget.Value.transform.position - objectTransform.position;
+            var angle = Vector3.Angle(objectTransform.forward, directionToTarget);
 
             // 시야각 내에 있으면 성공
             if (angle <= viewAngle / 2f)
@@ -27,7 +27,7 @@ namespace Tree
             }
 
             // 시야각 밖에 있어도 범위 내에 있으면 성공
-            var distanceToTarget = Vector3.SqrMagnitude(nodeTransform.position - checkTarget.Value.transform.position);
+            var distanceToTarget = Vector3.SqrMagnitude(objectTransform.position - checkTarget.Value.transform.position);
             if (distanceToTarget <= checkRange.Value * checkRange.Value)
             {
                 return TaskState.Success;
@@ -40,19 +40,19 @@ namespace Tree
 #if UNITY_EDITOR
         public override void OnDrawGizmos()
         {
-            if (nodeTransform == null) return;
+            if (objectTransform == null) return;
 
             // 시야각을 그리기 위한 Handles 설정
             Handles.color = checkTarget.Value ? new Color(0, 1, 0, 0.2f) : new Color(1, 1, 0, 0.2f); // 노란색 반투명
 
             // 원호를 채워진 형태로 그리기
-            Vector3 forward = nodeTransform.forward * checkRange.Value;
+            Vector3 forward = objectTransform.forward * checkRange.Value;
             Vector3 startDirection = Quaternion.Euler(0, -viewAngle / 2f, 0) * forward;
-            Handles.DrawSolidArc(nodeTransform.position, Vector3.up, startDirection, viewAngle, checkRange.Value);
+            Handles.DrawSolidArc(objectTransform.position, Vector3.up, startDirection, viewAngle, checkRange.Value);
 
             // 중심선 그리기
             Handles.color = Color.red;
-            Handles.DrawLine(nodeTransform.position, nodeTransform.position + nodeTransform.forward * checkRange.Value);
+            Handles.DrawLine(objectTransform.position, objectTransform.position + objectTransform.forward * checkRange.Value);
         }
 #endif
     }

@@ -12,7 +12,14 @@ namespace Tree
         public BehaviorTree Tree
         {
             get => behaviorTree;
-            set => behaviorTree = value;
+            set
+            {
+                behaviorTree = value;
+                if (value != null)
+                {
+                    BehaviorTree.Traverse(value.RootNode, n=> n.SetTransform(transform));
+                }
+            }
         }
 
         public bool DrawGizmos
@@ -26,6 +33,13 @@ namespace Tree
         }
 
         [SerializeField] private bool drawGizmos;
+        private void OnValidate()
+        {
+            if (behaviorTree != null && behaviorTree.RootNode != null)
+            {
+                BehaviorTree.Traverse(behaviorTree.RootNode, n=> n.SetTransform(transform));
+            }
+        }
 #endif
 
         [SerializeField] protected BehaviorTree behaviorTree;
@@ -34,9 +48,20 @@ namespace Tree
         private void OnEnable()
         {
             BehaviorManager.AddTree(this);
+            BehaviorTree.Traverse(behaviorTree.RootNode, n => n.OnTreeEnabled());
+        }
+
+        private void OnDisable()
+        {
+            BehaviorTree.Traverse(behaviorTree.RootNode, n => n.OnTreeDisabled());
         }
 
         private void Awake() => InitializeTree();
+
+        private void OnDestroy()
+        {
+            BehaviorTree.Traverse(behaviorTree.RootNode, n => n.OnTreeDestroyed());
+        }
 
         private void InitializeTree()
         {

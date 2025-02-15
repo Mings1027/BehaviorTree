@@ -124,25 +124,25 @@ MonoBehaviour:
   drawGizmos: 0
   behaviorTree: {fileID: 11400000, guid: b0e58e202751a490e8728196b14ab3db, type: 2}
   variables:
-  - rid: 8748968534495461619
-  - rid: 8748968534495461620
-  - rid: 8748968534495461621
+  - rid: 2222975341892730989
+  - rid: 2222975341892730990
+  - rid: 2222975341892730991
   references:
     version: 2
     RefIds:
-    - rid: 8748968534495461619
+    - rid: 2222975341892730989
       type: {class: SharedVector3, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Random Point
         variableType: Vector3
         value: {x: 0, y: 0, z: 0}
-    - rid: 8748968534495461620
+    - rid: 2222975341892730990
       type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Remaining Distance
         variableType: Float
         value: 0
-    - rid: 8748968534495461621
+    - rid: 2222975341892730991
       type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
       data:
         variableName: Close Distance

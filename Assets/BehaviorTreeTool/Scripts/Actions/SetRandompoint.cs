@@ -13,7 +13,7 @@ namespace Tree
 
         protected override void OnAwake()
         {
-            _centerPosition = nodeTransform.position;
+            _centerPosition = objectTransform.position;
         }
 
         protected override void OnStart()
@@ -35,8 +35,8 @@ namespace Tree
 #if UNITY_EDITOR
         public override void OnDrawGizmos()
         {
-            if (nodeTransform == null) return;
-            Gizmos.DrawWireSphere(nodeTransform.position, radius);
+            if (objectTransform == null) return;
+            Gizmos.DrawWireSphere(objectTransform.position, radius);
         }
 #endif
     }

@@ -15,9 +15,23 @@ MonoBehaviour:
   variables:
   - rid: 8748968528195354879
   - rid: 8748968528195354881
+  - rid: 2222975341892730957
+  - rid: 2222975341892730958
   references:
     version: 2
     RefIds:
+    - rid: 2222975341892730957
+      type: {class: SharedNavMeshAgent, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: Agent
+        variableType: NavMeshAgent
+        value: {fileID: 0}
+    - rid: 2222975341892730958
+      type: {class: SharedFloat, ns: Tree, asm: Assembly-CSharp}
+      data:
+        variableName: Attack Range
+        variableType: Float
+        value: 0
     - rid: 8748968528195354879
       type: {class: SharedCollider, ns: Tree, asm: Assembly-CSharp}
       data:
@@ -42,7 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4295113ac5cd434e9f4bdcef7570a975, type: 3}
   m_Name: Attack
   m_EditorClassIdentifier: 
-  position: {x: -340, y: 537}
+  position: {x: -490, y: 537}
   guid: cbe5b2913e6634db0ab195bfb0972e8d
   description: 
   drawGizmos: 0
@@ -50,7 +64,10 @@ MonoBehaviour:
     variableName: Target
     variableType: Collider
     value: {fileID: 0}
-  attackDamage: 10
+  attackRange:
+    variableName: Attack Range
+    variableType: Float
+    value: 0
 --- !u!114 &-4643154024544199828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,7 +88,14 @@ MonoBehaviour:
     variableName: Target
     variableType: Collider
     value: {fileID: 0}
-  attackRange: 1.5
+  agent:
+    variableName: Agent
+    variableType: NavMeshAgent
+    value: {fileID: 0}
+  attackRange:
+    variableName: Attack Range
+    variableType: Float
+    value: 0
 --- !u!114 &-4626593501337908343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,7 +203,6 @@ MonoBehaviour:
   - {fileID: -4643154024544199828}
   - {fileID: -4277138900087515491}
   - {fileID: -4379450829347499337}
-  - {fileID: 4948938332784506900}
   - {fileID: -5938471010181334804}
 --- !u!114 &-1585210243379483429
 MonoBehaviour:
@@ -263,7 +286,6 @@ MonoBehaviour:
   - {fileID: -4643154024544199828}
   - {fileID: -4277138900087515491}
   - {fileID: -4379450829347499337}
-  - {fileID: 4948938332784506900}
   - {fileID: -5938471010181334804}
   - {fileID: 925013232844418433}
   - {fileID: -4626593501337908343}
@@ -330,27 +352,6 @@ MonoBehaviour:
   - {fileID: -4626593501337908343}
   - {fileID: -441518734293715152}
   - {fileID: -3607952418578410751}
---- !u!114 &4948938332784506900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a501974745694a5e8c1079f1defd116d, type: 3}
-  m_Name: ReadyToAttack
-  m_EditorClassIdentifier: 
-  position: {x: -490, y: 537}
-  guid: de3402e0a74ac4a17aee30ebe2352ad6
-  description: 
-  drawGizmos: 0
-  enemy:
-    variableName: Target
-    variableType: Collider
-    value: {fileID: 0}
-  attackRange: 1.5
 --- !u!114 &5325898568121394975
 MonoBehaviour:
   m_ObjectHideFlags: 0
