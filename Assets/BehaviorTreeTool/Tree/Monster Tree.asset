@@ -334,7 +334,7 @@ MonoBehaviour:
   guid: 096e03ae1ed224e238e44a70a05faac7
   description: 
   drawGizmos: 0
-  target:
+  checkTarget:
     variableName: Target Collider
     variableType: Collider
     value: {fileID: 0}

@@ -6,25 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="3c8cb1bc-4164-4822-9c0b-a90ab3caf6d5" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.BehaviorTree/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.BehaviorTree/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Animation/Attack.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Animation/Attack.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/BaseNodeEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/BaseNodeEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/BehaviorTreeEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/BehaviorTreeEditor.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/BehaviorTreeTabEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/BehaviorTreeTabEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Data/Monster Status.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Data/Monster Status.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Data/Unit Status.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Data/Unit Status.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/BehaviorTreeView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/BehaviorTreeView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/InspectorView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/InspectorView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/SplitView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/SplitView.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Monster.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Monster.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Move To Random Point.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Move To Random Point.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Sphere.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Sphere.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Unit.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Prefabs/Unit.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Actions/MoveToRandomPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Actions/MoveToRandomPoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Conditions/DistanceToRandomPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Conditions/DistanceToRandomPoint.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/Move To Random Point.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/Move To Random Point.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/New Behavior Tree.asset" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/New Behavior Tree.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Conditions/CheckTargetInView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/Conditions/CheckTargetInView.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/Monster Tree.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/BehaviorTreeTool/Tree/Monster Tree.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,10 +22,15 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4ca322ff2fbe471da194e68e264260943ea00/34/8f8de708/ContentZoomer.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4ca322ff2fbe471da194e68e264260943ea00/3c/6fb1031d/GraphView.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/4ca322ff2fbe471da194e68e264260943ea00/cf/d689f98e/Node.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/821c30cd85224a0a87db36ad82970d9f1f4000/12/0eb64880/TwoPaneSplitView.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/821c30cd85224a0a87db36ad82970d9f1f4000/38/5c297245/DisplayStyle.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/821c30cd85224a0a87db36ad82970d9f1f4000/67/37370568/VisualElement.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/87c38cf875804a0cbcc2bd5e75635dd41dda00/3f/62655979/Rect.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/BehaviorTreeTool/Editor/BehaviorTreeEditor.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/BehaviorTreeTool/Scripts/TreeData/SharedData.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -120,6 +111,14 @@
       <workItem from="1739244757565" duration="2855000" />
       <workItem from="1739520089110" duration="2351000" />
       <workItem from="1739590769510" duration="9238000" />
+      <workItem from="1739784993843" duration="66000" />
+      <workItem from="1740200799047" duration="3391000" />
+      <workItem from="1740225345664" duration="2045000" />
+      <workItem from="1740282760644" duration="5594000" />
+      <workItem from="1740299938681" duration="957000" />
+      <workItem from="1740312541930" duration="1092000" />
+      <workItem from="1740357592452" duration="1390000" />
+      <workItem from="1740377169471" duration="1736000" />
     </task>
     <servers />
   </component>

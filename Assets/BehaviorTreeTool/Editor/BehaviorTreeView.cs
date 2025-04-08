@@ -7,6 +7,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Tree;
+using UnityEngine.Profiling;
 using Object = UnityEngine.Object;
 
 namespace BehaviorTreeTool.Editor
@@ -471,6 +472,7 @@ namespace BehaviorTreeTool.Editor
 
         private void CreateNodeView(BaseNode node, int index)
         {
+            Profiler.BeginSample("CreateNodeView");
             var nodeView = GetOrCreateNodeView(node, index);
             if (!Contains(nodeView))
             {
@@ -478,6 +480,7 @@ namespace BehaviorTreeTool.Editor
             }
 
             nodeView.style.display = DisplayStyle.Flex;
+            Profiler.EndSample();
         }
 
         public void UpdateNodeStates()

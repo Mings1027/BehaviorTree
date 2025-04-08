@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b6bdb4676a2841ca99f5bb9c05915cc, type: 3}
   m_Name: Unit Status
   m_EditorClassIdentifier: 
-  health: 1000
-  damageColor: {r: 1, g: 1, b: 1, a: 0}
+  maxHealth: 100
+  maxMana: 100
+  maxDefense: 100
+  baseDamage: 10

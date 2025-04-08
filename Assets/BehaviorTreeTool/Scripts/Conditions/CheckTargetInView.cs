@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -7,7 +8,7 @@ namespace Tree
 {
     public class CheckTargetInView : ConditionNode
     {
-        public SharedCollider target;
+        public SharedCollider checkTarget;
         
         [SerializeField] private LayerMask targetLayer;
         [SerializeField] private int checkRange;
@@ -26,17 +27,17 @@ namespace Tree
         protected override TaskState OnUpdate()
         {
             if (Time.time < _nextSearchTime)
-                return target.Value != null ? TaskState.Success : TaskState.Failure;
+                return checkTarget.Value != null ? TaskState.Success : TaskState.Failure;
 
             _nextSearchTime = Time.time + SearchInterval;
             var (closestTarget, found) = FindClosestTargetInView();
             if (found)
             {
-                target.Value = closestTarget;
+                checkTarget.Value = closestTarget;
                 return TaskState.Success;
             }
 
-            target.Value = null;
+            checkTarget.Value = null;
             return TaskState.Failure;
         }
 
@@ -78,7 +79,7 @@ namespace Tree
             Gizmos.DrawWireSphere(objectTransform.position, checkRange);
 
             // 시야각 표시
-            Handles.color = target.Value ? new Color(0, 1, 0, 0.2f) : new Color(1, 1, 0, 0.2f);
+            Handles.color = checkTarget.Value ? new Color(0, 1, 0, 0.2f) : new Color(1, 1, 0, 0.2f);
             Vector3 forward = objectTransform.forward * checkRange;
             Vector3 startDirection = Quaternion.Euler(0, -viewAngle / 2f, 0) * forward;
             Handles.DrawSolidArc(objectTransform.position, Vector3.up, startDirection, viewAngle, checkRange);

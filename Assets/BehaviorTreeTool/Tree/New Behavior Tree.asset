@@ -1,0 +1,967 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9201377044288358998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5f6fc4f91e74cba83eac7528cd5efd, type: 3}
+  m_Name: CheckInViewAngle
+  m_EditorClassIdentifier: 
+  position: {x: -661.0483, y: -19.000065}
+  guid: f22f787188436415e8d0d6421f6cc560
+  description: 
+  drawGizmos: 0
+  checkTarget:
+    variableName: 
+    variableType: 
+    value: {fileID: 0}
+  checkRange:
+    variableName: 
+    variableType: 
+    value: 0
+  viewAngle: 0
+--- !u!114 &-8782258867319831536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2932073b8a6c3b34391576c45d359457, type: 3}
+  m_Name: Parallel
+  m_EditorClassIdentifier: 
+  position: {x: -316.1615, y: 392.3645}
+  guid: 88e0778a218a84ea79036e433efe6324
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: 1867229135504517031}
+--- !u!114 &-8290339683465981004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e658b1bd308bc5c429f5a9b404a04943, type: 3}
+  m_Name: Inverter
+  m_EditorClassIdentifier: 
+  position: {x: -224.00009, y: 733.99994}
+  guid: 28b4ffd1c57ed46619f2740034dc4a04
+  description: 
+  drawGizmos: 0
+  child: {fileID: 0}
+--- !u!114 &-7476588846777524608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8887a744523b4d4f83d6fc08eea5507, type: 3}
+  m_Name: DistanceToWaypoint
+  m_EditorClassIdentifier: 
+  position: {x: 121.60056, y: 390.74316}
+  guid: ebadf038b1f22404fa752c2dd08803b4
+  description: 
+  drawGizmos: 0
+  curWayPoint:
+    variableName: 
+    variableType: 
+    value: {x: 0, y: 0, z: 0}
+  curIndex: 0
+  waypoints: []
+  remainingDistance: 1
+--- !u!114 &-6890604845266391508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2932073b8a6c3b34391576c45d359457, type: 3}
+  m_Name: Parallel
+  m_EditorClassIdentifier: 
+  position: {x: -178.99995, y: 478.99997}
+  guid: 80d9cc6daf9d64445a55a566d678be2c
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -8290339683465981004}
+  - {fileID: 4896391681777775290}
+--- !u!114 &-6873801377196785848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8887a744523b4d4f83d6fc08eea5507, type: 3}
+  m_Name: DistanceToWaypoint
+  m_EditorClassIdentifier: 
+  position: {x: 68.09631, y: 669.61383}
+  guid: 0d700a882e1124bf0a51a42d835cd364
+  description: 
+  drawGizmos: 0
+  curWayPoint:
+    variableName: 
+    variableType: 
+    value: {x: 0, y: 0, z: 0}
+  curIndex: 0
+  waypoints: []
+  remainingDistance: 1
+--- !u!114 &-5665061520738573125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e34f5795f1164020bcf4f71282b72f5, type: 3}
+  m_Name: CheckInRange
+  m_EditorClassIdentifier: 
+  position: {x: -74.03779, y: 310.22}
+  guid: 7d12aa2d48ab14585beb505424a4a942
+  description: 
+  drawGizmos: 0
+  target:
+    variableName: 
+    variableType: 
+    value: {fileID: 0}
+  checkRange:
+    variableName: 
+    variableType: 
+    value: 0
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &-5458967221493131027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: -491, y: 224.99995}
+  guid: 573dca6ce95944630a8bf919c7f11dd2
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -2585600714524848364}
+--- !u!114 &-4761108058497265807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bbcff87445f36e4582938670d757ed5, type: 3}
+  m_Name: Succeed
+  m_EditorClassIdentifier: 
+  position: {x: 317.99994, y: 573}
+  guid: 02a8efe0bb2d54c8980eae04021ddaa4
+  description: 
+  drawGizmos: 0
+  child: {fileID: 0}
+--- !u!114 &-4707662369746787597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5f6fc4f91e74cba83eac7528cd5efd, type: 3}
+  m_Name: CheckInViewAngle
+  m_EditorClassIdentifier: 
+  position: {x: 263.20114, y: 376.695}
+  guid: a3ec5cb8a072b47b0b00b1c973a23d27
+  description: 
+  drawGizmos: 0
+  checkTarget:
+    variableName: 
+    variableType: 
+    value: {fileID: 0}
+  checkRange:
+    variableName: 
+    variableType: 
+    value: 0
+  viewAngle: 0
+--- !u!114 &-4218424780676187661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
+  m_Name: CheckDistance
+  m_EditorClassIdentifier: 
+  position: {x: 271.30786, y: 248.60905}
+  guid: 2bace3e1e9bda485aacd0fdd2ccbc9d0
+  description: 
+  drawGizmos: 0
+--- !u!114 &-3852590823317809052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6d47f862fa46deadff805a0a827f66, type: 3}
+  m_Name: Shared Data
+  m_EditorClassIdentifier: 
+  variables: []
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &-3763080332123724227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 852757773078fc640852fe0cc71ae9a8, type: 3}
+  m_Name: Breakpoint
+  m_EditorClassIdentifier: 
+  position: {x: -9.184151, y: 482.08215}
+  guid: 35b22aa60937d4f34b6c66618bf63216
+  description: 
+  drawGizmos: 0
+--- !u!114 &-3135548583733134563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4295113ac5cd434e9f4bdcef7570a975, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  position: {x: 326.00015, y: 9.999908}
+  guid: 376532ca5d993421ca1edeb50f75c39d
+  description: 
+  drawGizmos: 0
+  target:
+    variableName: 
+    variableType: 
+    value: {fileID: 0}
+  attackRange:
+    variableName: 
+    variableType: 
+    value: 0
+--- !u!114 &-2662207450916793846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e30cab91396047e78b7c8d611bd90b16, type: 3}
+  m_Name: CheckTargetInView
+  m_EditorClassIdentifier: 
+  position: {x: -251.30786, y: 314.54013}
+  guid: 8deb5d3f412b7425faae0d57fd4abf8d
+  description: 
+  drawGizmos: 0
+  target:
+    variableName: 
+    variableType: 
+    value: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  checkRange: 0
+  viewAngle: 0
+--- !u!114 &-2585600714524848364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e658b1bd308bc5c429f5a9b404a04943, type: 3}
+  m_Name: Inverter
+  m_EditorClassIdentifier: 
+  position: {x: -309.67615, y: 611.24554}
+  guid: 05b3d2073f1fb4d73b1ebb8da30a7e76
+  description: 
+  drawGizmos: 0
+  child: {fileID: 0}
+--- !u!114 &-2229261070857144783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e34f5795f1164020bcf4f71282b72f5, type: 3}
+  m_Name: CheckInRange
+  m_EditorClassIdentifier: 
+  position: {x: -94.03779, y: 290.22}
+  guid: 0e0aeeef70f474de280d9065fab42f13
+  description: 
+  drawGizmos: 0
+  target:
+    variableName: 
+    variableType: 
+    value: {fileID: 0}
+  checkRange:
+    variableName: 
+    variableType: 
+    value: 0
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &-2085864220391778541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beafcc6b3baf0a940953e66bd1db1993, type: 3}
+  m_Name: Failure
+  m_EditorClassIdentifier: 
+  position: {x: -367.99997, y: 334.99997}
+  guid: 7ad550cf55bc24ea58358a62697d8cc7
+  description: 
+  drawGizmos: 0
+  child: {fileID: 6260628878614684405}
+--- !u!114 &-1053625119282136161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3115d8981699046e0997dd25d7b70a16, type: 3}
+  m_Name: SetRandomPoint
+  m_EditorClassIdentifier: 
+  position: {x: -126.46461, y: 165.37675}
+  guid: 8c27ba6949d96461496112ca126db75d
+  description: 
+  drawGizmos: 0
+  curRandomPoint:
+    variableName: 
+    variableType: 
+    value: {x: 0, y: 0, z: 0}
+  radius: 0
+--- !u!114 &-1015825272532049962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
+  m_Name: CheckDistance
+  m_EditorClassIdentifier: 
+  position: {x: 171.86214, y: 509.10104}
+  guid: aa31da700f7964d67a185f9f674d20e1
+  description: 
+  drawGizmos: 0
+--- !u!114 &-452425502083851367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df431844c8af84a6bb7161049cd883fe, type: 3}
+  m_Name: CoolTime
+  m_EditorClassIdentifier: 
+  position: {x: -505.3145, y: 504.78094}
+  guid: a03c8af8aeef84a84b56a9c1bd7f630d
+  description: 
+  drawGizmos: 0
+  cooldownTime: 0
+--- !u!114 &-67527610064051613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 852757773078fc640852fe0cc71ae9a8, type: 3}
+  m_Name: Breakpoint
+  m_EditorClassIdentifier: 
+  position: {x: -29.18415, y: 462.08215}
+  guid: 2f95a4ec72b2a4625b489bb5cf88fbd1
+  description: 
+  drawGizmos: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322e544b03434eb58aef050d006d06b5, type: 3}
+  m_Name: New Behavior Tree
+  m_EditorClassIdentifier: 
+  sharedData: {fileID: -3852590823317809052}
+  rootNode: {fileID: 1414810907611325443}
+  nodes:
+  - {fileID: 1414810907611325443}
+  - {fileID: 6990307080268110057}
+  - {fileID: -2662207450916793846}
+  - {fileID: 1569290341721613625}
+  - {fileID: 3877709835654852645}
+  - {fileID: -2585600714524848364}
+  - {fileID: -67527610064051613}
+  - {fileID: -6873801377196785848}
+  - {fileID: -1015825272532049962}
+  - {fileID: 7526841981560335598}
+  - {fileID: 1733309519829714469}
+  - {fileID: 5300820091166688804}
+  - {fileID: 6260628878614684405}
+  - {fileID: 2226754245219659661}
+  - {fileID: -1053625119282136161}
+  - {fileID: -2229261070857144783}
+  - {fileID: 4878636489025343405}
+  - {fileID: -8782258867319831536}
+  - {fileID: -7476588846777524608}
+  - {fileID: 1867229135504517031}
+  - {fileID: -4761108058497265807}
+  - {fileID: 4896391681777775290}
+  - {fileID: 231077945796701396}
+  - {fileID: 8614899401787892621}
+  - {fileID: 1095119926250878124}
+  - {fileID: -2085864220391778541}
+  - {fileID: -9201377044288358998}
+  - {fileID: 1406687599102312426}
+  - {fileID: 5246245108939858983}
+  - {fileID: -3135548583733134563}
+  - {fileID: 6314665193240703069}
+  - {fileID: -5665061520738573125}
+  - {fileID: -3763080332123724227}
+  - {fileID: -8290339683465981004}
+  - {fileID: -6890604845266391508}
+  - {fileID: -5458967221493131027}
+  - {fileID: 4788741082897126124}
+  - {fileID: -452425502083851367}
+  - {fileID: 5131488420447399902}
+  - {fileID: 6813980503825012733}
+  - {fileID: -4218424780676187661}
+  - {fileID: 5507688323385128543}
+  - {fileID: 1906500094836318119}
+  - {fileID: -4707662369746787597}
+  - {fileID: 6356591558382799923}
+  - {fileID: 4767594121422145489}
+--- !u!114 &231077945796701396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79172bfe693b944a49fd85bcda5bff60, type: 3}
+  m_Name: LookAtTarget
+  m_EditorClassIdentifier: 
+  position: {x: 129.70726, y: 209.15297}
+  guid: e00f5d4dc993140ec8e74f580ea299f7
+  description: 
+  drawGizmos: 0
+  target:
+    variableName: 
+    variableType: 
+    value: {fileID: 0}
+  rotationSpeed: 1
+  rotationThreshold: 10
+--- !u!114 &1095119926250878124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b8cd5533337c8d469507ad76075d0f9, type: 3}
+  m_Name: RandomFailure
+  m_EditorClassIdentifier: 
+  position: {x: -128.08595, y: 38.91216}
+  guid: 915a2a4c7e3de4a4e9016d3c4ce83ba5
+  description: 
+  drawGizmos: 0
+  chanceOfFailure: 0.5
+--- !u!114 &1406687599102312426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5f6fc4f91e74cba83eac7528cd5efd, type: 3}
+  m_Name: CheckInViewAngle
+  m_EditorClassIdentifier: 
+  position: {x: -450.00012, y: -83.000084}
+  guid: 132cd9f6d66b441568278f96d68b64ac
+  description: 
+  drawGizmos: 0
+  checkTarget:
+    variableName: 
+    variableType: 
+    value: {fileID: 0}
+  checkRange:
+    variableName: 
+    variableType: 
+    value: 0
+  viewAngle: 0
+--- !u!114 &1414810907611325443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9642f0013642aaa2348d6d396dff9b, type: 3}
+  m_Name: RootNode
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
+  guid: 294d6e9fdea0644cf9e1f11216979bb0
+  description: 
+  drawGizmos: 0
+  child: {fileID: 4788741082897126124}
+--- !u!114 &1569290341721613625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
+  m_Name: CheckDistance
+  m_EditorClassIdentifier: 
+  position: {x: -176.72618, y: 304.81207}
+  guid: 91b77268518f44b2591e723695d5f5cb
+  description: 
+  drawGizmos: 0
+--- !u!114 &1733309519829714469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
+  m_Name: CheckDistance
+  m_EditorClassIdentifier: 
+  position: {x: 251.30785, y: 228.60905}
+  guid: a7ca4d1ba0a294046baf0f635ae709c6
+  description: 
+  drawGizmos: 0
+--- !u!114 &1867229135504517031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6009753183c21764082bf57dea2a9ff5, type: 3}
+  m_Name: Timeout
+  m_EditorClassIdentifier: 
+  position: {x: 121.60056, y: 390.74316}
+  guid: dea5cdfd6a2be4b9e9bbef4c4326bbc3
+  description: 
+  drawGizmos: 0
+  child: {fileID: -6890604845266391508}
+  duration: 1
+--- !u!114 &1906500094836318119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
+  m_Name: CheckDistance
+  m_EditorClassIdentifier: 
+  position: {x: 271.30786, y: 248.60905}
+  guid: 37dd54a3520fb4f14800373104f5940a
+  description: 
+  drawGizmos: 0
+--- !u!114 &2226754245219659661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df431844c8af84a6bb7161049cd883fe, type: 3}
+  m_Name: CoolTime
+  m_EditorClassIdentifier: 
+  position: {x: -421.54868, y: 45.397522}
+  guid: 0830aa9cbd17240b8bd04f7fe77b4695
+  description: 
+  drawGizmos: 0
+  cooldownTime: 0
+--- !u!114 &3877709835654852645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df431844c8af84a6bb7161049cd883fe, type: 3}
+  m_Name: CoolTime
+  m_EditorClassIdentifier: 
+  position: {x: -525.3145, y: 484.78094}
+  guid: 48d1f2b24c51744dcb1e75fcffbc02f7
+  description: 
+  drawGizmos: 0
+  cooldownTime: 0
+--- !u!114 &4767594121422145489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bbcff87445f36e4582938670d757ed5, type: 3}
+  m_Name: Succeed
+  m_EditorClassIdentifier: 
+  position: {x: 295.84503, y: 611}
+  guid: 8c6e348e90abc4a1ea2696439538511a
+  description: 
+  drawGizmos: 0
+  child: {fileID: -6873801377196785848}
+--- !u!114 &4788741082897126124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: -293, y: 180.99997}
+  guid: aa44b5446d52d4c49935656bde848af7
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -2085864220391778541}
+--- !u!114 &4878636489025343405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: -293.46274, y: 246.4438}
+  guid: e9a6efddce7844e59a8a723f16b7c424
+  description: 
+  drawGizmos: 0
+  children: []
+--- !u!114 &4896391681777775290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beafcc6b3baf0a940953e66bd1db1993, type: 3}
+  m_Name: Failure
+  m_EditorClassIdentifier: 
+  position: {x: -81.99995, y: 626.00006}
+  guid: 5466c7159651c49df9c247b7945d0a35
+  description: 
+  drawGizmos: 0
+  child: {fileID: 0}
+--- !u!114 &5131488420447399902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8887a744523b4d4f83d6fc08eea5507, type: 3}
+  m_Name: DistanceToWaypoint
+  m_EditorClassIdentifier: 
+  position: {x: 88.09631, y: 689.61383}
+  guid: 80da71e8c7730446e8aeb25a322f2c72
+  description: 
+  drawGizmos: 0
+  curWayPoint:
+    variableName: 
+    variableType: 
+    value: {x: 0, y: 0, z: 0}
+  curIndex: 0
+  waypoints: []
+  remainingDistance: 1
+--- !u!114 &5246245108939858983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beafcc6b3baf0a940953e66bd1db1993, type: 3}
+  m_Name: Failure
+  m_EditorClassIdentifier: 
+  position: {x: 68.000015, y: -133.00002}
+  guid: 607c90f33b1344ae9b8e5df416cd0dc9
+  description: 
+  drawGizmos: 0
+  child: {fileID: 0}
+--- !u!114 &5300820091166688804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df431844c8af84a6bb7161049cd883fe, type: 3}
+  m_Name: CoolTime
+  m_EditorClassIdentifier: 
+  position: {x: -382.63647, y: 74.58166}
+  guid: 1a636095de3004e94868859e998b7c6b
+  description: 
+  drawGizmos: 0
+  cooldownTime: 0
+--- !u!114 &5507688323385128543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
+  m_Name: CheckDistance
+  m_EditorClassIdentifier: 
+  position: {x: 271.30786, y: 248.60905}
+  guid: 3334b592f965d4b94a8c0de8d60f49fe
+  description: 
+  drawGizmos: 0
+--- !u!114 &6260628878614684405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5f6fc4f91e74cba83eac7528cd5efd, type: 3}
+  m_Name: CheckInViewAngle
+  m_EditorClassIdentifier: 
+  position: {x: -405.33527, y: 9.728021}
+  guid: 8fceaa9b10c09443a84c443be04e8b79
+  description: 
+  drawGizmos: 0
+  checkTarget:
+    variableName: 
+    variableType: 
+    value: {fileID: 0}
+  checkRange:
+    variableName: 
+    variableType: 
+    value: 0
+  viewAngle: 0
+--- !u!114 &6314665193240703069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: -511, y: 204.99995}
+  guid: 1db663182c4ad42dbba6a0062eed4d7f
+  description: 
+  drawGizmos: 0
+  children: []
+--- !u!114 &6356591558382799923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
+  m_Name: CheckDistance
+  m_EditorClassIdentifier: 
+  position: {x: 191.86214, y: 529.1011}
+  guid: 92c14058def464500a457268b3e5fcac
+  description: 
+  drawGizmos: 0
+--- !u!114 &6813980503825012733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2eada3b835404ade82466f3d24dc7ead, type: 3}
+  m_Name: CheckDistance
+  m_EditorClassIdentifier: 
+  position: {x: 271.30786, y: 248.60905}
+  guid: ed806d97e0bc94517bd8094fbac7e125
+  description: 
+  drawGizmos: 0
+--- !u!114 &6990307080268110057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61431bba79d7d7843b82bf1de71703f5, type: 3}
+  m_Name: Sequencer
+  m_EditorClassIdentifier: 
+  position: {x: -627.459, y: 199.42491}
+  guid: f92b8ed4fce664304a2192511cb992a2
+  description: 
+  drawGizmos: 0
+  children:
+  - {fileID: -452425502083851367}
+--- !u!114 &7526841981560335598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5f6fc4f91e74cba83eac7528cd5efd, type: 3}
+  m_Name: CheckInViewAngle
+  m_EditorClassIdentifier: 
+  position: {x: 243.20114, y: 356.695}
+  guid: f4dff0baeef7e41669c2b217d4ce98be
+  description: 
+  drawGizmos: 0
+  checkTarget:
+    variableName: 
+    variableType: 
+    value: {fileID: 0}
+  checkRange:
+    variableName: 
+    variableType: 
+    value: 0
+  viewAngle: 0
+--- !u!114 &8614899401787892621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4295113ac5cd434e9f4bdcef7570a975, type: 3}
+  m_Name: Attack
+  m_EditorClassIdentifier: 
+  position: {x: 115.1152, y: 121.60055}
+  guid: bad6dbde40b84494385d8683ca15673b
+  description: 
+  drawGizmos: 0
+  target:
+    variableName: 
+    variableType: 
+    value: {fileID: 0}
+  attackRange:
+    variableName: 
+    variableType: 
+    value: 0
