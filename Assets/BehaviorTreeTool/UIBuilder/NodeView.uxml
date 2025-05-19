@@ -2,9 +2,9 @@
     <Style src="project://database/Assets/BehaviorTreeTool/UIBuilder/NodeView.uss?fileID=7433441132597879392&amp;guid=9e492792237ed47c2a0d8667f49aeb6b&amp;type=3#NodeView" />
     <ui:VisualElement name="node-state" style="flex-grow: 0;" />
     <ui:VisualElement name="node-border" style="flex-grow: 0; -unity-slice-scale: 0;">
-        <ui:VisualElement name="contents" style="flex-grow: 0; -unity-slice-scale: 0;">
-            <ui:VisualElement name="top" style="flex-grow: 0; -unity-slice-scale: 0;">
-                <ui:VisualElement name="input" style="flex-grow: 0; min-width: auto; -unity-slice-scale: 0;" />
+        <ui:VisualElement name="contents" style="flex-grow: 0; -unity-slice-scale: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+            <ui:VisualElement name="top" style="flex-grow: 0; -unity-slice-scale: 0; border-top-width: 0; border-right-width: 0; border-bottom-width: 0; border-left-width: 0;">
+                <ui:VisualElement name="input" style="flex-grow: 0; min-width: auto; -unity-slice-scale: 0; border-top-width: 0; border-top-left-radius: 0; border-left-width: 0; border-right-width: 0; border-bottom-width: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; border-bottom-left-radius: 0; background-size: 100% 100%; height: 0;" />
                 <ui:VisualElement name="divider" style="flex-grow: 0; min-height: 1px;" />
                 <ui:VisualElement name="title" style="flex-grow: 0; min-height: 30px; -unity-slice-scale: 0;">
                     <ui:Label text="Label" name="title-label" style="-unity-text-align: upper-center; font-size: 14px; -unity-slice-scale: 0;" />

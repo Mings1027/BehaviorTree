@@ -300,7 +300,7 @@ MonoBehaviour:
   guid: 8deb5d3f412b7425faae0d57fd4abf8d
   description: 
   drawGizmos: 0
-  target:
+  checkTarget:
     variableName: 
     variableType: 
     value: {fileID: 0}
